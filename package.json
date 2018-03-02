@@ -4,16 +4,22 @@
   "description": "connects people seeking spaces",
   "main": "node server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
     "start": "node server/index.js",
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/superFruitPower/spaceShare.git"
   },
-  "authors": "Jay Kindell, Emily Yu, Nick Teal, Justin Michot",
+  "contributors": [
+    {"name": "Jay Kindell", "email": "jaykindell@gmail.com"},
+    {"name": "Emily Yu", "email": "emilyyu518@gmail.com"},
+    {"name": "Nick Teal", "email": "nteal15@gmail.com"},
+    {"name": "Justin Michot", "email": "jsmichot@gmail.com"}
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/superFruitPower/spaceShare/issues"
