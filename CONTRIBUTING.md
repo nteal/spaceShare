@@ -33,7 +33,7 @@
 Use github’s interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/reactorcore/<NAME_OF_REPO>.git
+git remote add upstream https://github.com/superFruitPower/spaceShare.git
 ```
 
 ### Cut a namespaced feature branch from master
@@ -56,8 +56,8 @@ git checkout -b `your-branch-name`
 ### Make commits to your feature branch. 
 
 Prefix each commit like so
-  - (feat) Add a new feature
-  - (fix) Fix inconsistent tests [Fixes #0]
+  - (feat) Adds a new feature
+  - (fix) Fixes inconsistent tests [Fixes #0]
   - (refactor) ...
   - (cleanup) ...
   - (test) ...
@@ -70,7 +70,7 @@ changes.
 
 #### Commit Message Guidelines
 
-- Commit messages should be written in the present tense; e.g. "Fix continuous
+- Commit messages should be written in the present tense; e.g. "Fixes continuous
   integration script".
 - The first line of your commit message should be a brief summary of what the
   commit changes. Aim for about 70 characters max. Remember: This is a summary,
@@ -109,7 +109,6 @@ Thanks for contributing!
 1. Run the [tests][] before submitting a pull request.
 1. Tests are very, very important. Submit tests if your pull request contains
    new, testable behavior.
-1. Your pull request is comprised of a single ([squashed][]) commit.
 
 ## Checklist:
 
