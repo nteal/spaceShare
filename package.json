@@ -15,10 +15,22 @@
     "url": "https://github.com/superFruitPower/spaceShare.git"
   },
   "contributors": [
-    {"name": "Jay Kindell", "email": "jaykindell@gmail.com"},
-    {"name": "Emily Yu", "email": "emilyyu518@gmail.com"},
-    {"name": "Nick Teal", "email": "nteal15@gmail.com"},
-    {"name": "Justin Michot", "email": "jsmichot@gmail.com"}
+    {
+      "name": "Jay Kindell",
+      "email": "jaykindell@gmail.com"
+    },
+    {
+      "name": "Emily Yu",
+      "email": "emilyyu518@gmail.com"
+    },
+    {
+      "name": "Nick Teal",
+      "email": "nteal15@gmail.com"
+    },
+    {
+      "name": "Justin Michot",
+      "email": "jsmichot@gmail.com"
+    }
   ],
   "license": "ISC",
   "bugs": {
@@ -26,12 +38,14 @@
   },
   "homepage": "https://address.comingsoon",
   "dependencies": {
+    "axios": "^0.18.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "html-webpack-plugin": "^3.0.4",
     "material-ui": "^1.0.0-beta.35",
     "material-ui-icons": "^1.0.0-beta.35",
     "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "request": "^2.83.0",
     "sequelize": "^4.35.1"
   }
