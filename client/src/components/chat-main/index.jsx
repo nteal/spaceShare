@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatRoom from './chat-room';
 
-class ChatMain extends React.component {
+class ChatMain extends React.Component {
   render() {
     return (
       <div>

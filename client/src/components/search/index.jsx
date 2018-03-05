@@ -1,7 +1,7 @@
 import React from 'react';
 import PeopleSearch from './peopleSearch';
 
-class Search extends React.component {
+class Search extends React.Component {
   render() {
     return (
       <div>

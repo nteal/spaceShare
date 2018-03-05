@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Dashboard extends React.component {
+class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,6 +10,7 @@ class Dashboard extends React.component {
   render() {
     return (
       <div>
+        Your Dashboard
         {/* profile */}
         {/* messages */}
         {/* spaces */}

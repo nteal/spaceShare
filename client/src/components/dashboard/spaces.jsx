@@ -1,7 +1,7 @@
 import React from 'react';
 import Space from './space';
 
-class Spaces extends React.component {
+class Spaces extends React.Component {
   render() {
     return (
       <div>
