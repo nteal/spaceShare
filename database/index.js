@@ -4,7 +4,7 @@ const HOST = 'localhost';
 
 // note: before using db for first time, visit ./createDb.sql and follow directions
 
-const sequelize = new Sequelize('space_share', 'root', 'password', {
+const sequelize = new Sequelize('space_share', 'root', process.env.DB_PASS, {
   host: HOST,
   dialect: 'mysql',
 });
