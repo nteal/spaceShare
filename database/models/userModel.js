@@ -1,8 +1,8 @@
-const db = require('../../sequelize.js').sequelize;
+const db = require('../sequelize.js').sequelize;
 const Sequelize = require('sequelize');
-const { Gender } = require('../prefils/genderModel');
-const { Personality } = require('../prefils/personalityModel');
-const { Sleep } = require('../prefils/sleepModel');
+const { Gender } = require('./genderModel');
+const { Personality } = require('./personalityModel');
+const { Sleep } = require('./sleepModel');
 
 const User = db.define('user', {
   about: Sequelize.TEXT,

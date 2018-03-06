@@ -1,16 +1,16 @@
-const db = require('../../sequelize.js').sequelize;
+const db = require('../sequelize.js').sequelize;
 const Sequelize = require('sequelize');
 
 // require user preferences
-const { Gender } = require('../prefils/genderModel');
-const { Personality } = require('../prefils/personalityModel');
-const { Sleep } = require('../prefils/sleepModel');
+const { Gender } = require('./genderModel');
+const { Personality } = require('./personalityModel');
+const { Sleep } = require('./sleepModel');
 
 // require prefil preferences
-const { Purpose } = require('../prefils/purposeModel');
-const { Timeline } = require('../prefils/timelineModel');
-const { Pet } = require('../prefils/petModel');
-const { Smoking } = require('../prefils/smokingModel');
+const { Purpose } = require('./purposeModel');
+const { Timeline } = require('./timelineModel');
+const { Pet } = require('./petModel');
+const { Smoking } = require('./smokingModel');
 
 const Search = db.define('search', {
   about: Sequelize.TEXT,

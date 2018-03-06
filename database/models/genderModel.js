@@ -1,4 +1,4 @@
-const db = require('../../sequelize.js').sequelize;
+const db = require('../sequelize.js').sequelize;
 const Sequelize = require('sequelize');
 
 const Gender = db.define('gender', {

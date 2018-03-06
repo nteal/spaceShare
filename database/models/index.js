@@ -1,19 +1,19 @@
 const db = require('../sequelize').sequelize;
-const { Gender } = require('./prefils/genderModel');
-const { Personality } = require('./prefils/personalityModel');
-const { Pet } = require('./prefils/petModel');
-const { Purpose } = require('./prefils/purposeModel');
-const { Sleep } = require('./prefils/sleepModel');
-const { Smoking } = require('./prefils/smokingModel');
-const { Timeline } = require('./prefils/timelineModel');
-const { User } = require('./user/userModel');
-const { OtherLink } = require('./user/otherLinkModel');
-const { Search } = require('./user/searchModel');
-const { Neighborhood } = require('./space/neighborhoodModel');
-const { Image } = require('./space/imageModel');
-const { Space } = require('./space/spaceModel');
-const { Todo } = require('./space/todoModel');
-const { Amenity } = require('./space/amenityModel');
+const { Gender } = require('./genderModel');
+const { Personality } = require('./personalityModel');
+const { Pet } = require('./petModel');
+const { Purpose } = require('./purposeModel');
+const { Sleep } = require('./sleepModel');
+const { Smoking } = require('./smokingModel');
+const { Timeline } = require('./timelineModel');
+const { User } = require('./userModel');
+const { OtherLink } = require('./otherLinkModel');
+const { Search } = require('./searchModel');
+const { Neighborhood } = require('./neighborhoodModel');
+const { Image } = require('./imageModel');
+const { Space } = require('./spaceModel');
+const { Todo } = require('./todoModel');
+const { Amenity } = require('./amenityModel');
 
 // create junction tables:
 // user_space junction table:

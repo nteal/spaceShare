@@ -1,4 +1,4 @@
-const db = require('../../sequelize.js').sequelize;
+const db = require('../sequelize.js').sequelize;
 const Sequelize = require('sequelize');
 
 // require other dependencies:
@@ -6,10 +6,10 @@ const { Neighborhood } = require('./neighborhoodModel');
 const { Image } = require('./imageModel');
 
 // require prefil preferences
-const { Purpose } = require('../prefils/purposeModel');
-const { Timeline } = require('../prefils/timelineModel');
-const { Pet } = require('../prefils/petModel');
-const { Smoking } = require('../prefils/smokingModel');
+const { Purpose } = require('./purposeModel');
+const { Timeline } = require('./timelineModel');
+const { Pet } = require('./petModel');
+const { Smoking } = require('./smokingModel');
 
 // define space
 const Space = db.define('space', {
