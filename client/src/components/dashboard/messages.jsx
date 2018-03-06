@@ -5,7 +5,7 @@ class Messages extends React.Component {
   render() {
     return (
       <div>
-        Messages
+        You have __ new messages!
         <Message />
       </div>
     );

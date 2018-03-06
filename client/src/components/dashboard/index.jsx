@@ -10,13 +10,16 @@ class Dashboard extends React.Component {
 
     };
   }
+  componentDidMount() {
+    console.log('component did mount');
+  }
   render() {
     return (
       <div>
-        Your Dashboard
-        {/* profile */}
-        {/* messages */}
-        {/* spaces */}
+        <h1>Your Dashboard</h1>
+        <Profile />
+        <Messages />
+        <Spaces />
       </div>
     );
   }
