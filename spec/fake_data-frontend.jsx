@@ -25,7 +25,7 @@ class FakeData extends React.component {
         planet: 'https://www.sciencenewsforstudents.org/sites/default/files/scald-image/061217_LG_jupiter_main_free.jpg',
         birthdate: 'March 05 1991',
         gender: 'male',
-        personality: 'extravert',
+        personality: 'extrovert',
         sleep: 'Night owl',
       },
       {
@@ -42,7 +42,7 @@ class FakeData extends React.component {
         planet: 'https://solarsystem.nasa.gov/system/feature_items/images/146_venus_carousel_3.jpg',
         birthdate: 'January 15 1990',
         gender: 'female',
-        personality: 'intravert',
+        personality: 'introvert',
         sleep: 'Early bird',
       },
       {
@@ -59,7 +59,7 @@ class FakeData extends React.component {
         planet: 'https://solarsystem.nasa.gov/system/stellar_items/image_files/4_earth.jpg',
         birthdate: 'October 21 1981',
         gender: 'male',
-        personality: 'intravert',
+        personality: 'introvert',
         sleep: 'Night owl',
       },
       {
@@ -76,7 +76,7 @@ class FakeData extends React.component {
         planet: 'http://nineplanets.org/images/pluto.jpg',
         birthdate: 'July 08 1985',
         gender: 'female',
-        personality: 'extravert',
+        personality: 'extrovert',
         sleep: 'Early bird',
       },
       {
@@ -93,7 +93,7 @@ class FakeData extends React.component {
         planet: 'https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg',
         birthdate: 'November 01 1986',
         gender: 'male',
-        personality: 'intravert',
+        personality: 'introvert',
         sleep: 'Night owl',
       },
     ];
@@ -115,7 +115,7 @@ class FakeData extends React.component {
       planet: 'https://www.sciencenewsforstudents.org/sites/default/files/scald-image/061217_LG_jupiter_main_free.jpg',
       birthdate: 'March 05 1991',
       gender: 'male',
-      personality: 'extravert',
+      personality: 'extrovert',
       sleep: 'Night owl',
     };
   }
@@ -163,7 +163,7 @@ class FakeData extends React.component {
             planet: 'https://solarsystem.nasa.gov/system/feature_items/images/146_venus_carousel_3.jpg',
             birthdate: 'January 15 1990',
             gender: 'female',
-            personality: 'intravert',
+            personality: 'introvert',
             sleep: 'Early bird',
           },
           {
@@ -180,7 +180,7 @@ class FakeData extends React.component {
             planet: 'https://solarsystem.nasa.gov/system/stellar_items/image_files/4_earth.jpg',
             birthdate: 'October 21 1981',
             gender: 'male',
-            personality: 'intravert',
+            personality: 'introvert',
             sleep: 'Night owl',
           },
           {
@@ -197,7 +197,7 @@ class FakeData extends React.component {
             planet: 'http://nineplanets.org/images/pluto.jpg',
             birthdate: 'July 08 1985',
             gender: 'female',
-            personality: 'extravert',
+            personality: 'extrovert',
             sleep: 'Early bird',
           },
         ],
@@ -244,7 +244,7 @@ class FakeData extends React.component {
             planet: 'https://www.sciencenewsforstudents.org/sites/default/files/scald-image/061217_LG_jupiter_main_free.jpg',
             birthdate: 'March 05 1991',
             gender: 'male',
-            personality: 'extravert',
+            personality: 'extrovert',
             sleep: 'Night owl',
           },
           {
@@ -261,7 +261,7 @@ class FakeData extends React.component {
             planet: 'https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg',
             birthdate: 'November 01 1986',
             gender: 'male',
-            personality: 'intravert',
+            personality: 'introvert',
             sleep: 'Night owl',
           },
         ],
@@ -290,7 +290,7 @@ class FakeData extends React.component {
         state: 'FL',
         include_people: true,
         user_id: 0,
-        personality: 'extravert',
+        personality: 'extrovert',
         sleep: 'Night Owl',
         timeline: 'Long-term',
         pet: 'Anywhere is fine',
