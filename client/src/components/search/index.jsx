@@ -1,5 +1,5 @@
 import React from 'react';
-import PeopleSearch from './peopleSearch';
+import PeopleSearch from './peopleSearch.jsx';
 
 class Search extends React.Component {
   render() {

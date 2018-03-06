@@ -1,4 +1,7 @@
 import React from 'react';
+import Profile from './profile.jsx';
+import Messages from './messages.jsx';
+import Spaces from './spaces.jsx';
 
 class Dashboard extends React.Component {
   constructor(props) {
