@@ -9,9 +9,13 @@ class CommonArea extends React.Component {
 
     };
   }
+  componentDidMount() {
+    console.log('common area did mount');
+  }
   render() {
     return (
       <div>
+        <h1>Common Area</h1>
         <div>
           <Todos />
         </div>

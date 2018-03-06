@@ -7,10 +7,13 @@ class CreateSpace extends React.Component {
 
     };
   }
-
+  componentDidMount() {
+    console.log('new space did mount');
+  }
   render() {
     return (
       <div>
+        <h1>New Space</h1>
         {/* create a space */}
       </div>
     );

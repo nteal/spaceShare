@@ -11,7 +11,7 @@ class Dashboard extends React.Component {
     };
   }
   componentDidMount() {
-    console.log('component did mount');
+    console.log('dashboard did mount');
   }
   render() {
     return (

@@ -7,7 +7,9 @@ class SearchResults extends React.Component {
 
     };
   }
-
+  componentDidMount() {
+    console.log('listings did mount');
+  }
   render() {
     return (
       <div>
