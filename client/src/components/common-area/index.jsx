@@ -18,9 +18,6 @@ class CommonArea extends React.Component {
         <div>
           <Todos />
         </div>
-        <div>
-          <ResourceManagement />
-        </div>
         {/* chat */}
       </div>
     );
