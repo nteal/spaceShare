@@ -14,6 +14,8 @@ const User = db.define('user', {
   fb_id: Sequelize.STRING,
   fb_link: Sequelize.STRING,
   fb_verified: Sequelize.BOOLEAN,
+  searchable_work: Sequelize.BOOLEAN,
+  searchable_live: Sequelize.BOOLEAN,
   planet: Sequelize.STRING,
   birthdate: Sequelize.DATE,
 
