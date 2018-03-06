@@ -7,6 +7,7 @@ import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import List from 'material-ui/List';
+import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
@@ -15,8 +16,8 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 
 import Dashboard from '../dashboard/index.jsx';
-import ChatMain from '../chat-main/index.jsx';
 import CommonArea from '../common-area/index.jsx';
+import ChatMain from '../chat-main/index.jsx';
 import CreateSpace from '../create-a-space/index.jsx';
 import Search from '../search/index.jsx';
 import SearchResults from '../search-results/index.jsx';
@@ -136,6 +137,9 @@ class Nav extends React.Component {
             <Typography component={Link} to="/" variant="title" color="inherit" noWrap>
               SpaceShare
             </Typography>
+            <Button component={Link} to="/dashboard" color="inherit">
+              My Dashboard
+            </Button>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -162,6 +166,7 @@ class Nav extends React.Component {
             <Route path="/new-space" component={CreateSpace} />
             <Route path="/search" component={Search} />
             <Route path="/listings" component={SearchResults} />
+            <Route path="/saved-searches" component={SearchResults} />
           </Switch>
         </main>
       </div>

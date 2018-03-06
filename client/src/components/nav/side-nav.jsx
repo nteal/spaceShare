@@ -34,7 +34,7 @@ const SideNavListItems = (
       </ListItemIcon>
       <ListItemText primary="New Search" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/saved-searches">
       <ListItemIcon>
         <BookIcon />
       </ListItemIcon>
