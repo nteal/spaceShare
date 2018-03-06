@@ -1,3 +1,4 @@
+const db = require('../sequelize').sequelize;
 const { Gender } = require('./prefils/genderModel');
 const { Personality } = require('./prefils/personalityModel');
 const { Pet } = require('./prefils/petModel');
@@ -10,26 +11,16 @@ const { OtherLink } = require('./user/otherLinkModel');
 const { Search } = require('./user/searchModel');
 const { Neighborhood } = require('./space/neighborhoodModel');
 const { Image } = require('./space/imageModel');
+const { Space } = require('./space/spaceModel');
+const { Todo } = require('./space/todoModel');
+const { Amenity } = require('./space/amenityModel');
 
-Gender.sync();
-Personality.sync();
-Pet.sync();
-Purpose.sync();
-Sleep.sync();
-Smoking.sync();
-Timeline.sync();
+// create junction tables:
+// user_space junction table:
+User.belongsToMany(Space, { through: 'user_space' });
+Space.belongsToMany(User, { through: 'user_space' });
+// space_amenity junction table:
+Amenity.belongsToMany(Space, { through: 'space_amenity' });
+Space.belongsToMany(Amenity, { through: 'space_amenity' });
 
-// user and dependencies:
-// make OtherLink wait for User table to finish being created
-User.sync()
-  .then(() => {
-    OtherLink.sync();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-Search.sync();
-
-// space and dependencies
-Neighborhood.sync();
-Image.sync();
+db.sync();
