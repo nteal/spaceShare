@@ -1,15 +1,16 @@
 /* global document */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Redirect, BrowserRouter } from 'react-router-dom';
+import { Route, Redirect, BrowserRouter } from 'react-router-dom';
 import Axios from 'axios';
-import Nav from './nav.jsx';
+import Login from './components/login/index.jsx';
+import Nav from './components/nav/index.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false,
+      isAuthenticated: true,
     };
   }
   componentDidMount() {
@@ -29,20 +30,8 @@ class App extends React.Component {
   render() {
     const { isAuthenticated } = this.state;
 
-    if (isAuthenticated) {
-      return <Redirect to={Nav} />;
-    }
-
-    return (
-      <div>
-        <header>
-          <h1>SpaceShare</h1>
-          {/* Log In with Facebook button */}
-        </header>
-        <BrowserRouter basename="/" />
-      </div>
-    );
+    return isAuthenticated ? <Nav /> : <Login />;
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<BrowserRouter basename="/"><App /></BrowserRouter>, document.getElementById('app'));

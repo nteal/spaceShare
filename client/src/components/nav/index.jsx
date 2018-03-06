@@ -1,8 +1,12 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
-import { AppBar } from 'material-ui';
+import { Switch, Route } from 'react-router-dom';
 import Axios from 'axios';
-import Dashboard from './components/dashboard/index.jsx';
+import TopNav from './top-nav.jsx';
+import Dashboard from '../dashboard/index.jsx';
+import CommonArea from '../common-area/index.jsx';
+import CreateSpace from '../create-a-space/index.jsx';
+import Search from '../search/index.jsx';
+import SearchResults from '../search-results/index.jsx';
 
 class Nav extends React.Component {
   constructor(props) {
@@ -27,12 +31,16 @@ class Nav extends React.Component {
     return (
       <div>
         {/* top nav */}
-        <AppBar />
+        <TopNav />
         {/* side nav */}
 
 
         <Switch>
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/common-area" component={CommonArea} />
+          <Route path="/new-space" component={CreateSpace} />
+          <Route path="/search" component={Search} />
+          <Route path="/listings" component={SearchResults} />
         </Switch>
       </div>
     );
