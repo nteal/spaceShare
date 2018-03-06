@@ -1,11 +1,11 @@
 import React from 'react';
-import Message from './message';
+import Message from './message.jsx';
 
-class Messages extends React.component {
+class Messages extends React.Component {
   render() {
     return (
       <div>
-        Messages
+        You have __ new messages!
         <Message />
       </div>
     );

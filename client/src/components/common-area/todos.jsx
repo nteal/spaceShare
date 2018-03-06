@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoListItem from './todo-list-item';
+import TodoListItem from './todo-list-item.jsx';
 
 const Todos = (props) => {
   return (
