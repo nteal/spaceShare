@@ -1,6 +1,7 @@
 const express = require('express');
 const routes = require('./routes');
 const path = require('path');
+const db = require('../database');
 
 const app = express();
 const pathway = path.join(__dirname, '/../client/dist');
