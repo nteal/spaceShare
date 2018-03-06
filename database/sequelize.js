@@ -20,4 +20,3 @@ sequelize
 
 // mainly used to check for connection
 exports.sequelize = sequelize;
-exports.Sequelize = Sequelize;
