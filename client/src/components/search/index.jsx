@@ -1,7 +1,14 @@
 import React from 'react';
-import PeopleSearch from './peopleSearch';
+import PeopleSearch from './peopleSearch.jsx';
 
-class Search extends React.component {
+class Search extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  componentDidMount() {
+    console.log('new search did mount');
+  }
   render() {
     return (
       <div>

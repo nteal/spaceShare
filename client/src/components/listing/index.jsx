@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Listing extends React.component {
+class Listing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
