@@ -8,6 +8,8 @@ const { Timeline } = require('./prefils/timelineModel');
 const { User } = require('./user/userModel');
 const { OtherLink } = require('./user/otherLinkModel');
 const { Search } = require('./user/searchModel');
+const { Neighborhood } = require('./space/neighborhoodModel');
+const { Image } = require('./space/imageModel');
 
 Gender.sync();
 Personality.sync();
@@ -17,6 +19,7 @@ Sleep.sync();
 Smoking.sync();
 Timeline.sync();
 
+// user and dependencies:
 // make OtherLink wait for User table to finish being created
 User.sync()
   .then(() => {
@@ -25,5 +28,8 @@ User.sync()
   .catch((err) => {
     console.log(err);
   });
-
 Search.sync();
+
+// space and dependencies
+Neighborhood.sync();
+Image.sync();
