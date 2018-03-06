@@ -9,7 +9,6 @@ const OtherLink = db.define('other_link', {
 
 // add foreign keys for 1:1 relationships
 
-
 User.hasMany(OtherLink, { foreignKey: 'user_id' });
 
 exports.OtherLink = OtherLink;
