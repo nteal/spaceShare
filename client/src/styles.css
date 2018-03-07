@@ -63,8 +63,8 @@ h1, h2, h3, h4, h5, h6 {
 .mini-heading-box {
   background-color: rgb(61, 61, 61);
   color: white;
-  height: 25px;
-  padding: 5px 15px 0px 5px;
+  height: 30px;
+  padding: 5px 15px 0px 8px;
 }
 
 .content-row {
@@ -74,5 +74,6 @@ h1, h2, h3, h4, h5, h6 {
 .user-profile-pic {
   height: auto;
   max-width: 100%;
+  padding-bottom: 10px;
   width: 300px;
 }
