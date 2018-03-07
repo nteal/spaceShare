@@ -13,6 +13,7 @@ import Search from '../search/index.jsx';
 import SearchResults from '../search-results/index.jsx';
 import SideNavItems from './side-nav.jsx';
 import Header from './header.jsx';
+import Logo from '../../assets/ss-logo-transparent.png';
 
 
 const styles = {
@@ -110,7 +111,7 @@ class Nav extends React.Component {
               <i className="material-icons">menu</i>
             </a>}
             <Link to="/">
-              <img src="./assets/ss-logo-transparent.png" className="mobile-logo" alt="SpaceShare logo" />
+              <img src={Logo} className="mobile-logo" alt="SpaceShare logo" />
             </Link>
           </span>
         </MediaQuery>
