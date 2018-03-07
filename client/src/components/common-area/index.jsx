@@ -16,36 +16,36 @@ class CommonArea extends React.Component {
       <div>
 
         <div className="row">
-          <div className="media-object">
-            <img
-              src="https://cdn.vox-cdn.com/thumbor/1XgXyrtwx2tg7FK9gVZfomt7B54=/0x600/cdn.vox-cdn.  com/uploads/chorus_asset/file/46 08573/Screen_20Shot_202015-03-23_20at_201.14.01_20PM.0.png"
-              alt="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
-            />
-          </div>
+          <img
+            className="img-fluid"
+            src="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
+            alt="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
+          />
         </div>
 
-        <div className="row">
+        <div className="row mt-1">
           <div className="col">
             <div className="row">
               <h1>Common Area</h1>
-              <button>info</button>
+              <button className="btn btn-info">info</button>
             </div>
           </div>
           <div className="col">
-            <div className="row">
-              <button>Our Members</button>
+            <div className="row mb-1">
+              <button className="btn btn-secondary">Our Members</button>
             </div>
             <div className="row">
-              <button>Our Ground Rules</button>
+              <button className="btn btn-secondary">Our Ground Rules</button>
             </div>
           </div>
         </div>
 
-        <div className="row">
+        <div className="row mt-5">
           <div className="col">
             <Todos />
           </div>
           <div className="col">
+            <h3>Group Chat</h3>
             {/* chat */}
           </div>
         </div>
