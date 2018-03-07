@@ -1,4 +1,5 @@
 import React from 'react';
+import MediaQuery from 'react-responsive';
 import Profile from './profile.jsx';
 import Messages from './messages.jsx';
 import Spaces from './spaces.jsx';
@@ -18,9 +19,16 @@ class Dashboard extends React.Component {
       <div>
         <div className="container">
           <div className="row">
-            <div className="heading-box">
-              <h1>Your Dashboard</h1>
-            </div>
+            <MediaQuery minDeviceWidth={800}>
+              <div className="heading-box">
+                <h1>Your Dashboard</h1>
+              </div>
+            </MediaQuery>
+            <MediaQuery maxDeviceWidth={600}>
+              <div className="mobile-heading-box">
+                <h2>Your Dashboard</h2>
+              </div>
+            </MediaQuery>
           </div>
           <div className="row row-eq-height">
             <div className="col-12 col-sm-4 col-md-4 col-lg-4">

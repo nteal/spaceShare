@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Axios from 'axios';
+import MediaQuery from 'react-responsive';
 import Sidebar from 'react-sidebar';
 
 import Login from '../login/index.jsx';
@@ -12,6 +13,7 @@ import Search from '../search/index.jsx';
 import SearchResults from '../search-results/index.jsx';
 import SideNavItems from './side-nav.jsx';
 import Header from './header.jsx';
+
 
 const styles = {
   contentHeaderMenuLink: {
@@ -84,20 +86,36 @@ class Nav extends React.Component {
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
 
     const contentHeader = (
-      <span>
-        {!this.state.docked &&
-        <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
-          <i className="material-icons">menu</i>
-        </a>}
-        <Link to="/">
-          <span>SpaceShare</span>
-        </Link>
-        <Link to="/dashboard" className="header-link">
-          My Dashboard
-        </Link>
-        <span className="header-link">About</span>
-        <span className="header-link">Disclaimer</span>
-      </span>);
+      <div>
+        <MediaQuery minDeviceWidth={800}>
+          <span>
+            {!this.state.docked &&
+            <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
+              <i className="material-icons">menu</i>
+            </a>}
+            <Link to="/">
+              <span>SpaceShare</span>
+            </Link>
+            <Link to="/dashboard" className="header-link">
+              My Dashboard
+            </Link>
+            <span className="header-link">About</span>
+            <span className="header-link">Disclaimer</span>
+          </span>
+        </MediaQuery>
+        <MediaQuery maxDeviceWidth={600}>
+          <span>
+            {!this.state.docked &&
+            <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
+              <i className="material-icons">menu</i>
+            </a>}
+            <Link to="/">
+              <img src="./assets/ss-logo-transparent.png" className="mobile-logo" alt="SpaceShare logo" />
+            </Link>
+          </span>
+        </MediaQuery>
+      </div>
+    );
 
     const sidebarProps = {
       sidebar: sidebar,
