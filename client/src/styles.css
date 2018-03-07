@@ -1,3 +1,7 @@
+ul {
+  list-style: none;
+}
+
 .btn {
   font-family: Raleway;
   font-weight: 600; 
@@ -43,15 +47,32 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .heading-box {
-  background-color: rgb(44, 44, 44);
+  background-color: rgb(61, 61, 61);
   color: white;
   height: 50px;
   padding: 15px 50px 0px 15px;
 }
 
 .mobile-heading-box {
-  background-color: rgb(44, 44, 44);
+  background-color: rgb(61, 61, 61);
   color: white;
   height: 42px;
   padding: 13px 50px 0px 15px;
+}
+
+.mini-heading-box {
+  background-color: rgb(61, 61, 61);
+  color: white;
+  height: 25px;
+  padding: 5px 15px 0px 5px;
+}
+
+.content-row {
+  padding-top: 30px;
+}
+
+.user-profile-pic {
+  height: auto;
+  max-width: 100%;
+  width: 300px;
 }
