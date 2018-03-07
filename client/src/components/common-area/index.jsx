@@ -1,6 +1,5 @@
 import React from 'react';
 import Todos from './todos.jsx';
-import ResourceManagement from './resource-management.jsx';
 
 class CommonArea extends React.Component {
   constructor(props) {
@@ -15,14 +14,42 @@ class CommonArea extends React.Component {
   render() {
     return (
       <div>
-        <h1>Common Area</h1>
-        <div>
-          <Todos />
+
+        <div className="row">
+          <img
+            className="img-fluid"
+            src="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
+            alt="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
+          />
         </div>
-        <div>
-          <ResourceManagement />
+
+        <div className="row mt-1">
+          <div className="col">
+            <div className="row">
+              <h1>Common Area</h1>
+              <button className="btn btn-info">info</button>
+            </div>
+          </div>
+          <div className="col">
+            <div className="row mb-1">
+              <button className="btn btn-secondary">Our Members</button>
+            </div>
+            <div className="row">
+              <button className="btn btn-secondary">Our Ground Rules</button>
+            </div>
+          </div>
         </div>
-        {/* chat */}
+
+        <div className="row mt-5">
+          <div className="col">
+            <Todos />
+          </div>
+          <div className="col">
+            <h3>Group Chat</h3>
+            {/* chat */}
+          </div>
+        </div>
+
       </div>
     );
   }
