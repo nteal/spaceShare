@@ -16,10 +16,26 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <h1>Your Dashboard</h1>
-        <Profile />
-        <Messages />
-        <Spaces />
+        <div className="container">
+          <div className="row">
+            <div className="heading-box">
+              <h1>Your Dashboard</h1>
+            </div>
+          </div>
+          <div className="row row-eq-height">
+            <div className="col-12 col-sm-4 col-md-4 col-lg-4">
+              <Profile />
+            </div>
+            <div className="col-12 col-sm-8 col-md-8 col-lg-8">
+              <div className="row">
+                <Messages />
+              </div>
+              <div className="row">
+                <Spaces />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
