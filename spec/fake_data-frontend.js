@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const port = process.env.PORT || 3003;
 const app = express();
 const pathway = path.join(__dirname, '/../client/dist');
 app.use(express.static(pathway));
+app.use(cors());
 
 app.get('/isAuthenticated', (req, res) => {
   res.send(true);
