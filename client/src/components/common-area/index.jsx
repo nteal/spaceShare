@@ -5,11 +5,12 @@ class CommonArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      currentSpace: null, 
     };
   }
   componentDidMount() {
     console.log('common area did mount');
+
   }
   render() {
     return (
