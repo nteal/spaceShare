@@ -116,7 +116,7 @@ app.get('/currentUser', (req, res) => {
   });
 });
 
-app.get('spaces', (req, res) => {
+app.get('/spaces', (req, res) => {
   res.send([
     {
       name: 'Epsilon Eridani',
