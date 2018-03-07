@@ -16,6 +16,10 @@
   color:#FFFCA0!important;
 }
 
+.sidebar-icon {
+  margin-right: .5em;
+}
+
 .header-link {
   color: white;
   font-family: Raleway;
@@ -25,4 +29,16 @@
 
 .header-link:hover {
   color:#FFFCA0;
+}
+
+h1 {
+  font-family: Raleway;
+  font-weight: 700;
+}
+
+.heading-box {
+  background-color: rgb(44, 44, 44);
+  color: white;
+  height: 50px;
+  padding: 15px 50px 0px 15px;
 }
