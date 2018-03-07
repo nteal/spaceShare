@@ -6,14 +6,6 @@ const app = express();
 const pathway = path.join(__dirname, '/../client/dist');
 app.use(express.static(pathway));
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
-
 app.get('/isAuthenticated', (req, res) => {
   res.send(true);
 });
@@ -125,6 +117,7 @@ app.get('/currentUser', (req, res) => {
     gender: 'male',
     personality: 'extrovert',
     sleep: 'Night owl',
+    profession: 'Artisanal pencil sharpener',
   });
 });
 
