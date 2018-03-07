@@ -6,6 +6,8 @@ import Sidebar from 'react-sidebar';
 
 import Login from '../login/index.jsx';
 import Dashboard from '../dashboard/index.jsx';
+import EditProfile from '../profile/editProfile.jsx';
+import Profile from '../profile/index.jsx';
 import CommonArea from '../common-area/index.jsx';
 import ChatMain from '../chat-main/index.jsx';
 import CreateSpace from '../create-a-space/index.jsx';
@@ -141,10 +143,14 @@ class Nav extends React.Component {
             />
             <Switch>
               <Route path="/dashboard" component={Dashboard} />
+              <Route path="/edit-profile" component={EditProfile} />
+              <Route path="/profile" component={Profile} />
               <Route path="/common-area" component={CommonArea} />
               <Route path="/messages" component={ChatMain} />
               <Route path="/new-space" component={CreateSpace} />
+              <Route path="/edit-space" component={CreateSpace} />
               <Route path="/search" component={Search} />
+              <Route path="/results" component={SearchResults} />
               <Route path="/listings" component={SearchResults} />
               <Route path="/saved-searches" component={SearchResults} />
             </Switch>
