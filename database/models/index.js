@@ -6,6 +6,7 @@ const { Purpose } = require('./purposeModel');
 const { Sleep } = require('./sleepModel');
 const { Smoking } = require('./smokingModel');
 const { Timeline } = require('./timelineModel');
+const { Planet } = require('./planetModel');
 const { User } = require('./userModel');
 const { OtherLink } = require('./otherLinkModel');
 const { Search } = require('./searchModel');
