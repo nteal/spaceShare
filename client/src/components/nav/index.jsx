@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Axios from 'axios';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
@@ -15,6 +15,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 
+import Login from '../login/index.jsx';
 import Dashboard from '../dashboard/index.jsx';
 import CommonArea from '../common-area/index.jsx';
 import ChatMain from '../chat-main/index.jsx';
@@ -89,17 +90,19 @@ class Nav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isAuthenticated: true,
       drawerOpen: false,
     };
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
   }
   componentDidMount() {
+    console.log('nav did mount');
     // check if user is authenticated; if they aren't, redirect to /
     Axios.get('/isAuthenticated')
       .then((response) => {
         if (response.data === false) {
-          Axios.get('/');
+          this.setState({ isAuthenticated: false });
         }
       })
       .catch((error) => {
@@ -118,6 +121,7 @@ class Nav extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
+    const { isAuthenticated } = this.state;
 
     return (
       <div className={classes.root}>
@@ -159,6 +163,14 @@ class Nav extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
+          <Route exact path="/" render={() => (
+            isAuthenticated ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Login />
+            )
+          )}
+          />
           <Switch>
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/common-area" component={CommonArea} />
