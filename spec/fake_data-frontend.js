@@ -128,9 +128,17 @@ app.get('/currentUser', (req, res) => {
   });
 });
 
+app.get('/currentUserSpaces', (req, res) => {
+  res.send([{
+    id: 1,
+    name: 'my crib',
+  }]);
+});
+
 app.get('/spaces', (req, res) => {
   res.send([
     {
+      id: 0,
       name: 'Epsilon Eridani',
       description: 'Nam vel urna vitae felis porttitor gravida in vel turpis. Vivamus dignissim bibendum purus, sed suscipit elit feugiat vel. Morbi fermentum leo risus, id pellentesque mauris malesuada sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat nibh fermentum ornare suscipit. Curabitur vitae nisl urna. Nulla fermentum laoreet iaculis.',
       cost: 300.00,
@@ -210,6 +218,7 @@ app.get('/spaces', (req, res) => {
       ],
     },
     {
+      id: 1,
       name: 'my crib',
       description: 'Nam vel urna vitae felis porttitor gravida in vel turpis. Vivamus dignissim bibendum purus, sed suscipit elit feugiat vel. Morbi fermentum leo risus, id pellentesque mauris malesuada sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat nibh fermentum ornare suscipit. Curabitur vitae nisl urna. Nulla fermentum laoreet iaculis.',
       cost: 550.00,
