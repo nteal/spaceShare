@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import Axios from 'axios';
+import Information from 'mdi-react/InformationIcon.js';
 import Todos from './todos.jsx';
 import Chat from './chat.jsx';
 
@@ -42,11 +43,8 @@ class CommonAreaMain extends React.Component {
           </div>
 
           <div className="col-2 col-lg-1">
-            <Link
-              to={{ pathname: '/listing', state: { spaceId: id } }}
-              className="btn btn-info btn-sm mt-3 rounded-circle"
-            >
-              info
+            <Link to={{ pathname: '/listing', state: { spaceId: id } }}>
+              <Information className="mdi-btn" height={40} width={40} fill="#6F5BC0" />
             </Link>
           </div>
 
