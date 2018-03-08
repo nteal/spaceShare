@@ -7,22 +7,25 @@ class CommonArea extends React.Component {
     super(props);
     this.state = {
       name: null,
+      todos: [],
     };
   }
   componentDidMount() {
     console.log('common area did mount');
     Axios({
       method: 'get',
-      url: 'http://localhost:3003/spaces/',
+      url: 'http://localhost:3003/currentSpace/',
     })
-      .then((spaces) => {
+      .then((space) => {
         this.setState({
-          name: spaces.data[1].name,
+          name: space.data.name,
+          todos: space.data.todos,
         });
       })
       .catch((error) => { console.dir(error); });
   }
   render() {
+    console.dir(this.state);
     return (
       <div>
 
@@ -65,7 +68,7 @@ class CommonArea extends React.Component {
 
         <div className="row mt-5">
           <div className="col">
-            <Todos />
+            <Todos todos={this.state.todos} />
           </div>
           <div className="col">
             <h3>Group Chat</h3>
