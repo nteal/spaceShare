@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 import Axios from 'axios';
 import Todos from './todos.jsx';
 import Chat from './chat.jsx';
@@ -22,9 +23,16 @@ class CommonAreaMain extends React.Component {
             <div className="row">
               <div className="col">
                 <div className="row">
-                  <div className="heading-box">
-                    <h1>Common Area</h1>
-                  </div>
+                  <MediaQuery minDeviceWidth={800}>
+                    <div className="heading-box">
+                      <h1>Common Area</h1>
+                    </div>
+                  </MediaQuery>
+                  <MediaQuery maxDeviceWidth={600}>
+                    <div className="mobile-heading-box">
+                      <h2>Common Area</h2>
+                    </div>
+                  </MediaQuery>
                 </div>
                 <div className="row">
                   <h2>{name}</h2>

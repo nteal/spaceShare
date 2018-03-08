@@ -1,4 +1,5 @@
 import React from 'react';
+import MediaQuery from 'react-responsive';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
 const GroundRules = (props) => {
@@ -9,9 +10,16 @@ const GroundRules = (props) => {
   return (
     <div className="container">
       <div className="row">
-        <div className="heading-box">
-          <h1>Our Ground Rules</h1>
-        </div>
+        <MediaQuery minDeviceWidth={800}>
+          <div className="heading-box">
+            <h1>Our Ground Rules</h1>
+          </div>
+        </MediaQuery>
+        <MediaQuery maxDeviceWidth={600}>
+          <div className="mobile-heading-box">
+            <h2>Our Ground Rules</h2>
+          </div>
+        </MediaQuery>
       </div>
       <div className="row">
         <button className="custom-btn" onClick={handleBack}>
