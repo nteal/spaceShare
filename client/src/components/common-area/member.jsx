@@ -12,6 +12,8 @@ const Member = (props) => {
     email,
   } = props.member;
 
+  const isOwner = !!props.owner;
+
   return (
     <div className="col-10 col-lg-4">
       <div className="content-box member-card container pb-0">
@@ -27,13 +29,18 @@ const Member = (props) => {
             </h5>
           </div>
           <div className="col">
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
+            <ul>
+              <li>
                 {phone}
               </li>
-              <li className="list-group-item">
+              <li>
                 {email}
               </li>
+              {isOwner && (
+                <li>
+                  Owner
+                </li>
+              )}
             </ul>
             <div className="row justify-content-end pr-4">
               <Link to={{ pathname: '/messages', state: { userId: id } }}>

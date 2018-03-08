@@ -157,7 +157,7 @@ app.get('/currentSpace', (req, res) => {
     state: 'FL',
     main_image: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
     neighborhood: 'Briggen Quarry',
-    owner: 0,
+    owner_id: 0,
     purpose: 'Live',
     timeline: 'Long-term',
     pet: 'Absolutely not',

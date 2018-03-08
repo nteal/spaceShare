@@ -11,6 +11,7 @@ class CommonArea extends React.Component {
     super(props);
     this.state = {
       id: 0,
+      ownerId: 0,
       name: null,
       todos: [],
       mainImage: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
@@ -26,6 +27,7 @@ class CommonArea extends React.Component {
       .then((space) => {
         this.setState({
           id: space.data.id,
+          ownerId: space.data.owner_id,
           name: space.data.name,
           todos: space.data.todos,
           mainImage: space.data.main_image,
@@ -39,13 +41,14 @@ class CommonArea extends React.Component {
     console.dir(this.state);
     const {
       id,
+      ownerId,
       name,
       todos,
       members,
       groundRules,
     } = this.state;
     const commonAreaProps = { id, name, todos };
-    const membersProps = { members };
+    const membersProps = { ownerId, members };
     const rulesProps = { groundRules };
 
     return (

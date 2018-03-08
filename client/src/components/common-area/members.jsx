@@ -4,7 +4,7 @@ import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 import Member from './member.jsx';
 
 const Members = (props) => {
-  const { members } = props;
+  const { ownerId, members } = props;
   const handleBack = () => {
     props.history.goBack();
   };
@@ -30,7 +30,11 @@ const Members = (props) => {
       <main>
         <div className="row">
           {members.map(member => (
-            <Member member={member} />
+            member.id === ownerId ? (
+              <Member member={member} owner />
+            ) : (
+              <Member member={member} />
+            )
           ))}
         </div>
       </main>
