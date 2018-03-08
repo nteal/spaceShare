@@ -50,6 +50,7 @@
     "html-webpack-plugin": "^3.0.4",
     "mdi": "^2.1.99",
     "mysql2": "^1.5.2",
+    "passport": "^0.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-responsive": "^4.0.4",
