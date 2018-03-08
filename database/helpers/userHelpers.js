@@ -17,13 +17,16 @@ const getUserById = (userId) => {
       Object.assign(userObj, user.dataValues);
       return Promise.all([
         options.getGenderById(user.gender_id),
+        options.getPlanetById(user.planet_id),
       ]);
     })
-    .then(([gender]) => {
+    .then(([gender, planet]) => {
       userObj.gender = gender.self_identification;
+      userObj.planet = planet.name;
       return userObj;
     })
     .catch(err => console.log(err));
 };
+
 
 exports.addNewUser = addNewUser;
