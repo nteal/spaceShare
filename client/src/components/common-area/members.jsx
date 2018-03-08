@@ -28,7 +28,7 @@ const Members = (props) => {
         </button>
       </div>
       <main>
-        <div className="row">
+        <div className="row justify-content-around">
           {members.map(member => (
             member.id === ownerId ? (
               <Member member={member} owner />

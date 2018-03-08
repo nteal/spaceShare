@@ -15,7 +15,7 @@ const Member = (props) => {
   const isOwner = !!props.owner;
 
   return (
-    <div className="col-10 col-lg-4">
+    <div className="col-10 col-sm-6 col-md-4 col-lg-4">
       <div className="content-box member-card container pb-0">
         <div className="row">
           <div className="member-img-box">
@@ -28,7 +28,7 @@ const Member = (props) => {
               </Link>
             </h5>
           </div>
-          <div className="col">
+          <div className="col pt-2 pb-0">
             <ul>
               <li>
                 {phone}
