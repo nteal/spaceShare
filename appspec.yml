@@ -24,7 +24,7 @@ os: linux
 #   may cause associated deployments to fail.
 files:
   - source: /
-    destination: c:/var/www/spaceShare
+    destination: /var/www/spaceShare
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions" 
 #   section here that describes special permissions to apply to the files 
@@ -35,21 +35,6 @@ files:
 #   then remove the 
 #   "permissions" section altogether. A blank or incomplete "permissions"
 #   section may cause associated deployments to fail.
-# permissions:
-#   - object:
-#    pattern:
-#    except:
-#    owner:
-#    group:
-#    mode: 
-#    acls:
-#      -
-#    context:
-#      user:
-#      type:
-#      range:
-#    type:
-#      -
 # If you are not running any commands on the Amazon EC2 instance, then remove 
 #   the "hooks" section altogether. A blank or incomplete "hooks" section
 #   may cause associated deployments to fail.
@@ -78,45 +63,25 @@ hooks:
 #   in the script specified in "location" starting from the root of the 
 #   revision's file bundle.
   ApplicationStop:
-    - location: scripts/stop_server
+    - location: scripts/stop_server.sh
       timeout: 300
       runas: root
-    - location: 
-      timeout:
-      runas: 
 # During the BeforeInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
-#   BeforeInstall:
-#    - location: 
-#      timeout:
-#      runas: 
-#    - location: 
-#      timeout:
-#      runas:
 # During the AfterInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
   AfterInstall:
-    - location: scripts/install_dependencies    
+    - location: scripts/install_dependencies.sh    
       timeout: 300
       runas: root
-    - location: scripts/build
+    - location: scripts/build.sh
       timeout: 300
       runas: root
 # During the ApplicationStart deployment lifecycle event, run the commands 
 #   in the script specified in "location".
   ApplicationStart:
-    - location: scripts/start_server    
+    - location: scripts/start_server.sh    
       timeout: 300
       runas: root
-    - location: 
-      timeout:
-      runas:
 # During the ValidateService deployment lifecycle event, run the commands 
 #   in the script specified in "location".
-  # ValidateService:
-  #   - location:     
-  #     timeout: 
-  #     runas:
-  #   - location: 
-  #     timeout:
-  #     runas:
