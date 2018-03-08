@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .heading-box {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 50px;
   padding: 15px 50px 0px 15px;
@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .mobile-heading-box {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 42px;
   padding: 13px 50px 0px 15px;
@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .mini-heading-box-side {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 45px;
   margin-left: -10px;
@@ -79,18 +79,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .mini-heading-box-top {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 45px;
+  min-width: 200px;
   margin-left: 15px;
-  margin-right: 300px;
+  margin-right: 250px;
   margin-top: -20px;
   padding: 15px 10px 0px 10px;
 }
 
 .mini-heading-box-top-mobile {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 45px;
   margin-left: 15px;

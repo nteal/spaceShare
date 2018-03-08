@@ -16,10 +16,10 @@ class CommonAreaMain extends React.Component {
     const { name, todos } = this.props;
 
     return (
-      <div>
-        <div className="row mt-1">
+      <div className="container">
+        <div className="row mt-1 justify-content-around">
 
-          <div className="col-6 pl-5">
+          <div className="col-10 col-lg-8">
             <div className="row">
               <div className="col">
                 <div className="row">
@@ -41,11 +41,11 @@ class CommonAreaMain extends React.Component {
             </div>
           </div>
 
-          <div className="col-3">
+          <div className="col-2 col-lg-1">
             <button className="btn btn-info btn-sm mt-3 rounded-circle">info</button>
           </div>
 
-          <div className="col-2">
+          <div className="col-11 col-lg-2">
             <div className="row mb-1 justify-content-end">
               <Link to="/common-area/members" className="btn btn-primary btn-block">
                 Our Members
@@ -60,11 +60,10 @@ class CommonAreaMain extends React.Component {
         </div>
 
         <div className="row mt-5">
-          <div className="col">
+          <div className="col-12 col-sm-12 col-md-4 col-lg-4">
             <Todos todos={todos} />
           </div>
-          <div className="col">
-            <h3>Group Chat</h3>
+          <div className="col-12 col-sm-12 col-md-8 col-lg-8">
             <Chat />
           </div>
         </div>
