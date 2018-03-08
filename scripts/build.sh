@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /var/www/spaceShare
+cd /var/www/html/spaceShare
 npm run build
