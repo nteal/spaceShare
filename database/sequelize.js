@@ -6,6 +6,7 @@ const HOST = 'localhost';
 const sequelize = new Sequelize('space_share', 'root', process.env.DB_PASS, {
   host: HOST,
   dialect: 'mysql',
+  logging: false,
 });
 
 // basic code to check if sequelize connected correctly
