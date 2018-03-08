@@ -1,7 +1,7 @@
 const { Planet } = require('../models/planetModel');
 
 const planetList = [
-  { name: 'Murcery' },
+  { name: 'Mercury' },
   { name: 'Venus' },
   { name: 'Earth' },
   { name: 'Mars' },
