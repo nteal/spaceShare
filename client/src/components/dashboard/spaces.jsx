@@ -1,10 +1,9 @@
 import React from 'react';
-import Space from './space.jsx';
 import MediaQuery from 'react-responsive';
+import Space from './space.jsx';
 
 const Spaces = (props) => {
   const { spaces } = props;
-  console.log('spaces', spaces);
 
   return (
     <div className="content-box">
@@ -20,7 +19,7 @@ const Spaces = (props) => {
       </MediaQuery>
       <div>
         {spaces.map(space => (
-          <Space space={space} />
+          <Space space={space} key={space.id} />
         ))}
       </div>
     </div>
