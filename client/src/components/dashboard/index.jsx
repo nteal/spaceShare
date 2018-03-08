@@ -12,6 +12,7 @@ class Dashboard extends React.Component {
       currentUser: {},
       currentUserSpaces: [],
     };
+    this.fbLogout = this.fbLogout.bind(this);
   }
   componentDidMount() {
     console.log('dashboard did mount');
@@ -38,6 +39,11 @@ class Dashboard extends React.Component {
       .catch((error) => {
         console.error('error retrieving user data', error);
       });
+  }
+  fbLogout() {
+    this.setState();
+    console.log('bang');
+    localStorage.removeItem('id_token');
   }
 
   render() {
@@ -71,6 +77,7 @@ class Dashboard extends React.Component {
             </div>
           </div>
         </div>
+        <div className="row"><button onClick={this.fbLogout}>LOGOUT</button></div>
       </div>
     );
   }
