@@ -128,6 +128,7 @@ app.get('/currentUserSpaces', (req, res) => {
   res.send([{
     id: 1,
     name: 'my crib',
+    purpose: 'Live',
   }]);
 });
 
