@@ -15,6 +15,15 @@ const pathway = path.join(__dirname, '/../client/dist');
 app.use(express.static(pathway));
 app.use(cors());
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
 passport.use(new FacebookTokenStrategy(
   {
@@ -22,27 +31,37 @@ passport.use(new FacebookTokenStrategy(
     clientSecret: process.env.FB_CLIENT_SECRET,
   },
   (accessToken, refreshToken, profile, done) => {
-    console.log('profile:');
-    console.dir(profile);
-    // create new user here
-    // db.userHelpers.addNewUser({
-    //   about: '',
-    //   image_url: '',
-    //   name_first: '',
-    //   phone: 1231231234,
-    //   email: '',
-    //   fb_id: '',
-    //   fb_link: 'facebook.com',
-    //   fb_verified: false,
-    //   searchable_work: false,
-    //   searchable_live: false,
-    //   profession: 'programmer',
-    //   birthdate: new Date(),
-    //   gender_id: 2,
-    //   sleep_id: 1,
-    //   personality_id: 1,
-    //   planet_id: 6,
-    // }, (err, user) => done(err, user));
+    try {
+      console.log('profile:');
+      console.dir(profile);
+      // check whether current user exists in db
+
+      let newUser = profile;
+      // create new user if current user is not in db
+      if (true) {
+        // db.userHelpers.addNewUser({
+        //   about: '',
+        //   image_url: '',
+        //   name_first: '',
+        //   phone: 1231231234,
+        //   email: '',
+        //   fb_id: '',
+        //   fb_link: 'facebook.com',
+        //   fb_verified: false,
+        //   searchable_work: false,
+        //   searchable_live: false,
+        //   profession: 'programmer',
+        //   birthdate: new Date(),
+        //   gender_id: 2,
+        //   sleep_id: 1,
+        //   personality_id: 1,
+        //   planet_id: 6,
+        // }, (err, user) => done(err, user));
+        done(null, newUser);
+      }
+    } catch (error) {
+      done(error);
+    }
   },
 ));
 
