@@ -8,6 +8,7 @@ class CommonArea extends React.Component {
     this.state = {
       name: null,
       todos: [],
+      main_image: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
     };
   }
   componentDidMount() {
@@ -20,6 +21,7 @@ class CommonArea extends React.Component {
         this.setState({
           name: space.data.name,
           todos: space.data.todos,
+          main_image: space.data.main_image,
         });
       })
       .catch((error) => { console.dir(error); });
@@ -32,7 +34,7 @@ class CommonArea extends React.Component {
         <div className="row">
           <img
             className="img-fluid"
-            src="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
+            src={this.state.main_image}
             alt="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
           />
         </div>
