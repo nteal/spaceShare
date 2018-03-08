@@ -49,6 +49,7 @@
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.0.4",
     "mdi": "^2.1.99",
+    "moment": "^2.21.0",
     "mysql2": "^1.5.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
