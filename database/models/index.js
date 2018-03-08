@@ -24,4 +24,4 @@ Space.belongsToMany(User, { through: 'user_space' });
 Amenity.belongsToMany(Space, { through: 'space_amenity' });
 Space.belongsToMany(Amenity, { through: 'space_amenity' });
 
-db.sync();
+exports.syncDb = () => db.sync();
