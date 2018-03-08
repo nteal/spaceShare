@@ -1,9 +1,15 @@
 const { fillGenderOptions } = require('./genderOptions');
 const { fillPlanetOptions } = require('./planetOptions');
 const { fillPersonalityOptions } = require('./personalityOptions');
+const { fillSleepOptions } = require('./sleepOptions');
+const { fillPurposeOptions } = require('./purposeOptions');
+const { fillTimelineOptions } = require('./timelineOptions');
 
 exports.fillTables = () => {
   fillGenderOptions();
   fillPlanetOptions();
   fillPersonalityOptions();
+  fillSleepOptions();
+  fillPurposeOptions();
+  fillTimelineOptions();
 };
