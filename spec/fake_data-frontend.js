@@ -116,6 +116,7 @@ app.get('/currentUser', (req, res) => {
     fb_verified: true,
     planet: 'https://www.sciencenewsforstudents.org/sites/default/files/scald-image/061217_LG_jupiter_main_free.jpg',
     birthdate: 'March 05 1991',
+    zodiac: 'Pisces',
     gender: 'male',
     personality: 'extrovert',
     sleep: 'Night owl',
