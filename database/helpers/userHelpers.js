@@ -92,6 +92,14 @@ const getUserByFbId = (fbId) => {
     .catch(err => console.log(err));
 };
 
+const updateUser = newData => (
+  User.findById(newData.id)
+    .then(user => user.update(newData))
+    .then(updatedUser => updatedUser.dataValues)
+    .catch(err => console.log(err))
+);
+
 exports.addNewUser = addNewUser;
 exports.getUserById = getUserById;
 exports.getUserByFbId = getUserByFbId;
+exports.updateUser = updateUser;
