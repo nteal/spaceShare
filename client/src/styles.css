@@ -79,14 +79,26 @@ h1, h2, h3, h4, h5, h6 {
   padding: 15px 10px 0px 10px;
 }
 
+.mini-heading-box-top-mobile {
+  background-color: rgb(61, 61, 61);
+  border-radius: 2%;
+  color: white;
+  height: 45px;
+  margin-left: 15px;
+  margin-right: 30px;
+  margin-top: -20px;
+  padding: 15px 10px 0px 10px;
+}
+
 .content-row {
   padding-top: 30px;
 }
 
 .content-box {
   border: 1px solid rgb(61, 61, 61);
-  border-radius: 2%;
-  min-height: 300px;
+  border-radius: 2px;
+  margin-bottom: 3em;
+  min-height: 250px;
   height: 100%;
   width: 100%;
 }
