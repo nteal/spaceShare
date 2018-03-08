@@ -10,7 +10,6 @@ const newUser = {
   fb_verified: false,
   searchable_work: false,
   searchable_live: false,
-  planet: 'Uranus',
   profession: 'programmer',
   birthdate: new Date(),
   gender_id: 2,
