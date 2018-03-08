@@ -7,3 +7,4 @@ syncDb()
   .then(() => fillTables())
   .catch(err => console.log(err));
 
+exports.userHelpers = require('./helpers/userHelpers');
