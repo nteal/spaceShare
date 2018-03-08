@@ -66,9 +66,6 @@ hooks:
     - location: scripts/stop_server.sh
       timeout: 300
       runas: root
-    - location: 
-      timeout:
-      runas: 
 # During the BeforeInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
 # During the AfterInstall deployment lifecycle event, run the commands 
@@ -86,8 +83,5 @@ hooks:
     - location: scripts/start_server.sh    
       timeout: 300
       runas: root
-    - location: 
-      timeout:
-      runas:
 # During the ValidateService deployment lifecycle event, run the commands 
 #   in the script specified in "location".
