@@ -1,8 +1,8 @@
 const { Gender } = require('../models/genderModel');
 
 const initialGenderOptions = [
-  { self_identification: 'male' },
-  { self_identification: 'female' },
+  { self_identification: 'Male' },
+  { self_identification: 'Female' },
 ];
 
 const addGenders = () => Gender.bulkCreate(initialGenderOptions);
