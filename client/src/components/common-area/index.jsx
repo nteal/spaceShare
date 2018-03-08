@@ -30,7 +30,7 @@ class CommonArea extends React.Component {
           todos: space.data.todos,
           mainImage: space.data.main_image,
           members: space.data.members,
-          groundRules: space.data.groundRules,
+          groundRules: space.data.ground_rules,
         });
       })
       .catch((error) => { console.dir(error); });
@@ -70,7 +70,7 @@ class CommonArea extends React.Component {
           <Route
             path="/common-area/members"
             render={props => (
-              <Members {...props} {...membersProps}/>
+              <Members {...props} {...membersProps} />
             )}
           />
           <Route
