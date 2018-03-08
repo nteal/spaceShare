@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from './header.jsx';
 
 const styles = {
   sidebar: {
@@ -28,7 +27,6 @@ const styles = {
 
 const SideNavItems = (props) => {
   const { toggleOpen } = props;
-  const style = styles.sidebar;
 
   return (
       <div style={styles.content} onClick={toggleOpen}>

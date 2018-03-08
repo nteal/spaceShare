@@ -6,6 +6,7 @@ const { Purpose } = require('./purposeModel');
 const { Sleep } = require('./sleepModel');
 const { Smoking } = require('./smokingModel');
 const { Timeline } = require('./timelineModel');
+const { Planet } = require('./planetModel');
 const { User } = require('./userModel');
 const { OtherLink } = require('./otherLinkModel');
 const { Search } = require('./searchModel');
@@ -23,4 +24,4 @@ Space.belongsToMany(User, { through: 'user_space' });
 Amenity.belongsToMany(Space, { through: 'space_amenity' });
 Space.belongsToMany(Amenity, { through: 'space_amenity' });
 
-db.sync();
+exports.syncDb = () => db.sync();
