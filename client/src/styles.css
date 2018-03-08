@@ -1,7 +1,3 @@
-ul {
-  list-style: none;
-}
-
 .btn {
   font-family: Raleway;
   font-weight: 600; 
@@ -48,6 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .heading-box {
   background-color: rgb(61, 61, 61);
+  border-radius: 2%;
   color: white;
   height: 50px;
   padding: 15px 50px 0px 15px;
@@ -55,6 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .mobile-heading-box {
   background-color: rgb(61, 61, 61);
+  border-radius: 2%;
   color: white;
   height: 42px;
   padding: 13px 50px 0px 15px;
@@ -62,6 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .mini-heading-box {
   background-color: rgb(61, 61, 61);
+  border-radius: 2%;
   color: white;
   height: 30px;
   padding: 5px 15px 0px 8px;
@@ -71,9 +70,14 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 30px;
 }
 
+.content-box {
+  border: 1px solid rgb(61, 61, 61);
+  border-radius: 2%;
+}
+
 .user-profile-pic {
   height: auto;
   max-width: 100%;
-  padding-bottom: 10px;
+  padding: 10px;
   width: 300px;
 }

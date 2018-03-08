@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class DashProfile extends React.Component {
   constructor(props) {
@@ -15,17 +16,18 @@ class DashProfile extends React.Component {
       name_first,
       name_last,
       gender,
+      profession,
       personality,
       sleep,
     } = this.props.user;
 
     const sleepLi = sleep === 'Night owl' ? (
-      <li>
+      <li className="list-group-item">
         <i className="material-icons sidebar-icon">brightness_2</i>
         {sleep}
       </li>
     ) : (
-      <li>
+      <li className="list-group-item">
         <i className="material-icons sidebar-icon">brightness_5</i>
         {sleep}
       </li>
@@ -33,15 +35,30 @@ class DashProfile extends React.Component {
 
     return (
       <div className="content-box">
-        <img src={image_url} alt="user profile" className="user-profile-pic" />
-        <div className="mini-heading-box">
-          <h4>{name_first} {name_last}</h4>
+        <div className="row justify-content-center">
+          <div className="flex-column">
+            <img src={image_url} alt="user profile" className="user-profile-pic" />
+          </div>
         </div>
-        <ul>
-          <li>
+        <div className="mini-heading-box">
+          <span>
+            <h4>{name_first} {name_last}
+              <Link to="/edit-profile">
+                <i className="material-icons">edit</i>
+              </Link>
+            </h4>
+          </span>
+        </div>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">
+            <i className="material-icons sidebar-icon">work</i>
+            {profession}
+          </li>
+          <li className="list-group-item">
+            <i className="material-icons sidebar-icon">filter_vintage</i>
             {gender}
           </li>
-          <li>
+          <li className="list-group-item">
             <i className="material-icons sidebar-icon">mood</i>
             {personality}
           </li>
