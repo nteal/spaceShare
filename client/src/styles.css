@@ -16,6 +16,14 @@
   color:#FFFCA0!important;
 }
 
+.custom-btn {
+  border-style: none;
+}
+
+.mdi-btn:hover {
+  cursor: pointer;
+  fill: rgb(49, 23, 155);
+}
 .sidebar-icon {
   margin-right: .5em;
 }
