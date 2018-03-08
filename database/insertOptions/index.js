@@ -4,6 +4,8 @@ const { fillPersonalityOptions } = require('./personalityOptions');
 const { fillSleepOptions } = require('./sleepOptions');
 const { fillPurposeOptions } = require('./purposeOptions');
 const { fillTimelineOptions } = require('./timelineOptions');
+const { fillPetOptions } = require('./petOptions');
+const { fillSmokingOptions } = require('./smokingOptions');
 
 exports.fillTables = () => {
   fillGenderOptions();
@@ -12,4 +14,6 @@ exports.fillTables = () => {
   fillSleepOptions();
   fillPurposeOptions();
   fillTimelineOptions();
+  fillPetOptions();
+  fillSmokingOptions();
 };
