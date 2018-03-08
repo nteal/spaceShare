@@ -162,7 +162,7 @@ class DashProfile extends React.Component {
             <img src={image_url} alt="user profile" className="user-profile-pic" />
           </div>
         </div>
-        <div className="mini-heading-box">
+        <div className="mini-heading-box-side">
           <span>
             <h5>{name_first} {name_last}
               <Link to="/edit-profile">
