@@ -5,11 +5,10 @@ const personalityList = [
   { type: 'extrovert' },
 ];
 
-const addPersonalities = () => (
-  Personality.bulkCreate(personalityList)
-);
+const addPersonalities = () => Personality.bulkCreate(personalityList);
 
 exports.fillPersonalityOptions = () => (
+  // search for personalities
   Personality.findAll()
     // if already personalities, print them. else add them
     .then(personalities => (personalities.length ? console.log('personalities already populated') : addPersonalities()))
