@@ -1,6 +1,10 @@
 import React from 'react';
+import { Link, Switch, Route } from 'react-router-dom';
 import Axios from 'axios';
-import Todos from './todos.jsx';
+
+import CommonAreaMain from './main.jsx';
+import Members from './members.jsx';
+import GroundRules from './ground-rules.jsx';
 
 class CommonArea extends React.Component {
   constructor(props) {
@@ -13,9 +17,8 @@ class CommonArea extends React.Component {
   }
   componentDidMount() {
     console.log('common area did mount');
-    Axios({
-      method: 'get',
-      url: 'http://localhost:3003/currentSpace/',
+    Axios.get('http://localhost:3003/currentSpace/', {
+      params: { spaceId: this.props.location.state.spaceId },
     })
       .then((space) => {
         this.setState({
@@ -28,6 +31,9 @@ class CommonArea extends React.Component {
   }
   render() {
     console.dir(this.state);
+    const { name, todos } = this.state;
+    const commonAreaProps = { name, todos };
+
     return (
       <div>
 
@@ -39,44 +45,17 @@ class CommonArea extends React.Component {
           />
         </div>
 
-        <div className="row mt-1">
-          
-          <div className="col-6 pl-5">
-            <div className="row">
-              <div className="col">
-                <div className="row">
-                  <h1>Common Area</h1>
-                </div>
-                <div className="row">
-                  <h2>{this.state.name}</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-3">
-            <button className="btn btn-info btn-sm mt-3 rounded-circle">info</button>
-          </div>
-
-          <div className="col-2">
-            <div className="row mb-1 justify-content-end">
-              <button className="btn btn-secondary">Our Members</button>
-            </div>
-            <div className="row justify-content-end">
-              <button className="btn btn-secondary">Our Ground Rules</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="row mt-5">
-          <div className="col">
-            <Todos todos={this.state.todos} />
-          </div>
-          <div className="col">
-            <h3>Group Chat</h3>
-            {/* chat */}
-          </div>
-        </div>
+        <Switch>
+          <Route
+            exact
+            path="/common-area"
+            render={props => (
+              <CommonAreaMain {...props} {...commonAreaProps} />
+            )}
+          />
+          <Route path="/common-area/members" component={Members} />
+          <Route path="/common-area/ground-rules" component={GroundRules} />
+        </Switch>
 
       </div>
     );

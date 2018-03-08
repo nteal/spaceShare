@@ -8,6 +8,7 @@ router.get([
   '/edit-profile',
   '/profile',
   '/common-area',
+  '/common-area/*',
   '/messages',
   '/new-space',
   '/edit-space',

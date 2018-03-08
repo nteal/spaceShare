@@ -1,5 +1,5 @@
 import React from 'react';
-import Member from './member';
+import Member from './member.jsx';
 
 class Members extends React.Component {
   render() {
