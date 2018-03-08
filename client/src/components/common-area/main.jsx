@@ -13,7 +13,7 @@ class CommonAreaMain extends React.Component {
   componentDidMount() {
   }
   render() {
-    const { name, todos } = this.props;
+    const { id, name, todos } = this.props;
 
     return (
       <div className="container">
@@ -42,7 +42,12 @@ class CommonAreaMain extends React.Component {
           </div>
 
           <div className="col-2 col-lg-1">
-            <button className="btn btn-info btn-sm mt-3 rounded-circle">info</button>
+            <Link
+              to={{ pathname: '/listing', state: { spaceId: id } }}
+              className="btn btn-info btn-sm mt-3 rounded-circle"
+            >
+              info
+            </Link>
           </div>
 
           <div className="col-11 col-lg-2">
