@@ -18,11 +18,13 @@ const getUserById = (userId) => {
       return Promise.all([
         options.getGenderById(user.gender_id),
         options.getPlanetById(user.planet_id),
+        options.getPersonalityById(user.personality_id),
       ]);
     })
-    .then(([gender, planet]) => {
+    .then(([gender, planet, personality]) => {
       userObj.gender = gender.self_identification;
       userObj.planet = planet.name;
+      userObj.personality = personality.type;
       return userObj;
     })
     .catch(err => console.log(err));
