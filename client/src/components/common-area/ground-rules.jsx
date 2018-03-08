@@ -2,6 +2,7 @@ import React from 'react';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
 const GroundRules = (props) => {
+  const { groundRules } = props;
   const handleBack = () => {
     props.history.goBack();
   };
@@ -17,9 +18,17 @@ const GroundRules = (props) => {
           <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
         </button>
       </div>
-      <div className="row">
-        {/* ground rules */}
-      </div>
+      <main>
+        <div className="row">
+          <div className="content-box">
+            <div className="invisible-content-box">
+              <p>
+                {groundRules}
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
 
     </div>
   );

@@ -17,6 +17,7 @@
 }
 
 .custom-btn {
+  background-color: none;
   border-style: none;
 }
 
@@ -105,10 +106,14 @@ h1, h2, h3, h4, h5, h6 {
 .content-box {
   border: 1px solid rgb(61, 61, 61);
   border-radius: 2px;
+  height: 100%;
   margin-bottom: 3em;
   min-height: 250px;
-  height: 100%;
   width: 100%;
+}
+
+.invisible-content-box {
+  padding: 30px;
 }
 
 .user-profile-pic {
