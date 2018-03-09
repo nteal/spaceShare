@@ -122,10 +122,10 @@ app.get('/api/currentUser', (req, res) => {
     sleep: 'Night owl',
     profession: 'Artisanal pencil sharpener',
     links: [{
-      id: 0,
+      id: 1,
       url: 'http://www.artisanalpencilsharpening.com/',
     }, {
-      id: 1,
+      id: 2,
       url: 'https://www.newyorker.com/culture/sarah-larson/david-rees-going-deep-going-ridiculous',
     }],
   });
