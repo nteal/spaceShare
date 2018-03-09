@@ -7,6 +7,7 @@ const { userInDb } = require('./userHelpers');
 // options helpers:
 const { addGender } = require('./genderHelpers');
 const { getGenders } = require('./optionHelpers');
+const { getPlanets } = require('./optionHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -17,3 +18,4 @@ exports.userInDb = userInDb;
 // options exports:
 exports.addGender = addGender;
 exports.getGenders = getGenders;
+exports.getPlanets = getPlanets;
