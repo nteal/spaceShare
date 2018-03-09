@@ -12,10 +12,19 @@ class EditProfile extends React.Component {
         about: '',
         image_url: '',
         phone: 0,
+        email: '',
+        birthdate: new Date(),
         gender: '',
         personality: '',
         sleep: '',
         profession: '',
+        links: [{
+          id: 1,
+          url: '',
+        }, {
+          id: 2,
+          url: '',
+        }],
       },
     };
   }
@@ -32,10 +41,13 @@ class EditProfile extends React.Component {
             about: response.data.about,
             image_url: response.data.image_url,
             phone: response.data.phone,
+            email: response.data.email,
+            birthdate: response.data.birthdate,
             gender: response.data.gender,
             personality: response.data.personality,
             sleep: response.data.sleep,
             profession: response.data.profession,
+            links: response.data.links,
           },
         });
       })
@@ -43,17 +55,22 @@ class EditProfile extends React.Component {
         console.error('error getting user profile data for editing', error);
       });
   }
+  handleSubmit() {
 
+  }
   render() {
     const { name_first, name_last } = this.state;
     const {
       about,
       image_url,
       phone,
+      email,
+      birthdate,
       gender,
       personality,
       sleep,
       profession,
+      links,
     } = this.state.editable;
 
     return (
@@ -84,7 +101,7 @@ class EditProfile extends React.Component {
                   <i className="material-icons sidebar-icon">mood</i>
                   {personality}
                 </li>
-
+                {/* gender: choose from existing or add new one */}
               </ul>
             </div>
           </div>
