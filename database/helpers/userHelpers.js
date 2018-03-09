@@ -1,6 +1,9 @@
 const { User } = require('../models/userModel');
 const options = require('./optionHelpers');
 const moment = require('moment');
+const { updateLinkForUser } = require('./userLinksHelpers');
+const { addLinksForUser } = require('./userLinksHelpers');
+const { deleteLinkForUser } = require('./userLinksHelpers');
 
 const randPlanet = () => Math.floor(Math.random() * 10);
 
@@ -92,12 +95,26 @@ const getUserByFbId = (fbId) => {
     .catch(err => console.log(err));
 };
 
-const updateUser = newData => (
-  User.findById(newData.id)
-    .then(user => user.update(newData))
+const updateUser = (newUserData) => {
+  // having multiple links doesn't allow me to include it in .then chaining
+  if (newUserData.links) {
+    newUserData.links.forEach((link) => {
+      if (!link.url && link.id) {
+        deleteLinkForUser(link.id);
+      } else if (link.id) {
+        updateLinkForUser(link);
+      } else {
+        const newLink = Object.assign({ user_id: newUserData.id }, link);
+        addLinksForUser([newLink]);
+      }
+    });
+  }
+  return User.findById(newUserData.id)
+    .then(user => user.update(newUserData))
     .then(updatedUser => updatedUser.dataValues)
-    .catch(err => console.log(err))
-);
+    .catch(err => console.log(err));
+};
+
 
 exports.addNewUser = addNewUser;
 exports.getUserById = getUserById;
