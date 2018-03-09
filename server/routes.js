@@ -3,27 +3,6 @@ const path = require('path');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-router.get([
-  '/dashboard',
-  '/edit-profile',
-  '/profile',
-  '/common-area',
-  '/common-area/*',
-  '/messages',
-  '/new-space',
-  '/edit-space',
-  '/search',
-  '/results',
-  '/listings',
-  '/saved-searches',
-], (req, res) => {
-  res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
-
 router.post(
   '/auth/facebook',
   passport.authenticate('facebook-token'),
@@ -49,6 +28,14 @@ router.get('/isAuthenticated', (req, res) => {
   } else {
     res.send(false);
   }
+});
+
+router.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 module.exports = router;

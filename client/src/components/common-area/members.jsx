@@ -31,9 +31,9 @@ const Members = (props) => {
         <div className="row justify-content-around">
           {members.map(member => (
             member.id === ownerId ? (
-              <Member member={member} owner />
+              <Member member={member} key={member.id} owner />
             ) : (
-              <Member member={member} />
+              <Member member={member} key={member.id} />
             )
           ))}
         </div>

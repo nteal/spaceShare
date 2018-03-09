@@ -4,6 +4,7 @@ import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import Sidebar from 'react-sidebar';
 
+import Login from '../login/index.jsx';
 import Dashboard from '../dashboard/index.jsx';
 import EditProfile from '../profile/editProfile.jsx';
 import Profile from '../profile/index.jsx';
@@ -41,8 +42,9 @@ class Nav extends React.Component {
       transitions: true,
       touch: true,
     };
-    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+    this.fbLogout = this.fbLogout.bind(this);
+    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
   }
   componentDidMount() {
@@ -54,7 +56,6 @@ class Nav extends React.Component {
       .then((response) => {
         if (response.data === false) {
           this.setState({ isAuthenticated: false });
-          Axios.get('/');
         }
       })
       .catch((error) => {
@@ -68,6 +69,14 @@ class Nav extends React.Component {
 
   onSetSidebarOpen(open) {
     this.setState({ sidebarOpen: open });
+  }
+
+  fbLogout() {
+    console.log('logging out!');
+    localStorage.removeItem('id_token');
+    this.setState({
+      isAuthenticated: false,
+    });
   }
 
   mediaQueryChanged() {
@@ -89,35 +98,33 @@ class Nav extends React.Component {
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
 
     const contentHeader = (
-      <div>
-        <MediaQuery minDeviceWidth={800}>
-          <span>
-            {!this.state.docked &&
-            <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
-              <i className="material-icons">menu</i>
-            </a>}
-            <Link to="/">
-              <span>SpaceShare</span>
-            </Link>
-            <Link to="/dashboard" className="header-link">
-              My Dashboard
-            </Link>
-            <span className="header-link">About</span>
-            <span className="header-link">Disclaimer</span>
-          </span>
-        </MediaQuery>
-        <MediaQuery maxDeviceWidth={600}>
-          <span>
-            {!this.state.docked &&
-            <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
-              <i className="material-icons">menu</i>
-            </a>}
-            <Link to="/">
-              <img src={Logo} className="mobile-logo" alt="SpaceShare logo" />
-            </Link>
-          </span>
-        </MediaQuery>
-      </div>
+      <span>
+        <Link to="/">
+          <span>SpaceShare</span>
+        </Link>
+        <Link to="/dashboard" className="header-link">
+          My Dashboard
+        </Link>
+        <span className="header-link">About</span>
+        <span className="header-link">Disclaimer</span>
+      </span>
+    );
+
+    const hamburger = (
+      <span>
+        {!this.state.docked &&
+        <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
+          <i className="material-icons">menu</i>
+        </a>}
+      </span>
+    );
+
+    const contentHeaderMobile = (
+      <span>
+        <Link to="/">
+          <img src={Logo} className="mobile-logo" alt="SpaceShare logo" />
+        </Link>
+      </span>
     );
 
     const sidebarProps = {
@@ -129,34 +136,37 @@ class Nav extends React.Component {
       onSetOpen: this.onSetSidebarOpen,
     };
 
-    return (
-      <Sidebar {...sidebarProps}>
-        <Header title={contentHeader}>
-          <main style={styles.content}>
-            <Route
-              exact
-              path="/" 
-              render={() => (
-                isAuthenticated && (<Redirect to="/dashboard" />)
-              )}
-            />
-            <Switch>
-              <Route path="/dashboard" component={Dashboard} />
-              <Route path="/edit-profile" component={EditProfile} />
-              <Route path="/profile" component={Profile} />
-              <Route path="/common-area" component={CommonArea} />
-              <Route path="/messages" component={ChatMain} />
-              <Route path="/new-space" component={CreateSpace} />
-              <Route path="/edit-space" component={CreateSpace} />
-              <Route path="/search" component={Search} />
-              <Route path="/results" component={SearchResults} />
-              <Route path="/listings" component={SearchResults} />
-              <Route path="/saved-searches" component={SearchResults} />
-            </Switch>
-          </main>
-        </Header>
-      </Sidebar>
-    );
+    if (isAuthenticated) {
+      return (
+        <Sidebar {...sidebarProps}>
+          <Header hamburger={hamburger} title={contentHeader} mobileTitle={contentHeaderMobile} logout={this.fbLogout}>
+            <main style={styles.content}>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  isAuthenticated && (<Redirect to="/dashboard" />)
+                )}
+              />
+              <Switch>
+                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/edit-profile" component={EditProfile} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/common-area" component={CommonArea} />
+                <Route path="/messages" component={ChatMain} />
+                <Route path="/new-space" component={CreateSpace} />
+                <Route path="/edit-space" component={CreateSpace} />
+                <Route path="/search" component={Search} />
+                <Route path="/results" component={SearchResults} />
+                <Route path="/listings" component={SearchResults} />
+                <Route path="/saved-searches" component={SearchResults} />
+              </Switch>
+            </main>
+          </Header>
+        </Sidebar>
+      );
+    }
+    return <Login />;
   }
 }
 

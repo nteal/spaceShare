@@ -68,7 +68,7 @@ class Login extends React.Component {
           <h1>SpaceShare</h1>
           <br />
           <button onClick={this.fbLogin}>
-          Login with Facebook
+            Login with Facebook
           </button>
         </div>
       );
