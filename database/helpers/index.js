@@ -6,8 +6,9 @@ const { updateUser } = require('./userHelpers');
 const { userInDb } = require('./userHelpers');
 // options helpers:
 const { addGender } = require('./genderHelpers');
-const { getGenders } = require('./optionHelpers');
-const { getPlanets } = require('./optionHelpers');
+const { getGenderOptions } = require('./optionHelpers');
+const { getPlanetOptions } = require('./optionHelpers');
+const { getSleepOptions } = require('./optionHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -17,5 +18,6 @@ exports.updateUser = updateUser;
 exports.userInDb = userInDb;
 // options exports:
 exports.addGender = addGender;
-exports.getGenders = getGenders;
-exports.getPlanets = getPlanets;
+exports.getGenderOptions = getGenderOptions;
+exports.getPlanetOptions = getPlanetOptions;
+exports.getSleepOptions = getSleepOptions;
