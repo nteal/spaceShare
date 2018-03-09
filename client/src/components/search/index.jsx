@@ -30,7 +30,8 @@ class Search extends React.Component {
         if (i === 0) { decimalFound = false; }
         if (((char >= '0' && char <= '9') || char === '.') && !decimalFound) {
           if (char === '.') {
-            for (let j = 0; j < 3; j++) {
+            number.push(char);
+            for (let j = 1; j < 3; j++) {
               if (numArray[i + j] >= '0' && numArray[i + j] <= '9') {
                 number.push(numArray[i + j]);
               }
@@ -40,12 +41,32 @@ class Search extends React.Component {
             number.push(char);
           }
         }
+        if (i === numArray.length - 1) {
+          if (number.includes('.')) {
+            const decimal = number.indexOf('.');
+            if (decimal === number.length - 3) { return number; }
+            if (decimal === number.length - 2) { return number.concat('0'); }
+            if (decimal === number.length - 1) { return number.concat(['0', '0']); }
+          }
+          return number.concat(['.', '0', '0']);
+        }
         return number;
       }, []));
       return numbers;
     }, []);
-    console.dir(nums);
-    return parseInt(nums[0].join(''), 10) < parseInt(nums[1].join(''), 10);
+    let min = Number.parseFloat(nums[0].join('')).toFixed(2);
+    let max = Number.parseFloat(nums[1].join('')).toFixed(2);
+    if (isNaN(min)) { min = 0.00.toFixed(2); }
+    if (isNaN(max)) { max = 0.00.toFixed(2); }
+    console.log(`min: ${min}\nmax: ${max}`);
+    if (min <= max) {
+      this.setState({
+        min_cost: min,
+        max_cost: max,
+      });
+      return true;
+    }
+    return false;
   }
   handleInputChange(event) {
     const { target } = event;
@@ -55,8 +76,8 @@ class Search extends React.Component {
     });
   }
   handleSubmit(event) {
-    console.dir(this.state);
     console.log(this.isValidBudgetEntry());
+    console.dir(this.state);
     // Axios.post('/api/new-search', this.state);
     event.preventDefault();
   }
