@@ -1,7 +1,7 @@
 /* global document */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Axios from 'axios';
 import Login from './components/login/index.jsx';
 import Nav from './components/nav/index.jsx';

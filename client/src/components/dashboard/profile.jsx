@@ -157,16 +157,12 @@ class DashProfile extends React.Component {
 
     return (
       <div className="content-box">
-        <div className="row justify-content-center">
-          <div className="flex-column">
-            <img src={image_url} alt="user profile" className="user-profile-pic" />
-          </div>
-        </div>
+        <img src={image_url} alt="user profile" className="user-profile-pic" />
         <div className="mini-heading-box-side">
           <span>
             <h5>{name_first} {name_last}
               <Link to="/edit-profile">
-                <i className="material-icons">edit</i>
+                <i className="material-icons ml-2">edit</i>
               </Link>
             </h5>
           </span>

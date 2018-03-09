@@ -1,3 +1,18 @@
+a {
+  color: inherit;
+}
+
+a:hover {
+  color: #FFFCA0;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
 .btn {
   font-family: Raleway;
   font-weight: 600; 
@@ -16,6 +31,15 @@
   color:#FFFCA0!important;
 }
 
+.custom-btn {
+  background-color: none;
+  border-style: none;
+}
+
+.mdi-btn:hover {
+  cursor: pointer;
+  fill: rgb(49, 23, 155);
+}
 .sidebar-icon {
   margin-right: .5em;
 }
@@ -44,7 +68,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .heading-box {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 50px;
   padding: 15px 50px 0px 15px;
@@ -52,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .mobile-heading-box {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 42px;
   padding: 13px 50px 0px 15px;
@@ -60,28 +84,31 @@ h1, h2, h3, h4, h5, h6 {
 
 .mini-heading-box-side {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 45px;
   margin-left: -10px;
   margin-right: 100px;
+  margin-top: 20px;
+  min-width: 200px;
   padding: 10px 10px 0px 10px;
 }
 
 .mini-heading-box-top {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 45px;
+  min-width: 200px;
   margin-left: 15px;
-  margin-right: 300px;
+  margin-right: 250px;
   margin-top: -20px;
   padding: 15px 10px 0px 10px;
 }
 
 .mini-heading-box-top-mobile {
   background-color: rgb(61, 61, 61);
-  border-radius: 2%;
+  border-radius: 2px;
   color: white;
   height: 45px;
   margin-left: 15px;
@@ -97,17 +124,19 @@ h1, h2, h3, h4, h5, h6 {
 .content-box {
   border: 1px solid rgb(61, 61, 61);
   border-radius: 2px;
+  height: 100%;
   margin-bottom: 3em;
   min-height: 250px;
-  height: 100%;
   width: 100%;
+}
+
+.invisible-content-box {
+  padding: 30px;
 }
 
 .user-profile-pic {
   height: auto;
   max-width: 100%;
-  padding: 10px;
-  width: 300px;
 }
 
 .zodiac-glyph {
@@ -115,4 +144,13 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: .8em;
   max-width: 100%;
   width: 20px;
+}
+
+.member-img-box {
+  max-height: 12rem;
+  overflow: hidden;
+}
+
+.member-img {
+  max-width: 100%;
 }
