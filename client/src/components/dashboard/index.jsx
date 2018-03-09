@@ -17,12 +17,17 @@ class Dashboard extends React.Component {
   componentDidMount() {
     console.log('dashboard did mount');
     // get user data to populate profile content
-    Axios.get('http://localhost:3003/currentUser')
+    Axios.get('http://localhost:3003/api/currentUser', {
+      params: { JWT: localStorage.getItem('item_id') },
+    })
       .then((response) => {
         this.setState({ currentUser: response.data });
         // get user's spaces to populate spaces content
-        Axios.get('http://localhost:3003/currentUserSpaces', {
-          params: { userId: response.data.id },
+        Axios.get('http://localhost:3003/api/currentUserSpaces', {
+          params: {
+            userId: response.data.id,
+            JWT: localStorage.getItem('item_id'),
+          },
         })
           .then((spaces) => {
             this.setState({ currentUserSpaces: spaces.data });
