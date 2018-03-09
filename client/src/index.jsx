@@ -19,19 +19,18 @@ class App extends React.Component {
     // check if user is authenticated; if they are, redirect to dashboard; else, GET '/'
     FB.getLoginStatus((response) => {
       console.dir(response);
-      if (response.status !== 'not_authorized') {
-        this.setState({ isAuthenticated: true });
+      if (response.status === 'connected') {
+        Axios.get('/isAuthenticated')
+          .then((response) => {
+            if (response.data === true) {
+              this.setState({ isAuthenticated: true });
+            }
+          })
+          .catch((error) => {
+            console.error('error checking authentication', error);
+          });
       }
     });
-    // Axios.get('/isAuthenticated')
-    //   .then((response) => {
-    //     if (response.data === true) {
-    //       this.setState({ isAuthenticated: true });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error('error checking authentication', error);
-    //   });
   }
   render() {
     const { isAuthenticated } = this.state;
