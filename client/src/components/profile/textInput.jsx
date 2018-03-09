@@ -36,14 +36,14 @@ class TextInput extends React.Component {
 
   render() {
     const { editing } = this.state;
-    const { glyph, field, placeholder, value } = this.props;
+    const { type, glyph, field, placeholder, value } = this.props;
 
     let displayed;
     if (editing) {
       displayed = (
         <div className="input-group">
           <input 
-            type="text"
+            type={type}
             name={field}
             value={this.state.newValue}
             className="form-control"
@@ -52,10 +52,10 @@ class TextInput extends React.Component {
             onChange={this.handleEditing}
           />
           <div className="input-group-append">
-            <button className="btn btn-outline-secondary" onClick={this.handleSubmit} type="submit">
+            <button className="btn btn-outline-secondary pb-0" onClick={this.handleSubmit} type="submit">
               <i className="material-icons">check</i>
             </button>
-            <button className="btn btn-outline-secondary" onClick={this.doneEditing} type="button">
+            <button className="btn btn-outline-secondary pb-0" onClick={this.doneEditing} type="button">
               <i className="material-icons">close</i>
             </button>
           </div>
@@ -64,7 +64,7 @@ class TextInput extends React.Component {
     } else {
       displayed = (
         <li className="list-group-item">
-          <div className="row justify-content-between">
+          <div className="row justify-content-between pl-2 pr-1">
             <span>
               <i className="material-icons sidebar-icon">{glyph}</i>
               {value}
