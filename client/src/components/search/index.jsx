@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from 'axios';
 import PeopleSearch from './peopleSearch.jsx';
 
 class Search extends React.Component {
@@ -15,21 +16,26 @@ class Search extends React.Component {
       people: true,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     console.log('new search did mount');
   }
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    const { target } = event;
+    const { value, name } = target;
     this.setState({
       [name]: value,
     });
   }
+  handleSubmit(event) {
+    console.dir(this.state);
+    // Axios.post('/api/new-search', this.state);
+    event.preventDefault();
+  }
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <div className="row">
           <h1>New Search</h1>
         </div>
@@ -166,7 +172,7 @@ class Search extends React.Component {
         </div>
         <div className="row">
           <div className="col-8 text-center">
-            <button className="btn btn-outline-primary">Let's go</button>
+            <button type="submit" className="btn btn-outline-primary">Let's go</button>
           </div>
         </div>
         {/* if conditional is meet: */}
