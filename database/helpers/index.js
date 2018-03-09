@@ -11,6 +11,11 @@ const { getPlanetOptions } = require('./optionHelpers');
 const { getPersonalityOptions } = require('./optionHelpers');
 const { getSleepOptions } = require('./optionHelpers');
 
+const { getPurposeOptions } = require('./optionHelpers');
+const { getTimelineOptions } = require('./optionHelpers');
+const { getPetOptions } = require('./optionHelpers');
+const { getSmokingOptions } = require('./optionHelpers');
+
 // user exports:
 exports.addNewUser = addNewUser;
 exports.getUserByFbId = getUserByFbId;
@@ -23,3 +28,8 @@ exports.getGenderOptions = getGenderOptions;
 exports.getPlanetOptions = getPlanetOptions;
 exports.getPersonalityOptions = getPersonalityOptions;
 exports.getSleepOptions = getSleepOptions;
+
+exports.getPurposeOptions = getPurposeOptions;
+exports.getTimelineOptions = getTimelineOptions;
+exports.getPetOptions = getPetOptions;
+exports.getSmokingOptions = getSmokingOptions;
