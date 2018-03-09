@@ -17,6 +17,7 @@ router.post(
   },
 );
 
+// router.get('/api/isAuthenticated', (req, res) => { // this goes behind api, too, no?
 router.get('/isAuthenticated', (req, res) => {
   console.log('isAuth');
   console.dir(req);
@@ -29,6 +30,20 @@ router.get('/isAuthenticated', (req, res) => {
     res.send(false);
   }
 });
+
+router.get('/api/currentSpace', (req, res) => {
+
+});
+
+router.get('/api/currentUser', (req, res) => {
+  
+});
+
+router.get('/api/currentUserSpaces', (req, res) => {
+  
+});
+
+
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
