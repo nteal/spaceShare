@@ -22,7 +22,7 @@ class CommonArea extends React.Component {
   componentDidMount() {
     console.log('common area did mount');
     Axios.get('http://localhost:3003/currentSpace/', {
-      params: { spaceId: this.props.location.state.spaceId },
+      params: { spaceId: this.props.location.state ? this.props.location.state.spaceId : 0 },
     })
       .then((space) => {
         this.setState({
@@ -54,7 +54,7 @@ class CommonArea extends React.Component {
     return (
       <div>
 
-        <div className="row">
+        <div className="row justify-content-around">
           <img
             className="img-fluid"
             src={this.state.mainImage}
