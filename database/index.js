@@ -1,6 +1,7 @@
+require('dotenv').config();
 const { syncDb } = require('./models/index.js');
 const { fillTables } = require('./insertOptions/index.js');
-const { helpers } = require('./helpers/index.js');
+const helpers = require('./helpers/index.js');
 
 // create db with all models
 syncDb()
