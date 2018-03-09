@@ -3,6 +3,7 @@ import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import Pencil from 'mdi-react/PencilIcon.js';
 import TextInput from './textInput.jsx';
+import DropDown from './dropDown.jsx';
 
 class EditProfile extends React.Component {
   constructor(props) {
@@ -22,10 +23,12 @@ class EditProfile extends React.Component {
       profession: '',
       link1: {
         id: 1,
+        displayName: '',
         url: '',
       },
       link2: {
         id: 2,
+        displayName: '',
         url: '',
       },
     };
@@ -65,6 +68,16 @@ class EditProfile extends React.Component {
     });
   }
 
+  finalizeEditLink(field, value) {
+    const { id } = this.state[field];
+    this.setState({ [field]: {
+      id,
+      url: value,
+    }}, () => {
+      console.log('new value', this.state[field]);
+    });
+  }
+
   handleSubmit() {
     // submit edited fields
   }
@@ -81,7 +94,8 @@ class EditProfile extends React.Component {
       personality,
       sleep,
       profession,
-      links,
+      link1,
+      link2,
     } = this.state;
 
     return (
@@ -112,18 +126,15 @@ class EditProfile extends React.Component {
                 </span>
               </div>
               <ul className="list-group list-group-flush">
-                <TextInput field="profession" glyph="work" placeholder="Your profession" value={profession} finalize={this.finalizeEdit} />
-                <TextInput field="phone" glyph="phone" placeholder="Your phone number" value={phone} finalize={this.finalizeEdit} />
-                <TextInput field="email" glyph="email" placeholder="Your email address" value={email} finalize={this.finalizeEdit} />
-                <li className="list-group-item">
-                  <i className="material-icons sidebar-icon">filter_vintage</i>
-                  {gender}
-                </li>
-                <li className="list-group-item">
-                  <i className="material-icons sidebar-icon">mood</i>
-                  {personality}
-                </li>
+                <TextInput field="profession" glyph="work" type="text" placeholder="Your profession" value={profession} finalize={this.finalizeEdit} />
+                <TextInput field="phone" glyph="phone" type="tel" placeholder="Your phone number" value={phone} finalize={this.finalizeEdit} />
+                <TextInput field="email" glyph="email" type="email" placeholder="Your email address" value={email} finalize={this.finalizeEdit} />
                 {/* gender: choose from existing or add new one */}
+                <DropDown field="gender" glyph="filter_vintage" placeholder="Your gender" value={gender} options={['Male', 'Female']} finalize={this.finalizeEdit} />
+                <DropDown field="personality" glyph="mood" placeholder="Your personality" value={personality} options={['Introvert', 'Extrovert']} finalize={this.finalizeEdit} />
+                <DropDown field="sleep" glyph="brightness_medium" placeholder="Your sleep schedule" value={sleep} options={['Early bird', 'Night owl']} finalize={this.finalizeEdit} />
+                <TextInput field="link1" glyph="link" type="url" placeholder="An optional link for you" value={link1.url} finalize={this.finalizeEditLink} />
+                <TextInput field="link2" glyph="link" type="url" placeholder="An optional link for you" value={link2.url} finalize={this.finalizeEditLink} />
               </ul>
             </div>
           </div>
