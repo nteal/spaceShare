@@ -2,12 +2,12 @@ import React from 'react';
 import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import Pencil from 'mdi-react/PencilIcon.js';
+import TextInput from './textInput.jsx';
 
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editing: null,
       id: 0,
       name_first: '',
       name_last: '',
@@ -20,16 +20,17 @@ class EditProfile extends React.Component {
       personality: '',
       sleep: '',
       profession: '',
-      links: [{
+      link1: {
         id: 1,
         url: '',
-      }, {
+      },
+      link2: {
         id: 2,
         url: '',
-      }],
+      },
     };
-    this.toggleEditing = this.toggleEditing.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.finalizeEdit = this.finalizeEdit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     Axios.get('http://localhost:3003/api/currentUser', {
@@ -49,7 +50,8 @@ class EditProfile extends React.Component {
           personality: response.data.personality,
           sleep: response.data.sleep,
           profession: response.data.profession,
-          links: response.data.links,
+          link1: response.data.links[0],
+          link2: response.data.links[1],
         });
       })
       .catch((error) => {
@@ -57,15 +59,10 @@ class EditProfile extends React.Component {
       });
   }
 
-  toggleEditing(event) {
-    const { value } = event;
-    this.setState({ editing: [value] });
-  }
-
-  handleEdit(event) {
-    const { target, value } = event;
-    const { name } = target;
-    this.setState({ [name]: value });
+  finalizeEdit(field, value) {
+    this.setState({ [field]: value }, () => {
+      console.log('new value', this.state[field]);
+    });
   }
 
   handleSubmit() {
@@ -73,7 +70,7 @@ class EditProfile extends React.Component {
   }
 
   render() {
-    const { editing, name_first, name_last } = this.state;
+    const { name_first, name_last } = this.state;
     const {
       about,
       image_url,
@@ -86,50 +83,6 @@ class EditProfile extends React.Component {
       profession,
       links,
     } = this.state;
-
-    let aboutField;
-    let phoneField;
-    let emailField;
-    let birthdateField;
-    let genderField;
-    let personalityField;
-    let sleepField;
-    let professionField;
-    let linkField;
-
-    if (editing === 'profession') {
-      professionField = (
-        <div className="input-group">
-          <input 
-            type="text"
-            name="profession"
-            value={profession}
-            className="form-control"
-            placeholder="Your profession"
-            aria-label="Your profession"
-            aria-describedby="basic-addon2"
-            onSubmit={this.handleEdit}
-          />
-          <div className="input-group-append">
-            <button className="btn btn-outline-secondary" type="button">
-              <i className="material-icons">check</i>
-            </button>
-          </div>
-        </div>
-      );
-    } else {
-      professionField = (
-        <li className="list-group-item">
-          <div className="row justify-content-between">
-            <span>
-              <i className="material-icons sidebar-icon">work</i>
-              {profession}
-            </span>
-            <Pencil className="mdi-btn" value="profession" onClick={this.toggleEditing} height={20} width={20} fill="#6F5BC0" />
-          </div>
-        </li>
-      );
-    }
 
     return (
       <div className="container">
@@ -159,7 +112,9 @@ class EditProfile extends React.Component {
                 </span>
               </div>
               <ul className="list-group list-group-flush">
-                {professionField}
+                <TextInput field="profession" glyph="work" placeholder="Your profession" value={profession} finalize={this.finalizeEdit} />
+                <TextInput field="phone" glyph="phone" placeholder="Your phone number" value={phone} finalize={this.finalizeEdit} />
+                <TextInput field="email" glyph="email" placeholder="Your email address" value={email} finalize={this.finalizeEdit} />
                 <li className="list-group-item">
                   <i className="material-icons sidebar-icon">filter_vintage</i>
                   {gender}
