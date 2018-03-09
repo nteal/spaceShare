@@ -16,10 +16,36 @@ class Search extends React.Component {
       people: true,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.isValidBudgetEntry = this.isValidBudgetEntry.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     console.log('new search did mount');
+  }
+  isValidBudgetEntry() {
+    const { min_cost, max_cost } = this.state;
+    let decimalFound = false;
+    const nums = [ min_cost, max_cost ].reduce((numbers, num) => {
+      numbers.push(num.split('').reduce((number, char, i, numArray) => {
+        if (i === 0) { decimalFound = false; }
+        if (((char >= '0' && char <= '9') || char === '.') && !decimalFound) {
+          if (char === '.') {
+            for (let j = 0; j < 3; j++) {
+              if (numArray[i + j] >= '0' && numArray[i + j] <= '9') {
+                number.push(numArray[i + j]);
+              }
+            }
+            decimalFound = true;
+          } else {
+            number.push(char);
+          }
+        }
+        return number;
+      }, []));
+      return numbers;
+    }, []);
+    console.dir(nums);
+    return parseInt(nums[0].join(''), 10) < parseInt(nums[1].join(''), 10);
   }
   handleInputChange(event) {
     const { target } = event;
@@ -30,6 +56,7 @@ class Search extends React.Component {
   }
   handleSubmit(event) {
     console.dir(this.state);
+    console.log(this.isValidBudgetEntry());
     // Axios.post('/api/new-search', this.state);
     event.preventDefault();
   }
