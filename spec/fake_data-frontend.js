@@ -123,9 +123,11 @@ app.get('/api/currentUser', (req, res) => {
     profession: 'Artisanal pencil sharpener',
     links: [{
       id: 1,
+      display_name: 'My website',
       url: 'http://www.artisanalpencilsharpening.com/',
     }, {
       id: 2,
+      display_name: 'An article about me',
       url: 'https://www.newyorker.com/culture/sarah-larson/david-rees-going-deep-going-ridiculous',
     }],
   });
