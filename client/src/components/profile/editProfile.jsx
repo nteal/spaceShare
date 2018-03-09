@@ -21,7 +21,7 @@ class EditProfile extends React.Component {
   }
   componentDidMount() {
     Axios.get('http://localhost:3003/api/currentUser', {
-      params: { JWT: localStorage.getItem('token_id') },
+      params: { token: localStorage.getItem('token_id') },
     })
       .then((response) => {
         this.setState({
