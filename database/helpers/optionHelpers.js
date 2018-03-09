@@ -9,7 +9,9 @@ const { Pet } = require('../models/petModel');
 const { Smoking } = require('../models/smokingModel');
 
 // get option by id
-const getModelById = (model, id) => model.findByPrimary(id);
+const getModelById = (model, id) => model.findByPrimary(id)
+  .then(instance => instance.dataValues)
+  .catch(err => console.log(err));
 
 // get all options
 const getOptions = model => model.findAll()
