@@ -4,7 +4,18 @@ import PeopleSearch from './peopleSearch.jsx';
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      search: {
+        purpose: 'live',
+        location: '',
+        min_cost: '0.00',
+        max_cost: '1,000,000.00',
+        timeline: 'long-term',
+        smoking: 'outside is fine',
+        pet: 'anywhere is fine',
+        people: true,
+      },
+    };
   }
   componentDidMount() {
     console.log('new search did mount');
