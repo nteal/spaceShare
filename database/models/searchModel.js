@@ -6,14 +6,16 @@ const { Gender } = require('./genderModel');
 const { Personality } = require('./personalityModel');
 const { Sleep } = require('./sleepModel');
 
-// require prefil preferences
+// require options preferences
 const { Purpose } = require('./purposeModel');
 const { Timeline } = require('./timelineModel');
 const { Pet } = require('./petModel');
 const { Smoking } = require('./smokingModel');
 
+// require user
+const { User } = require('./userModel');
+
 const Search = db.define('search', {
-  about: Sequelize.TEXT,
   price_min: Sequelize.DECIMAL(12, 2),
   price_max: Sequelize.DECIMAL(12, 2),
   location_specificity: Sequelize.STRING,
@@ -22,11 +24,10 @@ const Search = db.define('search', {
   city: Sequelize.STRING,
   state: Sequelize.STRING,
   include_people: Sequelize.BOOLEAN,
-
 });
 
 // add relationships for many:1 relationships
-
+User.hasMany(Search, { foreignKey: 'user_id' });
 Gender.hasMany(Search, { foreignKey: 'gender_id' });
 Sleep.hasMany(Search, { foreignKey: 'sleep_id' });
 Personality.hasMany(Search, { foreignKey: 'personality_id' });
