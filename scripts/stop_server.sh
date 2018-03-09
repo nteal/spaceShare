@@ -1,12 +1,15 @@
-#!/bin/bash
+source /home/ec2-user/.bash_profile
 ####################################
 #
 # Backup script
 #
 ####################################
 
+# Ensure the port is released.
+killall node
+
 # What to backup. 
-backup_files="/var/www"
+backup_files="/var/www/html"
 
 # Where to backup to.
 dest="/var/backup"
