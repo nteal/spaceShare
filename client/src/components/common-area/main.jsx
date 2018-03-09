@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 import Axios from 'axios';
+import Information from 'mdi-react/InformationIcon.js';
 import Todos from './todos.jsx';
 import Chat from './chat.jsx';
 
@@ -12,19 +14,26 @@ class CommonAreaMain extends React.Component {
   componentDidMount() {
   }
   render() {
-    const { name, todos } = this.props;
+    const { id, name, todos } = this.props;
 
     return (
-      <div>
-        <div className="row mt-1">
+      <div className="container">
+        <div className="row mt-1 justify-content-around">
 
-          <div className="col-6 pl-5">
+          <div className="col-10 col-lg-8">
             <div className="row">
               <div className="col">
                 <div className="row">
-                  <div className="heading-box">
-                    <h1>Common Area</h1>
-                  </div>
+                  <MediaQuery minDeviceWidth={800}>
+                    <div className="heading-box">
+                      <h1>Common Area</h1>
+                    </div>
+                  </MediaQuery>
+                  <MediaQuery maxDeviceWidth={600}>
+                    <div className="mobile-heading-box">
+                      <h2>Common Area</h2>
+                    </div>
+                  </MediaQuery>
                 </div>
                 <div className="row">
                   <h2>{name}</h2>
@@ -33,11 +42,13 @@ class CommonAreaMain extends React.Component {
             </div>
           </div>
 
-          <div className="col-3">
-            <button className="btn btn-info btn-sm mt-3 rounded-circle">info</button>
+          <div className="col-2 col-lg-1">
+            <Link to={{ pathname: '/listing', state: { spaceId: id } }}>
+              <Information className="mdi-btn" height={40} width={40} fill="#6F5BC0" />
+            </Link>
           </div>
 
-          <div className="col-2">
+          <div className="col-11 col-lg-2">
             <div className="row mb-1 justify-content-end">
               <Link to="/common-area/members" className="btn btn-primary btn-block">
                 Our Members
@@ -52,11 +63,10 @@ class CommonAreaMain extends React.Component {
         </div>
 
         <div className="row mt-5">
-          <div className="col">
+          <div className="col-12 col-sm-12 col-md-4 col-lg-4">
             <Todos todos={todos} />
           </div>
-          <div className="col">
-            <h3>Group Chat</h3>
+          <div className="col-12 col-sm-12 col-md-8 col-lg-8">
             <Chat />
           </div>
         </div>

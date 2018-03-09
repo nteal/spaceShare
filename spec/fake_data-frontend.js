@@ -8,11 +8,11 @@ const pathway = path.join(__dirname, '/../client/dist');
 app.use(express.static(pathway));
 app.use(cors());
 
-app.get('/isAuthenticated', (req, res) => {
+app.get('/api/isAuthenticated', (req, res) => {
   res.send(true);
 });
 
-app.get('/users', (req, res) => {
+app.get('/api/users', (req, res) => {
   res.send([
     {
       id: 0,
@@ -102,7 +102,7 @@ app.get('/users', (req, res) => {
   ]);
 });
 
-app.get('/currentUser', (req, res) => {
+app.get('/api/currentUser', (req, res) => {
   res.send({
     id: 0,
     about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris iaculis leo vel odio vehicula tempor. Nam nec malesuada metus, a venenatis massa. Sed a vestibulum sem. Nunc viverra cursus tincidunt. Suspendisse vel placerat purus. Sed imperdiet tempus nunc ut fringilla. Nulla ut arcu in mi dapibus pulvinar ut ac sem. Donec pretium commodo imperdiet. Phasellus mauris orci, vestibulum iaculis mi sed, eleifend eleifend tellus. Cras id mauris dolor. Donec vitae accumsan arcu. Quisque velit ex, interdum mattis leo id, accumsan rutrum magna. Aenean sed elit nec tellus auctor vulputate. Donec eget odio nec elit porttitor elementum. Morbi eget nulla nibh.',
@@ -124,7 +124,7 @@ app.get('/currentUser', (req, res) => {
   });
 });
 
-app.get('/currentUserSpaces', (req, res) => {
+app.get('/api/currentUserSpaces', (req, res) => {
   res.send([{
     id: 1,
     name: 'my crib',
@@ -132,7 +132,7 @@ app.get('/currentUserSpaces', (req, res) => {
   }]);
 });
 
-app.get('/currentSpace', (req, res) => {
+app.get('/api/currentSpace', (req, res) => {
   res.send({
     id: 1,
     name: 'my crib',
@@ -150,13 +150,14 @@ app.get('/currentSpace', (req, res) => {
       'vulputate erat.',
     ],
     open: true,
+    ground_rules: 'Krupuks elephant ears papadums hush puppies \'n\' tartar sauce. Pork-stuffed egg rolls churros shrimp tempura puri. Crawfish tails popovers shrimp tempura. Angels on horseback shrimp tempura jalapeño poppers. Pommes frites and aioli croquettes namak para. Baklava knishes pita chips taquitos onion rings. Fried farm eggs crawfish pies Scotch eggs crawfish tails veggie tempura. Fried Oreos shrimp tempura chicken-fried steaks wontons. Knishes onion rings elephant ears crab rangoons. Philly scrapple french fries fried farm eggs knishes.',
     street_address: '456 15th St. Melbourne, FL 32904',
     city: 'Melbourne',
     zip: '32904',
     state: 'FL',
     main_image: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
     neighborhood: 'Briggen Quarry',
-    owner: 0,
+    owner_id: 0,
     purpose: 'Live',
     timeline: 'Long-term',
     pet: 'Absolutely not',
@@ -208,7 +209,7 @@ app.get('/currentSpace', (req, res) => {
   });
 });
 
-app.get('/spaces', (req, res) => {
+app.get('/api/spaces', (req, res) => {
   res.send([
     {
       id: 0,
@@ -366,7 +367,7 @@ app.get('/spaces', (req, res) => {
   ]);
 });
 
-app.get('/searches', (req, res) => {
+app.get('/api/searches', (req, res) => {
   res.send([
     {
       price_min: 0.00,

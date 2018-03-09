@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Axios from 'axios';
 
 import CommonAreaMain from './main.jsx';
@@ -10,38 +10,58 @@ class CommonArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: 0,
+      ownerId: 0,
       name: null,
       todos: [],
-      main_image: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
+      mainImage: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
+      members: [],
+      groundRules: '',
     };
   }
   componentDidMount() {
     console.log('common area did mount');
-    Axios.get('http://localhost:3003/currentSpace/', {
-      params: { spaceId: this.props.location.state.spaceId },
+    Axios.get('http://localhost:3003/api/currentSpace', {
+      params: {
+        spaceId: this.props.location.state ? this.props.location.state.spaceId : 0,
+        JWT: localStorage.getItem('id_token'),
+      },
     })
       .then((space) => {
         this.setState({
+          id: space.data.id,
+          ownerId: space.data.owner_id,
           name: space.data.name,
           todos: space.data.todos,
-          main_image: space.data.main_image,
+          mainImage: space.data.main_image,
+          members: space.data.members,
+          groundRules: space.data.ground_rules,
         });
       })
       .catch((error) => { console.dir(error); });
   }
   render() {
     console.dir(this.state);
-    const { name, todos } = this.state;
-    const commonAreaProps = { name, todos };
+    const {
+      id,
+      ownerId,
+      name,
+      todos,
+      members,
+      groundRules,
+    } = this.state;
+    const commonAreaProps = { id, name, todos };
+    const membersProps = { ownerId, members };
+    const rulesProps = { groundRules };
 
     return (
       <div>
 
-        <div className="row">
+        <div className="row justify-content-around">
           <img
             className="img-fluid"
-            src={this.state.main_image}
-            alt="https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png"
+            src={this.state.mainImage}
+            alt="Your lovely space"
           />
         </div>
 
@@ -53,8 +73,18 @@ class CommonArea extends React.Component {
               <CommonAreaMain {...props} {...commonAreaProps} />
             )}
           />
-          <Route path="/common-area/members" component={Members} />
-          <Route path="/common-area/ground-rules" component={GroundRules} />
+          <Route
+            path="/common-area/members"
+            render={props => (
+              <Members {...props} {...membersProps} />
+            )}
+          />
+          <Route
+            path="/common-area/ground-rules" 
+            render={props => (
+              <GroundRules {...props} {...rulesProps} />
+            )}
+          />
         </Switch>
 
       </div>

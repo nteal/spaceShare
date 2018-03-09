@@ -17,7 +17,7 @@ const Spaces = (props) => {
           <h5>Your Spaces</h5>
         </div>
       </MediaQuery>
-      <div>
+      <div className="invisible-content-box">
         {spaces.map(space => (
           <Space space={space} key={space.id} />
         ))}
