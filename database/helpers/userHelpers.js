@@ -61,6 +61,12 @@ const getUserByFbId = (fbId) => {
     .catch(err => console.log(err));
 };
 
+const userInDb = fbId => (
+  User.findOne({ where: { fb_id: fbId } })
+    .then(user => (!!user))
+    .catch(err => console.log(err))
+);
+
 const updateUser = newUserData => (
   // having multiple links doesn't allow me to include it in .then chaining
   updateLinksForUser(newUserData.id, newUserData.links)
@@ -74,3 +80,4 @@ exports.addNewUser = addNewUser;
 exports.getUserById = getUserById;
 exports.getUserByFbId = getUserByFbId;
 exports.updateUser = updateUser;
+exports.userInDb = userInDb;
