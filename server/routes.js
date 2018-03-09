@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const path = require('path');
-const helper = require('./helpers');
-
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 router.get([
   '/dashboard',
@@ -22,6 +22,33 @@ router.get([
       res.status(500).send(err);
     }
   });
+});
+
+router.post(
+  '/auth/facebook',
+  passport.authenticate('facebook-token'),
+  (req, res) => {
+    console.log('inside auth cb');
+    console.dir(req);
+    const token = jwt.sign(
+      { id: req.user.id },
+      'secret', { expiresIn: '1h' },
+    );
+    res.status(200).send(token);
+  },
+);
+
+router.get('/isAuthenticated', (req, res) => {
+  console.log('isAuth');
+  console.dir(req);
+  console.dir(req.query);
+  if (req.query && req.query.token) {
+    const id = jwt.verify(req.query.token, 'secret');
+    console.log('id: ', id);
+    res.send(true);
+  } else {
+    res.send(false);
+  }
 });
 
 module.exports = router;

@@ -11,23 +11,27 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: true,
+      isAuthenticated: false,
     };
   }
   componentDidMount() {
     Axios.get('/');
-    // check if user is authenticated; if they are, bring them to their dashboard; if not, bring them to login
-    Axios.get('/isAuthenticated')
-      .then((response) => {
-        if (response.data === true) {
-          this.setState({ isAuthenticated: true });
-        }
-      })
-      .catch((error) => {
-        console.error('error checking authentication', error);
-      });
+    // check if user is authenticated; if they are, redirect to dashboard; else, GET '/'
+    FB.getLoginStatus((response) => {
+      console.dir(response);
+      if (response.status === 'connected') {
+        Axios.get('/isAuthenticated')
+          .then((response) => {
+            if (response.data === true) {
+              this.setState({ isAuthenticated: true });
+            }
+          })
+          .catch((error) => {
+            console.error('error checking authentication', error);
+          });
+      }
+    });
   }
-
   render() {
     const { isAuthenticated } = this.state;
 
