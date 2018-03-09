@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
+import LogoutVariant from 'mdi-react/LogoutVariantIcon.js';
 
 const styles = {
   root: {},
@@ -7,16 +10,53 @@ const styles = {
     color: 'white',
     padding: '16px',
     fontSize: '1.5em',
+    maxHeight: '4rem',
   },
 };
 
 const Header = (props) => {
   const rootStyle = styles.root;
   const headerStyle = props.style ? props.style : styles.header;
+  const {
+    hamburger,
+    title,
+    mobileTitle,
+    logout,
+  } = props;
 
   return (
-    <div style={rootStyle}>
-      <div style={headerStyle}>{props.title}</div>
+    <div className="container-fluid" style={rootStyle}>
+      <div className="row" style={headerStyle}>
+        <div className="col-5 col-lg-6">
+          <div className="row justify-content-between">
+            {hamburger}
+            <MediaQuery minDeviceWidth={800}>
+              {title}
+            </MediaQuery>
+          </div>
+        </div>
+        <MediaQuery maxDeviceWidth={600}>
+          <div className="col-2">
+            <div className="row justify-content-center">
+                {mobileTitle}
+            </div>
+          </div>
+        </MediaQuery>
+        <div className="col-5 col-lg-6">
+          <div className="row justify-content-end">
+            <MediaQuery minDeviceWidth={800}>
+              <Link to="/" type="button" className="btn btn-outline-light" onClick={logout}>
+                Logout
+              </Link>
+            </MediaQuery>
+            <MediaQuery maxDeviceWidth={600}>
+              <Link to="/">
+                <LogoutVariant onClick={logout} className="mdi-btn" height={35} width={35} fill="#FFF" />
+              </Link>
+            </MediaQuery>
+          </div>
+        </div>
+      </div>
       {props.children}
     </div>
   );
