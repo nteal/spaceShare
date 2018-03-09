@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import Nav from '../nav/index.jsx';
 
 class Login extends React.Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class Login extends React.Component {
       xfbml: false, // With xfbml set to true, the SDK will parse your page's DOM to find and initialize any social plugins that have been added using XFBML
       version: 'v2.8', // use graph api version 2.5
     });
-    this.state = {};
+    this.state = {
+      isAuthenticated: false,
+    };
     this.fbLogin = this.fbLogin.bind(this);
   }
   componentDidMount() {}
@@ -22,33 +25,55 @@ class Login extends React.Component {
       console.log('fb login result:');
       console.dir(result);
       if (result.authResponse) {
-        Axios.get('auth/facebook', {
-          params: {
-            access_token: result.authResponse.accessToken,
-          },
+        Axios.post('auth/facebook', {
+          access_token: result.authResponse.accessToken,
         })
           .then((response) => {
             console.log('server response:');
             console.dir(response);
-            const token = response.headers.get('x-auth-token');
-            if (token) {
-              localStorage.setItem('id_token', token);
+            if (response.data) {
+              console.log('bang');
+              localStorage.removeItem('id_token');
+              localStorage.setItem('id_token', response.data);
             }
+          })
+          .then(() => {
+            Axios.get(
+              '/isAuthenticated',
+              {
+                params: {
+                  token: localStorage.getItem('id_token'),
+                },
+              },
+            )
+              .then((isAuthenticated) => {
+                console.log('isAuth...');
+                console.dir(isAuthenticated);
+                if (isAuthenticated.data) {
+                  this.setState({
+                    isAuthenticated: true,
+                  });
+                }
+              });
           })
           .catch(err => (console.error(err)));
       }
     }, { scope: 'public_profile,email' });
   }
   render() {
-    return (
-      <div>
-        <h1>SpaceShare</h1>
-        <br />
-        <button onClick={this.fbLogin}>
-        Login with Facebook
-        </button>
-      </div>
-    );
+    const { isAuthenticated } = this.state;
+    if (!isAuthenticated) {
+      return (
+        <div>
+          <h1>SpaceShare</h1>
+          <br />
+          <button onClick={this.fbLogin}>
+          Login with Facebook
+          </button>
+        </div>
+      );
+    }
+    return <Nav />;
   }
 }
 
