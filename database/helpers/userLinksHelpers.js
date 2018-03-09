@@ -1,3 +1,4 @@
+const Promise = require('bluebird');
 const { OtherLink } = require('../models/otherLinkModel');
 
 const getLinksByUser = userId => OtherLink.findAll({ where: { user_id: userId } })
@@ -18,7 +19,21 @@ const updateLinkForUser = linkData => (
     .catch(err => console.log(err))
 );
 
+const updateLinksForUser = (userId, linkArr) => (
+  Promise.map(linkArr, (link) => {
+    if (!link.url && link.id) {
+      return deleteLinkForUser(link.id);
+    } else if (link.id) {
+      return updateLinkForUser(link);
+    } else if (link.url) {
+      const newLink = Object.assign({ user_id: userId }, link);
+      return addLinksForUser([newLink]);
+    }
+    return false;
+  })
+);
+
 exports.getLinksByUser = getLinksByUser;
 exports.addLinksForUser = addLinksForUser;
 exports.deleteLinkForUser = deleteLinkForUser;
-exports.updateLinkForUser = updateLinkForUser;
+exports.updateLinksForUser = updateLinksForUser;

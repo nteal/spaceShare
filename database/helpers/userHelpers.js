@@ -1,9 +1,8 @@
-const { User } = require('../models/userModel');
-const options = require('./optionHelpers');
 const moment = require('moment');
-const { updateLinkForUser } = require('./userLinksHelpers');
-const { addLinksForUser } = require('./userLinksHelpers');
-const { deleteLinkForUser } = require('./userLinksHelpers');
+const options = require('./optionHelpers');
+const { User } = require('../models/userModel');
+const { updateLinksForUser } = require('./userLinksHelpers');
+const { getLinksByUser } = require('./userLinksHelpers');
 
 const randPlanet = () => Math.floor(Math.random() * 10);
 
@@ -59,14 +58,16 @@ const getUserById = (userId) => {
         options.getPlanetById(user.planet_id),
         options.getPersonalityById(user.personality_id),
         options.getSleepById(user.sleep_id),
+        getLinksByUser(user.id),
       ]);
     })
-    .then(([gender, planet, personality, sleep]) => {
+    .then(([gender, planet, personality, sleep, links]) => {
       userObj.gender = gender.self_identification;
       userObj.planet = planet.name;
       userObj.personality = personality.type;
       userObj.sleep = sleep.schedule;
       userObj.zodiac = getZodiac(userObj.birthdate);
+      userObj.links = links;
       return userObj;
     })
     .catch(err => console.log(err));
@@ -95,26 +96,14 @@ const getUserByFbId = (fbId) => {
     .catch(err => console.log(err));
 };
 
-const updateUser = (newUserData) => {
+const updateUser = newUserData => (
   // having multiple links doesn't allow me to include it in .then chaining
-  if (newUserData.links) {
-    newUserData.links.forEach((link) => {
-      if (!link.url && link.id) {
-        deleteLinkForUser(link.id);
-      } else if (link.id) {
-        updateLinkForUser(link);
-      } else {
-        const newLink = Object.assign({ user_id: newUserData.id }, link);
-        addLinksForUser([newLink]);
-      }
-    });
-  }
-  return User.findById(newUserData.id)
+  updateLinksForUser(newUserData.id, newUserData.links)
+    .then(() => User.findById(newUserData.id))
     .then(user => user.update(newUserData))
-    .then(updatedUser => updatedUser.dataValues)
-    .catch(err => console.log(err));
-};
-
+    .then(updatedUser => getUserById(updatedUser.id))
+    .catch(err => console.log(err))
+);
 
 exports.addNewUser = addNewUser;
 exports.getUserById = getUserById;
