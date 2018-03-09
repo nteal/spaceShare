@@ -29,35 +29,35 @@ const SideNavItems = (props) => {
   const { toggleOpen } = props;
 
   return (
-      <div style={styles.content} onClick={toggleOpen}>
-        <Link className="btn btn-primary" to="/" style={styles.sidebarLink}>
-          <h4>SpaceShare</h4>
-        </Link>
-        <Link className="btn btn-primary" to="/" style={styles.sidebarLink}>
-          <i className="material-icons sidebar-icon">home</i>
-          Your Spaces
-        </Link>
-        <Link className="btn btn-primary" to="/messages" style={styles.sidebarLink}>
-          <i className="material-icons sidebar-icon">mail</i>
-          Messages
-        </Link>
-        <Link className="btn btn-primary" to="/new-space" style={styles.sidebarLink}>
-          <i className="material-icons sidebar-icon">add_location</i>
-          New Space
-        </Link>
-        <Link className="btn btn-primary" to="/search" style={styles.sidebarLink}>
-          <i className="material-icons sidebar-icon">search</i>
-          New Search
-        </Link>
-        <Link className="btn btn-primary" to="/saved-searches" style={styles.sidebarLink}>
-          <i className="material-icons sidebar-icon">book</i>
-          Saved Searches
-        </Link>
-        <Link className="btn btn-primary" to="/listings" style={styles.sidebarLink}>
-          <i className="material-icons sidebar-icon">list</i>
-          All Listings
-        </Link>
-      </div>
+    <div style={styles.content} onClick={toggleOpen}>
+      <Link className="btn btn-primary" to="/" style={styles.sidebarLink}>
+        <h4>SpaceShare</h4>
+      </Link>
+      <Link className="btn btn-primary" to="/" style={styles.sidebarLink}>
+        <i className="material-icons sidebar-icon">home</i>
+        Your Spaces
+      </Link>
+      <Link className="btn btn-primary" to="/messages" style={styles.sidebarLink}>
+        <i className="material-icons sidebar-icon">mail</i>
+        Messages
+      </Link>
+      <Link className="btn btn-primary" to="/new-space" style={styles.sidebarLink}>
+        <i className="material-icons sidebar-icon">add_location</i>
+        New Space
+      </Link>
+      <Link className="btn btn-primary" to="/search" style={styles.sidebarLink}>
+        <i className="material-icons sidebar-icon">search</i>
+        New Search
+      </Link>
+      <Link className="btn btn-primary" to="/saved-searches" style={styles.sidebarLink}>
+        <i className="material-icons sidebar-icon">book</i>
+        Saved Searches
+      </Link>
+      <Link className="btn btn-primary" to="/listings" style={styles.sidebarLink}>
+        <i className="material-icons sidebar-icon">list</i>
+        All Listings
+      </Link>
+    </div>
   );
 };
 

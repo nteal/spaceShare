@@ -4,7 +4,6 @@ import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import Sidebar from 'react-sidebar';
 
-import Login from '../login/index.jsx';
 import Dashboard from '../dashboard/index.jsx';
 import EditProfile from '../profile/editProfile.jsx';
 import Profile from '../profile/index.jsx';
@@ -55,6 +54,7 @@ class Nav extends React.Component {
       .then((response) => {
         if (response.data === false) {
           this.setState({ isAuthenticated: false });
+          Axios.get('/');
         }
       })
       .catch((error) => {
@@ -133,13 +133,12 @@ class Nav extends React.Component {
       <Sidebar {...sidebarProps}>
         <Header title={contentHeader}>
           <main style={styles.content}>
-            <Route exact path="/" render={() => (
-              isAuthenticated ? (
-                <Redirect to="/dashboard" />
-              ) : (
-                <Login />
-              )
-            )}
+            <Route
+              exact
+              path="/" 
+              render={() => (
+                isAuthenticated && (<Redirect to="/dashboard" />)
+              )}
             />
             <Switch>
               <Route path="/dashboard" component={Dashboard} />

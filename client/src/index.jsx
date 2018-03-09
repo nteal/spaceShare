@@ -1,7 +1,7 @@
 /* global document */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Axios from 'axios';
 import Login from './components/login/index.jsx';
 import Nav from './components/nav/index.jsx';
@@ -16,7 +16,7 @@ class App extends React.Component {
   }
   componentDidMount() {
     Axios.get('/');
-    // check if user is authenticated; if they are, redirect to dashboard; else, GET '/'
+    // check if user is authenticated; if they are, bring them to their dashboard; if not, bring them to login
     Axios.get('/isAuthenticated')
       .then((response) => {
         if (response.data === true) {
