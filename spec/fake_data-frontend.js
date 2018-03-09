@@ -121,6 +121,13 @@ app.get('/api/currentUser', (req, res) => {
     personality: 'extrovert',
     sleep: 'Night owl',
     profession: 'Artisanal pencil sharpener',
+    links: [{
+      id: 0,
+      url: 'http://www.artisanalpencilsharpening.com/',
+    }, {
+      id: 1,
+      url: 'https://www.newyorker.com/culture/sarah-larson/david-rees-going-deep-going-ridiculous',
+    }],
   });
 });
 
