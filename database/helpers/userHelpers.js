@@ -6,12 +6,6 @@ const { getZodiac } = require('./zodiacHelpers');
 
 const randPlanet = () => Math.floor(Math.random() * 10);
 
-const addNewUser = (newUserObj) => {
-  const userObj = Object.assign({ planet_id: randPlanet() }, newUserObj);
-  return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
-    .then(([newUser]) => newUser.dataValues)
-    .catch(err => console.log(err));
-};
 
 const getUserById = (userId) => {
   const userObj = {};
@@ -35,6 +29,13 @@ const getUserById = (userId) => {
       userObj.links = links;
       return userObj;
     })
+    .catch(err => console.log(err));
+};
+
+const addNewUser = (newUserObj) => {
+  const userObj = Object.assign({ planet_id: randPlanet() }, newUserObj);
+  return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
+    .then(([newUser]) => getUserById(newUser.id))
     .catch(err => console.log(err));
 };
 
