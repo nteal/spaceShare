@@ -8,6 +8,7 @@ const { userInDb } = require('./userHelpers');
 const { addGender } = require('./genderHelpers');
 const { getGenderOptions } = require('./optionHelpers');
 const { getPlanetOptions } = require('./optionHelpers');
+const { getPersonalityOptions } = require('./optionHelpers');
 const { getSleepOptions } = require('./optionHelpers');
 
 // user exports:
@@ -20,4 +21,5 @@ exports.userInDb = userInDb;
 exports.addGender = addGender;
 exports.getGenderOptions = getGenderOptions;
 exports.getPlanetOptions = getPlanetOptions;
+exports.getPersonalityOptions = getPersonalityOptions;
 exports.getSleepOptions = getSleepOptions;
