@@ -29,6 +29,7 @@ class Search extends React.Component {
   //   Axios.get('/api/get-location/', {
   //     params: {
   //       address: this.state.city,
+  //       token: localstorage.getItem('id_token'),
   //     },
   //   })
   //     .then((city) => {
@@ -99,7 +100,10 @@ class Search extends React.Component {
         this.setState({
           getResults: true,
         }, () => {
-          // Axios.post('/api/new-search', this.state);
+          // Axios.post('/api/new-search', {
+          //   search: this.state,
+          //   token: localstorage.getItem('id_token'),
+          // });
         });
       }
     } else {
