@@ -1,7 +1,20 @@
+import { getUserByFbId } from '../database/helpers/userHelpers';
+
 const router = require('express').Router();
 const path = require('path');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const dbUserHelpers = require('../database/helpers/userHelpers.jsx');
+
+router.param('JWT', (req, res, next, JWT) => {
+  // decode JWT
+  // verify user exists
+  // add ID to req
+  req.fbId = fbId;
+  // move
+  next();
+});
+
 
 router.post(
   '/auth/facebook',
@@ -17,8 +30,8 @@ router.post(
   },
 );
 
-// router.get('/api/isAuthenticated', (req, res) => { // this goes behind api, too, no?
-router.get('/isAuthenticated', (req, res) => {
+// router.get('/api/isAuthenticated', (req, res) => {
+router.get('/isAuthenticated', (req, res) => { // this goes behind api, too, no?
   console.log('isAuth');
   console.dir(req);
   console.dir(req.query);
@@ -35,14 +48,17 @@ router.get('/api/currentSpace', (req, res) => {
 
 });
 
-router.get('/api/currentUser', (req, res) => {
-  
+router.get('/api/currentUser/:JWT', (req, res) => {
+  dbUserHelpers.getUserByFb(req.fbId)
+  .then((user) => {
+    res.status(200).send(user);
+  });
+
 });
 
 router.get('/api/currentUserSpaces', (req, res) => {
-  
-});
 
+});
 
 
 router.get('/*', (req, res) => {
