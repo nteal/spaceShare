@@ -101,6 +101,11 @@ class PeopleSearch extends React.Component {
             <input className="form-control" type="text" placeholder="100" name="age_max" onChange={this.handleInputChange} />
           </div>
         </div>
+        <div className="row">
+          <div className="col-8 text-center">
+            <button type="submit" className="btn btn-outline-primary">Time for liftoff!</button>
+          </div>
+        </div>
       </form>
     );
   }
