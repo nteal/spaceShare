@@ -12,10 +12,11 @@ class CreateSpace extends React.Component {
   }
   render() {
     return (
-      <div>
-        <h1>New Space</h1>
-        {/* create a space */}
-      </div>
+      <form>
+        <div className="rom">
+          <h1>New Space</h1>
+        </div>
+      </form>
     );
   }
 }
