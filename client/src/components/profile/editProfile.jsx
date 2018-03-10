@@ -5,6 +5,8 @@ import Pencil from 'mdi-react/PencilIcon.js';
 import TextInput from './textInput.jsx';
 import DropDown from './dropDown.jsx';
 import LinkInput from './linkInput.jsx';
+import AboutInput from './aboutInput.jsx';
+import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
 class EditProfile extends React.Component {
   constructor(props) {
@@ -33,6 +35,7 @@ class EditProfile extends React.Component {
         url: '',
       },
     };
+    this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
     this.finalizeEditLink = this.finalizeEditLink.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,6 +66,10 @@ class EditProfile extends React.Component {
         console.error('error getting user profile data for editing', error);
       });
   }
+
+  handleBack() {
+    this.props.history.goBack();
+  };
 
   finalizeEdit(field, value) {
     this.setState({ [field]: value }, () => {
@@ -102,9 +109,12 @@ class EditProfile extends React.Component {
     } = this.state;
 
     return (
-      <div className="container">
+      <div className="container-fluid">
         <MediaQuery minDeviceWidth={800}>
           <div className="row pb-5">
+            <button className="custom-btn" onClick={this.handleBack}>
+              <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
+            </button>
             <div className="heading-box">
               <h1>Edit Your Profile</h1>
             </div>
@@ -112,12 +122,15 @@ class EditProfile extends React.Component {
         </MediaQuery>
         <MediaQuery maxDeviceWidth={600}>
           <div className="row pb-3">
+            <button className="custom-btn" onClick={this.handleBack}>
+              <ArrowLeftBoldCircle className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
+            </button>
             <div className="mobile-heading-box">
               <h2>Edit Your Profile</h2>
             </div>
           </div>
         </MediaQuery>
-        <div className="row">
+        <div className="row row-eq-height">
           <div className="col-12 col-sm-10 col-md-4 col-lg-4">
             {/* user stats sidebar */}
             <div className="content-box">
@@ -141,7 +154,9 @@ class EditProfile extends React.Component {
               </ul>
             </div>
           </div>
-          <div className="col-12 col-sm-10 col-md-8 col-lg-8" />
+          <div className="col-12 col-sm-10 col-md-8 col-lg-8">
+            <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
+          </div>
         </div>
       </div>
     );

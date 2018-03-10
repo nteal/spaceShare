@@ -127,6 +127,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   margin-bottom: 3em;
   min-height: 250px;
+  max-height: 100%;
   width: 100%;
 }
 
@@ -154,3 +155,4 @@ h1, h2, h3, h4, h5, h6 {
 .member-img {
   max-width: 100%;
 }
+
