@@ -10,20 +10,23 @@ const { Smoking } = require('./smokingModel');
 // require other dependencies:
 const { Neighborhood } = require('./neighborhoodModel');
 const { Image } = require('./imageModel');
+const { Amenity } = require('./amenityModel');
 const { User } = require('./userModel');
 
 // define space
 const Space = db.define('space', {
-  name: Sequelize.TEXT,
-  description: Sequelize.TEXT,
-  cost: Sequelize.DECIMAL(12, 2),
   capacity: Sequelize.INTEGER,
-  open: Sequelize.BOOLEAN,
-  ground_rules: Sequelize.TEXT,
-  street_address: Sequelize.STRING,
   city: Sequelize.STRING,
-  zip: Sequelize.STRING,
+  cost: Sequelize.DECIMAL(12, 2),
+  description: Sequelize.TEXT,
+  ground_rules: Sequelize.TEXT,
+  main_image: Sequelize.TEXT,
+  name: Sequelize.TEXT,
+  open: Sequelize.BOOLEAN,
+  owner_fb_id: Sequelize.STRING,
   state: Sequelize.STRING,
+  street_address: Sequelize.STRING,
+  zip: Sequelize.STRING,
 });
 
 // add relationships from options
@@ -32,10 +35,11 @@ Timeline.hasMany(Space, { foreignKey: 'timeline_id' });
 Pet.hasMany(Space, { foreignKey: 'pet_id' });
 Smoking.hasMany(Space, { foreignKey: 'smoking_id' });
 
-// add other relationships
+// add other relationships  
 Neighborhood.hasMany(Space, { foreignKey: 'neighborhood_id' });
 Space.hasMany(Image, { foreignKey: 'space_id' });
-Image.hasOne(Space, { as: 'mainImage', foreignKey: 'main_image_id', constraints: false });
-User.hasOne(Space, { foreignKey: 'owner_id' });
+Space.hasMany(Amenity, { foreignKey: 'space_id' });
+// targetKey doesn't work......
+// User.hasOne(Space, { foreignKey: 'owner_fb_id', targetKey: 'fb_id'});
 
 exports.Space = Space;

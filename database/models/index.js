@@ -20,8 +20,5 @@ const { Amenity } = require('./amenityModel');
 // user_space junction table:
 User.belongsToMany(Space, { through: 'user_space' });
 Space.belongsToMany(User, { through: 'user_space' });
-// space_amenity junction table:
-Amenity.belongsToMany(Space, { through: 'space_amenity' });
-Space.belongsToMany(Amenity, { through: 'space_amenity' });
 
 exports.syncDb = () => db.sync();
