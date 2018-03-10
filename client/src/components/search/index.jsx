@@ -8,9 +8,9 @@ class Search extends React.Component {
     super(props);
     this.state = {
       purpose: 'Live',
-      location: '',
-      min_cost: '0.00',
-      max_cost: '1,000,000.00',
+      location: 'New Orleans',
+      price_min: 0,
+      price_max: 1000000,
       timeline: 'Long-term',
       smoking: 'Outside is fine',
       pet: 'Anywhere is fine',
@@ -26,9 +26,9 @@ class Search extends React.Component {
     console.log('new search did mount');
   }
   isValidBudgetEntry() {
-    const { min_cost, max_cost } = this.state;
+    const { price_min, price_max } = this.state;
     let decimalFound = false;
-    const nums = [ min_cost, max_cost ].reduce((numbers, num) => {
+    const nums = [price_min, price_max].reduce((numbers, num) => {
       numbers.push(num.split('').reduce((number, char, i, numArray) => {
         if (i === 0) { decimalFound = false; }
         if (((char >= '0' && char <= '9') || char === '.') && !decimalFound) {
@@ -57,15 +57,16 @@ class Search extends React.Component {
       }, []));
       return numbers;
     }, []);
-    let min = Number.parseFloat(nums[0].join('')).toFixed(2);
-    let max = Number.parseFloat(nums[1].join('')).toFixed(2);
-    if (isNaN(min)) { min = 0.00.toFixed(2); }
-    if (isNaN(max)) { max = 0.00.toFixed(2); }
+    let min = Number.parseFloat(nums[0].join(''));
+    let max = Number.parseFloat(nums[1].join(''));
+    if (isNaN(min)) { min = 0.00; }
+    if (isNaN(max)) { max = 0.00; }
     console.log(`min: ${min}\nmax: ${max}`);
+    debugger;
     if (min <= max) {
       this.setState({
-        min_cost: min,
-        max_cost: max,
+        price_min: min,
+        price_max: max,
       });
       return true;
     }
@@ -137,14 +138,14 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3">
-              <input className="form-control" type="text" placeholder="$000.00" name="min_cost" onChange={this.handleInputChange} />
-          </div>
+              <input className="form-control" type="text" placeholder="$000.00" name="price_min" onChange={this.handleInputChange} />
+            </div>
             <div className="col-1 text-center">
-            <h6>to</h6>
-          </div>
+              <h6>to</h6>
+            </div>
             <div className="col-3">
-              <input className="form-control" type="text" placeholder="$000.00" name="max_cost" onChange={this.handleInputChange} />
-          </div>
+              <input className="form-control" type="text" placeholder="$000.00" name="price_max" onChange={this.handleInputChange} />
+            </div>
           </div>
           <div className="row">
             <h3>Timeframe</h3>
@@ -249,8 +250,8 @@ class Search extends React.Component {
     return (
       <PeopleSearch
         location={this.state.location}
-        min_cost={this.state.min_cost}
-        max_cost={this.state.max_cost}
+        price_min={this.state.price_min}
+        price_max={this.state.price_max}
         timeline={this.state.timeline}
         smoking={this.state.smoking}
         pet={this.state.pet}
