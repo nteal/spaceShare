@@ -14,7 +14,6 @@ class CreateSpace extends React.Component {
       zip: 'unknown',
       state: 'unknown',
       neighborhood: 'unknown',
-      location_display: 'Make my address public',
       description: 'A description is not available for this space.',
       timeline_id: 2,
       capacity: '0',
@@ -116,24 +115,13 @@ class CreateSpace extends React.Component {
           <h5>Location</h5>
         </div>
         <div className="col-3">
-          <input className="form-control" type="text" placeholder="set the location of your space here" name="location" onChange={this.handleInputChange} />
+          <input className="form-control" type="text" placeholder="Enter address" name="location" onChange={this.handleInputChange} />
         </div>
         <div className="rom">
-          <h6>When availability is set to open:</h6>
+          <h6>When availability is set to open your neighborhood will be displayed</h6>
         </div>
-        <div className="row">
-          <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="public" name="location_display" value={'Make my address public'} />
-            <label className="form-check-label" htmlFor="public">
-              Make my address public 
-            </label>
-          </div>
-          <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="city" name="location_display" value={'Just share my city'} />
-            <label className="form-check-label" htmlFor="city">
-              Just share my city
-            </label>
-          </div>
+        <div className="rom">
+          <h5>Description</h5>
         </div>
       </form>
     );
