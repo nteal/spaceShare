@@ -6,11 +6,13 @@ class PeopleSearch extends React.Component {
     this.state = {
       sleep: 'Early bird',
       personality: 'Introvert',
+      age_min: '0',
+      age_max: '100',
     };
   }
   render() {
     return (
-      <div>
+      <form onSubmit={this.handleSubmit}>
         <div className="row">
           <h1>Person Search</h1>
         </div>
@@ -45,7 +47,21 @@ class PeopleSearch extends React.Component {
             </label>
           </div>
         </div>
-      </div>
+        <div className="row">
+          <h5>Age Range</h5>
+        </div>
+        <div className="row">
+          <div className="col-3">
+            <input className="form-control" type="text" placeholder="0" name="age_min" onChange={this.handleInputChange} />
+          </div>
+          <div className="col-1 text-center">
+            <h6>to</h6>
+          </div>
+          <div className="col-3">
+            <input className="form-control" type="text" placeholder="100" name="age_max" onChange={this.handleInputChange} />
+          </div>
+        </div>
+      </form>
     );
   }
 }
