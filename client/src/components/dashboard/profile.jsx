@@ -183,7 +183,6 @@ class DashProfile extends React.Component {
           {sleepLi}
           {zodiacLi}
         </ul>
-
       </div>
     );
   }
