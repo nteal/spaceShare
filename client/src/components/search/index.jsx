@@ -13,7 +13,7 @@ class Search extends React.Component {
       price_max: 1000000,
       timeline_id: 4,
       smoking: 'Outside is fine',
-      pet: 'Anywhere is fine',
+      pet_id: 2,
       include_people: true,
       peopleSearch: false,
       getResults: false,
@@ -214,19 +214,19 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="pet" value="Outside is fine" />
+              <input className="form-check-input" type="radio" id="outside" name="pet_id" value={1} />
               <label className="form-check-label" htmlFor="outside">
                 Outside is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="pet" value="Anywhere is fine" />
+              <input className="form-check-input" type="radio" id="anywhere" name="pet_id" value={2} />
               <label className="form-check-label" htmlFor="anywhere">
                 Anywhere is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-pets" name="pet" value="Absolutely not" />
+              <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
               <label className="form-check-label" htmlFor="no-pets">
                 Absolutely not
               </label>
@@ -265,7 +265,7 @@ class Search extends React.Component {
         price_max={this.state.price_max}
         timeline_id={this.state.timeline_id}
         smoking={this.state.smoking}
-        pet={this.state.pet}
+        pet_id={this.state.pet_id}
         include_people={this.state.include_people}
         getResults={this.state.getResults}
       />
