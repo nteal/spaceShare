@@ -8,6 +8,7 @@ class CreateSpace extends React.Component {
       purpose_id: 1,
       open: false,
       cost: '0',
+      location: '',
       street_address: 'A street address has not been provided for this space',
       city: 'unknown',
       zip: 'unknown',
@@ -110,6 +111,29 @@ class CreateSpace extends React.Component {
         </div>
         <div className="col-3">
           <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
+        </div>
+        <div className="rom">
+          <h5>Location</h5>
+        </div>
+        <div className="col-3">
+          <input className="form-control" type="text" placeholder="set the location of your space here" name="location" onChange={this.handleInputChange} />
+        </div>
+        <div className="rom">
+          <h6>When availability is set to open:</h6>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="public" name="location_display" value={'Make my address public'} />
+            <label className="form-check-label" htmlFor="public">
+              Make my address public 
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="city" name="location_display" value={'Just share my city'} />
+            <label className="form-check-label" htmlFor="city">
+              Just share my city
+            </label>
+          </div>
         </div>
       </form>
     );
