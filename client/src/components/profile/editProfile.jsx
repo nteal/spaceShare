@@ -2,8 +2,10 @@ import React from 'react';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
+
 import Pencil from 'mdi-react/PencilIcon.js';
 import TextInput from './textInput.jsx';
+import DateInput from './dateInput.jsx';
 import DropDown from './dropDown.jsx';
 import LinkInput from './linkInput.jsx';
 import AboutInput from './aboutInput.jsx';
@@ -224,6 +226,7 @@ class EditProfile extends React.Component {
                 <TextInput field="email" glyph="email" type="email" placeholder="Your email address" value={email} finalize={this.finalizeEdit} />
                 {/* gender: choose from existing or add new one */}
                 <DropDown field="gender" glyph="filter_vintage" placeholder="Your gender" value={gender} options={['Male', 'Female']} finalize={this.finalizeEdit} />
+                <DateInput field="birthdate" glyph="date_range" value={birthdate} finalize={this.finalizeEdit} />
                 <TextInput field="profession" glyph="work" type="text" placeholder="Your profession" value={profession} finalize={this.finalizeEdit} />
                 <DropDown field="personality" glyph="mood" placeholder="Your personality" value={personality} options={['Introvert', 'Extrovert']} finalize={this.finalizeEdit} />
                 <DropDown field="sleep" glyph="brightness_medium" placeholder="Your sleep schedule" value={sleep} options={['Early bird', 'Night owl']} finalize={this.finalizeEdit} />

@@ -115,7 +115,7 @@ app.get('/api/currentUser', (req, res) => {
     fb_link: 'https://www.facebook.com/dubDalton',
     fb_verified: true,
     planet: 'https://www.sciencenewsforstudents.org/sites/default/files/scald-image/061217_LG_jupiter_main_free.jpg',
-    birthdate: 'March 05 1991',
+    birthdate: '1988-03-08T22:19:14.000Z',
     zodiac: 'Pisces',
     gender: 'Male',
     personality: 'Extrovert',
