@@ -8,7 +8,7 @@ class Search extends React.Component {
     super(props);
     this.state = {
       purpose: 'Live',
-      location: 'New Orleans',
+      city: 'New Orleans',
       price_min: 0,
       price_max: 1000000,
       timeline: 'Long-term',
@@ -25,6 +25,16 @@ class Search extends React.Component {
   componentDidMount() {
     console.log('new search did mount');
   }
+  // getLocation() {
+  //   Axios.get('/api/get-location/', {
+  //     params: {
+  //       address: this.state.city,
+  //     },
+  //   })
+  //     .then((city) => {
+  //       this.setState({ city: city.data });
+  //     });
+  // }
   isValidBudgetEntry() {
     const { price_min, price_max } = this.state;
     let decimalFound = false;
@@ -130,7 +140,7 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-8">
-              <input className="form-control" type="text" placeholder="" name="location" onChange={this.handleInputChange} />
+              <input className="form-control" type="text" placeholder="" name="city" onChange={this.handleInputChange} />
             </div>
           </div>
           <div className="row">
@@ -249,7 +259,7 @@ class Search extends React.Component {
     }
     return (
       <PeopleSearch
-        location={this.state.location}
+        city={this.state.city}
         price_min={this.state.price_min}
         price_max={this.state.price_max}
         timeline={this.state.timeline}
