@@ -5,7 +5,7 @@ const { getPetById } = require('./optionHelpers');
 const { getTimelineById } = require('./optionHelpers');
 const { getSleepById } = require('./optionHelpers');
 const { getPersonalityById } = require('./optionHelpers');
-const { getUserById } = require('./userHelpers');
+const { getUserByFbId } = require('./userHelpers');
 const Promise = require('bluebird');
 
 // create a search:
@@ -25,7 +25,7 @@ const deleteSearchById = id => (
 
 const addUserData = (searchObj) => {
   const retObj = Object.assign({}, searchObj);
-  return getUserById(retObj.user_id)
+  return getUserByFbId(retObj.fb_id)
     .then((user) => {
       retObj.name_first = user.name_first;
       retObj.image_url = user.image_url;
@@ -83,7 +83,7 @@ const getSearchesForMatching = currentSearch => (
         const samePurpose = search.purpose_id === currentSearch.purpose_id;
         const sameCity = search.city === currentSearch.city;
         const includePeople = search.include_people;
-        const diffUser = search.user_id !== currentSearch.user_id;
+        const diffUser = search.fb_id !== currentSearch.fb_id;
         return samePurpose && sameCity && includePeople && diffUser ? searchArr.concat(search.dataValues) : searchArr;
       }, []);
       // return samePurposeArr promise mapped to include user data
