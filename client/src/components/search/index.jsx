@@ -12,7 +12,7 @@ class Search extends React.Component {
       price_min: 0,
       price_max: 1000000,
       timeline_id: 4,
-      smoking: 'Outside is fine',
+      smoking_id: 1,
       pet_id: 2,
       include_people: true,
       peopleSearch: false,
@@ -191,19 +191,19 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="smoking" value="Outside is fine" />
+              <input className="form-check-input" type="radio" id="outside" name="smoking_id" value={1} />
               <label className="form-check-label" htmlFor="outside">
                 Outside is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="smoking" value="Anywhere is fine" />
+              <input className="form-check-input" type="radio" id="anywhere" name="smoking_id" value={2} />
               <label className="form-check-label" htmlFor="anywhere">
                 Anywhere is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-smoking" name="smoking" value="Absolutely not" />
+              <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
               <label className="form-check-label" htmlFor="no-smoking">
                 Absolutely not
               </label>
@@ -264,7 +264,7 @@ class Search extends React.Component {
         price_min={this.state.price_min}
         price_max={this.state.price_max}
         timeline_id={this.state.timeline_id}
-        smoking={this.state.smoking}
+        smoking_id={this.state.smoking_id}
         pet_id={this.state.pet_id}
         include_people={this.state.include_people}
         getResults={this.state.getResults}
