@@ -24,6 +24,7 @@ class CreateSpace extends React.Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
+    this.handleCapacityChange = this.handleCapacityChange.bind(this);
   }
   componentDidMount() {
     console.log('new space did mount');
@@ -50,6 +51,19 @@ class CreateSpace extends React.Component {
     if (isNaN(price)) { price = 0; }
     this.setState({
       cost: price,
+    });
+  }
+  handleCapacityChange(event) {
+    let capacity = event.target.value.split('').reduce((number, char, i, costArray) => {
+      if (char >= '0' && char <= '9') {
+          number.push(char);
+      }
+      return number;
+    }, []);
+    let cap = Number.parseInt(cost.join(''));
+    if (isNaN(cap)) { cap = 0; }
+    this.setState({
+      capacity: cap,
     });
   }
   handleInputChange(event) {
@@ -108,7 +122,7 @@ class CreateSpace extends React.Component {
         <div className="rom">
           <h5>Cost</h5>
         </div>
-        <div className="col-3">
+        <div className="col-2">
           <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
         </div>
         <div className="rom">
@@ -154,6 +168,12 @@ class CreateSpace extends React.Component {
               Long-term
               </label>
           </div>
+        </div>
+        <div className="rom">
+          <h5>Capacity</h5>
+        </div>
+        <div className="col-2">
+          <input className="form-control" type="text" placeholder="0 people" name="capacity" onChange={this.handleCapacityChange} />
         </div>
       </form>
     );
