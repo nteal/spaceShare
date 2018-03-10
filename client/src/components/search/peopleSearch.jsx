@@ -40,6 +40,16 @@ class PeopleSearch extends React.Component {
       [name]: value,
     });
   }
+  handleSubmit(event) {
+    console.log(this.isValidBudgetEntry());
+    console.dir(this.state);
+    if (this.isValidAgeRange()) {
+      // Axios.post('/api/new-search', this.state);
+    } else {
+      window.alert('Please enter a valid AGE range wherein\nleft-number <= right-number');
+    }
+    event.preventDefault();
+  }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
