@@ -6,6 +6,7 @@ const { userInDb } = require('./userHelpers');
 const { addGender } = require('./genderHelpers');
 const { addNewSearch } = require('./searchHelpers');
 const { deleteSearchById } = require('./searchHelpers');
+const { getSearches } = require('./searchHelpers');
 
 exports.addNewUser = addNewUser;
 exports.getUserByFbId = getUserByFbId;
@@ -15,3 +16,4 @@ exports.userInDb = userInDb;
 exports.addGender = addGender;
 exports.addNewSearch = addNewSearch;
 exports.deleteSearchById = deleteSearchById;
+exports.getSearches = getSearches;
