@@ -5,7 +5,7 @@ class PeopleSearch extends React.Component {
     super(props);
     this.state = {
       sleep_id: 1,
-      personality: 'Introvert',
+      personality_id: 1,
       age_min: '0',
       age_max: '100',
     };
@@ -88,13 +88,13 @@ class PeopleSearch extends React.Component {
         </div>
         <div className="row">
           <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="introvert" name="personality" value="Introvert" />
+            <input className="form-check-input" type="radio" id="introvert" name="personality_id" value={1} />
             <label className="form-check-label" htmlFor="introvert">
               Introvert
             </label>
           </div>
           <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="extrovert" name="personality" value="Extrovert" />
+            <input className="form-check-input" type="radio" id="extrovert" name="personality_id" value={2} />
             <label className="form-check-label" htmlFor="extrovert">
               Extrovert
             </label>
