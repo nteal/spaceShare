@@ -7,7 +7,7 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      purpose: 'Live',
+      purpose_id: 2,
       city: 'New Orleans',
       price_min: 0,
       price_max: 1000000,
@@ -123,13 +123,13 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="work" name="purpose" value="Work" />
+              <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
               <label className="form-check-label" htmlFor="work">
                 Work
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="live" name="purpose" value="Live" />
+              <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
               <label className="form-check-label" htmlFor="live">
                 Live
               </label>
@@ -259,6 +259,7 @@ class Search extends React.Component {
     }
     return (
       <PeopleSearch
+        purpose_id={this.state.purpose_id}
         city={this.state.city}
         price_min={this.state.price_min}
         price_max={this.state.price_max}
