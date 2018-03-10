@@ -8,10 +8,9 @@ class Login extends React.Component {
     FB.init({
       appId: '2117633928483016',
       status: false, // the SDK will attempt to get info about the current user immediately after init
-      cookie: false, // enable cookies to allow the server to access
-      // the session
+      cookie: false, // enable cookies to allow the server to access the session
       xfbml: false, // With xfbml set to true, the SDK will parse your page's DOM to find and initialize any social plugins that have been added using XFBML
-      version: 'v2.8', // use graph api version 2.5
+      version: 'v2.8',
     });
     this.state = {
       isAuthenticated: false,
