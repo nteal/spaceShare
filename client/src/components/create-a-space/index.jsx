@@ -175,6 +175,52 @@ class CreateSpace extends React.Component {
         <div className="col-2">
           <input className="form-control" type="text" placeholder="0 people" name="capacity" onChange={this.handleCapacityChange} />
         </div>
+        <div className="row">
+          <h5>Smoking?</h5>
+        </div>
+        <div className="row">
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="outside" name="smoking_id" value={1} />
+            <label className="form-check-label" htmlFor="outside">
+              Outside is fine
+              </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="anywhere" name="smoking_id" value={2} />
+            <label className="form-check-label" htmlFor="anywhere">
+              Anywhere is fine
+              </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
+            <label className="form-check-label" htmlFor="no-smoking">
+              Absolutely not
+              </label>
+          </div>
+        </div>
+        <div className="row">
+          <h5>Pet-friendly?</h5>
+        </div>
+        <div className="row">
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="outside" name="pet_id" value={1} />
+            <label className="form-check-label" htmlFor="outside">
+              Outside is fine
+              </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="anywhere" name="pet_id" value={2} />
+            <label className="form-check-label" htmlFor="anywhere">
+              Anywhere is fine
+              </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
+            <label className="form-check-label" htmlFor="no-pets">
+              Absolutely not
+              </label>
+          </div>
+        </div>
       </form>
     );
   }
