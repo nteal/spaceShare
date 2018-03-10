@@ -7,14 +7,14 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      purpose: 'Live',
-      location: '',
-      min_cost: '0.00',
-      max_cost: '1,000,000.00',
-      timeline: 'Long-term',
-      smoking: 'Outside is fine',
-      pet: 'Anywhere is fine',
-      people: true,
+      purpose_id: 2,
+      city: 'New Orleans',
+      price_min: '0',
+      price_max: '1000000',
+      timeline_id: 4,
+      smoking_id: 1,
+      pet_id: 2,
+      include_people: true,
       peopleSearch: false,
       getResults: false,
     };
@@ -25,10 +25,21 @@ class Search extends React.Component {
   componentDidMount() {
     console.log('new search did mount');
   }
+  // getLocation() {
+  //   Axios.get('/api/get-location/', {
+  //     params: {
+  //       address: this.state.city,
+  //       token: localstorage.getItem('id_token'),
+  //     },
+  //   })
+  //     .then((city) => {
+  //       this.setState({ city: city.data });
+  //     });
+  // }
   isValidBudgetEntry() {
-    const { min_cost, max_cost } = this.state;
+    const { price_min, price_max } = this.state;
     let decimalFound = false;
-    const nums = [ min_cost, max_cost ].reduce((numbers, num) => {
+    const nums = [price_min, price_max].reduce((numbers, num) => {
       numbers.push(num.split('').reduce((number, char, i, numArray) => {
         if (i === 0) { decimalFound = false; }
         if (((char >= '0' && char <= '9') || char === '.') && !decimalFound) {
@@ -57,15 +68,14 @@ class Search extends React.Component {
       }, []));
       return numbers;
     }, []);
-    let min = Number.parseFloat(nums[0].join('')).toFixed(2);
-    let max = Number.parseFloat(nums[1].join('')).toFixed(2);
-    if (isNaN(min)) { min = 0.00.toFixed(2); }
-    if (isNaN(max)) { max = 0.00.toFixed(2); }
-    console.log(`min: ${min}\nmax: ${max}`);
+    let min = Number.parseFloat(nums[0].join(''));
+    let max = Number.parseFloat(nums[1].join(''));
+    if (isNaN(min)) { min = 0.00; }
+    if (isNaN(max)) { max = 0.00; }
     if (min <= max) {
       this.setState({
-        min_cost: min,
-        max_cost: max,
+        price_min: min,
+        price_max: max,
       });
       return true;
     }
@@ -79,27 +89,39 @@ class Search extends React.Component {
     });
   }
   handleSubmit(event) {
-    console.log(this.isValidBudgetEntry());
-    console.dir(this.state);
+    event.preventDefault();
     if (this.isValidBudgetEntry()) {
-      if (this.state.people === 'yes') {
+      if (this.state.include_people !== 'false') {
         this.setState({
+          include_people: true,
           peopleSearch: true,
         });
       } else {
-        // Axios.post('/api/new-search', this.state);
         this.setState({
           getResults: true,
+        }, () => {
+          // Axios.post('/api/new-search', {
+          //   search: this.state,
+          //   token: localstorage.getItem('id_token'),
+          // });
         });
       }
     } else {
       window.alert('Please enter a valid BUDGET range wherein\nleft-number <= right-number');
     }
-    event.preventDefault();
   }
   render() {
     if (this.state.getResults) {
-      return <SearchResults />;
+      return <SearchResults
+        purpose_id={this.state.purpose_id}
+        city={this.state.city}
+        price_min={this.state.price_min}
+        price_max={this.state.price_max}
+        timeline_id={this.state.timeline_id}
+        smoking_id={this.state.smoking_id}
+        pet_id={this.state.pet_id}
+        include_people={this.state.include_people}
+      />;
     }
     if (!this.state.peopleSearch) {
       return (
@@ -112,13 +134,13 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="work" name="purpose" value="Work" />
+              <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
               <label className="form-check-label" htmlFor="work">
                 Work
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="live" name="purpose" value="Live" />
+              <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
               <label className="form-check-label" htmlFor="live">
                 Live
               </label>
@@ -129,7 +151,7 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-8">
-              <input className="form-control" type="text" placeholder="" name="location" onChange={this.handleInputChange} />
+              <input className="form-control" type="text" placeholder="" name="city" onChange={this.handleInputChange} />
             </div>
           </div>
           <div className="row">
@@ -137,39 +159,39 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3">
-              <input className="form-control" type="text" placeholder="$000.00" name="min_cost" onChange={this.handleInputChange} />
-          </div>
+              <input className="form-control" type="text" placeholder="$000.00" name="price_min" onChange={this.handleInputChange} />
+            </div>
             <div className="col-1 text-center">
-            <h6>to</h6>
-          </div>
+              <h6>to</h6>
+            </div>
             <div className="col-3">
-              <input className="form-control" type="text" placeholder="$000.00" name="max_cost" onChange={this.handleInputChange} />
-          </div>
+              <input className="form-control" type="text" placeholder="$000.00" name="price_max" onChange={this.handleInputChange} />
+            </div>
           </div>
           <div className="row">
             <h3>Timeframe</h3>
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="daily" name="timeline" value="Daily" />
+              <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
               <label className="form-check-label" htmlFor="daily">
                 Daily
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="weekly" name="timeline" value="Weekly" />
+              <input className="form-check-input" type="radio" id="weekly" name="timeline_id" value={2} />
               <label className="form-check-label" htmlFor="weekly">
                 Weekly
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="monthly" name="timeline" value="Monthly" />
+              <input className="form-check-input" type="radio" id="monthly" name="timeline_id" value={3} />
               <label className="form-check-label" htmlFor="monthly">
                 Monthly
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="long-term" name="timeline" value="Long-term" />
+              <input className="form-check-input" type="radio" id="long-term" name="timeline_id" value={4} />
               <label className="form-check-label" htmlFor="long-term">
                 Long-term
               </label>
@@ -180,19 +202,19 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="smoking" value="Outside is fine" />
+              <input className="form-check-input" type="radio" id="outside" name="smoking_id" value={1} />
               <label className="form-check-label" htmlFor="outside">
                 Outside is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="smoking" value="Anywhere is fine" />
+              <input className="form-check-input" type="radio" id="anywhere" name="smoking_id" value={2} />
               <label className="form-check-label" htmlFor="anywhere">
                 Anywhere is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-smoking" name="smoking" value="Absolutely not" />
+              <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
               <label className="form-check-label" htmlFor="no-smoking">
                 Absolutely not
               </label>
@@ -203,19 +225,19 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="pet" value="Outside is fine" />
+              <input className="form-check-input" type="radio" id="outside" name="pet_id" value={1} />
               <label className="form-check-label" htmlFor="outside">
                 Outside is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="pet" value="Anywhere is fine" />
+              <input className="form-check-input" type="radio" id="anywhere" name="pet_id" value={2} />
               <label className="form-check-label" htmlFor="anywhere">
                 Anywhere is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-pets" name="pet" value="Absolutely not" />
+              <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
               <label className="form-check-label" htmlFor="no-pets">
                 Absolutely not
               </label>
@@ -226,13 +248,13 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="yes" name="people" value="yes" />
+              <input className="form-check-input" type="radio" id="yes" name="include_people" value="true" />
               <label className="form-check-label" htmlFor="yes">
                 Yes
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no" name="people" value="no" />
+              <input className="form-check-input" type="radio" id="no" name="include_people" value="false" />
               <label className="form-check-label" htmlFor="no">
                 No
               </label>
@@ -248,13 +270,14 @@ class Search extends React.Component {
     }
     return (
       <PeopleSearch
-        location={this.state.location}
-        min_cost={this.state.min_cost}
-        max_cost={this.state.max_cost}
-        timeline={this.state.timeline}
-        smoking={this.state.smoking}
-        pet={this.state.pet}
-        people={this.state.people}
+        purpose_id={this.state.purpose_id}
+        city={this.state.city}
+        price_min={this.state.price_min}
+        price_max={this.state.price_max}
+        timeline_id={this.state.timeline_id}
+        smoking_id={this.state.smoking_id}
+        pet_id={this.state.pet_id}
+        include_people={this.state.include_people}
         getResults={this.state.getResults}
       />
     );
