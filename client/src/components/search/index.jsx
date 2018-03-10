@@ -9,8 +9,8 @@ class Search extends React.Component {
     this.state = {
       purpose_id: 2,
       city: 'New Orleans',
-      price_min: 0,
-      price_max: 1000000,
+      price_min: '0',
+      price_max: '1000000',
       timeline_id: 4,
       smoking_id: 1,
       pet_id: 2,
@@ -88,9 +88,11 @@ class Search extends React.Component {
     });
   }
   handleSubmit(event) {
+    event.preventDefault();
     if (this.isValidBudgetEntry()) {
-      if (this.state.include_people === 'yes') {
+      if (this.state.include_people) {
         this.setState({
+          include_people: true,
           peopleSearch: true,
         });
       } else {
@@ -102,7 +104,6 @@ class Search extends React.Component {
     } else {
       window.alert('Please enter a valid BUDGET range wherein\nleft-number <= right-number');
     }
-    event.preventDefault();
   }
   render() {
     if (this.state.getResults) {
@@ -233,13 +234,13 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="yes" name="include_people" value="yes" />
+              <input className="form-check-input" type="radio" id="yes" name="include_people" value="true" />
               <label className="form-check-label" htmlFor="yes">
                 Yes
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no" name="include_people" value="no" />
+              <input className="form-check-input" type="radio" id="no" name="include_people" value={false} />
               <label className="form-check-label" htmlFor="no">
                 No
               </label>
