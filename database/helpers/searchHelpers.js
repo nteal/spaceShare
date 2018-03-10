@@ -56,19 +56,19 @@ const addDataFromIds = (searchObj) => {
     getPersonalityById(searchObj.personality_id),
   ])
     .then(([purpose, smoking, pet, timeline, sleep, personality]) => {
-      retObj.purpose = purpose;
-      retObj.smoking = smoking;
-      retObj.pet = pet;
-      retObj.timeline = timeline;
-      retObj.searchSleep = sleep;
-      retObj.searchPersonality = personality;
+      retObj.purpose = purpose.type;
+      retObj.smoking = smoking.location;
+      retObj.pet = pet.location;
+      retObj.timeline = timeline.range;
+      retObj.searchSleep = sleep.schedule;
+      retObj.searchPersonality = personality.type;
       return retObj;
     })
     .catch(err => console.log(err));
 };
 
-const getSearchesByUserId = userId => (
-  Search.findAll({ where: { user_id: userId } })
+const getSearchesByFbId = fbId => (
+  Search.findAll({ where: { fb_id: fbId } })
     .then(userSearches => Promise.map(userSearches, search => addDataFromIds(search.dataValues)))
     .catch(err => console.log(err))
 );
@@ -98,3 +98,5 @@ const getSearchesForMatching = currentSearch => (
 
 exports.addNewSearch = addNewSearch;
 exports.deleteSearchById = deleteSearchById;
+exports.getSearchesByFbId = getSearchesByFbId;
+exports.getSearchesForMatching = getSearchesForMatching
