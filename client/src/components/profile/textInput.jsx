@@ -41,25 +41,29 @@ class TextInput extends React.Component {
     let displayed;
     if (editing) {
       displayed = (
-        <div className="input-group">
-          <input 
-            type={type}
-            name={field}
-            value={this.state.newValue}
-            className="form-control"
-            placeholder={placeholder}
-            aria-label={placeholder}
-            onChange={this.handleEditing}
-          />
-          <div className="input-group-append">
-            <button className="btn btn-outline-secondary pb-0" onClick={this.handleSubmit} type="submit">
-              <i className="material-icons">check</i>
-            </button>
-            <button className="btn btn-outline-secondary pb-0" onClick={this.doneEditing} type="button">
-              <i className="material-icons">close</i>
-            </button>
+        <li className="list-group-item">
+          <div className="row">
+            <div className="input-group">
+              <input 
+                type={type}
+                name={field}
+                value={this.state.newValue}
+                className="form-control"
+                placeholder={placeholder}
+                aria-label={placeholder}
+                onChange={this.handleEditing}
+              />
+              <div className="input-group-append">
+                <button className="btn btn-outline-secondary pb-0" onClick={this.handleSubmit} type="submit">
+                  <i className="material-icons">check</i>
+                </button>
+                <button className="btn btn-outline-secondary pb-0" onClick={this.doneEditing} type="button">
+                  <i className="material-icons">close</i>
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        </li>
       );
     } else {
       displayed = (
