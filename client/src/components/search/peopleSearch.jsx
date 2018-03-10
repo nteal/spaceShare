@@ -33,6 +33,13 @@ class PeopleSearch extends React.Component {
     }
     return false;
   }
+  handleInputChange(event) {
+    const { target } = event;
+    const { value, name } = target;
+    this.setState({
+      [name]: value,
+    });
+  }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
