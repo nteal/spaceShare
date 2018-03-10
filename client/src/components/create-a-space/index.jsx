@@ -114,7 +114,7 @@ class CreateSpace extends React.Component {
         <div className="rom">
           <h5>Location</h5>
         </div>
-        <div className="col-3">
+        <div className="col-6">
           <input className="form-control" type="text" placeholder="Enter address" name="location" onChange={this.handleInputChange} />
         </div>
         <div className="rom">
@@ -122,6 +122,9 @@ class CreateSpace extends React.Component {
         </div>
         <div className="rom">
           <h5>Description</h5>
+        </div>
+        <div className="col-6">
+          <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
         </div>
       </form>
     );
