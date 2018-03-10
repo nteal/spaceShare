@@ -46,6 +46,23 @@ class CreateSpace extends React.Component {
         <div className="col-3">
           <input className="form-control" type="text" placeholder="edit the name of your space here" name="name" onChange={this.handleInputChange} />
         </div>
+        <div className="rom">
+          <h5>Purpose</h5>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
+            <label className="form-check-label" htmlFor="work">
+              Work
+              </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
+            <label className="form-check-label" htmlFor="live">
+              Live
+              </label>
+          </div>
+        </div>
       </form>
     );
   }
