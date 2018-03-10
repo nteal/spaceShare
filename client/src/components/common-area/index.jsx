@@ -24,7 +24,7 @@ class CommonArea extends React.Component {
     Axios.get('http://localhost:3003/api/currentSpace', {
       params: {
         spaceId: this.props.location.state ? this.props.location.state.spaceId : 0,
-        JWT: localStorage.getItem('id_token'),
+        token: localStorage.getItem('id_token'),
       },
     })
       .then((space) => {
