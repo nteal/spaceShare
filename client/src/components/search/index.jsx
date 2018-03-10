@@ -90,7 +90,7 @@ class Search extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.isValidBudgetEntry()) {
-      if (this.state.include_people) {
+      if (this.state.include_people !== 'false') {
         this.setState({
           include_people: true,
           peopleSearch: true,
@@ -240,7 +240,7 @@ class Search extends React.Component {
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no" name="include_people" value={false} />
+              <input className="form-check-input" type="radio" id="no" name="include_people" value="false" />
               <label className="form-check-label" htmlFor="no">
                 No
               </label>
