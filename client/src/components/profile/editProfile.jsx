@@ -40,6 +40,7 @@ class EditProfile extends React.Component {
     this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
     this.finalizeEditLink = this.finalizeEditLink.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
@@ -92,6 +93,12 @@ class EditProfile extends React.Component {
     });
   }
 
+  handleCheckboxChange(event) {
+    const { name } = event.target;
+    const { value } = event.target.checked;
+    this.setState({ [name]: value });
+  }
+
   handleSubmit() {
     // submit edited fields
   }
@@ -136,10 +143,10 @@ class EditProfile extends React.Component {
             </div>
           </div>
         </MediaQuery>
-        <div className="row row-eq-height">
+        <div className="row justify-content-center">
           <div className="col-12 col-sm-10 col-md-4 col-lg-4">
             {/* user stats sidebar */}
-            <div className="content-box">
+            <div className="content-box mb-2">
               {/* change profile pic btn */}
               <img src={image_url} alt="user profile" className="user-profile-pic" />
               <div className="mini-heading-box-side">
@@ -160,10 +167,53 @@ class EditProfile extends React.Component {
               </ul>
             </div>
           </div>
-          <div className="col-12 col-sm-10 col-md-8 col-lg-8">
+          <div className="col-12 col-sm-10 col-md-8 col-lg-8 d-flex flex-column align-items-start">
             <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
-            {/* searchable checkbox */}
-
+            {/* searchable checkboxes */}
+            <div className="content-box">
+              <MediaQuery minDeviceWidth={800}>
+                <div className="mini-heading-box-top">
+                  <h5>Searchable</h5>
+                </div>
+              </MediaQuery>
+              <MediaQuery maxDeviceWidth={600}>
+                <div className="mini-heading-box-top-mobile">
+                  <h5>Searchable</h5>
+                </div>
+              </MediaQuery>
+              <div className="invisible-content-box">
+                <div className="form-group row ml-1">
+                  <div className="form-check">
+                    <input 
+                      id="searchable-work-checkbox"
+                      className="form-check-input"
+                      type="checkbox"
+                      name="searchable_work"
+                      checked={searchable_work}
+                      onChange={this.handleCheckboxChange}
+                    />
+                    <label className="form-check-label" for="searchable-work-checkbox">
+                      Yes, make me available in search results for people looking for a work space partner.
+                    </label>
+                  </div>
+                </div>
+                <div className="form-group row ml-1">
+                  <div className="form-check">
+                    <input 
+                      id="searchable-live-checkbox"
+                      className="form-check-input"
+                      type="checkbox"
+                      name="searchable_live"
+                      checked={searchable_live}
+                      onChange={this.handleCheckboxChange}
+                    />
+                    <label className="form-check-label" for="searchable-live-checkbox">
+                      Yes, make me available in search results for people looking for a living space partner.
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
