@@ -63,6 +63,23 @@ class CreateSpace extends React.Component {
               </label>
           </div>
         </div>
+        <div className="rom">
+          <h5>Availability</h5>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="open" name="open" value={'true'} />
+            <label className="form-check-label" htmlFor="open">
+              Open
+              </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="closed" name="open" value={'false'} />
+            <label className="form-check-label" htmlFor="closed">
+              Closed
+              </label>
+          </div>
+        </div>
       </form>
     );
   }
