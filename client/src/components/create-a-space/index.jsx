@@ -23,9 +23,34 @@ class CreateSpace extends React.Component {
       main_image: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleCostChange = this.handleCostChange.bind(this);
   }
   componentDidMount() {
     console.log('new space did mount');
+  }
+  handleCostChange(event) {
+    let decimalFound = false;
+    let cost = event.target.value.split('').reduce((number, char, i, costArray) => {
+      if (((char >= '0' && char <= '9') || char === '.') && !decimalFound) {
+        if (char === '.') {
+          number.push(char);
+          for (let j = 1; j < 3; j++) {
+            if (costArray[i + j] >= '0' && costArray[i + j] <= '9') {
+              number.push(costArray[i + j]);
+            }
+          }
+          decimalFound = true;
+        } else {
+          number.push(char);
+        }
+      }
+      return number;
+    }, []);
+    let price = Number.parseFloat(cost.join(''));
+    if (isNaN(price)) { price = 0; }
+    this.setState({
+      cost: price,
+    });
   }
   handleInputChange(event) {
     const { target } = event;
@@ -79,6 +104,12 @@ class CreateSpace extends React.Component {
               Closed
               </label>
           </div>
+        </div>
+        <div className="rom">
+          <h5>Cost</h5>
+        </div>
+        <div className="col-3">
+          <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
         </div>
       </form>
     );
