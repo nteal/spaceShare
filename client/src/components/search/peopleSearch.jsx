@@ -39,8 +39,8 @@ class PeopleSearch extends React.Component {
     console.log(`min: ${min}\nmax: ${max}`);
     if (min <= max) {
       this.setState({
-        min_cost: min,
-        max_cost: max,
+        age_min: min,
+        age_max: max,
       });
       return true;
     }
