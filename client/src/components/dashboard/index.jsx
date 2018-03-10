@@ -18,7 +18,7 @@ class Dashboard extends React.Component {
     console.log('dashboard did mount');
     // get user data to populate profile content
     Axios.get('http://localhost:3003/api/currentUser', {
-      params: { JWT: localStorage.getItem('item_id') },
+      params: { token: localStorage.getItem('id_token') },
     })
       .then((response) => {
         this.setState({ currentUser: response.data });
@@ -26,7 +26,7 @@ class Dashboard extends React.Component {
         Axios.get('http://localhost:3003/api/currentUserSpaces', {
           params: {
             userId: response.data.id,
-            JWT: localStorage.getItem('item_id'),
+            token: localStorage.getItem('id_token'),
           },
         })
           .then((spaces) => {
@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
     const { currentUser, currentUserSpaces } = this.state;
     return (
       <div>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <MediaQuery minDeviceWidth={800}>
               <div className="heading-box">
