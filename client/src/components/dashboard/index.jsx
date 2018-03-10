@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
     const { currentUser, currentUserSpaces } = this.state;
     return (
       <div>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <MediaQuery minDeviceWidth={800}>
               <div className="heading-box">
