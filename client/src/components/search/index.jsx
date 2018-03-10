@@ -71,8 +71,6 @@ class Search extends React.Component {
     let max = Number.parseFloat(nums[1].join(''));
     if (isNaN(min)) { min = 0.00; }
     if (isNaN(max)) { max = 0.00; }
-    console.log(`min: ${min}\nmax: ${max}`);
-    debugger;
     if (min <= max) {
       this.setState({
         price_min: min,
@@ -90,8 +88,6 @@ class Search extends React.Component {
     });
   }
   handleSubmit(event) {
-    console.log(this.isValidBudgetEntry());
-    console.dir(this.state);
     if (this.isValidBudgetEntry()) {
       if (this.state.include_people === 'yes') {
         this.setState({
