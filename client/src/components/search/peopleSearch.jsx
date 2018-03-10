@@ -10,6 +10,29 @@ class PeopleSearch extends React.Component {
       age_max: '100',
     };
   }
+  isValidAgeRange() {
+    const { age_min, age_max } = this.state;
+    const ages = [age_min, age_max].reduce((numbers, num) => {
+      numbers.push(num.split('').reduce((number, char, i, numArray) => {
+        if (char >= '0' && char <= '9') { number.push(char); }
+        return number;
+      }, []));
+      return numbers;
+    }, []);
+    let min = Number.parseFloat(ages[0].join(''));
+    let max = Number.parseFloat(ages[1].join(''));
+    if (isNaN(min)) { min = 0; }
+    if (isNaN(max)) { max = 100; }
+    console.log(`min: ${min}\nmax: ${max}`);
+    if (min <= max) {
+      this.setState({
+        min_cost: min,
+        max_cost: max,
+      });
+      return true;
+    }
+    return false;
+  }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
