@@ -108,7 +108,16 @@ class Search extends React.Component {
   }
   render() {
     if (this.state.getResults) {
-      return <SearchResults />;
+      return <SearchResults
+        purpose_id={this.state.purpose_id}
+        city={this.state.city}
+        price_min={this.state.price_min}
+        price_max={this.state.price_max}
+        timeline_id={this.state.timeline_id}
+        smoking_id={this.state.smoking_id}
+        pet_id={this.state.pet_id}
+        include_people={this.state.include_people}
+      />;
     }
     if (!this.state.peopleSearch) {
       return (
