@@ -10,6 +10,19 @@ class PeopleSearch extends React.Component {
       age_max: '100',
     };
   }
+  componentDidMount() {
+    console.log('person search did mount');
+    this.setState({
+      purpose_id: this.props.purpose_id,
+      city: this.props.city,
+      price_min: this.props.price_min,
+      price_max: this.props.price_max,
+      timeline_id: this.props.timeline_id,
+      smoking_id: this.props.smoking_id,
+      pet_id: this.props.pet_id,
+      include_people: this.props.include_people,
+    });
+  }
   isValidAgeRange() {
     const { age_min, age_max } = this.state;
     const ages = [age_min, age_max].reduce((numbers, num) => {
