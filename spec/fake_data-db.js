@@ -16,3 +16,22 @@ const newUser = {
   sleep_id: 1,
   personality_id: 1,
 };
+
+const newSearch = {
+  price_min: 500.00,
+  price_max: 500.00,
+  location_specificity: 'this is the specificity from geocoding',
+  location_search: 'this is exactly what the user typed!',
+  zip: '70118',
+  city: 'New Orleans',
+  state: 'la',
+  include_people: true,
+  user_id: 2,
+  gender_id: 1,
+  personality_id: 2,
+  sleep_id: 2,
+  purpose_id: 1,
+  timeline_id: 2,
+  pet_id: 3,
+  smoking_id: 3,
+};
