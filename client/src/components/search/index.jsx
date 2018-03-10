@@ -7,13 +7,13 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      purpose: 'live',
+      purpose: 'Live',
       location: '',
       min_cost: '0.00',
       max_cost: '1,000,000.00',
-      timeline: 'long-term',
-      smoking: 'outside is fine',
-      pet: 'anywhere is fine',
+      timeline: 'Long-term',
+      smoking: 'Outside is fine',
+      pet: 'Anywhere is fine',
       people: true,
       peopleSearch: false,
       getResults: false,
@@ -112,13 +112,13 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="work" name="purpose" value="work" />
+              <input className="form-check-input" type="radio" id="work" name="purpose" value="Work" />
               <label className="form-check-label" htmlFor="work">
                 Work
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="live" name="purpose" value="live" />
+              <input className="form-check-input" type="radio" id="live" name="purpose" value="Live" />
               <label className="form-check-label" htmlFor="live">
                 Live
               </label>
@@ -151,25 +151,25 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="daily" name="timeline" value="daily" />
+              <input className="form-check-input" type="radio" id="daily" name="timeline" value="Daily" />
               <label className="form-check-label" htmlFor="daily">
                 Daily
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="weekly" name="timeline" value="weekly" />
+              <input className="form-check-input" type="radio" id="weekly" name="timeline" value="Weekly" />
               <label className="form-check-label" htmlFor="weekly">
                 Weekly
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="monthly" name="timeline" value="monthly" />
+              <input className="form-check-input" type="radio" id="monthly" name="timeline" value="Monthly" />
               <label className="form-check-label" htmlFor="monthly">
                 Monthly
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="long-term" name="timeline" value="long-term" />
+              <input className="form-check-input" type="radio" id="long-term" name="timeline" value="Long-term" />
               <label className="form-check-label" htmlFor="long-term">
                 Long-term
               </label>
@@ -180,19 +180,19 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="smoking" value="outside is fine" />
+              <input className="form-check-input" type="radio" id="outside" name="smoking" value="Outside is fine" />
               <label className="form-check-label" htmlFor="outside">
                 Outside is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="smoking" value="anywhere is fine" />
+              <input className="form-check-input" type="radio" id="anywhere" name="smoking" value="Anywhere is fine" />
               <label className="form-check-label" htmlFor="anywhere">
                 Anywhere is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-smoking" name="smoking" value="absolutely not" />
+              <input className="form-check-input" type="radio" id="no-smoking" name="smoking" value="Absolutely not" />
               <label className="form-check-label" htmlFor="no-smoking">
                 Absolutely not
               </label>
@@ -203,19 +203,19 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="pet" value="outside is fine" />
+              <input className="form-check-input" type="radio" id="outside" name="pet" value="Outside is fine" />
               <label className="form-check-label" htmlFor="outside">
                 Outside is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="pet" value="anywhere is fine" />
+              <input className="form-check-input" type="radio" id="anywhere" name="pet" value="Anywhere is fine" />
               <label className="form-check-label" htmlFor="anywhere">
                 Anywhere is fine
               </label>
             </div>
             <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-pets" name="pet" value="absolutely not" />
+              <input className="form-check-input" type="radio" id="no-pets" name="pet" value="Absolutely not" />
               <label className="form-check-label" htmlFor="no-pets">
                 Absolutely not
               </label>
