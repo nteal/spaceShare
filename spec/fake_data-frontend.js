@@ -130,6 +130,8 @@ app.get('/api/currentUser', (req, res) => {
       display_name: 'An article about me',
       url: 'https://www.newyorker.com/culture/sarah-larson/david-rees-going-deep-going-ridiculous',
     }],
+    searchable_work: true,
+    searchable_live: false,
   });
 });
 

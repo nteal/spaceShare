@@ -34,6 +34,8 @@ class EditProfile extends React.Component {
         display_name: '',
         url: '',
       },
+      searchable_work: false,
+      searchable_live: false,
     };
     this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
@@ -60,6 +62,8 @@ class EditProfile extends React.Component {
           profession: response.data.profession,
           link1: response.data.links[0],
           link2: response.data.links[1],
+          searchable_work: response.data.searchable_work,
+          searchable_live: response.data.searchable_live,
         });
       })
       .catch((error) => {
@@ -106,6 +110,8 @@ class EditProfile extends React.Component {
       profession,
       link1,
       link2,
+      searchable_work,
+      searchable_live,
     } = this.state;
 
     return (
@@ -157,6 +163,7 @@ class EditProfile extends React.Component {
           <div className="col-12 col-sm-10 col-md-8 col-lg-8">
             <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
             {/* searchable checkbox */}
+
           </div>
         </div>
       </div>
