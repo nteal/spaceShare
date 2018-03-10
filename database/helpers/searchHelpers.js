@@ -1,4 +1,7 @@
 const { Search } = require('../models/searchModel');
+const { User } = require('../models/userModel');
+const { getPurposeById } = require('./optionHelpers');
+const { getUserById } = require('./userHelpers');
 
 // create a search:
 const addNewSearch = searchData => (
@@ -15,14 +18,5 @@ const deleteSearchById = id => (
     .catch(err => console.log(err))
 );
 
-// get all searches:
-const getSearches = () => (
-  Search.findAll()
-    .then(searches => searches.map((search => search.dataValues)))
-    .catch(err => console.log(err))
-);
-// get searches by match criteria:
-
 exports.addNewSearch = addNewSearch;
 exports.deleteSearchById = deleteSearchById;
-exports.getSearches = getSearches;
