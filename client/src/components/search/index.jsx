@@ -14,7 +14,7 @@ class Search extends React.Component {
       timeline: 'Long-term',
       smoking: 'Outside is fine',
       pet: 'Anywhere is fine',
-      people: true,
+      include_people: true,
       peopleSearch: false,
       getResults: false,
     };
@@ -93,7 +93,7 @@ class Search extends React.Component {
     console.log(this.isValidBudgetEntry());
     console.dir(this.state);
     if (this.isValidBudgetEntry()) {
-      if (this.state.people === 'yes') {
+      if (this.state.include_people === 'yes') {
         this.setState({
           peopleSearch: true,
         });
@@ -237,13 +237,13 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="yes" name="people" value="yes" />
+              <input className="form-check-input" type="radio" id="yes" name="include_people" value="yes" />
               <label className="form-check-label" htmlFor="yes">
                 Yes
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no" name="people" value="no" />
+              <input className="form-check-input" type="radio" id="no" name="include_people" value="no" />
               <label className="form-check-label" htmlFor="no">
                 No
               </label>
@@ -265,7 +265,7 @@ class Search extends React.Component {
         timeline={this.state.timeline}
         smoking={this.state.smoking}
         pet={this.state.pet}
-        people={this.state.people}
+        include_people={this.state.include_people}
         getResults={this.state.getResults}
       />
     );
