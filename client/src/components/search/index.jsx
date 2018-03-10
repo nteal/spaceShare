@@ -96,9 +96,10 @@ class Search extends React.Component {
           peopleSearch: true,
         });
       } else {
-        // Axios.post('/api/new-search', this.state);
         this.setState({
           getResults: true,
+        }, () => {
+          // Axios.post('/api/new-search', this.state);
         });
       }
     } else {
