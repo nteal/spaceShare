@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import Pencil from 'mdi-react/PencilIcon.js';
 import TextInput from './textInput.jsx';
@@ -95,12 +96,76 @@ class EditProfile extends React.Component {
 
   handleCheckboxChange(event) {
     const { name } = event.target;
-    const { value } = event.target.checked;
+    const value = event.target.checked;
     this.setState({ [name]: value });
   }
 
   handleSubmit() {
-    // submit edited fields
+    const {
+      id,
+      about,
+      image_url,
+      phone,
+      email,
+      birthdate,
+      gender,
+      personality,
+      sleep,
+      profession,
+      link1,
+      link2,
+      searchable_work,
+      searchable_live,
+    } = this.state;
+
+    const fieldIds = {
+      Male: 1,
+      Female: 2,
+      Introvert: 1,
+      Extrovert: 2,
+      'Early bird': 1,
+      'Night owl': 2,
+    };
+
+    console.log({
+      id,
+      about,
+      image_url,
+      phone,
+      email,
+      birthdate,
+      gender: fieldIds[gender],
+      personality: fieldIds[personality],
+      sleep: fieldIds[sleep],
+      profession,
+      links: [link1, link2],
+      searchable_work,
+      searchable_live,
+      token: localStorage.getItem('id_token'),
+    });
+
+    Axios.post('/api/editProfile', {
+      id,
+      about,
+      image_url,
+      phone,
+      email,
+      birthdate,
+      gender: fieldIds[gender],
+      personality: fieldIds[personality],
+      sleep: fieldIds[sleep],
+      profession,
+      links: [link1, link2],
+      searchable_work,
+      searchable_live,
+      token: localStorage.getItem('token_id'),
+    })
+      .then((response) => {
+        console.log('profile updated!', response);
+      })
+      .catch((error) => {
+        console.error('error updating profile', error);
+      });
   }
 
   render() {
@@ -192,7 +257,7 @@ class EditProfile extends React.Component {
                       checked={searchable_work}
                       onChange={this.handleCheckboxChange}
                     />
-                    <label className="form-check-label" for="searchable-work-checkbox">
+                    <label className="form-check-label">
                       Yes, make me available in search results for people looking for a work space partner.
                     </label>
                   </div>
@@ -207,13 +272,16 @@ class EditProfile extends React.Component {
                       checked={searchable_live}
                       onChange={this.handleCheckboxChange}
                     />
-                    <label className="form-check-label" for="searchable-live-checkbox">
+                    <label className="form-check-label">
                       Yes, make me available in search results for people looking for a living space partner.
                     </label>
                   </div>
                 </div>
               </div>
             </div>
+            <Link to="/dashboard" className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
+              Submit changes
+            </Link>
           </div>
         </div>
       </div>
