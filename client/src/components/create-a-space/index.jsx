@@ -126,6 +126,35 @@ class CreateSpace extends React.Component {
         <div className="col-6">
           <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
         </div>
+        <div className="rom">
+          <h5>Timeframe</h5>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
+            <label className="form-check-label" htmlFor="daily">
+              Daily
+              </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="weekly" name="timeline_id" value={2} />
+            <label className="form-check-label" htmlFor="weekly">
+              Weekly
+              </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="monthly" name="timeline_id" value={3} />
+            <label className="form-check-label" htmlFor="monthly">
+              Monthly
+              </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="long-term" name="timeline_id" value={4} />
+            <label className="form-check-label" htmlFor="long-term">
+              Long-term
+              </label>
+          </div>
+        </div>
       </form>
     );
   }
