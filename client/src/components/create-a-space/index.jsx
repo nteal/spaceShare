@@ -21,7 +21,7 @@ class CreateSpace extends React.Component {
       smoking_id: 2,
       pet_id: 3,
       amenities: [],
-      main_image: '',
+      main_image: {},
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
