@@ -11,7 +11,7 @@ class Search extends React.Component {
       city: 'New Orleans',
       price_min: 0,
       price_max: 1000000,
-      timeline: 'Long-term',
+      timeline_id: 4,
       smoking: 'Outside is fine',
       pet: 'Anywhere is fine',
       include_people: true,
@@ -162,25 +162,25 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="daily" name="timeline" value="Daily" />
+              <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
               <label className="form-check-label" htmlFor="daily">
                 Daily
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="weekly" name="timeline" value="Weekly" />
+              <input className="form-check-input" type="radio" id="weekly" name="timeline_id" value={2} />
               <label className="form-check-label" htmlFor="weekly">
                 Weekly
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="monthly" name="timeline" value="Monthly" />
+              <input className="form-check-input" type="radio" id="monthly" name="timeline_id" value={3} />
               <label className="form-check-label" htmlFor="monthly">
                 Monthly
               </label>
             </div>
             <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="long-term" name="timeline" value="Long-term" />
+              <input className="form-check-input" type="radio" id="long-term" name="timeline_id" value={4} />
               <label className="form-check-label" htmlFor="long-term">
                 Long-term
               </label>
@@ -263,7 +263,7 @@ class Search extends React.Component {
         city={this.state.city}
         price_min={this.state.price_min}
         price_max={this.state.price_max}
-        timeline={this.state.timeline}
+        timeline_id={this.state.timeline_id}
         smoking={this.state.smoking}
         pet={this.state.pet}
         include_people={this.state.include_people}
