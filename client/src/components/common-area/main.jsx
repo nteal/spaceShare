@@ -25,12 +25,12 @@ class CommonAreaMain extends React.Component {
               <div className="col">
                 <div className="row">
                   <MediaQuery minDeviceWidth={800}>
-                    <div className="heading-box">
+                    <div className="heading-box mt-neg">
                       <h1>Common Area</h1>
                     </div>
                   </MediaQuery>
                   <MediaQuery maxDeviceWidth={600}>
-                    <div className="mobile-heading-box">
+                    <div className="mobile-heading-box mt-neg">
                       <h2>Common Area</h2>
                     </div>
                   </MediaQuery>

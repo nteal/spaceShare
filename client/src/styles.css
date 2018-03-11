@@ -82,6 +82,10 @@ h1, h2, h3, h4, h5, h6 {
   padding: 13px 50px 0px 15px;
 }
 
+.mt-neg {
+  margin-top: -2rem;
+}
+
 .mini-heading-box-side {
   background-color: rgb(61, 61, 61);
   border-radius: 2px;
@@ -117,8 +121,12 @@ h1, h2, h3, h4, h5, h6 {
   padding: 15px 10px 0px 10px;
 }
 
-.content-row {
-  padding-top: 30px;
+.p-res {
+  padding: 2%;
+}
+
+.pt-res {
+  padding-top: 5%;
 }
 
 .content-box {
@@ -131,6 +139,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .invisible-content-box {
   padding: 30px;
+}
+
+.space-main-img {
+  max-width: 100%;
+}
+
+.space-main-img-container {
+  max-height: 10rem;
+  overflow: hidden;
 }
 
 .image-selection-box {

@@ -12,12 +12,12 @@ const Members = (props) => {
     <div className="container">
       <div className="row">
         <MediaQuery minDeviceWidth={800}>
-          <div className="heading-box">
+          <div className="heading-box mt-neg">
             <h1>Our Members</h1>
           </div>
         </MediaQuery>
         <MediaQuery maxDeviceWidth={600}>
-          <div className="mobile-heading-box">
+          <div className="mobile-heading-box mt-neg">
             <h2>Our Members</h2>
           </div>
         </MediaQuery>

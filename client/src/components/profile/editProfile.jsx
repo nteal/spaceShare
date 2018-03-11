@@ -204,7 +204,7 @@ class EditProfile extends React.Component {
     } = this.state;
 
     return (
-      <div className="container-fluid">
+      <div className="container p-res">
         <MediaQuery minDeviceWidth={800}>
           <div className="row pb-5">
             <button className="custom-btn" onClick={this.handleBack}>
