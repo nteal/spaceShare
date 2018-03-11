@@ -127,6 +127,7 @@ class Search extends React.Component {
           smoking_id={this.state.smoking_id}
           pet_id={this.state.pet_id}
           include_people={this.state.include_people}
+          history={this.props.history}
         />
       );
     }
