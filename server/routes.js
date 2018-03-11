@@ -37,7 +37,7 @@ router.param('token', (req, res, next, JWT) => {
   if (isAuthorized(JWT)){
     // add ID to req
     req.fb_Id = jwt.verify(JWT, 'secret').id;
-    console.log('fb_Id attached', req.fb_Id);
+    // console.log('fb_Id attached', req.fb_Id);
   } else {
     // or tell them no
     console.log('forbidden');
@@ -48,32 +48,36 @@ router.param('token', (req, res, next, JWT) => {
 })
 
 router.get('/api/isAuthenticated/token/:token', (req, res) => {
-  console.log('isTTTTTTTAuth');
+  // console.log('isTTTTTTTAuth');
   console.log('req.params => ', req.params);
   // console.log('req.query => ', req.query); // empty object
   if (req.params && req.params.token) {
     const id = jwt.verify(req.params.token, 'secret').id;
-    console.log('id: ', id);
+    // console.log('id: ', id);
     res.send(true);
   } else {
     res.send(false);
   }
 });
 
-router.get('/api/currentSpace', (req, res) => {
+router.get('/api/currentSpace/token/:token', (req, res) => {
 
 });
 
 router.get('/api/currentUser/token/:token', (req, res) => {
-  console.log('getCurrentUser', Object.keys(req));
+  // console.log('getCurrentUser', Object.keys(req));
+  // database helper
   db.helpers.getUserByFbId(req.fb_Id)
   .then((user) => {
+    // send status and user
     res.status(200).send(user);
   });
 
 });
 
-router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
+router.get('/api/currentUserSpaces/token/:token/userId/:userId', (req, res) => {
+  console.log('get currentUserSpaces');
+  res.status(200).send('sheReady');
 
 });
 

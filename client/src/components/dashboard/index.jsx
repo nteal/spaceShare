@@ -18,13 +18,13 @@ class Dashboard extends React.Component {
     console.log('dashboard did mount');
     // get user data to populate profile content
     console.log('moved dashboard currentUser to 3002')
-    Axios.get('http://localhost:3002/api/currentUser', {
+    Axios.get('/api/currentUser', {
       params: { token: localStorage.getItem('id_token') },
     })
       .then((response) => {
         this.setState({ currentUser: response.data });
         // get user's spaces to populate spaces content
-        Axios.get('http://localhost:3003/api/currentUserSpaces', {
+        Axios.get('/api/currentUserSpaces', {
           params: {
             userId: response.data.id,
             token: localStorage.getItem('id_token'),
