@@ -29,6 +29,7 @@ class CreateSpace extends React.Component {
     this.handleCapacityChange = this.handleCapacityChange.bind(this);
     this.addAmenity = this.addAmenity.bind(this);
     this.updateAmenities = this.updateAmenities.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     console.log('new space did mount');
@@ -98,9 +99,19 @@ class CreateSpace extends React.Component {
       amenities: updatedAmenities,
     })
   }
+  handleSubmit() {
+    // Axios.post('/api/new-space', {
+    //   space: this.state,
+    //   token: localstorage.getItem('id_token'),
+    // })
+    //   .then((newSpace) => {
+    //     this.props.history.push('/dashboard');
+    //   });
+    this.props.history.push('/dashboard');
+  }
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <div className="rom">
           <h1>New Space</h1>
         </div>
@@ -263,11 +274,16 @@ class CreateSpace extends React.Component {
             ))}
           </ul>
         </div>
-        <div className="col-3 input-group" onChange={this.handleInputChange}>
+        <div className="col-3 mb-3 input-group" onChange={this.handleInputChange}>
           <input type="text" className="form-control" placeholder="add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
             <div className="input-group-append">
               <button className="btn btn-outline-secondary" type="button" onClick={this.addAmenity}>Add</button>
             </div>
+        </div>
+        <div className="row">
+          <div className="col-8 text-center">
+            <button type="submit" className="btn btn-outline-primary">Create New Space</button>
+          </div>
         </div>
       </form>
     );
