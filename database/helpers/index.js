@@ -28,6 +28,8 @@ const { getSpaceListingsById } = require('./spaceHelpers');
 // todo helpers
 const { getTodosBySpaceId } = require('./todoHelpers');
 const { updateTodo } = require('./todoHelpers');
+// spacemembers
+const { addUsersToSpaces } = require('./spaceMembersHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -60,4 +62,5 @@ exports.getSpaceListingsById = getSpaceListingsById;
 // todo exports:
 exports.getTodosBySpaceId = getTodosBySpaceId;
 exports.updateTodo = updateTodo;
-
+// space members
+exports.addUsersToSpaces = addUsersToSpaces;
