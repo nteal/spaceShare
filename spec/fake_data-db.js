@@ -1,3 +1,22 @@
+const newTodo = {
+  content: 'I need to do things!',
+  space_id: 7,
+  completed: false,
+}
+
+const deleteTodo = {
+  id: 1,
+  // content must be falsy or not exist
+  content: '',
+}
+
+const updateTodo = {
+  id: 1,
+  content: 'updated!',
+  // optional
+  completed: true,
+}
+
 const newSpace = {
   amenities: [{text: 'thing'}, {text: 'otherThings..'}],
   capacity: 4,
