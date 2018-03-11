@@ -106,9 +106,9 @@ class CreateSpace extends React.Component {
     // })
     //   .then((response) => {
     //     localStorage.setItem('id_space', response.data)
-    //     this.props.history.push('/search-results');
+    //     this.props.history.push('/common-area');
     //   });
-    this.props.history.push('/search-results');
+    this.props.history.push('/common-area');
   }
   render() {
     return (
