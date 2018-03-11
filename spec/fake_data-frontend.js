@@ -1,12 +1,80 @@
 const express = require('express');
+const dotenv = require('dotenv').config();
 const path = require('path');
+const passport = require('passport');
+const FacebookTokenStrategy = require('passport-facebook-token');
+const bodyParser = require('body-parser');
 const cors = require('cors');
+const expressJwt = require('express-jwt');
+const jwt = require('jsonwebtoken');
+const aws = require('aws-sdk');
+const helpers = require('../server/helpers');
 
 const port = process.env.PORT || 3003;
 const app = express();
 const pathway = path.join(__dirname, '/../client/dist');
 app.use(express.static(pathway));
 app.use(cors());
+app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use('/s3', require('react-s3-uploader/s3router')({
+  bucket: 'spaceshare-sfp',
+  region: 'us-east-1',
+  headers: {'Access-Control-Allow-Origin': '*'},
+  ACL: 'public-read',
+  uniquePrefix: false,
+}));
+
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
+passport.use(
+  new FacebookTokenStrategy(
+    {
+      clientID: process.env.FB_CLIENT_ID,
+      clientSecret: process.env.FB_CLIENT_SECRET
+    },
+    (accessToken, refreshToken, profile, done) => {
+      try {
+        console.log('profile:');
+        console.dir(profile);
+        // check whether current user exists in db
+
+        let newUser = profile;
+        // create new user if current user is not in db
+        if (true) {
+          // db.userHelpers.addNewUser({
+          //   about: '',
+          //   image_url: '',
+          //   name_first: '',
+          //   phone: 1231231234,
+          //   email: '',
+          //   fb_id: '',
+          //   fb_link: 'facebook.com',
+          //   fb_verified: false,
+          //   searchable_work: false,
+          //   searchable_live: false,
+          //   profession: 'programmer',
+          //   birthdate: new Date(),
+          //   gender_id: 2,
+          //   sleep_id: 1,
+          //   personality_id: 1,
+          //   planet_id: 6,
+          // }, (err, user) => done(err, user));
+          done(null, newUser);
+        }
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
 
 app.get('/api/isAuthenticated', (req, res) => {
   res.send(true);
@@ -106,7 +174,8 @@ app.get('/api/currentUser', (req, res) => {
   res.send({
     id: 0,
     about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris iaculis leo vel odio vehicula tempor. Nam nec malesuada metus, a venenatis massa. Sed a vestibulum sem. Nunc viverra cursus tincidunt. Suspendisse vel placerat purus. Sed imperdiet tempus nunc ut fringilla. Nulla ut arcu in mi dapibus pulvinar ut ac sem. Donec pretium commodo imperdiet. Phasellus mauris orci, vestibulum iaculis mi sed, eleifend eleifend tellus. Cras id mauris dolor. Donec vitae accumsan arcu. Quisque velit ex, interdum mattis leo id, accumsan rutrum magna. Aenean sed elit nec tellus auctor vulputate. Donec eget odio nec elit porttitor elementum. Morbi eget nulla nibh.',
-    image_url: 'https://i.enkirelations.com/yB9m5YmHuCFfh3HCUXWmrv_2ics=/800x0//images/2017/03/de92d8f49965e401490be2593217bd0e.jpg',
+    // image_url: 'https://i.enkirelations.com/yB9m5YmHuCFfh3HCUXWmrv_2ics=/800x0//images/2017/03/de92d8f49965e401490be2593217bd0e.jpg',
+    image_url: 'https://s3.amazonaws.com/spaceshare-sfp/users/0_image_url_0',
     name_first: 'Waylon',
     name_last: 'Dalton',
     phone: '495-974-1123',
@@ -397,6 +466,14 @@ app.get('/api/searches', (req, res) => {
       smoking: 'Outside is fine',
     },
   ]);
+});
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../client/dist/index.html'), err => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 app.listen(port, () => {

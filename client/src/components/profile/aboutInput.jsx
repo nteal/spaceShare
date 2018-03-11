@@ -72,7 +72,7 @@ class AboutInput extends React.Component {
     }
 
     return (
-      <div className="content-box">
+      <div className="content-box auto-height-box">
         <MediaQuery minDeviceWidth={800}>
           <div className="mini-heading-box-top">
             <h5>About</h5>

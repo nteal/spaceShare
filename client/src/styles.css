@@ -124,6 +124,7 @@ h1, h2, h3, h4, h5, h6 {
 .content-box {
   border: 1px solid rgb(61, 61, 61);
   border-radius: 2px;
+  height: 100%;
   margin-bottom: 3em;
   width: 100%;
 }
@@ -132,13 +133,33 @@ h1, h2, h3, h4, h5, h6 {
   padding: 30px;
 }
 
+.image-selection-box {
+  background: linear-gradient(45deg, rgba(69, 255, 63, 0.466), rgba(36, 3, 126, 0.582));
+  border-style: none;
+  color: white;
+  font-family: Raleway;
+  font-weight: 700;
+}
+
+.image-select {
+  background:none!important;
+  background-color: none!important;
+  border-color: white;
+  font-family: Raleway;
+  font-weight: 700;
+}
+
 .user-profile-pic {
   height: auto;
   max-width: 100%;
 }
 
-.zodiac-glyph {
+.auto-height-box {
   height: auto;
+}
+
+.zodiac-glyph {
+  height: 20px;
   margin-right: .8em;
   max-width: 100%;
   width: 20px;
