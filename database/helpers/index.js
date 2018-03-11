@@ -23,9 +23,11 @@ const { getSmokingOptions } = require('./optionHelpers');
 const { addNewSpace } = require('./spaceHelpers');
 const { getSpaceById } = require('./spaceHelpers');
 const { updateSpace } = require('./spaceHelpers');
-const { getTodosBySpaceId } = require('./todoHelpers');
 const { getSpacesForMatching } = require('./spaceHelpers');
 const { getSpaceListingsById } = require('./spaceHelpers');
+// todo helpers
+const { getTodosBySpaceId } = require('./todoHelpers');
+const { updateTodo } = require('./todoHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -52,7 +54,10 @@ exports.getSmokingOptions = getSmokingOptions;
 // space exports
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
-exports.getTodosBySpaceId = getTodosBySpaceId;
 exports.updateSpace = updateSpace;
 exports.getSpacesForMatching = getSpacesForMatching;
 exports.getSpaceListingsById = getSpaceListingsById;
+// todo exports:
+exports.getTodosBySpaceId = getTodosBySpaceId;
+exports.updateTodo = updateTodo;
+
