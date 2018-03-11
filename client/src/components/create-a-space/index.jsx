@@ -1,4 +1,5 @@
 import React from 'react';
+import TextInput from '../profile/textInput.jsx';
 
 class CreateSpace extends React.Component {
   constructor(props) {
@@ -20,11 +21,14 @@ class CreateSpace extends React.Component {
       smoking_id: 2,
       pet_id: 3,
       amenities: [],
+      amenity: '',
       main_image: {},
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
     this.handleCapacityChange = this.handleCapacityChange.bind(this);
+    this.addAmenity = this.addAmenity.bind(this);
+    this.updateAmenities = this.updateAmenities.bind(this);
   }
   componentDidMount() {
     console.log('new space did mount');
@@ -72,6 +76,27 @@ class CreateSpace extends React.Component {
     this.setState({
       [name]: value,
     });
+  }
+  addAmenity() {
+    if (this.state.amenities.length > 7) {
+      window.alert('you have reached the maximum limit of 8 amenities\nyou may edit any existing amenity');
+    } else {
+      this.setState({
+        amenities: this.state.amenities.concat({name: this.state.amenity}),
+        amenity: '',
+      })
+    }
+  }
+  updateAmenities(field, value) {
+    const updatedAmenities = this.state.amenities.map((amenity, i) => {
+      if (i === field) {
+        amenity.name = value;
+      }
+      return amenity;
+    });
+    this.setState({
+      amenities: updatedAmenities,
+    })
   }
   render() {
     return (
@@ -220,6 +245,29 @@ class CreateSpace extends React.Component {
               Absolutely not
               </label>
           </div>
+        </div>
+        <div className="row">
+          <h5>Additional Amenities</h5>
+        </div>
+        <div className="col-3">
+          <ul list-style-type="disc">
+            {this.state.amenities.map((amenity, i) => (
+              <TextInput 
+                type="text"
+                glyph="store"
+                field={i}
+                placeholder="add amenity here"
+                value={amenity.name}
+                finalize={this.updateAmenities}
+              />
+            ))}
+          </ul>
+        </div>
+        <div className="col-3 input-group" onChange={this.handleInputChange}>
+          <input type="text" className="form-control" placeholder="add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
+            <div className="input-group-append">
+              <button className="btn btn-outline-secondary" type="button" onClick={this.addAmenity}>Add</button>
+            </div>
         </div>
       </form>
     );
