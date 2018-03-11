@@ -4,7 +4,11 @@ const { updateLinksForUser } = require('./userLinksHelpers');
 const { getLinksByUser } = require('./userLinksHelpers');
 const { getZodiac } = require('./zodiacHelpers');
 
-const randPlanet = () => Math.floor(Math.random() * 10);
+const randPlanet = () => {
+  let planetId = Math.floor(Math.random() * 10);
+  console.log('*****************planet id: should be 1-9', planetId);
+  return planetId;
+};
 
 
 const getUserById = (userId) => {
