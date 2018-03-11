@@ -22,6 +22,7 @@ const { getSmokingOptions } = require('./optionHelpers');
 // space helpers
 const { addNewSpace } = require('./spaceHelpers');
 const { getSpaceById } = require('./spaceHelpers');
+const { getTodosBySpaceId } = require('./todoHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -48,3 +49,4 @@ exports.getSmokingOptions = getSmokingOptions;
 // space exports
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
+exports.getTodosBySpaceId = getTodosBySpaceId;
