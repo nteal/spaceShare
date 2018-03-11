@@ -11,6 +11,7 @@ import Profile from '../profile/index.jsx';
 import CommonArea from '../common-area/index.jsx';
 import ChatMain from '../chat-main/index.jsx';
 import CreateSpace from '../create-a-space/index.jsx';
+import Listing from '../listing/index.jsx';
 import Search from '../search/index.jsx';
 import SearchResults from '../search-results/index.jsx';
 import SideNavItems from './side-nav.jsx';
@@ -25,7 +26,7 @@ const styles = {
     padding: 8,
   },
   content: {
-    padding: '16px',
+    fontFamily: 'Raleway',
   },
 };
 
@@ -142,7 +143,7 @@ class Nav extends React.Component {
       return (
         <Sidebar {...sidebarProps}>
           <Header hamburger={hamburger} title={contentHeader} mobileTitle={contentHeaderMobile} logout={this.fbLogout}>
-            <main style={styles.content}>
+            <div style={styles.content}>
               <Route
                 exact
                 path="/"
@@ -157,13 +158,14 @@ class Nav extends React.Component {
                 <Route path="/common-area" component={CommonArea} />
                 <Route path="/messages" component={ChatMain} />
                 <Route path="/new-space" component={CreateSpace} />
+                <Route path="/listing" component={Listing} />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
                 <Route path="/results" component={SearchResults} />
                 <Route path="/listings" component={SearchResults} />
                 <Route path="/saved-searches" component={SearchResults} />
               </Switch>
-            </main>
+            </div>
           </Header>
         </Sidebar>
       );
