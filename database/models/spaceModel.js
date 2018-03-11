@@ -8,7 +8,8 @@ const { Pet } = require('./petModel');
 const { Smoking } = require('./smokingModel');
 
 // require other dependencies:
-const { Neighborhood } = require('./neighborhoodModel');
+// removed for mvp
+// const { Neighborhood } = require('./neighborhoodModel');
 const { Image } = require('./imageModel');
 const { Amenity } = require('./amenityModel');
 const { User } = require('./userModel');
@@ -22,6 +23,7 @@ const Space = db.define('space', {
   ground_rules: Sequelize.TEXT,
   main_image: Sequelize.TEXT,
   name: Sequelize.TEXT,
+  neighborhood: Sequelize.STRING,
   open: Sequelize.BOOLEAN,
   owner_fb_id: Sequelize.STRING,
   state: Sequelize.STRING,
@@ -36,7 +38,8 @@ Pet.hasMany(Space, { foreignKey: 'pet_id' });
 Smoking.hasMany(Space, { foreignKey: 'smoking_id' });
 
 // add other relationships  
-Neighborhood.hasMany(Space, { foreignKey: 'neighborhood_id' });
+// removed for mvp
+// Neighborhood.hasMany(Space, { foreignKey: 'neighborhood_id' });
 Space.hasMany(Image, { foreignKey: 'space_id' });
 Space.hasMany(Amenity, { foreignKey: 'space_id' });
 // targetKey doesn't work......
