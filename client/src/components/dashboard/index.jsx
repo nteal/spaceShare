@@ -24,6 +24,7 @@ class Dashboard extends React.Component {
       .then((response) => {
         this.setState({ currentUser: response.data });
         // get user's spaces to populate spaces content
+        console.log('moved cUserSpaces to 3002');
         Axios.get('/api/currentUserSpaces', {
           params: {
             userId: response.data.id,
