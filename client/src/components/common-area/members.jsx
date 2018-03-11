@@ -30,7 +30,7 @@ const Members = (props) => {
       <main>
         <div className="row justify-content-around">
           {members.map(member => (
-            member.id === ownerId ? (
+            member.fb_id === ownerId ? (
               <Member member={member} key={member.id} owner />
             ) : (
               <Member member={member} key={member.id} />

@@ -30,7 +30,7 @@ class CommonArea extends React.Component {
       .then((space) => {
         this.setState({
           id: space.data.id,
-          ownerId: space.data.owner_id,
+          ownerId: space.data.owner_fb_id,
           name: space.data.name,
           todos: space.data.todos,
           mainImage: space.data.main_image,
