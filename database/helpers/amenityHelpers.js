@@ -26,7 +26,7 @@ const updateAmenity = amenityObj => (
 
 // takes space id and array of amenityObj
 const updateAmenities = (spaceId, amenities) => {
-  
+
   return Promise.map(amenities, (amenity) => {
     // add space id to every amenity before it is stored
     amenity.space_id = spaceId;
@@ -43,4 +43,11 @@ const updateAmenities = (spaceId, amenities) => {
   })
 }
 
+const getAmenitiesBySpaceId = (spaceId) => (
+  Amenity.findAll({ where: { space_id: spaceId } })
+  .then(amenities => amenities.map(amenity => amenity.dataValues))
+  .catch(err => console.log(err))
+);
+
 exports.updateAmenities = updateAmenities;
+exports.getAmenitiesBySpaceId = getAmenitiesBySpaceId;
