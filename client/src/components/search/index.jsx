@@ -88,9 +88,9 @@ class Search extends React.Component {
     });
   }
   handleSubmit(event) {
-    event.preventDefault();
     if (this.isValidBudgetEntry()) {
       if (this.state.include_people !== 'false') {
+        event.preventDefault();
         this.setState({
           include_people: true,
           peopleSearch: true,
@@ -111,6 +111,7 @@ class Search extends React.Component {
         });
       }
     } else {
+      event.preventDefault();
       window.alert('Please enter a valid BUDGET range wherein\nleft-number <= right-number');
     }
   }
