@@ -104,10 +104,11 @@ class CreateSpace extends React.Component {
     //   space: this.state,
     //   token: localstorage.getItem('id_token'),
     // })
-    //   .then((newSpace) => {
-    //     this.props.history.push('/dashboard');
+    //   .then((response) => {
+    //     localStorage.setItem('id_space', response.data)
+    //     this.props.history.push('/search-results');
     //   });
-    this.props.history.push('/dashboard');
+    this.props.history.push('/search-results');
   }
   render() {
     return (
