@@ -16,6 +16,7 @@ import SearchResults from '../search-results/index.jsx';
 import SideNavItems from './side-nav.jsx';
 import Header from './header.jsx';
 import Logo from '../../assets/ss-logo-transparent.png';
+import PeopleSearch from '../search/peopleSearch.jsx';
 
 
 const styles = {
@@ -157,6 +158,7 @@ class Nav extends React.Component {
                 <Route path="/new-space" component={CreateSpace} />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
+                <Route path="/people-search" component={PeopleSearch} />
                 <Route path="/results" component={SearchResults} />
                 <Route path="/listings" component={SearchResults} />
                 <Route path="/saved-searches" component={SearchResults} />
