@@ -17,7 +17,7 @@ const deleteAmenity = amenityId => (
 );
 // takes amenityId
 const updateAmenity = amenityObj => (
-  Amenity.findOneById(amenityObj.id)
+  Amenity.findById(amenityObj.id)
     .then(amenity => amenity.update(amenityObj))
     .then(updatedAmenity => updatedAmenity.dataValues)
     .catch(err => console.log(err))
