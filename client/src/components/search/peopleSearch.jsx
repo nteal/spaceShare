@@ -27,7 +27,6 @@ class PeopleSearch extends React.Component {
       smoking_id: this.props.smoking_id,
       pet_id: this.props.pet_id,
       include_people: this.props.include_people,
-      getResults: false,
     });
   }
   isValidAgeRange() {
@@ -47,10 +46,21 @@ class PeopleSearch extends React.Component {
       this.setState({
         age_min: min,
         age_max: max,
+      }, () => {
+        // Axios.post('/api/new-search', {
+        //   search: this.state,
+        //   token: localStorage.getItem('id_token'),
+        // })
+        //   .then((response) => {
+        //     localStorage.setItem('id_search', response.data);
+        //     this.props.history.push('/search-results');
+        //   });
+        this.props.history.push('/search-results');
       });
-      return true;
+    } else {
+      return false;
     }
-    return false;
+    return true;
   }
   handleInputChange(event) {
     const { target } = event;
@@ -60,97 +70,68 @@ class PeopleSearch extends React.Component {
     });
   }
   handleSubmit(event) {
-    event.preventDefault();
-    debugger;
-    this.state;
-    if (this.isValidAgeRange()) {
-      this.setState({
-        getResults: true,
-      }, () => {
-        // Axios.post('/api/new-search', {
-        //   search: this.state,
-        //   token: localstorage.getItem('id_token'),
-        // });
-      });
-    } else {
+    if (!this.isValidAgeRange()) {
+      event.preventDefault();
       window.alert('Please enter a valid AGE range wherein\nleft-number <= right-number');
     }
   }
   render() {
-    if (!this.state.getResults) {
-      return (
-        <form onSubmit={this.handleSubmit}>
-          <div className="row">
-            <h1>Person Search</h1>
-          </div>
-          <div className="row">
-            <h5>Would you prefer a...</h5>
-          </div>
-          <div className="row">
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="day" name="sleep_id" value={1} />
-              <label className="form-check-label" htmlFor="day">
-                Early bird
-              </label>
-            </div>
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="night" name="sleep_id" value={2} />
-              <label className="form-check-label" htmlFor="night">
-                Night Owl
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="introvert" name="personality_id" value={1} />
-              <label className="form-check-label" htmlFor="introvert">
-                Introvert
-              </label>
-            </div>
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="extrovert" name="personality_id" value={2} />
-              <label className="form-check-label" htmlFor="extrovert">
-                Extrovert
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <h5>Age Range</h5>
-          </div>
-          <div className="row">
-            <div className="col-3">
-              <input className="form-control" type="text" placeholder="0" name="age_min" onChange={this.handleInputChange} />
-            </div>
-            <div className="col-1 text-center">
-              <h6>to</h6>
-            </div>
-            <div className="col-3">
-              <input className="form-control" type="text" placeholder="100" name="age_max" onChange={this.handleInputChange} />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-8 text-center">
-              <button type="submit" className="btn btn-outline-primary">Time for liftoff!</button>
-            </div>
-          </div>
-        </form>
-      );
-    }
     return (
-      <SearchResults 
-        sleep_id={this.state.sleep_id}
-        personality_id={this.state.personality_id}
-        age_min={this.state.age_min}
-        age_max={this.state.age_max}
-        purpose_id={this.state.purpose_id}
-        city={this.state.city}
-        price_min={this.state.price_min}
-        price_max={this.state.price_max}
-        timeline_id={this.state.timeline_id}
-        smoking_id={this.state.smoking_id}
-        pet_id={this.state.pet_id}
-        include_people={this.state.include_people}
-      />
+      <form onSubmit={this.handleSubmit}>
+        <div className="row">
+          <h1>Person Search</h1>
+        </div>
+        <div className="row">
+          <h5>Would you prefer a...</h5>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="day" name="sleep_id" value={1} />
+            <label className="form-check-label" htmlFor="day">
+              Early bird
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="night" name="sleep_id" value={2} />
+            <label className="form-check-label" htmlFor="night">
+              Night Owl
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="introvert" name="personality_id" value={1} />
+            <label className="form-check-label" htmlFor="introvert">
+              Introvert
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="extrovert" name="personality_id" value={2} />
+            <label className="form-check-label" htmlFor="extrovert">
+              Extrovert
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <h5>Age Range</h5>
+        </div>
+        <div className="row">
+          <div className="col-3">
+            <input className="form-control" type="text" placeholder="0" name="age_min" onChange={this.handleInputChange} />
+          </div>
+          <div className="col-1 text-center">
+            <h6>to</h6>
+          </div>
+          <div className="col-3">
+            <input className="form-control" type="text" placeholder="100" name="age_max" onChange={this.handleInputChange} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-8 text-center">
+            <button type="submit" className="btn btn-outline-primary">Time for liftoff!</button>
+          </div>
+        </div>
+      </form>
     );
   }
 }
