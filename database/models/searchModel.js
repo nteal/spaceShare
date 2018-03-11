@@ -6,28 +6,33 @@ const { Gender } = require('./genderModel');
 const { Personality } = require('./personalityModel');
 const { Sleep } = require('./sleepModel');
 
-// require prefil preferences
+// require options preferences
 const { Purpose } = require('./purposeModel');
 const { Timeline } = require('./timelineModel');
 const { Pet } = require('./petModel');
 const { Smoking } = require('./smokingModel');
 
+// require user
+const { User } = require('./userModel');
+
 const Search = db.define('search', {
-  about: Sequelize.TEXT,
   price_min: Sequelize.DECIMAL(12, 2),
   price_max: Sequelize.DECIMAL(12, 2),
+  age_min: Sequelize.INTEGER,
+  age_max: Sequelize.INTEGER,
   location_specificity: Sequelize.STRING,
   location_search: Sequelize.STRING,
   zip: Sequelize.STRING,
   city: Sequelize.STRING,
   state: Sequelize.STRING,
   include_people: Sequelize.BOOLEAN,
-
+  fb_id: Sequelize.STRING,
 });
 
 // add relationships for many:1 relationships
-
-Gender.hasMany(Search, { foreignKey: 'gender_id' });
+// sequelize doesn't support targetKeys for hasmany.............
+// User.hasMany(Search, { foreignKey: 'fb_id', targetKey: 'fb_id' });
+// Gender.hasMany(Search, { foreignKey: 'gender_id' });
 Sleep.hasMany(Search, { foreignKey: 'sleep_id' });
 Personality.hasMany(Search, { foreignKey: 'personality_id' });
 

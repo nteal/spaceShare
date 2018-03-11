@@ -6,6 +6,10 @@ const { updateUser } = require('./userHelpers');
 const { userInDb } = require('./userHelpers');
 // options helpers:
 const { addGender } = require('./genderHelpers');
+const { addNewSearch } = require('./searchHelpers');
+const { deleteSearchById } = require('./searchHelpers');
+const { getSearchesByFbId } = require('./searchHelpers');
+const { getSearchesForMatching } = require('./searchHelpers');
 const { getGenderOptions } = require('./optionHelpers');
 const { getPlanetOptions } = require('./optionHelpers');
 const { getPersonalityOptions } = require('./optionHelpers');
@@ -24,6 +28,10 @@ exports.updateUser = updateUser;
 exports.userInDb = userInDb;
 // options exports:
 exports.addGender = addGender;
+exports.addNewSearch = addNewSearch;
+exports.deleteSearchById = deleteSearchById;
+exports.getSearchesByFbId = getSearchesByFbId;
+exports.getSearchesForMatching = getSearchesForMatching;
 exports.getGenderOptions = getGenderOptions;
 exports.getPlanetOptions = getPlanetOptions;
 exports.getPersonalityOptions = getPersonalityOptions;
