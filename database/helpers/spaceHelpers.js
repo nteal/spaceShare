@@ -1,10 +1,35 @@
 const Promise = require('bluebird');
 const { getAmenitiesBySpaceId } = require('./amenityHelpers');
 const { getImagesBySpaceId} = require('./imageHelpers');
+const { getTodosBySpaceId } = require('./todoHelpers');
 const { Space } = require('../models/spaceModel');
 const { updateAmenities } = require('./amenityHelpers');
 const { updateImages } = require('./imageHelpers');
-const { getTodosBySpaceId } = require('./todoHelpers');
+
+const { getPurposeById } = require('./optionHelpers');
+const { getSmokingById } = require('./optionHelpers');
+const { getPetById } = require('./optionHelpers');
+const { getTimelineById } = require('./optionHelpers');
+
+
+const addDataFromIds = (spaceObj) => {
+  const retObj = Object.assign({}, spaceObj);
+  return Promise.all([
+    getPurposeById(spaceObj.purpose_id),
+    getSmokingById(spaceObj.smoking_id),
+    getPetById(spaceObj.pet_id),
+    getTimelineById(spaceObj.timeline_id),
+    retObj,
+  ])
+    .then(([purpose, smoking, pet, timeline, retObj]) => {
+      retObj.purpose = purpose.type;
+      retObj.smoking = smoking.location;
+      retObj.pet = pet.location;
+      retObj.timeline = timeline.range;
+      return retObj;
+    })
+    .catch(err => console.log(err));
+};
 
 // get space for users purposes
   // needs to fetch todos, amenities, and images
@@ -23,7 +48,7 @@ const getSpaceById = (spaceId) => {
       spaceObj.gallery = images;
       spaceObj.amenities = amenities;
       spaceObj.todos = todos;
-      return spaceObj;
+      return addDataFromIds(spaceObj);
     })
     .catch(err => console.log(err))
 };
@@ -64,6 +89,8 @@ const updateSpace = (spaceObj) => {
     .then(({id}) => getSpaceById(id))
     .catch(err => console.log(err));
 }
+
+
 
 // get space info for matching purposes
   // based on location and purpose
