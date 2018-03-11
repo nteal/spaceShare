@@ -16,7 +16,6 @@ class Search extends React.Component {
       pet_id: 2,
       include_people: true,
       peopleSearch: false,
-      getResults: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.isValidBudgetEntry = this.isValidBudgetEntry.bind(this);
@@ -98,12 +97,17 @@ class Search extends React.Component {
         });
       } else {
         this.setState({
-          getResults: true,
+          include_people: false,
         }, () => {
           // Axios.post('/api/new-search', {
           //   search: this.state,
           //   token: localstorage.getItem('id_token'),
-          // });
+          // })
+            // .then((response) => {
+            //   localStorage.setItem('id_search', response.data);
+            //   this.props.history.push('/search-results');
+            // });
+          this.props.history.push('/search-results');
         });
       }
     } else {
@@ -111,175 +115,162 @@ class Search extends React.Component {
     }
   }
   render() {
-    if (this.state.getResults) {
-      return <SearchResults
-        purpose_id={this.state.purpose_id}
-        city={this.state.city}
-        price_min={this.state.price_min}
-        price_max={this.state.price_max}
-        timeline_id={this.state.timeline_id}
-        smoking_id={this.state.smoking_id}
-        pet_id={this.state.pet_id}
-        include_people={this.state.include_people}
-      />;
-    }
-    if (!this.state.peopleSearch) {
+    if (this.state.peopleSearch) {
       return (
-        <form onSubmit={this.handleSubmit}>
-          <div className="row">
-            <h1>New Search</h1>
-          </div>
-          <div className="row">
-            <h3>Purpose</h3>
-          </div>
-          <div className="row">
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
-              <label className="form-check-label" htmlFor="work">
-                Work
-              </label>
-            </div>
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
-              <label className="form-check-label" htmlFor="live">
-                Live
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <h3>Location</h3>
-          </div>
-          <div className="row">
-            <div className="col-8">
-              <input className="form-control" type="text" placeholder="" name="city" onChange={this.handleInputChange} />
-            </div>
-          </div>
-          <div className="row">
-            <h3>Budget</h3>
-          </div>
-          <div className="row">
-            <div className="col-3">
-              <input className="form-control" type="text" placeholder="$000.00" name="price_min" onChange={this.handleInputChange} />
-            </div>
-            <div className="col-1 text-center">
-              <h6>to</h6>
-            </div>
-            <div className="col-3">
-              <input className="form-control" type="text" placeholder="$000.00" name="price_max" onChange={this.handleInputChange} />
-            </div>
-          </div>
-          <div className="row">
-            <h3>Timeframe</h3>
-          </div>
-          <div className="row">
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
-              <label className="form-check-label" htmlFor="daily">
-                Daily
-              </label>
-            </div>
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="weekly" name="timeline_id" value={2} />
-              <label className="form-check-label" htmlFor="weekly">
-                Weekly
-              </label>
-            </div>
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="monthly" name="timeline_id" value={3} />
-              <label className="form-check-label" htmlFor="monthly">
-                Monthly
-              </label>
-            </div>
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="long-term" name="timeline_id" value={4} />
-              <label className="form-check-label" htmlFor="long-term">
-                Long-term
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <h3>Smoking?</h3>
-          </div>
-          <div className="row">
-            <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="smoking_id" value={1} />
-              <label className="form-check-label" htmlFor="outside">
-                Outside is fine
-              </label>
-            </div>
-            <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="smoking_id" value={2} />
-              <label className="form-check-label" htmlFor="anywhere">
-                Anywhere is fine
-              </label>
-            </div>
-            <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
-              <label className="form-check-label" htmlFor="no-smoking">
-                Absolutely not
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <h3>Pet-friendly?</h3>
-          </div>
-          <div className="row">
-            <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="outside" name="pet_id" value={1} />
-              <label className="form-check-label" htmlFor="outside">
-                Outside is fine
-              </label>
-            </div>
-            <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="anywhere" name="pet_id" value={2} />
-              <label className="form-check-label" htmlFor="anywhere">
-                Anywhere is fine
-              </label>
-            </div>
-            <div className="col-3 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
-              <label className="form-check-label" htmlFor="no-pets">
-                Absolutely not
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <h3>Include people in your search?</h3>
-          </div>
-          <div className="row">
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="yes" name="include_people" value="true" />
-              <label className="form-check-label" htmlFor="yes">
-                Yes
-              </label>
-            </div>
-            <div className="col-2 form-check" onChange={this.handleInputChange}>
-              <input className="form-check-input" type="radio" id="no" name="include_people" value="false" />
-              <label className="form-check-label" htmlFor="no">
-                No
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-8 text-center">
-              <button type="submit" className="btn btn-outline-primary">Let's go</button>
-            </div>
-          </div>
-        </form>
+        <PeopleSearch
+          purpose_id={this.state.purpose_id}
+          city={this.state.city}
+          price_min={this.state.price_min}
+          price_max={this.state.price_max}
+          timeline_id={this.state.timeline_id}
+          smoking_id={this.state.smoking_id}
+          pet_id={this.state.pet_id}
+          include_people={this.state.include_people}
+        />
       );
     }
     return (
-      <PeopleSearch
-        purpose_id={this.state.purpose_id}
-        city={this.state.city}
-        price_min={this.state.price_min}
-        price_max={this.state.price_max}
-        timeline_id={this.state.timeline_id}
-        smoking_id={this.state.smoking_id}
-        pet_id={this.state.pet_id}
-        include_people={this.state.include_people}
-        getResults={this.state.getResults}
-      />
+      <form onSubmit={this.handleSubmit}>
+        <div className="row">
+          <h1>New Search</h1>
+        </div>
+        <div className="row">
+          <h3>Purpose</h3>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
+            <label className="form-check-label" htmlFor="work">
+              Work
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
+            <label className="form-check-label" htmlFor="live">
+              Live
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <h3>Location</h3>
+        </div>
+        <div className="row">
+          <div className="col-8">
+            <input className="form-control" type="text" placeholder="" name="city" onChange={this.handleInputChange} />
+          </div>
+        </div>
+        <div className="row">
+          <h3>Budget</h3>
+        </div>
+        <div className="row">
+          <div className="col-3">
+            <input className="form-control" type="text" placeholder="$000.00" name="price_min" onChange={this.handleInputChange} />
+          </div>
+          <div className="col-1 text-center">
+            <h6>to</h6>
+          </div>
+          <div className="col-3">
+            <input className="form-control" type="text" placeholder="$000.00" name="price_max" onChange={this.handleInputChange} />
+          </div>
+        </div>
+        <div className="row">
+          <h3>Timeframe</h3>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
+            <label className="form-check-label" htmlFor="daily">
+              Daily
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="weekly" name="timeline_id" value={2} />
+            <label className="form-check-label" htmlFor="weekly">
+              Weekly
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="monthly" name="timeline_id" value={3} />
+            <label className="form-check-label" htmlFor="monthly">
+              Monthly
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="long-term" name="timeline_id" value={4} />
+            <label className="form-check-label" htmlFor="long-term">
+              Long-term
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <h3>Smoking?</h3>
+        </div>
+        <div className="row">
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="outside" name="smoking_id" value={1} />
+            <label className="form-check-label" htmlFor="outside">
+              Outside is fine
+            </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="anywhere" name="smoking_id" value={2} />
+            <label className="form-check-label" htmlFor="anywhere">
+              Anywhere is fine
+            </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
+            <label className="form-check-label" htmlFor="no-smoking">
+              Absolutely not
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <h3>Pet-friendly?</h3>
+        </div>
+        <div className="row">
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="outside" name="pet_id" value={1} />
+            <label className="form-check-label" htmlFor="outside">
+              Outside is fine
+            </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="anywhere" name="pet_id" value={2} />
+            <label className="form-check-label" htmlFor="anywhere">
+              Anywhere is fine
+            </label>
+          </div>
+          <div className="col-3 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
+            <label className="form-check-label" htmlFor="no-pets">
+              Absolutely not
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <h3>Include people in your search?</h3>
+        </div>
+        <div className="row">
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="yes" name="include_people" value="true" />
+            <label className="form-check-label" htmlFor="yes">
+              Yes
+            </label>
+          </div>
+          <div className="col-2 form-check" onChange={this.handleInputChange}>
+            <input className="form-check-input" type="radio" id="no" name="include_people" value="false" />
+            <label className="form-check-label" htmlFor="no">
+              No
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-8 text-center">
+            <button type="submit" className="btn btn-outline-primary">Let's go</button>
+          </div>
+        </div>
+      </form>
     );
   }
 }
