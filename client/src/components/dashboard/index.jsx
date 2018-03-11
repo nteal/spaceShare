@@ -68,10 +68,10 @@ class Dashboard extends React.Component {
             </div>
           </MediaQuery>
           <div className="row row-eq-height content-row">
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-4 d-flex flex-column align-items-stretch">
               <DashProfile user={currentUser} />
             </div>
-            <div className="col-12 col-sm-6 col-md-8 col-lg-8">
+            <div className="col-12 col-sm-6 col-md-8 col-lg-8 d-flex flex-column align-items-stretch">
               <MediaQuery minDeviceWidth={601} maxDeviceWidth={799}>
                 <div className="row justify-content-center">
                   <div className="col">
@@ -82,13 +82,9 @@ class Dashboard extends React.Component {
                 </div>
               </MediaQuery>
               <MediaQuery minDeviceWidth={800}>
-                <div className="row">
-                  <Messages />
-                </div>
+                <Messages />
               </MediaQuery>
-              <div className="row">
                 <Spaces spaces={currentUserSpaces} />
-              </div>
             </div>
           </div>
         </div>
