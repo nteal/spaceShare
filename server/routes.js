@@ -15,6 +15,7 @@ router.post(
       { id: req.user.id },
       'secret', { expiresIn: '1h' },
     );
+    console.log(jwt.verify(token, 'secret'));
     console.log('sending token =>', token);
     res.status(200).send(token);
   },
@@ -22,20 +23,21 @@ router.post(
 
 
 router.param('token', (req, res, next, JWT) => {
-  console.log('router param check');
+  console.log('router param check', req.url);
   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   // check authorization
   const isAuthorized = (JWT) => {
     // decode token
-    const fbId = jwt.verify(JWT, 'secret');
-    console.log(fbID);
+    const jwtObject = jwt.verify(JWT, 'secret');
+    const fbId = jwtObject.id;
+    console.log(fbId);
     // verify user exists
     return db.helpers.userInDb(fbId);
   }
   if (isAuthorized(JWT)){
     // add ID to req
-    req.fb_Id = fbId;
-    console.log('fb_Id attached');
+    req.fb_Id = jwt.verify(JWT, 'secret').id;
+    console.log('fb_Id attached', req.fb_Id);
   } else {
     // or tell them no
     console.log('forbidden');
@@ -48,10 +50,9 @@ router.param('token', (req, res, next, JWT) => {
 router.get('/api/isAuthenticated/token/:token', (req, res) => {
   console.log('isTTTTTTTAuth');
   console.log('req.params => ', req.params);
-  console.log('req.query => ', req.query);
-  console.log('the request is -> ', req);
+  // console.log('req.query => ', req.query); // empty object
   if (req.params && req.params.token) {
-    const id = jwt.verify(req.query.token, 'secret');
+    const id = jwt.verify(req.params.token, 'secret').id;
     console.log('id: ', id);
     res.send(true);
   } else {
@@ -63,8 +64,8 @@ router.get('/api/currentSpace', (req, res) => {
 
 });
 
-router.get('/api/currentUser', (req, res) => {
-  console.log('getCurrentUser');
+router.get('/api/currentUser/token/:token', (req, res) => {
+  console.log('getCurrentUser', Object.keys(req));
   db.helpers.getUserByFbId(req.fb_Id)
   .then((user) => {
     res.status(200).send(user);

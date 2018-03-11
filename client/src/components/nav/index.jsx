@@ -56,7 +56,7 @@ class Nav extends React.Component {
     // Axios.get('/api/isAuthenticated', {
     //   params: { token: localStorage.getItem('token_id') }
     // })
-    Axios.get(`/api/isAuthenticated/token/${localStorage.getItem('token_id')}`)
+    Axios.get(`/api/isAuthenticated/token/${localStorage.getItem('id_token')}`)
       .then((response) => {
         console.log('nav auth response exposed');
         if (response.data === false) {
