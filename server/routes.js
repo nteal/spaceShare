@@ -85,6 +85,10 @@ router.get('/api/new-search/token/:token', (req, res) => {
   res.status(200).send('hit new-seach');
 });
 
+router.get('/api/get-location/token/:token/address/:address', (req, res) => {
+  res.status(200).send('get-location');
+});
+
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
