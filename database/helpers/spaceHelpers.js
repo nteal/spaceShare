@@ -67,7 +67,8 @@ const addNewSpace = (spaceObj) => {
       spaceId = createdSpace.id;
       updateAmenities(createdSpace.id, amenitiesArr)
     })
-    .then(() => getSpaceById(spaceId))
+    // .then(() => getSpaceById(spaceId)) // commented out to return only id!
+    .then(() => spaceId)
     .catch(err => console.log(err));
 }
 
