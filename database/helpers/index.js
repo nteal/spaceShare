@@ -24,6 +24,8 @@ const { addNewSpace } = require('./spaceHelpers');
 const { getSpaceById } = require('./spaceHelpers');
 const { updateSpace } = require('./spaceHelpers');
 const { getTodosBySpaceId } = require('./todoHelpers');
+const { getSpacesForMatching } = require('./spaceHelpers');
+const { getSpaceListingsById } = require('./spaceHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -52,3 +54,5 @@ exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.getTodosBySpaceId = getTodosBySpaceId;
 exports.updateSpace = updateSpace;
+exports.getSpacesForMatching = getSpacesForMatching;
+exports.getSpaceListingsById = getSpaceListingsById;
