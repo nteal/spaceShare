@@ -81,6 +81,10 @@ router.get('/api/currentUserSpaces/token/:token/userId/:userId', (req, res) => {
 
 });
 
+router.get('/api/new-search/token/:token', (req, res) => {
+  res.status(200).send('hit new-seach');
+});
+
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
