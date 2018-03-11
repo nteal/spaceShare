@@ -226,9 +226,9 @@ class EditProfile extends React.Component {
           </div>
         </MediaQuery>
         <div className="row justify-content-center">
-          <div className="col-12 col-sm-10 col-md-4 col-lg-4">
+          <div className="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column align-items-start">
             {/* user stats sidebar */}
-            <div className="content-box mb-2">
+            <div className="content-box">
               <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url.display} finalize={this.finalizeEditImage} />
               <div className="mini-heading-box-side">
                 <span>

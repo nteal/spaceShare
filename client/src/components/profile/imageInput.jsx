@@ -41,34 +41,40 @@ class ImageInput extends React.Component {
     let displayed;
     if (editing) {
       displayed = (
-        <div className="content-box">
-          <ReactS3Uploader
-            signingUrl="/s3/sign"
-            signingUrlMethod="GET"
-            accept="image/*"
-            s3path={category}
-            scrubFilename={
-              filename =>
-                filename.replace(/[^]*/, `${userId}_${field}_${imageId}`)
-            }
-            multiple={false}
-            onFinish={this.onDrop}
-          />
-          <div className="row justify-content-end mr-0">
-            <button
-              className="btn btn-outline-secondary btn-sm pb-0"
-              onClick={this.handleSubmit}
-              type="submit"
-            >
-              <i className="material-icons">check</i>
-            </button>
-            <button
-              className="btn btn-outline-secondary btn-sm pb-0 ml-1"
-              onClick={this.doneEditing}
-              type="button"
-            >
-              <i className="material-icons">close</i>
-            </button>
+        <div className="content-box image-selection-box">
+          <div className="pl-2 pr-2 pt-5 pb-5">
+            <div className="input-group">
+              <ReactS3Uploader
+                className="form-control image-select"
+                signingUrl="/s3/sign"
+                signingUrlMethod="GET"
+                accept="image/*"
+                s3path={category}
+                scrubFilename={
+                  filename =>
+                    filename.replace(/[^]*/, `${userId}_${field}_${imageId}`)
+                }
+                multiple={false}
+                onFinish={this.onDrop}
+              />
+              {/* <div className="row justify-content-end mr-0"> */}
+              <div className="input-group-append">
+                <button
+                  className="btn btn-outline-light pb-0"
+                  onClick={this.handleSubmit}
+                  type="submit"
+                >
+                  <i className="material-icons">check</i>
+                </button>
+                <button
+                  className="btn btn-outline-light pb-0"
+                  onClick={this.doneEditing}
+                  type="button"
+                >
+                  <i className="material-icons">close</i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       );
