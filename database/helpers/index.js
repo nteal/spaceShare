@@ -19,6 +19,9 @@ const { getPurposeOptions } = require('./optionHelpers');
 const { getTimelineOptions } = require('./optionHelpers');
 const { getPetOptions } = require('./optionHelpers');
 const { getSmokingOptions } = require('./optionHelpers');
+// space helpers
+const { addNewSpace } = require('./spaceHelpers');
+const { getSpaceById } = require('./spaceHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -41,3 +44,7 @@ exports.getPurposeOptions = getPurposeOptions;
 exports.getTimelineOptions = getTimelineOptions;
 exports.getPetOptions = getPetOptions;
 exports.getSmokingOptions = getSmokingOptions;
+
+// space exports
+exports.addNewSpace = addNewSpace;
+exports.getSpaceById = getSpaceById;
