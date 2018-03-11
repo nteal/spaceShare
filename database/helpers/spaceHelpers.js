@@ -3,6 +3,7 @@ const { getAmenitiesBySpaceId } = require('./amenityHelpers');
 const { getImagesBySpaceId} = require('./imageHelpers');
 const { Space } = require('../models/spaceModel');
 const { updateAmenities } = require('./amenityHelpers');
+const { updateImages } = require('./imageHelpers');
 const { getTodosBySpaceId } = require('./todoHelpers');
 
 // get space for users purposes
@@ -19,7 +20,7 @@ const getSpaceById = (spaceId) => {
       ])
     })
     .then(([images, amenities, todos, spaceObj]) => {
-      spaceObj.images = images;
+      spaceObj.gallery = images;
       spaceObj.amenities = amenities;
       spaceObj.todos = todos;
       return spaceObj;
@@ -46,12 +47,21 @@ const addNewSpace = (spaceObj) => {
 }
 
 // takes a space object, returns a promise for updated space:
-const editSpace = (spaceObj) => {
-  // update images
-  // update amenities
-  // update todo
-  Space.findById(spaceObj.id)
-    .then(space => space.update(spaceObj))
+const updateSpace = (spaceObj) => {
+    return Promise.all([
+      // update amenities related to space
+      updateAmenities(spaceObj.id, spaceObj.amenities),
+      // update images related to space
+      updateImages(spaceObj.id, spaceObj.gallery),
+    ]) 
+    // update space
+    .then(() => Space.findById(spaceObj.id))
+    .then(space => {
+      const updatedSpaceObj = Object.assign({}, spaceObj);
+      updatedSpaceObj.main_image = spaceObj.main_image.name;
+      return space.update(updatedSpaceObj)
+    })
+    .then(({id}) => getSpaceById(id))
     .catch(err => console.log(err));
 }
 
@@ -61,3 +71,4 @@ const editSpace = (spaceObj) => {
 
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
+exports.updateSpace = updateSpace;
