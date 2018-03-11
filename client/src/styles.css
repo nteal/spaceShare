@@ -40,6 +40,11 @@ ul {
   cursor: pointer;
   fill: rgb(49, 23, 155);
 }
+
+.md-h3 {
+  font-size: 1.75rem;
+}
+
 .sidebar-icon {
   margin-right: .5em;
 }
@@ -86,6 +91,10 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: -2rem;
 }
 
+.mt-neg-3 {
+  margin-top: -3.5rem;
+}
+
 .mini-heading-box-side {
   background-color: rgb(61, 61, 61);
   border-radius: 2px;
@@ -93,9 +102,11 @@ h1, h2, h3, h4, h5, h6 {
   height: 45px;
   margin-left: -10px;
   margin-right: 100px;
-  margin-top: 20px;
+  margin-top: -1rem;
   min-width: 200px;
   padding: 15px 10px 0px 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .mini-heading-box-top {
@@ -176,10 +187,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .zodiac-glyph {
-  height: 20px;
-  margin-right: .8em;
+  height: 1.25rem;
+  margin-right: 1em;
   max-width: 100%;
-  width: 20px;
+  width: 1.25rem;
 }
 
 .member-img-box {
