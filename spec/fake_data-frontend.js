@@ -21,7 +21,7 @@ app.use('/s3', require('react-s3-uploader/s3router')({
   bucket: 'spaceshare-sfp',
   region: 'us-east-1',
   headers: {'Access-Control-Allow-Origin': '*'},
-  ACL: 'public',
+  ACL: 'public-read',
   uniquePrefix: false,
 }));
 
