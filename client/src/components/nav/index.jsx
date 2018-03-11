@@ -52,8 +52,13 @@ class Nav extends React.Component {
     mql.addListener(this.mediaQueryChanged);
     this.setState({mql: mql, sidebarDocked: mql.matches});
     // check if user is authenticated; if they aren't, redirect to /
-    Axios.get('http://localhost:3003/api/isAuthenticated')
+    console.log('moved nav auth check to 3002');
+    // Axios.get('/api/isAuthenticated', {
+    //   params: { token: localStorage.getItem('token_id') }
+    // })
+    Axios.get(`/api/isAuthenticated/token/${localStorage.getItem('token_id')}`)
       .then((response) => {
+        console.log('nav auth response exposed');
         if (response.data === false) {
           this.setState({ isAuthenticated: false });
         }

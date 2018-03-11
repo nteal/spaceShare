@@ -17,7 +17,8 @@ class Dashboard extends React.Component {
   componentDidMount() {
     console.log('dashboard did mount');
     // get user data to populate profile content
-    Axios.get('http://localhost:3003/api/currentUser', {
+    console.log('moved dashboard currentUser to 3002')
+    Axios.get('http://localhost:3002/api/currentUser', {
       params: { token: localStorage.getItem('id_token') },
     })
       .then((response) => {
