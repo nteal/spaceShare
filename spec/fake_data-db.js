@@ -1,21 +1,47 @@
 const newSpace = {
-  name: 'myspace',
-  description: 'this is my description',
-  const: 23454.40,
+  amenities: [{text: 'thing'}, {text: 'otherThings..'}],
   capacity: 4,
-  open: true,
-  ground_rules: 'dont do bad things',
-  street_address: '748 camp st',
   city: 'New Orleans',
-  zip: 70115,
-  state: 'LA',
+  cost: 23454.40,
+  description: 'this is my description',
+  main_image: {name: 'a;lksejf.png'},
+  name: 'myspace',
   neighborhood: 'garden district',
+  open: true,
   owner_fb_id: 'sadf9pwp8rypf98dsiyr9pfeouyfasfasd',
   purpose_id: 1,
-  timeline_id: 2,
   pet_id: 3,
   smoking_id: 2,
+  state: 'LA',
+  street_address: '748 camp st',
+  timeline_id: 2,
+  zip: 70115,
 }
+
+const updateSpace = {
+  // lave id blank for creation, leave text blank for deletion
+  amenities = [{ id: 1, text: "myThing" }, { text: "myThing" }, { id: 3 }],
+  capacity: 4,
+  city: 'New Orleans',
+  cost: 23454.40,
+  description: 'this is my description',
+  gallery = [{ id: 1, name: 'fileNameOrUrl'}, {name: 'anotherFileNameOrUrl'}, {id: 1}],  location_display: 'address',
+  main_image: {name: 'a;lksejf.png'},
+  name: 'myspace',
+  neighborhood: 'garden district',
+  open: true,
+  owner_fb_id: 'sadf9pwp8rypf98dsiyr9pfeouyfasfasd',
+  pet_id: 3,
+  purpose_id: 1,
+  smoking_id: 2,
+  street_address: '748 camp st',
+  state: 'LA',
+  timeline_id: 2,
+  zip: 70115,
+}
+
+
+const newGroundrules = {spaceId: 2, content: 'do not break the house'};
 
 const newUser = {
   about: 'i\'m me! and no one else. except for sometimes',
@@ -55,3 +81,4 @@ const newSearch = {
   pet_id: 3,
   smoking_id: 3,
 };
+
