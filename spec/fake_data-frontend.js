@@ -235,7 +235,7 @@ app.get('/api/currentSpace', (req, res) => {
     city: 'Melbourne',
     zip: '32904',
     state: 'FL',
-    main_image: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
+    main_image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
     neighborhood: 'Briggen Quarry',
     owner_id: 0,
     purpose: 'Live',
