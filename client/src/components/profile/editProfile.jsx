@@ -9,6 +9,7 @@ import DateInput from './dateInput.jsx';
 import DropDown from './dropDown.jsx';
 import LinkInput from './linkInput.jsx';
 import AboutInput from './aboutInput.jsx';
+import ImageInput from './imageInput.jsx';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
 class EditProfile extends React.Component {
@@ -43,6 +44,7 @@ class EditProfile extends React.Component {
     this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
     this.finalizeEditLink = this.finalizeEditLink.bind(this);
+    this.finalizeEditImage = this.finalizeEditImage.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -56,7 +58,9 @@ class EditProfile extends React.Component {
           name_first: response.data.name_first,
           name_last: response.data.name_last,
           about: response.data.about,
-          image_url: response.data.image_url,
+          image_url: {
+            display: response.data.image_url
+          },
           phone: response.data.phone,
           email: response.data.email,
           birthdate: response.data.birthdate,
@@ -77,7 +81,7 @@ class EditProfile extends React.Component {
 
   handleBack() {
     this.props.history.goBack();
-  };
+  }
 
   finalizeEdit(field, value) {
     this.setState({ [field]: value }, () => {
@@ -93,6 +97,15 @@ class EditProfile extends React.Component {
       url: value,
     }}, () => {
       console.log('new value', this.state[field]);
+    });
+  }
+
+  finalizeEditImage(field, tempUrl, fileName) {
+    this.setState({
+      [field]: {
+        display: tempUrl,
+        edited: fileName,
+      },
     });
   }
 
@@ -129,10 +142,12 @@ class EditProfile extends React.Component {
       'Night owl': 2,
     };
 
+    const newImage = image_url.edited || image_url.display;
+
     console.log({
       id,
       about,
-      image_url,
+      image_url: newImage,
       phone,
       email,
       birthdate,
@@ -149,7 +164,7 @@ class EditProfile extends React.Component {
     Axios.post('/api/editProfile', {
       id,
       about,
-      image_url,
+      image_url: newImage,
       phone,
       email,
       birthdate,
@@ -171,7 +186,7 @@ class EditProfile extends React.Component {
   }
 
   render() {
-    const { name_first, name_last } = this.state;
+    const { id, name_first, name_last } = this.state;
     const {
       about,
       image_url,
@@ -211,11 +226,10 @@ class EditProfile extends React.Component {
           </div>
         </MediaQuery>
         <div className="row justify-content-center">
-          <div className="col-12 col-sm-10 col-md-4 col-lg-4">
+          <div className="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column align-items-start">
             {/* user stats sidebar */}
-            <div className="content-box mb-2">
-              {/* change profile pic btn */}
-              <img src={image_url} alt="user profile" className="user-profile-pic" />
+            <div className="content-box">
+              <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url.display} finalize={this.finalizeEditImage} />
               <div className="mini-heading-box-side">
                 <span>
                   <h5>{name_first} {name_last}</h5>
@@ -238,7 +252,7 @@ class EditProfile extends React.Component {
           <div className="col-12 col-sm-10 col-md-8 col-lg-8 d-flex flex-column align-items-start">
             <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
             {/* searchable checkboxes */}
-            <div className="content-box">
+            <div className="content-box auto-height-box">
               <MediaQuery minDeviceWidth={800}>
                 <div className="mini-heading-box-top">
                   <h5>Searchable</h5>

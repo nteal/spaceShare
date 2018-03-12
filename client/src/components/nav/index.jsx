@@ -60,7 +60,7 @@ class Nav extends React.Component {
           this.setState({ isAuthenticated: false });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('error checking authentication', error);
       });
   }

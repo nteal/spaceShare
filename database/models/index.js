@@ -15,10 +15,11 @@ const { Image } = require('./imageModel');
 const { Space } = require('./spaceModel');
 const { Todo } = require('./todoModel');
 const { Amenity } = require('./amenityModel');
+const { UserSpace } = require('./user_spaceModel');
 
 // create junction tables:
 // user_space junction table:
-User.belongsToMany(Space, { through: 'user_space' });
-Space.belongsToMany(User, { through: 'user_space' });
+User.belongsToMany(Space, { through: UserSpace });
+Space.belongsToMany(User, { through: UserSpace });
 
 exports.syncDb = () => db.sync();

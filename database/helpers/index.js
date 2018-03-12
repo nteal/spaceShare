@@ -23,9 +23,18 @@ const { getSmokingOptions } = require('./optionHelpers');
 const { addNewSpace } = require('./spaceHelpers');
 const { getSpaceById } = require('./spaceHelpers');
 const { updateSpace } = require('./spaceHelpers');
-const { getTodosBySpaceId } = require('./todoHelpers');
 const { getSpacesForMatching } = require('./spaceHelpers');
-const { getSpaceListingsById } = require('./spaceHelpers');
+const { getSpaceListingById } = require('./spaceHelpers');
+const { isOwner } = require('./spaceHelpers');
+// todo helpers
+const { getTodosBySpaceId } = require('./todoHelpers');
+const { updateTodo } = require('./todoHelpers');
+// spacemembers
+const { addUsersToSpaces } = require('./spaceMembersHelpers');
+const { getSpacesByFbId } = require('./spaceMembersHelpers');
+const { getSpaceMembers} = require('./spaceMembersHelpers');
+const { getUserIncludingSpaces } = require('./spaceMembersHelpers');
+const { getSpaceIncludingMembers } = require('./spaceMembersHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -52,7 +61,16 @@ exports.getSmokingOptions = getSmokingOptions;
 // space exports
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
-exports.getTodosBySpaceId = getTodosBySpaceId;
 exports.updateSpace = updateSpace;
 exports.getSpacesForMatching = getSpacesForMatching;
-exports.getSpaceListingsById = getSpaceListingsById;
+exports.getSpaceListingById = getSpaceListingById;
+exports.isOwner = isOwner;
+// todo exports:
+exports.getTodosBySpaceId = getTodosBySpaceId;
+exports.updateTodo = updateTodo;
+// space members
+exports.addUsersToSpaces = addUsersToSpaces;
+exports.getSpacesByFbId = getSpacesByFbId;
+exports.getSpaceMembers = getSpaceMembers;
+exports.getUserIncludingSpaces = getUserIncludingSpaces;
+exports.getSpaceIncludingMembers = getSpaceIncludingMembers;
