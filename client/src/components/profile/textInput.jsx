@@ -17,7 +17,11 @@ class TextInput extends React.Component {
   }
 
   toggleEditing(event) {
+    const { value } = this.props;
     this.setState({ editing: true });
+    if (value !== 'An optional additional amenity') {
+      this.setState({ newValue: value });
+    }
   }
 
   doneEditing() {
