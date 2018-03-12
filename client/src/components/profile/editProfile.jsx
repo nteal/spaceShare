@@ -221,7 +221,7 @@ class EditProfile extends React.Component {
           <MediaQuery maxDeviceWidth={799}>
             <div className="row">
               <button className="custom-btn" onClick={this.handleBack}>
-                <ArrowLeftBoldCircle className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
+                <ArrowLeftBoldCircle className="mdi-btn" height={38} width={38} fill="#6F5BC0" />
               </button>
               <div className="mobile-heading-box">
                 <h2>Edit Your Profile</h2>
