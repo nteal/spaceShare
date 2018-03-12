@@ -60,7 +60,7 @@ const updateSpace = {
 }
 
 
-const newGroundrules = {spaceId: 2, content: 'do not break the house'};
+const newGroundrules = {spaceId: 2, ground_rules: 'do not break the house'};
 
 const newUser = {
   about: 'i\'m me! and no one else. except for sometimes',
