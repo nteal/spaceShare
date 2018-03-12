@@ -81,8 +81,6 @@ const newUser = {
   searchable_work: true,
   searchable_live: true,
   birthdate: new Date(), // YYYY-MM-DD HH:MM:SS
-  created
-  updated
   gender_id: 2,
   sleep_id: 1,
   personality_id: 1,
