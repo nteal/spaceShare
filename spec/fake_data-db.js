@@ -39,13 +39,17 @@ const newSpace = {
 }
 
 const updateSpace = {
+  id: 1,
   // lave id blank for creation, leave text blank for deletion
-  amenities = [{ id: 1, text: "myThing" }, { text: "myThing" }, { id: 3 }],
+  amenities: [{ text: "myThing" }],
+  // amenities: [{ id: 1, text: "myThing" }, { text: "myThing" }, { id: 3 }],
   capacity: 4,
   city: 'New Orleans',
   cost: 23454.40,
   description: 'this is my description',
-  gallery = [{ id: 1, name: 'fileNameOrUrl'}, {name: 'anotherFileNameOrUrl'}, {id: 1}],  location_display: 'address',
+  gallery: [{name: 'anotherFileNameOrUrl'}],
+    location_display: 'address',
+  // gallery: [{ id: 1, name: 'fileNameOrUrl'}, {name: 'anotherFileNameOrUrl'}, {id: 1}],  location_display: 'address',
   main_image: {name: 'a;lksejf.png'},
   name: 'myspace',
   neighborhood: 'garden district',
