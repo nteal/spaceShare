@@ -104,7 +104,7 @@ class EditProfile extends React.Component {
     this.setState({
       [field]: {
         display: tempUrl,
-        edited: fileName,
+        edited: `https://spaceshare-sfp.s3.amazonaws.com/users/${fileName}`,
       },
     });
   }
