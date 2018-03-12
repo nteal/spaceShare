@@ -37,6 +37,7 @@ class Login extends React.Component {
             }
           })
           .then(() => {
+            console.log('this call in particular');
             Axios.get(
               '/isAuthenticated',
               {
