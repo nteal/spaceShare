@@ -166,7 +166,7 @@ class Nav extends React.Component {
                 <Route path="/edit-listing" component={EditListing} />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
-                <Route path="/results" component={SearchResults} />
+                <Route path="/search-results" component={SearchResults} />
                 <Route path="/listings" component={AllListings} />
                 <Route path="/saved-searches" component={PastSearches} />
               </Switch>
