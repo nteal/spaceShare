@@ -19,13 +19,13 @@ const Amenities = (props) => {
       </MediaQuery>
       <div className="invisible-content-box">
         <ul>
-          <li pb-1>
+          <li className="pb-1">
             <div className="row">
               <i className="material-icons md-sm sidebar-icon">pets</i>
               <b>Pets: {pet}</b>
             </div>
           </li>
-          <li pb-1>
+          <li className="pb-1">
             <div className="row">
               <i className="material-icons md-sm sidebar-icon">smoking_rooms</i>
               <b>Smoking: {smoking}</b>

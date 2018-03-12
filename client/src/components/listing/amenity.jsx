@@ -4,10 +4,10 @@ import Rocket from 'mdi-react/RocketIcon.js';
 const Amenity = (props) => {
   const { amenity } = props;
   return (
-    <li pb-1>
+    <li className="pb-1">
       <div className="row">
         <Rocket className="sidebar-icon" height={20} width={20} />
-        {amenity}
+        {amenity.text}
       </div>
     </li>
   );
