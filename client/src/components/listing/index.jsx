@@ -39,6 +39,9 @@ class Listing extends React.Component {
           capacity,
           open,
           description,
+          neighborhood,
+          city,
+          state,
           pet,
           smoking,
           amenities,
@@ -56,18 +59,15 @@ class Listing extends React.Component {
           capacity,
           open,
           description,
+          neighborhood,
+          city,
+          state,
           pet,
           smoking,
           amenities,
           gallery,
         });
-        if (open) {
-          const { neighborhood } = response.data;
-          this.setState({ neighborhood });
-        } else {
-          const { street_address, city, state, zip } = response.data;
-          this.setState({ street_address, city, state, zip });
-        }
+
         Axios.get('http://localhost:3003/api/isOwner', {
           params: {
             token: localStorage.getItem('id_token'),
@@ -106,6 +106,9 @@ class Listing extends React.Component {
       timeline,
       capacity,
       description,
+      neighborhood,
+      city,
+      state,
       pet,
       smoking,
       amenities,
@@ -120,14 +123,14 @@ class Listing extends React.Component {
 
     const pronoun = capacity > 1 ? 'people' : 'person';
 
-    let locationDisplay;
-    if (open) {
-      const { neighborhood } = this.state;
-      locationDisplay = <Location open neighborhood={neighborhood} />;
-    } else {
-      const { street_address, city, state, zip } = this.state;
-      locationDisplay = <Location address={street_address} city={city} state={state} zip={zip} />;
-    }
+    // let locationDisplay;
+    // if (open) {
+    //   const { neighborhood } = this.state;
+    //   locationDisplay = <Location neighborhood={neighborhood} />;
+    // } else {
+    //   const { street_address, city, state, zip } = this.state;
+    //   locationDisplay = <Location isMember address={street_address} city={city} state={state} zip={zip} />;
+    // }
 
     return (
       <div>
@@ -229,7 +232,7 @@ class Listing extends React.Component {
             <div className="row pt-res">
               <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column pl-0 pr-0 pr-sm-0 pr-md-2 pr-lg-2 pr-xl-2">
                 <AboutSpace text={description} />
-                {locationDisplay}
+                <Location neighborhood={neighborhood} city={city} state={state} />
               </div>
               <div className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex flex-column pr-0 pl-0 pl-sm-0 pl-md-2 pl-lg-2 pl-xl-2">
                 <Amenities pet={pet} smoking={smoking} amenities={amenities} />
