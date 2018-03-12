@@ -33,6 +33,7 @@ ul {
 
 .custom-btn {
   background-color: none;
+  background: none;
   border-style: none;
 }
 
@@ -97,6 +98,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .mt-neg-3 {
   margin-top: -3.5rem;
+}
+
+.mobile-back-btn {
+  position: relative;
+  top: -8rem;
 }
 
 .mini-heading-box-side {
