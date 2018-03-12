@@ -21,6 +21,21 @@ class SearchResults extends React.Component {
         neighborhood: '',
         description: '',
       }],
+      searches: [{
+        purpose: 'You do not have any past searches',
+        neighborhood: 'location',
+        price_min: '0',
+        price_max: '0',
+        timeline: 'long-term',
+        smoking: 'outside is fine',
+        pet: 'anywhere',
+        include_people: 'people included',
+        sleep: 'early bird',
+        personality: 'introvert',
+        age_min: '0',
+        age_max: '100',
+        timestamp: 'time-stamp'
+      }]
     };
   }
   componentDidMount() {
@@ -42,13 +57,14 @@ class SearchResults extends React.Component {
     // }
   }
   render() {
-    const { people, places } = this.state;
+    const { people, places, searches } = this.state;
     return (
       <div>
         <Results
-          heading="Your Results"
+          heading="Search Results"
           people={people}
-          places={places} 
+          places={places}
+          searches={searches}
         />
       </div>
     );
