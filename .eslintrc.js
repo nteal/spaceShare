@@ -3,9 +3,7 @@ module.exports = {
   "rules": {
     "import/extensions": 0,
     "jsx-a11y/anchor-is-valid": 0,
-    "camelcase": {
-      "properties": 0,
-    },
+    "camelcase": 0,
   },
   "env" : {
     "browser": true,

@@ -47,14 +47,15 @@ class PeopleSearch extends React.Component {
         age_min: min,
         age_max: max,
       }, () => {
-        // Axios.post('/api/new-search', {
-        //   search: this.state,
-        //   token: localStorage.getItem('id_token'),
+        Axios.post(`/api/new-search/token/${localStorage.getItem('id_token')}/search/${this.state}`) 
+        // {
+          // search: this.state,
+          // token: localStorage.getItem('id_token'),
         // })
-        //   .then((response) => {
-        //     localStorage.setItem('id_search', response.data);
-        //     this.props.history.push('/search-results');
-        //   });
+          .then((response) => {
+            localStorage.setItem('id_search', response.data);
+            this.props.history.push('/search-results');
+          });
         this.props.history.push('/search-results');
       });
     } else {
