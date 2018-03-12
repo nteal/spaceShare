@@ -253,7 +253,7 @@ class EditProfile extends React.Component {
               </div>
             </div>
             <div className="col-12 col-sm-10 col-md-6 col-lg-8 d-flex flex-column align-items-start">
-              <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
+              <AboutInput field="about" placeholder="A description of you for others to see" header="About" value={about} finalize={this.finalizeEdit} />
               {/* searchable checkboxes */}
               <div className="content-box auto-height-box">
                 <MediaQuery minDeviceWidth={800}>

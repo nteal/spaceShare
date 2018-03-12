@@ -12,6 +12,7 @@ import CommonArea from '../common-area/index.jsx';
 import ChatMain from '../chat-main/index.jsx';
 import CreateSpace from '../create-a-space/index.jsx';
 import Listing from '../listing/index.jsx';
+import EditListing from '../listing/editListing.jsx';
 import Search from '../search/index.jsx';
 import SearchResults from '../search-results/index.jsx';
 import SideNavItems from './side-nav.jsx';
@@ -161,6 +162,7 @@ class Nav extends React.Component {
                 <Route path="/messages" component={ChatMain} />
                 <Route path="/new-space" component={CreateSpace} />
                 <Route path="/listing" component={Listing} />
+                <Route path="/edit-listing" component={EditListing} />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
                 <Route path="/results" component={SearchResults} />

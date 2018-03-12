@@ -18,7 +18,7 @@ const Gallery = (props) => {
       <div className="invisible-content-box">
         <div className="row">
           {images.map(image => (
-            <div className="col-12 col-lg-6">
+            <div className="col-12 col-lg-6" key={image.id}>
               <img
                 className="img-fluid img-thumbnail"
                 src={`https://spaceshare-sfp.s3.amazonaws.com/spaces/${image.name}`}

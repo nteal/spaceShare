@@ -103,7 +103,21 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 2px;
   color: white;
   height: 50px;
-  padding: 15px 50px 0px 15px;
+  padding: 15px 75px 0px 15px;
+}
+
+.heading-box-edit {
+  color: rgb(195, 180, 255);
+  left: 4.5rem;
+  position: relative;
+  top: -.5rem;
+}
+
+.mobile-heading-box-edit {
+  color: rgb(195, 180, 255);
+  left: 2.75rem;
+  position: relative;
+  top: -.5rem;
 }
 
 .mobile-heading-box {

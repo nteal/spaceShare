@@ -32,7 +32,7 @@ const Amenities = (props) => {
             </div>
           </li>
           {amenities.map(amenity => (
-            <Amenity amenity={amenity} />
+            <Amenity amenity={amenity} key={amenity.id}/>
           ))}
         </ul>
       </div>
