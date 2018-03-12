@@ -276,12 +276,42 @@ app.get('/api/currentSpace', (req, res) => {
       },
     ],
     todos: [
-      'put up the blinds',
-      'clean carport',
-      'get orange juice',
-      'get bread',
-      'get avocados',
-      'get kumquats',
+      {
+        id: 1,
+        space_id: 1,
+        content: 'put up the blinds',
+        completed: false,
+      },
+      {
+        id: 2,
+        space_id: 1,
+        content: 'get kumquats',
+        completed: false,
+      },
+      {
+        id: 3,
+        space_id: 1,
+        content: 'get avocados',
+        completed: false,
+      },
+      {
+        id: 4,
+        space_id: 1,
+        content: 'get bread',
+        completed: false,
+      },
+      {
+        id: 5,
+        space_id: 1,
+        content: 'get orange juice',
+        completed: false,
+      },
+      {
+        id: 6,
+        space_id: 1,
+        content: 'clean carport',
+        completed: false,
+      },
     ],
   });
 });
