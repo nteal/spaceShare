@@ -74,22 +74,20 @@ const getSearchesByFbId = fbId => (
 );
 
 // get all searches:
-const getSearchesForMatching = currentSearch => (
+const getSearchesForMatching = searchId => (
   // get all searches
-  Search.findAll()
-    .then((searches) => {
-      // first filter by same purpose, city, includes people, and not the same userid
-      const samePurposeArr = searches.reduce((searchArr, search) => {
-        const samePurpose = search.purpose_id === currentSearch.purpose_id;
-        const sameCity = search.city === currentSearch.city;
-        const includePeople = search.include_people;
-        const diffUser = search.fb_id !== currentSearch.fb_id;
-        return samePurpose && sameCity && includePeople && diffUser ? searchArr.concat(search.dataValues) : searchArr;
-      }, []);
-      // return samePurposeArr promise mapped to include user data
+  Search.findById(searchId)
+    // only include searches with same purpose and city, that include people
+    .then(search => [Search.findAll({where: { purpose_id: search.purpose_id, city: search.city, include_people: true } }), search.fb_id])
+    .then(([searches, currentFbId]) => {
+      // don't include searches by same user
+      const samePurposeArr = searches.filter(search => search.dataValues.fb_id !== currentFbId)
+        .map(seqSearchObj => seqSearchObj.dataValues);
+      // add data from user
       return Promise.map(samePurposeArr, search => addUserData(search));
     })
     .then((objsWithUserData) => {
+      // only include searches from people who are "open"
       const openSearches = objsWithUserData.filter(search => search.searchable);
       return Promise.map(openSearches, search => addDataFromIds(search));
     })
