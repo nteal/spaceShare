@@ -35,7 +35,7 @@ const addDataFromIds = (spaceObj) => {
 };
 
 // get just the data displayed on listings
-const getSpaceListingsById = (spaceId) => {
+const getSpaceListingById = (spaceId) => {
   return Space.findById(spaceId)
     .then(space => {
       spaceWithoutAddress = Object.assign({}, space.dataValues);
@@ -141,4 +141,4 @@ exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
 exports.getSpacesForMatching = getSpacesForMatching;
-exports.getSpaceListingsById = getSpaceListingsById;
+exports.getSpaceListingById = getSpaceListingById;
