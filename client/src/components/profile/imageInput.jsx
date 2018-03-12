@@ -79,13 +79,21 @@ class ImageInput extends React.Component {
         </div>
       );
     } else {
+
       displayed = (
         <div>
-          <img
-            src={value}
-            alt="user profile"
-            className="user-profile-pic"
-          />
+          {value && (
+            <img
+              src={value}
+              alt="user profile"
+              className="user-profile-pic"
+            />
+          )}
+          {!value && (
+            <div className="image-select-box">
+              Upload an image!
+            </div>
+          )}
           <div className="row justify-content-end mr-0 pr-1">
             <Pencil
               className="mdi-btn"
@@ -103,7 +111,7 @@ class ImageInput extends React.Component {
       <div>
         {displayed}
       </div>
-    )
+    );
   }
 }
 
