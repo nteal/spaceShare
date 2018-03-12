@@ -39,7 +39,7 @@ class AboutInput extends React.Component {
 
   render() {
     const { editing } = this.state;
-    const { value } = this.props;
+    const { value, placeholder, header } = this.props;
 
     let displayed;
     if (editing) {
@@ -48,8 +48,8 @@ class AboutInput extends React.Component {
           <textarea
             value={this.state.newValue}
             className="form-control mb-3"
-            placeholder="A lovely description of you..."
-            aria-label="A description of you for others to see"
+            placeholder={placeholder}
+            aria-label={placeholder}
             onChange={this.handleEditing}
             rows="8"
           />
@@ -75,12 +75,12 @@ class AboutInput extends React.Component {
       <div className="content-box auto-height-box">
         <MediaQuery minDeviceWidth={800}>
           <div className="mini-heading-box-top">
-            <h5>About</h5>
+            <h5>{header}</h5>
           </div>
         </MediaQuery>
         <MediaQuery maxDeviceWidth={600}>
           <div className="mini-heading-box-top-mobile">
-            <h5>About</h5>
+            <h5>{header}</h5>
           </div>
         </MediaQuery>
         <MediaQuery minDeviceWidth={800}>
