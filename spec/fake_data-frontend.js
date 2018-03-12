@@ -219,40 +219,37 @@ app.get('/api/currentSpace', (req, res) => {
     amenities: [
       {
         id: 1,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 2,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 3,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 4,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 5,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 6,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 7,
-        text: 'Donec non lacus vestibulum'
-      },
-      {
-        id: 8,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
     ],
     open: true,
     ground_rules: 'Krupuks elephant ears papadums hush puppies \'n\' tartar sauce. Pork-stuffed egg rolls churros shrimp tempura puri. Crawfish tails popovers shrimp tempura. Angels on horseback shrimp tempura jalapeño poppers. Pommes frites and aioli croquettes namak para. Baklava knishes pita chips taquitos onion rings. Fried farm eggs crawfish pies Scotch eggs crawfish tails veggie tempura. Fried Oreos shrimp tempura chicken-fried steaks wontons. Knishes onion rings elephant ears crab rangoons. Philly scrapple french fries fried farm eggs knishes.',
     street_address: '456 15th St.',
+    street_address2: '',
     city: 'Melbourne',
     zip: '32904',
     state: 'FL',
