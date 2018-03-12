@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import Pencil from 'mdi-react/PencilIcon.js';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 import Email from 'mdi-react/EmailIcon.js';
+import ListingDropDown from './listingDropDown.jsx';
+import ListingTextInput from './listingTextInput.jsx';
 import Location from './location.jsx';
 import AboutInput from '../profile/aboutInput.jsx';
 import Amenities from './amenities.jsx';
@@ -15,6 +17,7 @@ class EditListing extends React.Component {
     super(props);
     this.state = {
       main_image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
+      members: [],
       amenities: [],
       amenities0: {},
       amenities1: {},
@@ -36,13 +39,14 @@ class EditListing extends React.Component {
     this.finalizeNewAmenity = this.finalizeNewAmenity.bind(this);
     this.finalizeEditLocation = this.finalizeEditLocation.bind(this);
     this.finalizeEditImage = this.finalizeEditImage.bind(this);
+    this.finalizeEditOwner = this.finalizeEditOwner.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
     Axios.get('http://localhost:3003/api/currentSpace', {
-      params: { 
+      params: {
         spaceId,
         token: localStorage.getItem('id_token'),
       },
@@ -159,6 +163,13 @@ class EditListing extends React.Component {
     });
   }
 
+  finalizeEditOwner(newOwnerName, newOwnerFbId) {
+    this.setState({
+      owner_name: newOwnerName,
+      owner_fb_id: newOwnerFbId,
+    });
+  }
+
   handleCheckboxChange(event) {
     const { name } = event.target;
     const value = event.target.checked;
@@ -245,6 +256,7 @@ class EditListing extends React.Component {
 
   render() {
     const {
+      id,
       open,
       main_image,
       name,
@@ -268,13 +280,13 @@ class EditListing extends React.Component {
       gallery,
     } = this.state;
 
+    const memberNames = members.map(member => `${member.name_first} ${member.name_last}`);
+
     const purposeGlyph = purpose === 'Live' ? (
       <i className="material-icons md-h3 mr-1">home</i>
     ) : (
       <i className="material-icons md-h3 mr-1">business</i>
     );
-
-    const pronoun = capacity > 1 ? 'people' : 'person';
 
     return (
       <div>
@@ -314,39 +326,81 @@ class EditListing extends React.Component {
             <div className="row pt-1">
               <div className="col">
                 <MediaQuery minDeviceWidth={800}>
-                  <div className="d-flex flex-row align-items-center">
-                    {purposeGlyph}<h3 className="mb-0">{purpose}</h3>
-                  </div>
-                  <div className="d-flex flex-row align-items-center">
-                    <Link to={{ pathname: '/messages', state: { userId: owner_fb_id } }}>
-                      <Email className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
-                    </Link>
-                    <h5>
-                      {owner_name}
-                    </h5>
-                  </div>
+                  <ListingDropDown 
+                    displayGlyph
+                    field="purpose"
+                    placeholder="The purpose of your space"
+                    value={purpose}
+                    options={['Work', 'Live']}
+                    headingSize="3"
+                    finalize={this.finalizeEdit}
+                  />
+                  <ListingDropDown 
+                    displayGlyph
+                    field="owner_fb_id"
+                    placeholder="The owner of your space"
+                    value={owner_name}
+                    options={memberNames}
+                    headingSize="5"
+                    finalize={this.finalizeEditOwner}
+                    additionalData={members}
+                  />
                 </MediaQuery>
                 <MediaQuery maxDeviceWidth={600}>
-                  <div className="d-flex flex-row align-items-center">
-                    {purposeGlyph}<h4 className="mb-0">{purpose}</h4>
-                  </div>
-                  <div className="d-flex flex-row align-items-center">
-                    <Link to={{ pathname: '/messages', state: { userId: owner_fb_id } }}>
-                      <Email className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
-                    </Link>
-                    <h6>
-                      {owner_name}
-                    </h6>
-                  </div>
+                  <ListingDropDown 
+                    displayGlyph
+                    field="purpose"
+                    placeholder="The purpose of your space"
+                    value={purpose}
+                    options={['Work', 'Live']}
+                    headingSize="4"
+                    finalize={this.finalizeEdit}
+                  />
+                  <ListingDropDown 
+                    displayGlyph
+                    field="owner_fb_id"
+                    placeholder="The owner of your space"
+                    value={owner_name}
+                    options={memberNames}
+                    headingSize="6"
+                    finalize={this.finalizeEditOwner}
+                    additionalData={members}
+                  />
                 </MediaQuery>
               </div>
               <div className="col">
                 <MediaQuery minDeviceWidth={800}>
-                  <div className="row justify-content-end">
-                    <h4 className="mb-0">${cost} / {timeline}</h4>
+                  <div className="row justify-content-end d-flex flex-no-wrap one-line">
+                    {/* <h4 className="mb-0">${cost} / {timeline}</h4> */}
+                    <h4 className="d-inline-block one-line">
+                      <ListingTextInput
+                        field="cost"
+                        type="number"
+                        placeholder="How much you are charging"
+                        value={cost}
+                        headingSize="0"
+                        finalize={this.finalizeEdit}
+                      />
+                      
+                      <ListingDropDown
+                        field="timeline"
+                        placeholder="The time for which your space will be available"
+                        value={timeline}
+                        options={['Daily', 'Weekly', 'Monthly', 'Long-term']}
+                        headingSize="0"
+                        finalize={this.finalizeEdit}
+                      />
+                    </h4>
                   </div>
                   <div className="row justify-content-end">
-                    <h5>Space available for {capacity} {pronoun}</h5>
+                    {/* <h5>Space available for {capacity} {pronoun}</h5> */}
+                    <ListingTextInput
+                      field="capacity"
+                      type="number"
+                      placeholder="How many people would you like"
+                      value={capacity}
+                      finalize={this.finalizeEdit}
+                    />
                   </div>
                 </MediaQuery>
                 <MediaQuery maxDeviceWidth={600}>
@@ -354,7 +408,13 @@ class EditListing extends React.Component {
                     <h5 className="mb-0">${cost} / {timeline}</h5>
                   </div>
                   <div className="row justify-content-end">
-                    <h6>Space available for {capacity} {pronoun}</h6>
+                    <ListingTextInput
+                      field="capacity"
+                      type="number"
+                      placeholder="How many people would you like"
+                      value={capacity}
+                      finalize={this.finalizeEdit}
+                    />
                   </div>
                 </MediaQuery>
               </div>
@@ -378,6 +438,11 @@ class EditListing extends React.Component {
             </div>
             <div className="row">
               <Gallery images={gallery} />
+            </div>
+            <div className="row justify-content-center">
+              <Link to={{ pathname: '/listing', state: { spaceId: id } }} className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
+                Submit changes
+              </Link>
             </div>
           </div>
         </main>
