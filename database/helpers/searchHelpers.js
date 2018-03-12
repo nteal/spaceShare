@@ -6,6 +6,7 @@ const { getTimelineById } = require('./optionHelpers');
 const { getSleepById } = require('./optionHelpers');
 const { getPersonalityById } = require('./optionHelpers');
 const { getUserByFbId } = require('./userHelpers');
+const { getAge } = require('./userHelpers');
 const Promise = require('bluebird');
 
 // create a search:
@@ -30,6 +31,7 @@ const addUserData = (searchObj) => {
       retObj.name_first = user.name_first;
       retObj.image_url = user.image_url;
       retObj.profession = user.profession;
+      retObj.age = getAge(user.birthdate);
       // need to get searchable bool from user
       if (retObj.purpose_id === 1) {
         retObj.searchable = user.searchable_work;
