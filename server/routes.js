@@ -65,6 +65,11 @@ router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
   res.status(200).send(space));
 });
 
+// router.post('/api/updateSpace/:token', (req, res) => {
+//   console.log(JSON.parse(req.body));
+//   res.status(200).send('updated space');
+// });
+
 router.get('/api/currentUser/:token', (req, res) => {
   // console.log('getCurrentUser', Object.keys(req));
   // database helper
