@@ -14,7 +14,7 @@ const Amenities = (props) => {
     const newAmenities = [];
     if (amenities.length < 8) {
       const numNew = 8 - amenities.length;
-      for (let i = 9 - numNew; i < 9; i++) {
+      for (let i = 8 - numNew; i < 8; i++) {
         newAmenities.push(`amenities${i}`);
       }
     }
