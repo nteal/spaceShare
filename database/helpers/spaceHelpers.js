@@ -143,7 +143,7 @@ const getSpacesForMatching = (searchId) => (
       Space.findAll({ where: { city: searchObj.city, purpose_id: searchObj.purpose_id, open: true}}))
     )
     .then(compatibleSpaces => Promise.map(compatibleSpaces, space => {
-      return getSpaceListings(space.id);
+      return getSpaceListingById(space.id);
     }))
     .catch(err => console.log(err))
 ) 
