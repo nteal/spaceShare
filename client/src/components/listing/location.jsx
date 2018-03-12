@@ -173,9 +173,9 @@ class Location extends React.Component {
                   className="form-control"
                   onChange={this.handleEditing}
                 >
-                  <option selected>Choose...</option>
+                  <option>Choose...</option>
                   {states.map(state => (
-                    <option>{state}</option>
+                    <option key={state}>{state}</option>
                   ))}
                 </select>
               </div>
@@ -187,6 +187,7 @@ class Location extends React.Component {
                   value={this.state.zip}
                   className="form-control"
                   id="inputZip"
+                  placeholder="00000"
                   onChange={this.handleEditing}
                 />
               </div>
@@ -204,10 +205,11 @@ class Location extends React.Component {
       );
     } else {
       displayed = (
-        <h6>
-          {neighborhood}<br />
-          {city}, {state}
-        </h6>
+        <div>
+          {editView && (<h6>{this.props.address}</h6>)}
+          {!editView && (<h6>{neighborhood}</h6>)}
+          <h6>{city}, {state}</h6>
+        </div>
       );
     }
 
