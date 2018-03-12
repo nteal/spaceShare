@@ -11,7 +11,7 @@ const Promise = require('bluebird');
 // create a search:
 const addNewSearch = searchData => (
   Search.create(searchData)
-    .then(newSearch => newSearch.dataValues)
+    .then(newSearch => newSearch.dataValues.id)
     .catch(err => console.log(err))
 );
 
