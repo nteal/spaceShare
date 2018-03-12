@@ -41,6 +41,10 @@ ul {
   fill: rgb(49, 23, 155);
 }
 
+.md-sm {
+  font-size: 1.25rem;
+}
+
 .md-h3 {
   font-size: 1.75rem;
 }
