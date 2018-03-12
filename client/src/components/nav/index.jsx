@@ -14,11 +14,12 @@ import CreateSpace from '../create-a-space/index.jsx';
 import Listing from '../listing/index.jsx';
 import EditListing from '../listing/editListing.jsx';
 import Search from '../search/index.jsx';
-import SearchResults from '../search-results/index.jsx';
 import SideNavItems from './side-nav.jsx';
 import Header from './header.jsx';
 import Logo from '../../assets/ss-logo-transparent.png';
-
+import AllListings from '../all-listings/index.jsx';
+import SearchResults from '../search-results/index.jsx';
+import PastSearches from '../past-searches/index.jsx';
 
 const styles = {
   contentHeaderMenuLink: {
@@ -166,8 +167,8 @@ class Nav extends React.Component {
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
                 <Route path="/results" component={SearchResults} />
-                <Route path="/listings" component={SearchResults} />
-                <Route path="/saved-searches" component={SearchResults} />
+                <Route path="/listings" component={AllListings} />
+                <Route path="/saved-searches" component={PastSearches} />
               </Switch>
             </div>
           </Header>
