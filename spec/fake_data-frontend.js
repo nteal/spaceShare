@@ -301,14 +301,38 @@ app.get('/api/currentListing', (req, res) => {
     cost: 550.00,
     capacity: 1,
     amenities: [
-      'Donec non lacus vestibulum',
-      'volutpat leo sed',
-      'tristique velit',
-      'Proin congue nibh',
-      'Proin eleifend',
-      'Nam tempus',
-      'In pulvinar',
-      'vulputate erat',
+      {
+        id: 1,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 2,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 3,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 4,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 5,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 6,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 7,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 8,
+        text: 'Donec non lacus vestibulum'
+      },
     ],
     open: true,
     ground_rules: 'Krupuks elephant ears papadums hush puppies \'n\' tartar sauce. Pork-stuffed egg rolls churros shrimp tempura puri. Crawfish tails popovers shrimp tempura. Angels on horseback shrimp tempura jalapeño poppers. Pommes frites and aioli croquettes namak para. Baklava knishes pita chips taquitos onion rings. Fried farm eggs crawfish pies Scotch eggs crawfish tails veggie tempura. Fried Oreos shrimp tempura chicken-fried steaks wontons. Knishes onion rings elephant ears crab rangoons. Philly scrapple french fries fried farm eggs knishes.',
@@ -317,6 +341,22 @@ app.get('/api/currentListing', (req, res) => {
     zip: '32904',
     state: 'FL',
     main_image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
+    gallery: [ 
+      { 
+        id: 1,
+        name: 'saturn3.png',
+        createdAt: '2018-03-11T03:08:27.000Z',
+        updatedAt: '2018-03-11T03:08:27.000Z',
+        space_id: 1,
+      },
+      { 
+        id: 3,
+        name: 'saturn2.jpg',
+        createdAt: '2018-03-11T03:10:42.000Z',
+        updatedAt: '2018-03-11T03:10:42.000Z',
+        space_id: 1,
+      }
+    ],
     neighborhood: 'Briggen Quarry',
     owner_fb_id: 'dubDalton',
     owner_name: 'Waylon Dalton',
