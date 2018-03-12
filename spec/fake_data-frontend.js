@@ -201,15 +201,12 @@ app.get('/api/currentUser', (req, res) => {
     }],
     searchable_work: true,
     searchable_live: false,
+    spaces: [{
+      id: 1,
+      name: 'my crib',
+      purpose: 'Live',
+    }]
   });
-});
-
-app.get('/api/currentUserSpaces', (req, res) => {
-  res.send([{
-    id: 1,
-    name: 'my crib',
-    purpose: 'Live',
-  }]);
 });
 
 app.get('/api/currentSpace', (req, res) => {
