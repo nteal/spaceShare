@@ -154,6 +154,14 @@ const isOwner = (fbId, spaceId) => (
     .catch(err => console.log(err))
 );
 
+// expects object with spaceId and ground_rules
+const updateGroundrules = (updateObj) => (
+  Space.findById(updateObj.spaceId)
+    .then(space => space.update({ ground_rules: updateObj.ground_rules }))
+    .then(updated => true)
+    .catch(err => console.log(err))
+)
+
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
@@ -161,3 +169,4 @@ exports.getSpacesForMatching = getSpacesForMatching;
 exports.getSpaceListingById = getSpaceListingById;
 exports.getDashboardInfoById = getDashboardInfoById;
 exports.isOwner = isOwner;
+exports.updateGroundrules = updateGroundrules;
