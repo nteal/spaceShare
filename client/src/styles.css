@@ -1,3 +1,25 @@
+html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: 1.4rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: 1.6rem;
+  }
+}
+
 a {
   color: inherit;
 }
@@ -33,6 +55,7 @@ ul {
 
 .custom-btn {
   background-color: none;
+  background: none;
   border-style: none;
 }
 
@@ -40,6 +63,15 @@ ul {
   cursor: pointer;
   fill: rgb(49, 23, 155);
 }
+
+.md-sm {
+  font-size: 1.25rem;
+}
+
+.md-h3 {
+  font-size: 1.75rem;
+}
+
 .sidebar-icon {
   margin-right: .5em;
 }
@@ -82,6 +114,19 @@ h1, h2, h3, h4, h5, h6 {
   padding: 13px 50px 0px 15px;
 }
 
+.mt-neg {
+  margin-top: -2rem;
+}
+
+.mt-neg-3 {
+  margin-top: -3.5rem;
+}
+
+.mobile-back-btn {
+  position: relative;
+  top: -8rem;
+}
+
 .mini-heading-box-side {
   background-color: rgb(61, 61, 61);
   border-radius: 2px;
@@ -89,9 +134,11 @@ h1, h2, h3, h4, h5, h6 {
   height: 45px;
   margin-left: -10px;
   margin-right: 100px;
-  margin-top: 20px;
+  margin-top: -1rem;
   min-width: 200px;
   padding: 15px 10px 0px 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .mini-heading-box-top {
@@ -117,8 +164,15 @@ h1, h2, h3, h4, h5, h6 {
   padding: 15px 10px 0px 10px;
 }
 
-.content-row {
-  padding-top: 30px;
+.p-res {
+  padding: 2%;
+}
+
+.pt-res {
+  padding-top: 5%;
+}
+.mt-res {
+  margin-top: 5%;
 }
 
 .content-box {
@@ -131,6 +185,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .invisible-content-box {
   padding: 30px;
+}
+
+.space-main-img {
+  max-width: 100%;
+}
+
+.space-main-img-container {
+  max-height: 10rem;
+  overflow: hidden;
 }
 
 .image-selection-box {
@@ -159,10 +222,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .zodiac-glyph {
-  height: 20px;
-  margin-right: .8em;
+  height: 1.25rem;
+  margin-right: 1em;
   max-width: 100%;
-  width: 20px;
+  width: 1.25rem;
 }
 
 .member-img-box {
@@ -172,4 +235,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .member-img {
   max-width: 100%;
+}
+
+#edit-profile-back {
+  position: relative;
+  top: 1.25rem;
 }

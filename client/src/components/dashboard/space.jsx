@@ -7,11 +7,13 @@ const Space = (props) => {
   const glyph = purpose === 'Live' ? (
     <i className="material-icons sidebar-icon">home</i>
   ) : (
-    <i className="material-icons">business</i>
+    <i className="material-icons sidebar-icon">business</i>
   );
   return (
     <Link to={{ pathname: '/common-area', state: { spaceId: id } }}>
-      {glyph}{name}
+      <div className="row">
+        {glyph}{name}
+      </div>
     </Link>
   );
 };

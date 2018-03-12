@@ -8,36 +8,44 @@ const GroundRules = (props) => {
     props.history.goBack();
   };
   return (
-    <div className="container">
-      <div className="row">
-        <MediaQuery minDeviceWidth={800}>
-          <div className="heading-box">
-            <h1>Our Ground Rules</h1>
-          </div>
-        </MediaQuery>
-        <MediaQuery maxDeviceWidth={600}>
-          <div className="mobile-heading-box">
-            <h2>Our Ground Rules</h2>
-          </div>
-        </MediaQuery>
-      </div>
-      <div className="row">
+    <div>
+
+      <MediaQuery minDeviceWidth={800}>
         <button className="custom-btn" onClick={handleBack}>
           <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
         </button>
-      </div>
-      <main>
+      </MediaQuery>
+      <MediaQuery maxDeviceWidth={799}>
+        <button className="custom-btn mobile-back-btn" onClick={handleBack}>
+          <ArrowLeftBoldCircle className="mdi-btn" height={75} width={75} fill="#6F5BC0" />
+        </button>
+      </MediaQuery>
+      
+      <div className="container mt-neg-3">
         <div className="row">
-          <div className="content-box">
-            <div className="invisible-content-box">
-              <p>
-                {groundRules}
-              </p>
+          <MediaQuery minDeviceWidth={800}>
+            <div className="heading-box mt-neg">
+              <h1>Our Ground Rules</h1>
+            </div>
+          </MediaQuery>
+          <MediaQuery maxDeviceWidth={600}>
+            <div className="mobile-heading-box mt-neg-3">
+              <h2>Our Ground Rules</h2>
+            </div>
+          </MediaQuery>
+        </div>
+        <main>
+          <div className="row pt-4">
+            <div className="content-box">
+              <div className="invisible-content-box">
+                <p>
+                  {groundRules}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-
+        </main>
+      </div>
     </div>
   );
 };

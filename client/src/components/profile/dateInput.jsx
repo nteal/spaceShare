@@ -122,10 +122,10 @@ class DateInput extends React.Component {
       displayed = (
         <li className="list-group-item">
           <div className="row justify-content-between pl-2 pr-1">
-            <span>
+            <div className="row pl-2">
               <i className="material-icons sidebar-icon">{glyph}</i>
               {Moment(value).format('MMMM D, YYYY')}
-            </span>
+            </div>
             <Pencil className="mdi-btn" onClick={this.toggleEditing} height={20} width={20} fill="#6F5BC0" />
           </div>
         </li>

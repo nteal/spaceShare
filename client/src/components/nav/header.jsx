@@ -28,14 +28,21 @@ const Header = (props) => {
     <div className="container-fluid" style={rootStyle}>
       <div className="row" style={headerStyle}>
         <div className="col-5 col-lg-6">
-          <div className="row justify-content-between">
+          <div className="d-flex align-items-center">
             {hamburger}
             <MediaQuery minDeviceWidth={800}>
               {title}
+              <span>
+                <Link to="/dashboard" className="header-link">
+                  My Dashboard
+                </Link>
+                <span className="header-link">About</span>
+                <span className="header-link">Disclaimer</span>
+              </span>
             </MediaQuery>
           </div>
         </div>
-        <MediaQuery maxDeviceWidth={600}>
+        <MediaQuery maxDeviceWidth={799}>
           <div className="col-2">
             <div className="row justify-content-center">
                 {mobileTitle}
@@ -49,7 +56,7 @@ const Header = (props) => {
                 Logout
               </Link>
             </MediaQuery>
-            <MediaQuery maxDeviceWidth={600}>
+            <MediaQuery maxDeviceWidth={799}>
               <Link to="/">
                 <LogoutVariant onClick={logout} className="mdi-btn" height={35} width={35} fill="#FFF" />
               </Link>
