@@ -46,7 +46,7 @@ router.param('token', (req, res, next, JWT) => {
   next();
 })
 
-router.get('/api/isAuthenticated/token/:token', (req, res) => {
+router.get('/api/isAuthenticated/:token', (req, res) => {
   console.log('isTTTTTTTAuth');
   // console.log('req.params => ', req.params);
   // console.log('req.query => ', req.query); // empty object
@@ -63,11 +63,11 @@ router.get('/api/isAuthenticated/token/:token', (req, res) => {
 
 // });
 
-router.get('/api/currentUser/token/:token', (req, res) => {
+router.get('/api/currentUser/:token', (req, res) => {
   // console.log('getCurrentUser', Object.keys(req));
   // database helper
   console.log('currentUser endpoint', req.params);
-  db.helpers.getUserByFbId(req.fb_Id)
+  db.helpers.getUserIncludingSpaces(req.fb_Id)
   .then((user) => {
     // send status and user
     console.log('user', user);
@@ -76,7 +76,8 @@ router.get('/api/currentUser/token/:token', (req, res) => {
 
 });
 
-router.get('/api/currentUserSpaces/:token/userId/:userId', (req, res) => {
+// deprecated?
+router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
   console.log('currentUserSpaces endpoint');
   db.helpers.getSpacesByFbId(req.fb_Id)
   .then((spaces) => {
@@ -86,12 +87,12 @@ router.get('/api/currentUserSpaces/:token/userId/:userId', (req, res) => {
 
 });
 
-router.get('/api/new-search/token/:token/search/:search', (req, res) => {
+router.get('/api/new-search/:token/:search', (req, res) => {
   db.helpers.addNewSearch(req.params.search);
   res.status(201).send('new-search created');
 });
 
-router.get('/api/get-location/token/:token/address/:address', (req, res) => {
+router.get('/api/get-location/:token/:address', (req, res) => {
   res.status(200).send('get-location');
 });
 
