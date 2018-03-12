@@ -74,10 +74,12 @@ const getSpaceById = (spaceId) => {
         space.dataValues,
       ])
     })
-    .then(([images, amenities, todos, spaceObj]) => {
+    .then(async ([images, amenities, todos, spaceObj]) => {
       spaceObj.gallery = images;
       spaceObj.amenities = amenities;
       spaceObj.todos = todos;
+      const owner = await User.findOne({where: { fb_id: spaceObj.owner_fb_id } });
+      spaceObj.owner_name = `${owner.name_first} ${owner.name_last}`;
       return addDataFromIds(spaceObj);
     })
     .catch(err => console.log(err))
