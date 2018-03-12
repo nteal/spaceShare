@@ -201,15 +201,12 @@ app.get('/api/currentUser', (req, res) => {
     }],
     searchable_work: true,
     searchable_live: false,
+    spaces: [{
+      id: 1,
+      name: 'my crib',
+      purpose: 'Live',
+    }]
   });
-});
-
-app.get('/api/currentUserSpaces', (req, res) => {
-  res.send([{
-    id: 1,
-    name: 'my crib',
-    purpose: 'Live',
-  }]);
 });
 
 app.get('/api/currentSpace', (req, res) => {
@@ -235,9 +232,9 @@ app.get('/api/currentSpace', (req, res) => {
     city: 'Melbourne',
     zip: '32904',
     state: 'FL',
-    main_image: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
+    main_image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
     neighborhood: 'Briggen Quarry',
-    owner_id: 0,
+    owner_fb_id: 'dubDalton',
     purpose: 'Live',
     timeline: 'Long-term',
     pet: 'Absolutely not',
@@ -286,6 +283,84 @@ app.get('/api/currentSpace', (req, res) => {
       'get avocados',
       'get kumquats',
     ],
+  });
+});
+
+app.get('/api/isOwner', (req, res) => {
+  res.send(true);
+});
+
+app.get('/api/currentListing', (req, res) => {
+  res.send({
+    id: 1,
+    name: 'my crib',
+    description: 'Nam vel urna vitae felis porttitor gravida in vel turpis. Vivamus dignissim bibendum purus, sed suscipit elit feugiat vel. Morbi fermentum leo risus, id pellentesque mauris malesuada sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat nibh fermentum ornare suscipit. Curabitur vitae nisl urna. Nulla fermentum laoreet iaculis.',
+    cost: 550.00,
+    capacity: 1,
+    amenities: [
+      {
+        id: 1,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 2,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 3,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 4,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 5,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 6,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 7,
+        text: 'Donec non lacus vestibulum'
+      },
+      {
+        id: 8,
+        text: 'Donec non lacus vestibulum'
+      },
+    ],
+    open: true,
+    ground_rules: 'Krupuks elephant ears papadums hush puppies \'n\' tartar sauce. Pork-stuffed egg rolls churros shrimp tempura puri. Crawfish tails popovers shrimp tempura. Angels on horseback shrimp tempura jalapeño poppers. Pommes frites and aioli croquettes namak para. Baklava knishes pita chips taquitos onion rings. Fried farm eggs crawfish pies Scotch eggs crawfish tails veggie tempura. Fried Oreos shrimp tempura chicken-fried steaks wontons. Knishes onion rings elephant ears crab rangoons. Philly scrapple french fries fried farm eggs knishes.',
+    street_address: '456 15th St. Melbourne, FL 32904',
+    city: 'Melbourne',
+    zip: '32904',
+    state: 'FL',
+    main_image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
+    gallery: [ 
+      { 
+        id: 1,
+        name: 'saturn3.png',
+        createdAt: '2018-03-11T03:08:27.000Z',
+        updatedAt: '2018-03-11T03:08:27.000Z',
+        space_id: 1,
+      },
+      { 
+        id: 3,
+        name: 'saturn2.jpg',
+        createdAt: '2018-03-11T03:10:42.000Z',
+        updatedAt: '2018-03-11T03:10:42.000Z',
+        space_id: 1,
+      }
+    ],
+    neighborhood: 'Briggen Quarry',
+    owner_fb_id: 'dubDalton',
+    owner_name: 'Waylon Dalton',
+    purpose: 'Live',
+    timeline: 'Long-term',
+    pet: 'Absolutely not',
+    smoking: 'Absolutely not',
   });
 });
 

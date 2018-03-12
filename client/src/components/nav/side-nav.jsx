@@ -8,7 +8,8 @@ const styles = {
   },
   sidebarLink: {
     display: 'block',
-    padding: '16px 0px',
+    paddingTop: '16px',
+    paddingRight: '1rem',
     color: 'white',
     textDecoration: 'none',
     backgroundColor: '#6F5BC0',
@@ -34,28 +35,40 @@ const SideNavItems = (props) => {
         <h4>SpaceShare</h4>
       </Link>
       <Link className="btn btn-primary" to="/" style={styles.sidebarLink}>
-        <i className="material-icons sidebar-icon">home</i>
-        Your Spaces
+        <div className="row pl-2">
+          <i className="material-icons sidebar-icon">home</i>
+          Your Spaces
+        </div>
       </Link>
       <Link className="btn btn-primary" to="/messages" style={styles.sidebarLink}>
-        <i className="material-icons sidebar-icon">mail</i>
-        Messages
+        <div className="row pl-2">
+          <i className="material-icons sidebar-icon">mail</i>
+          Messages
+        </div>
       </Link>
       <Link className="btn btn-primary" to="/new-space" style={styles.sidebarLink}>
-        <i className="material-icons sidebar-icon">add_location</i>
-        New Space
+        <div className="row pl-2">
+          <i className="material-icons sidebar-icon">add_location</i>
+          New Space
+        </div>
       </Link>
       <Link className="btn btn-primary" to="/search" style={styles.sidebarLink}>
-        <i className="material-icons sidebar-icon">search</i>
-        New Search
+        <div className="row pl-2">
+          <i className="material-icons sidebar-icon">search</i>
+          New Search
+        </div>
       </Link>
       <Link className="btn btn-primary" to="/saved-searches" style={styles.sidebarLink}>
-        <i className="material-icons sidebar-icon">book</i>
-        Saved Searches
+        <div className="row pl-2">
+          <i className="material-icons sidebar-icon">book</i>
+          Saved Searches
+        </div>
       </Link>
       <Link className="btn btn-primary" to="/listings" style={styles.sidebarLink}>
-        <i className="material-icons sidebar-icon">list</i>
-        All Listings
+        <div className="row pl-2">
+          <i className="material-icons sidebar-icon">list</i>
+          All Listings
+        </div>
       </Link>
     </div>
   );

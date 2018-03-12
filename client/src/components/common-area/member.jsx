@@ -15,7 +15,7 @@ const Member = (props) => {
   const isOwner = !!props.owner;
 
   return (
-    <div className="col-10 col-sm-6 col-md-4 col-lg-4">
+    <div className="col-10 col-sm-6 col-md-4 col-lg-4 d-flex flex-column">
       <div className="content-box member-card container pb-0">
         <div className="row">
           <div className="member-img-box">

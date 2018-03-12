@@ -10,8 +10,9 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {},
-      currentUserSpaces: [],
+      currentUser: {
+        spaces: [],
+      },
     };
   }
   componentDidMount() {
@@ -22,19 +23,6 @@ class Dashboard extends React.Component {
     })
       .then((response) => {
         this.setState({ currentUser: response.data });
-        // get user's spaces to populate spaces content
-        Axios.get('http://localhost:3003/api/currentUserSpaces', {
-          params: {
-            userId: response.data.id,
-            token: localStorage.getItem('id_token'),
-          },
-        })
-          .then((spaces) => {
-            this.setState({ currentUserSpaces: spaces.data });
-          })
-          .catch((error) => {
-            console.error('error retrieving user space data', error);
-          });
       })
       .catch((error) => {
         console.error('error retrieving user data', error);
@@ -44,8 +32,8 @@ class Dashboard extends React.Component {
   render() {
     const { currentUser, currentUserSpaces } = this.state;
     return (
-      <div>
-        <div className="container-fluid">
+      <main>
+        <div className="container p-res">
           <div className="row">
             <MediaQuery minDeviceWidth={800}>
               <div className="heading-box">
@@ -59,15 +47,15 @@ class Dashboard extends React.Component {
             </MediaQuery>
           </div>
           <MediaQuery maxDeviceWidth={600}>
-            <div className="row justify-content-center content-row">
+            <div className="row justify-content-center pt-res">
               <div className="col">
-                <Link to="/messages" className="btn btn-primary btn-lg btn-block" role="button">
+                <Link to="/messages" className="btn btn-primary btn-lg btn-block mt-3" role="button">
                   You have 0 new messages!
                 </Link>
               </div>
             </div>
           </MediaQuery>
-          <div className="row row-eq-height content-row">
+          <div className="row row-eq-height pt-res">
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 d-flex flex-column align-items-stretch">
               <DashProfile user={currentUser} />
             </div>
@@ -84,11 +72,11 @@ class Dashboard extends React.Component {
               <MediaQuery minDeviceWidth={800}>
                 <Messages />
               </MediaQuery>
-                <Spaces spaces={currentUserSpaces} />
+                <Spaces spaces={currentUser.spaces} />
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 }
