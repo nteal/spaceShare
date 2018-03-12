@@ -86,6 +86,14 @@ router.get('/api/currentUser/:token', (req, res) => {
 
 });
 
+router.post('/api/editProfile/:token', (req, res) => {
+  console.log(req.body);
+  db.helpers.updateUser(req.body)
+  .then((user) => {
+    res.status(200).send(user);
+  });
+});
+
 // deprecated?
 router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
   console.log('currentUserSpaces endpoint');
