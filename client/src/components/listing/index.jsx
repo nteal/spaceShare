@@ -17,6 +17,7 @@ class Listing extends React.Component {
       isOwner: false,
       main_image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
       amenities: [],
+      gallery: [],
     };
     this.handleBack = this.handleBack.bind(this);
   }
@@ -179,11 +180,11 @@ class Listing extends React.Component {
               </div>
             </div>
             <div className="row pt-res">
-              <div className="col-12 col-sm-10 col-md-8 col-lg-8 d-flex flex-column align-items-stretch">
+              <div className="col-12 col-sm-10 col-md-8 col-lg-8 d-flex flex-column pl-0 align-items-start">
                 <AboutSpace text={description} />
                 {locationDisplay}
               </div>
-              <div className="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column align-items-stretch">
+              <div className="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column pr-0 align-items-end">
                 <Amenities pet={pet} smoking={smoking} amenities={amenities} />
               </div>
             </div>
