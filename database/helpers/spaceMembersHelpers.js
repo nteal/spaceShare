@@ -6,15 +6,31 @@ const { getDashboardInfoById } = require('./spaceHelpers');
 const { getUserIdByFbId } = require('./userHelpers');
 
 // get all members of space
-
+const getSpaceMembers = spaceId => (
+  UserSpace.findAll({ where: { spaceId: spaceId } })
+  .then(userSpaces => Promise.map(userSpaces, userSpace => User.findById(userSpace.userId)))
+  .then(users => users.map(user => (
+    {
+      name_last: user.name_last,
+      name_first: user.name_first,
+      phone: user.phone,
+      email: user.email,
+      main_image: user.main_image,
+      fb_id: user.fb_id,
+      fb_link: user.fb_link,
+      id: user.id,
+    }
+  )))
+  .catch(err => console.log(err))
+);
 
 // get all spaces of a user
-const getSpacesByFbId = fbId => {
-  return getUserIdByFbId(fbId)
+const getSpacesByFbId = fbId => (
+  getUserIdByFbId(fbId)
     .then(userId => UserSpace.findAll({ where: { userId: userId } }))
     .then(userSpaces => Promise.map(userSpaces, userSpace => getDashboardInfoById(userSpace.spaceId)))
-    .catch(err => console.log(err));
-}
+    .catch(err => console.log(err))
+);
 
 // get user Fb ids of space
 
@@ -28,3 +44,4 @@ const addUsersToSpaces = (fbId, spaceId) => {
 
 exports.addUsersToSpaces = addUsersToSpaces;
 exports.getSpacesByFbId = getSpacesByFbId;
+exports.getSpaceMembers = getSpaceMembers;

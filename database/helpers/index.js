@@ -31,6 +31,7 @@ const { updateTodo } = require('./todoHelpers');
 // spacemembers
 const { addUsersToSpaces } = require('./spaceMembersHelpers');
 const { getSpacesByFbId } = require('./spaceMembersHelpers');
+const { getSpaceMembers} = require('./spaceMembersHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -66,3 +67,4 @@ exports.updateTodo = updateTodo;
 // space members
 exports.addUsersToSpaces = addUsersToSpaces;
 exports.getSpacesByFbId = getSpacesByFbId;
+exports.getSpaceMembers = getSpaceMembers;
