@@ -18,14 +18,19 @@ class Dashboard extends React.Component {
   componentDidMount() {
     console.log('dashboard did mount');
     // get user data to populate profile content
-    Axios.get('http://localhost:3003/api/currentUser', {
-      params: { token: localStorage.getItem('id_token') },
-    })
+    console.log('moved dashboard currentUser to 3002')
+    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)//, {
+      // params: { token: localStorage.getItem('id_token') },
+  // })
       .then((response) => {
+        console.log('response data => ', response.data);
+        
         this.setState({ currentUser: response.data });
+        // get user's spaces to populate spaces content
+        this.setState({ currentUserSpaces: response.spaces });
       })
       .catch((error) => {
-        console.error('error retrieving user data', error);
+        console.error('error retrieving user / space data', error);
       });
   }
 

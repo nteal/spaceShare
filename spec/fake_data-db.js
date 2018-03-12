@@ -33,18 +33,23 @@ const newSpace = {
   smoking_id: 2,
   state: 'LA',
   street_address: '748 camp st',
+  street_address2: '2nd floor',
   timeline_id: 2,
   zip: 70115,
 }
 
 const updateSpace = {
+  id: 1,
   // lave id blank for creation, leave text blank for deletion
-  amenities = [{ id: 1, text: "myThing" }, { text: "myThing" }, { id: 3 }],
+  amenities: [{ text: "myThing" }],
+  // amenities: [{ id: 1, text: "myThing" }, { text: "myThing" }, { id: 3 }],
   capacity: 4,
   city: 'New Orleans',
   cost: 23454.40,
   description: 'this is my description',
-  gallery = [{ id: 1, name: 'fileNameOrUrl'}, {name: 'anotherFileNameOrUrl'}, {id: 1}],  location_display: 'address',
+  gallery: [{name: 'anotherFileNameOrUrl'}],
+    location_display: 'address',
+  // gallery: [{ id: 1, name: 'fileNameOrUrl'}, {name: 'anotherFileNameOrUrl'}, {id: 1}],  location_display: 'address',
   main_image: {name: 'a;lksejf.png'},
   name: 'myspace',
   neighborhood: 'garden district',
@@ -68,17 +73,20 @@ const newUser = {
   name_first: 'bobo',
   name_last: 'boberton',
   phone: 555555555555,
+  profession: 'programmer',
   email: 'email@email.email',
   fb_id: 'sadf9pwp8rypf98dsiyr9pfeouyfasfasd',
   fb_link: 'facebook.com',
   fb_verified: false,
   searchable_work: true,
   searchable_live: true,
-  profession: 'programmer',
-  birthdate: new Date(),
+  birthdate: new Date(), // YYYY-MM-DD HH:MM:SS
+  created
+  updated
   gender_id: 2,
   sleep_id: 1,
   personality_id: 1,
+  planet_id: 3
 };
 
 const newSearch = {

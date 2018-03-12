@@ -40,7 +40,7 @@ class EditListing extends React.Component {
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
-    Axios.get('http://localhost:3003/api/currentSpace', {
+    Axios.get('/api/currentSpace', {
       params: { 
         spaceId,
         token: localStorage.getItem('id_token'),
@@ -177,7 +177,7 @@ class EditListing extends React.Component {
       'Live': 2,
     };
 
-    Axios.post('/api/updateSpace', {
+    Axios.post(`/api/updateSpace/${localStorage.getItem('id_token')}/${spaceId}`, {
       open,
       main_image,
       name,
