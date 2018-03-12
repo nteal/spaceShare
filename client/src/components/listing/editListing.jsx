@@ -33,6 +33,8 @@ class EditListing extends React.Component {
     this.setMultipleStates = this.setMultipleStates.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
+    this.finalizeExistingAmenity = this.finalizeExistingAmenity.bind(this);
+    this.finalizeNewAmenity = this.finalizeNewAmenity.bind(this);
     this.finalizeEditLocation = this.finalizeEditLocation.bind(this);
     this.finalizeEditImage = this.finalizeEditImage.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
@@ -116,6 +118,22 @@ class EditListing extends React.Component {
   finalizeEdit(field, value) {
     this.setState({ [field]: value }, () => {
       console.log('new value', this.state[field]);
+    });
+  }
+
+  finalizeExistingAmenity(field, value) {
+    const { id } = this.state[field];
+    this.setState({
+      [field]: {
+        id,
+        text: value,
+      },
+    });
+  }
+
+  finalizeNewAmenity(field, value) {
+    this.setState({
+      [field]: { text: value },
     });
   }
 
@@ -340,7 +358,15 @@ class EditListing extends React.Component {
                 <Location editView address={street_address} neighborhood={neighborhood} city={city} state={state} zip={zip} finalize={this.finalizeEditLocation} />
               </div>
               <div className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex flex-column pr-0 pl-0 pl-sm-0 pl-md-2 pl-lg-2 pl-xl-2">
-                <Amenities pet={pet} smoking={smoking} amenities={amenities} />
+                <Amenities
+                  pet={pet}
+                  smoking={smoking}
+                  amenities={amenities}
+                  editView
+                  finalize={this.finalizeEdit}
+                  finalizeExisting={this.finalizeExistingAmenity}
+                  finalizeNew={this.finalizeNewAmenity}
+                />
               </div>
             </div>
             <div className="row">
