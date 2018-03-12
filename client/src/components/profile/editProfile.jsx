@@ -229,7 +229,7 @@ class EditProfile extends React.Component {
             </div>
           </MediaQuery>
           <div className="row justify-content-center pt-res">
-            <div className="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column align-items-start">
+            <div className="col-12 col-sm-10 col-md-6 col-lg-4 d-flex flex-column align-items-start">
               {/* user stats sidebar */}
               <div className="content-box">
                 <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url.display} finalize={this.finalizeEditImage} />
@@ -252,7 +252,7 @@ class EditProfile extends React.Component {
                 </ul>
               </div>
             </div>
-            <div className="col-12 col-sm-10 col-md-8 col-lg-8 d-flex flex-column align-items-start">
+            <div className="col-12 col-sm-10 col-md-6 col-lg-8 d-flex flex-column align-items-start">
               <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
               {/* searchable checkboxes */}
               <div className="content-box auto-height-box">

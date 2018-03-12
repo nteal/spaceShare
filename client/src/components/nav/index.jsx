@@ -101,20 +101,22 @@ class Nav extends React.Component {
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
 
     const contentHeader = (
-      <span>
-        <Link to="/">
-          <span>SpaceShare</span>
-        </Link>
-        <Link to="/dashboard" className="header-link">
-          My Dashboard
-        </Link>
-        <span className="header-link">About</span>
-        <span className="header-link">Disclaimer</span>
+      <span className="pr-2">
+        <MediaQuery minDeviceWidth={800}>
+          <Link to="/">
+            <span>SpaceShare</span>
+          </Link>
+        </MediaQuery>
+        <MediaQuery maxDeviceWidth={799}>
+          <Link to="/">
+            <img src={Logo} className="mobile-logo" alt="SpaceShare logo" />
+          </Link>
+        </MediaQuery>
       </span>
     );
 
     const hamburger = (
-      <span>
+      <span className="pl-0 pr-2">
         {!this.state.docked &&
         <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
           <i className="material-icons">menu</i>
