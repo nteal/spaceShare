@@ -9,7 +9,17 @@ class Results extends React.Component {
     const { heading } = this.props;
     return (
       <div>
-        <h1>{heading}</h1>
+        <div className="row">
+          <div className="col">
+            <h1>{heading}</h1>
+          </div>
+          <div className="col">
+            <div className="row">
+              <button>New Search</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     );
   }
