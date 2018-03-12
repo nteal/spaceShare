@@ -121,6 +121,15 @@ const updateSpace = (spaceObj) => {
 }
 
 
+const getDashboardInfoById = spaceId => {
+  return  Space.findById(spaceId)
+    .then(async(space) => { 
+      space.purpose = (await getPurposeById(space.purpose_id)).type;
+      return space;
+    })
+    .then(space => ({ name: space.name, purpose: space.purpose, id: space.id }))
+    .catch(err => console.log(err));
+}
 
 // get space info for matching purposes
   // based on location and purpose
@@ -142,3 +151,4 @@ exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
 exports.getSpacesForMatching = getSpacesForMatching;
 exports.getSpaceListingById = getSpaceListingById;
+exports.getDashboardInfoById = getDashboardInfoById;
