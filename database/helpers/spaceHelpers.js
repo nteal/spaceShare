@@ -80,8 +80,6 @@ const getSpaceById = (spaceId) => {
     .catch(err => console.log(err))
 };
 
-
-
 // takes a space object that INCLUDES a fb id:
 const addNewSpace = (spaceObj) => {
   const amenitiesArr = spaceObj.amenities;
@@ -119,7 +117,6 @@ const updateSpace = (spaceObj) => {
     .then(({id}) => getSpaceById(id))
     .catch(err => console.log(err));
 }
-
 
 const getDashboardInfoById = spaceId => {
   return  Space.findById(spaceId)
