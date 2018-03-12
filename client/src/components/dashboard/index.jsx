@@ -19,19 +19,15 @@ class Dashboard extends React.Component {
     console.log('dashboard did mount');
     // get user data to populate profile content
     console.log('moved dashboard currentUser to 3002')
-    Axios.get('/api/currentUser', {
-      params: { token: localStorage.getItem('id_token') },
-    })
+    Axios.get(`/api/currentUser/token/${localStorage.getItem('id_token')}`)//, {
+      // params: { token: localStorage.getItem('id_token') },
+  // })
       .then((response) => {
+        console.log('response data => ', response.data);
         this.setState({ currentUser: response.data });
         // get user's spaces to populate spaces content
-        console.log('moved cUserSpaces to 3002');
-        Axios.get('/api/currentUserSpaces', {
-          params: {
-            userId: response.data.id,
-            token: localStorage.getItem('id_token'),
-          },
-        })
+        console.log('moved cUserSpaces to 3002'); // not hit-> error in Spaces, can't map over undefined
+        Axios.get(`/api/currentUserSpaces/token/${localStorage.getItem('id_token')}/userId/${response.data.fb_id}`)
           .then((spaces) => {
             this.setState({ currentUserSpaces: spaces.data });
           })

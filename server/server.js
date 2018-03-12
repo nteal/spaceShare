@@ -43,8 +43,8 @@ passport.use(new FacebookTokenStrategy(
   },
   (accessToken, refreshToken, profile, done) => {
     try {
-      console.log('profile:');
-      console.dir(profile);
+      // console.log('profile:');
+      // console.dir(profile);
       // check whether current user exists in db
 
       let newUser = profile;

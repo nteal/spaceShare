@@ -24,17 +24,18 @@ class Search extends React.Component {
   componentDidMount() {
     console.log('new search did mount');
   }
-  // getLocation() {
-  //   Axios.get('/api/get-location/', {
-  //     params: {
-  //       address: this.state.city,
-  //       token: localstorage.getItem('id_token'),
-  //     },
-  //   })
-  //     .then((city) => {
-  //       this.setState({ city: city.data });
-  //     });
-  // }
+  getLocation() {
+    Axios.get(`/api/get-location/token/${localstorage.getItem('id_token')}/address/${this.state.city}`)
+    // , {
+    //   params: {
+    //     address: this.state.city,
+    //     token: localstorage.getItem('id_token'),
+    //   },
+    // })
+      .then((city) => {
+        this.setState({ city: city.data });
+      });
+  }
   isValidBudgetEntry() {
     const { price_min, price_max } = this.state;
     let decimalFound = false;
