@@ -1,9 +1,13 @@
 const Promise = require('bluebird');
-const { Space } = require('../models/spaceModel');
-const { User } = require('../models/userModel');
+
+const { getUserIdByFbId } = require('./userHelpers');
+const { getUserByFbId } = require('./userHelpers');
 const { UserSpace } = require('../models/user_spaceModel');
 const { getDashboardInfoById } = require('./spaceHelpers');
-const { getUserIdByFbId } = require('./userHelpers');
+
+const { Space } = require('../models/spaceModel');
+const { User } = require('../models/userModel');
+
 
 // get all members of space
 const getSpaceMembers = spaceId => (
@@ -32,6 +36,26 @@ const getSpacesByFbId = fbId => (
     .catch(err => console.log(err))
 );
 
+// takes fb id, returns full user data including space info
+const getUserIncludingSpaces = (fbId) => {
+  return getUserByFbId(fbId)
+    .then(async (user) => {
+      user.spaces = await getSpacesByFbId(user.fb_id);
+      return user
+    })
+    .catch(err => console.log(err))
+};
+
+// takes space id, returns full space data including members
+const getSpaceIncludingMembers = (spaceId) => (
+  getSpaceById()
+    .then(async (space) => {
+      space.members = await getSpaceMembers(space.id);
+      return space;
+    })
+    .catch(err => console.log(err))
+);
+
 // get user Fb ids of space
 
 // add users to spaces:
@@ -45,3 +69,4 @@ const addUsersToSpaces = (fbId, spaceId) => {
 exports.addUsersToSpaces = addUsersToSpaces;
 exports.getSpacesByFbId = getSpacesByFbId;
 exports.getSpaceMembers = getSpaceMembers;
+exports.getUserIncludingSpaces = getUserIncludingSpaces;
