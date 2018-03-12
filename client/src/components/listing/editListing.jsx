@@ -437,7 +437,7 @@ class EditListing extends React.Component {
               </div>
             </div>
             <div className="row">
-              <Gallery images={gallery} />
+              <Gallery editView images={gallery} />
             </div>
             <div className="row justify-content-center">
               <Link to={{ pathname: '/listing', state: { spaceId: id } }} className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
