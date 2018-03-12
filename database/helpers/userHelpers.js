@@ -3,6 +3,7 @@ const { User } = require('../models/userModel');
 const { getLinksByUser } = require('./userLinksHelpers');
 const { getZodiac } = require('./zodiacHelpers');
 const { updateLinksForUser } = require('./userLinksHelpers');
+const moment = require('moment');
 
 const randPlanet = () => {
   let planetId = Math.floor(Math.random() * 10);
@@ -10,6 +11,7 @@ const randPlanet = () => {
   return planetId;
 };
 
+const getAge = date => moment().diff(date, 'years');
 
 const getUserById = (userId) => {
   const userObj = {};
@@ -95,3 +97,4 @@ exports.getUserByFbId = getUserByFbId;
 exports.updateUser = updateUser;
 exports.userInDb = userInDb;
 exports.getUserIdByFbId = getUserIdByFbId;
+exports.getAge = getAge;
