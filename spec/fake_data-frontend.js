@@ -175,7 +175,7 @@ app.get('/api/currentUser', (req, res) => {
     id: 0,
     about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris iaculis leo vel odio vehicula tempor. Nam nec malesuada metus, a venenatis massa. Sed a vestibulum sem. Nunc viverra cursus tincidunt. Suspendisse vel placerat purus. Sed imperdiet tempus nunc ut fringilla. Nulla ut arcu in mi dapibus pulvinar ut ac sem. Donec pretium commodo imperdiet. Phasellus mauris orci, vestibulum iaculis mi sed, eleifend eleifend tellus. Cras id mauris dolor. Donec vitae accumsan arcu. Quisque velit ex, interdum mattis leo id, accumsan rutrum magna. Aenean sed elit nec tellus auctor vulputate. Donec eget odio nec elit porttitor elementum. Morbi eget nulla nibh.',
     // image_url: 'https://i.enkirelations.com/yB9m5YmHuCFfh3HCUXWmrv_2ics=/800x0//images/2017/03/de92d8f49965e401490be2593217bd0e.jpg',
-    image_url: 'https://s3.amazonaws.com/spaceshare-sfp/users/0_image_url_0',
+    image_url: 'https://spaceshare-sfp.s3.amazonaws.com/users/0_image_url_0',
     name_first: 'Waylon',
     name_last: 'Dalton',
     phone: '495-974-1123',
@@ -338,14 +338,14 @@ app.get('/api/currentSpace', (req, res) => {
         gallery: [ 
       { 
         id: 1,
-        name: 'saturn3.png',
+        name: 'https://spaceshare-sfp.s3.amazonaws.com/spaces/saturn3.png',
         createdAt: '2018-03-11T03:08:27.000Z',
         updatedAt: '2018-03-11T03:08:27.000Z',
         space_id: 1,
       },
       { 
         id: 3,
-        name: 'saturn2.jpg',
+        name: 'https://spaceshare-sfp.s3.amazonaws.com/spaces/saturn2.jpg',
         createdAt: '2018-03-11T03:10:42.000Z',
         updatedAt: '2018-03-11T03:10:42.000Z',
         space_id: 1,
@@ -368,35 +368,35 @@ app.get('/api/currentListing', (req, res) => {
     amenities: [
       {
         id: 1,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 2,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 3,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 4,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 5,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 6,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 7,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
       {
         id: 8,
-        text: 'Donec non lacus vestibulum'
+        text: 'Donec non lacus vestibulum',
       },
     ],
     open: true,
@@ -406,21 +406,21 @@ app.get('/api/currentListing', (req, res) => {
     zip: '32904',
     state: 'FL',
     main_image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
-    gallery: [ 
-      { 
+    gallery: [
+      {
         id: 1,
-        name: 'saturn3.png',
+        name: 'https://spaceshare-sfp.s3.amazonaws.com/spaces/saturn3.png',
         createdAt: '2018-03-11T03:08:27.000Z',
         updatedAt: '2018-03-11T03:08:27.000Z',
         space_id: 1,
       },
-      { 
+      {
         id: 3,
-        name: 'saturn2.jpg',
+        name: 'https://spaceshare-sfp.s3.amazonaws.com/spaces/saturn2.jpg',
         createdAt: '2018-03-11T03:10:42.000Z',
         updatedAt: '2018-03-11T03:10:42.000Z',
         space_id: 1,
-      }
+      },
     ],
     neighborhood: 'Briggen Quarry',
     owner_fb_id: 'dubDalton',
