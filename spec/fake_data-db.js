@@ -33,6 +33,7 @@ const newSpace = {
   smoking_id: 2,
   state: 'LA',
   street_address: '748 camp st',
+  street_address2: '2nd floor',
   timeline_id: 2,
   zip: 70115,
 }
