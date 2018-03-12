@@ -4,7 +4,7 @@ const { User } = require('./userModel');
 
 const OtherLink = db.define('other_link', {
   url: Sequelize.STRING,
-
+  display: Sequelize.STRING,
 });
 
 // add foreign keys for 1:1 relationships
