@@ -87,9 +87,31 @@ const getSpaceById = (spaceId) => {
 
 // takes a space object that INCLUDES a fb id:
 const addNewSpace = (spaceObj) => {
-  const amenitiesArr = spaceObj.amenities;
+  spaceObj = spaceObj || {};
+  const amenitiesArr = spaceObj.amenities || [{}];
   const newSpace = Object.assign({}, spaceObj);
-  newSpace.main_image = spaceObj.main_image.name;
+  newSpace.main_image = spaceObj.main_image && spaceObj.main_image.name ? spaceObj.main_image.name : '';
+
+  // add defaults for now
+  newSpace.capacity = spaceObj.capacity || 0;
+  newSpace.city = spaceObj.city || '';
+  newSpace.cost = spaceObj.cost || 0;
+  newSpace.description = spaceObj.description || '';
+  newSpace.name = spaceObj.name || '';
+  newSpace.ground_rules = spaceObj.ground_rules || '';
+  newSpace.neighborhood = spaceObj.neighborhood || '';
+  newSpace.open = spaceObj.open || false;
+  newSpace.owner_fb_id = spaceObj.owner_fb_id || '';
+  newSpace.purpose_id = spaceObj.purpose_id || 1;
+  newSpace.pet_id = spaceObj.pet_id || 3;
+  newSpace.smoking_id = spaceObj.smoking_id || 3;
+  newSpace.state = spaceObj.state || '';
+  newSpace.street_address = spaceObj.street_address || '';
+  newSpace.street_address2 = spaceObj.street_address2 || '';
+  newSpace.timeline_id = spaceObj.timeline_id || 1;
+  newSpace.zip = spaceObj.zip || 0;
+
+
   let spaceId;
   // remove amenitites Arr from obj:
   delete newSpace.amenities;
@@ -106,6 +128,9 @@ const addNewSpace = (spaceObj) => {
 
 // takes a space object, returns a promise for updated space:
 const updateSpace = (spaceObj) => {
+  // set defaults to help prevent breaking
+  spaceObj.amenities = spaceObj.amenities || [{}];
+  spaceObj.gallery =  spaceObj.gallery || [{}];
     return Promise.all([
       // update amenities related to space
       updateAmenities(spaceObj.id, spaceObj.amenities),
@@ -119,7 +144,7 @@ const updateSpace = (spaceObj) => {
       updatedSpaceObj.main_image = spaceObj.main_image.name;
       return space.update(updatedSpaceObj)
     })
-    .then(({id}) => getSpaceById(id))
+    .then(({id}) => id)
     .catch(err => console.log(err));
 }
 
