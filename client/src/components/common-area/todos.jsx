@@ -19,7 +19,7 @@ const Todos = (props) => {
       <div className="invisible-content-box">
         <div className="form-check">
           {todos.map(todo => (
-            <TodoListItem todo={todo} />
+            <TodoListItem todo={todo} key={todo.id}/>
           ))}
         </div>
         <div className="input-group mb-3">

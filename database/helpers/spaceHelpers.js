@@ -1,5 +1,6 @@
 const Promise = require('bluebird');
 
+const { User } = require('../models/userModel');
 const { Space } = require('../models/spaceModel');
 const { Search } = require('../models/searchModel');
 
@@ -50,9 +51,11 @@ const getSpaceListingById = (spaceId) => {
         space,
       ])
     })
-    .then(([images, amenities, space]) => {
+    .then(async ([images, amenities, space]) => {
       space.gallery = images;
       space.amenities = amenities;
+      const owner = await User.findOne({ where: { fb_id: space.owner_fb_id } });
+      space.owner_name = `${owner.name_first} ${owner.name_last}`;
       return space;
     })
     .catch(err => console.log(err))
@@ -71,10 +74,12 @@ const getSpaceById = (spaceId) => {
         space.dataValues,
       ])
     })
-    .then(([images, amenities, todos, spaceObj]) => {
+    .then(async ([images, amenities, todos, spaceObj]) => {
       spaceObj.gallery = images;
       spaceObj.amenities = amenities;
       spaceObj.todos = todos;
+      const owner = await User.findOne({where: { fb_id: spaceObj.owner_fb_id } });
+      spaceObj.owner_name = `${owner.name_first} ${owner.name_last}`;
       return addDataFromIds(spaceObj);
     })
     .catch(err => console.log(err))
@@ -149,6 +154,14 @@ const isOwner = (fbId, spaceId) => (
     .catch(err => console.log(err))
 );
 
+// expects object with spaceId and ground_rules
+const updateGroundrules = (updateObj) => (
+  Space.findById(updateObj.spaceId)
+    .then(space => space.update({ ground_rules: updateObj.ground_rules }))
+    .then(updated => true)
+    .catch(err => console.log(err))
+)
+
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
@@ -156,3 +169,4 @@ exports.getSpacesForMatching = getSpacesForMatching;
 exports.getSpaceListingById = getSpaceListingById;
 exports.getDashboardInfoById = getDashboardInfoById;
 exports.isOwner = isOwner;
+exports.updateGroundrules = updateGroundrules;
