@@ -28,6 +28,7 @@ const Space = db.define('space', {
   owner_fb_id: Sequelize.STRING,
   state: Sequelize.STRING,
   street_address: Sequelize.STRING,
+  street_address2: Sequelize.STRING,
   zip: Sequelize.STRING,
 });
 
