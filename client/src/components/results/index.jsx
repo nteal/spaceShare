@@ -22,10 +22,10 @@ class Results extends React.Component {
           <div className="col">
             <ul className="nav nav-tabs" role="tablist">
               <li className="nav-item">
-                <a className="nav-link" id="peopletab" data-toggle="tab" href="#people" role="tab">People</a>
+                <a className="nav-link" id="placestab" data-toggle="tab" href="#places" role="tab">Places</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" id="placestab" data-toggle="tab" href="#places" role="tab">Places</a>
+                <a className="nav-link" id="peopletab" data-toggle="tab" href="#people" role="tab">People</a>
               </li>
             </ul>
           </div>
@@ -38,17 +38,17 @@ class Results extends React.Component {
           </div>
         </div>
         <div className="tab-content" id="myTabContent">
-          <div className="tab-pane fade show active" id="people" role="tabpanel">
+          <div className="tab-pane fade" id="people" role="tabpanel">
             {people.map(person => {
               return <ResultListItem
-                name={person.name}
-                financial={person.occupation}
+                name={`${person.name_first} ${person.name_last}`}
+                financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
               />
             })}
           </div>
-          <div className="tab-pane fade" id="places" role="tabpanel">
+          <div className="tab-pane fade show active" id="places" role="tabpanel">
             {places.map(place => {
               return <ResultListItem
                 name={place.name}
