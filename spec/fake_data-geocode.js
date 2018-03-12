@@ -1,0 +1,1 @@
+const exampleGeocodeRes = { lat: 29.9459608, lng: -90.0700234 };
