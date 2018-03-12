@@ -20,6 +20,7 @@ class SearchResults extends React.Component {
         cost: '',
         neighborhood: '',
         description: '',
+        id: '',
       }],
       searches: [{
         purpose: 'You do not have any past searches',
@@ -34,27 +35,37 @@ class SearchResults extends React.Component {
         personality: 'introvert',
         age_min: '0',
         age_max: '100',
-        timestamp: 'time-stamp'
-      }]
+        timestamp: 'time-stamp',
+      }],
+      profilelink: '/profile',
     };
   }
   componentDidMount() {
     console.log('SearchResults did mount');
-    // if (localStorage.getItem('id_search')) {
-    //   Axios.get('/api/search-results', {
-    //     params: {
-    //       token: localStorage.getItem('id_token'),
-    //       search_id: localStorage.getItem('id_search'),
-    //     }
-    //   })
-    //     .then((response) => {
+    // Axios.get('/api/search-results', {
+    //   params: {
+    //     token: localStorage.getItem('id_token'),
+    //     search_id: localStorage.getItem('id_search'),
+    //   },
+    // })
+    //   .then((response) => {
+    //     if (response.data.people.length) {
     //       this.setState({
     //         people: response.data.people,
-    //         places: response.data.places
     //       });
-    //     })
-    //     .catch((error) => {console.log(error)});
-    // }
+    //     }
+    //     if (response.data.places.length) {
+    //       this.setState({
+    //         places: response.data.places,
+    //       });
+    //     }
+    //     if (response.data.searches.length) {
+    //       this.setState({
+    //         searches: response.data.searches,
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => { console.log(error); });
   }
   render() {
     const { people, places, searches } = this.state;
@@ -65,6 +76,8 @@ class SearchResults extends React.Component {
           people={people}
           places={places}
           searches={searches}
+          history={this.props.history}
+          profilelink={this.state.profilelink}
         />
       </div>
     );
