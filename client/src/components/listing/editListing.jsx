@@ -337,7 +337,7 @@ class EditListing extends React.Component {
             <div className="row pt-res">
               <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column pl-0 pr-0 pr-sm-0 pr-md-2 pr-lg-2 pr-xl-2">
                 <AboutInput field="description" header="About your space" placeholder="A description of your space" value={description} finalize={this.finalizeEdit} />
-                <Location editView address={street_address} neighborhood={neighborhood} city={city} state={state} finalize={this.finalizeEditLocation} />
+                <Location editView address={street_address} neighborhood={neighborhood} city={city} state={state} zip={zip} finalize={this.finalizeEditLocation} />
               </div>
               <div className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex flex-column pr-0 pl-0 pl-sm-0 pl-md-2 pl-lg-2 pl-xl-2">
                 <Amenities pet={pet} smoking={smoking} amenities={amenities} />
