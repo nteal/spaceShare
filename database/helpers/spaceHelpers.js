@@ -35,7 +35,7 @@ const addDataFromIds = (spaceObj) => {
 };
 
 // get just the data displayed on listings
-const getSpaceListingsById = (spaceId) => {
+const getSpaceListingById = (spaceId) => {
   return Space.findById(spaceId)
     .then(space => {
       spaceWithoutAddress = Object.assign({}, space.dataValues);
@@ -80,8 +80,6 @@ const getSpaceById = (spaceId) => {
     .catch(err => console.log(err))
 };
 
-
-
 // takes a space object that INCLUDES a fb id:
 const addNewSpace = (spaceObj) => {
   const amenitiesArr = spaceObj.amenities;
@@ -120,7 +118,15 @@ const updateSpace = (spaceObj) => {
     .catch(err => console.log(err));
 }
 
-
+const getDashboardInfoById = spaceId => {
+  return  Space.findById(spaceId)
+    .then(async(space) => { 
+      space.purpose = (await getPurposeById(space.purpose_id)).type;
+      return space;
+    })
+    .then(space => ({ name: space.name, purpose: space.purpose, id: space.id }))
+    .catch(err => console.log(err));
+}
 
 // get space info for matching purposes
   // based on location and purpose
@@ -137,8 +143,16 @@ const getSpacesForMatching = (searchId) => (
     .catch(err => console.log(err))
 ) 
 
+const isOwner = (fbId, spaceId) => (
+  Space.findById(spaceId)
+    .then(space => space.owner_fb_id === fbId)
+    .catch(err => console.log(err))
+);
+
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
 exports.getSpacesForMatching = getSpacesForMatching;
-exports.getSpaceListingsById = getSpaceListingsById;
+exports.getSpaceListingById = getSpaceListingById;
+exports.getDashboardInfoById = getDashboardInfoById;
+exports.isOwner = isOwner;
