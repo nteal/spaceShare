@@ -25,7 +25,7 @@ app.use(
     headers: { 'Access-Control-Allow-Origin': '*' },
     ACL: 'public-read',
     uniquePrefix: false
-  })
+  }),
 );
 
 passport.serializeUser((user, done) => {
@@ -43,33 +43,16 @@ passport.use(new FacebookTokenStrategy(
   },
   (accessToken, refreshToken, profile, done) => {
     try {
-      // console.log('profile:');
-      // console.dir(profile);
-      // check whether current user exists in db
-
-      let newUser = profile;
+      const newUser = profile;
       // create new user if current user is not in db
-      if (true) {
-        // db.userHelpers.addNewUser({
-        //   about: '',
-        //   image_url: '',
-        //   name_first: '',
-        //   phone: 1231231234,
-        //   email: '',
-        //   fb_id: '',
-        //   fb_link: 'facebook.com',
-        //   fb_verified: false,
-        //   searchable_work: false,
-        //   searchable_live: false,
-        //   profession: 'programmer',
-        //   birthdate: new Date(),
-        //   gender_id: 2,
-        //   sleep_id: 1,
-        //   personality_id: 1,
-        //   planet_id: 6,
-        // }, (err, user) => done(err, user));
-        done(null, newUser);
-      }
+      db.helpers.addNewUser({
+        image_url: profile.photos[0].value,
+        name_first: profile.name.givenName,
+        name_last: profile.name.familyName,
+        email: profile.emails[0].value,
+        fb_id: profile.id,
+      }, (err, user) => done(err, user));
+      done(null, newUser);
     } catch (error) {
       done(error);
     }

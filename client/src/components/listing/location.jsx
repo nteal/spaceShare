@@ -7,7 +7,7 @@ class Location extends React.Component {
     super(props);
     this.state = {
       editing: null,
-      address1: '',
+      address: '',
       address2: '',
       city: '',
       state: '',
@@ -20,11 +20,11 @@ class Location extends React.Component {
   }
 
   toggleEditing(event) {
-    const { address, city, state, zip } = this.props;
+    const { address, address2, city, state, zip } = this.props;
     this.setState({
       editing: true,
-      address1: address,
-      address2: '',
+      address,
+      address2,
       city,
       state,
       zip,
@@ -41,9 +41,8 @@ class Location extends React.Component {
   }
 
   handleSubmit() {
-    const { address1, address2, city, state, zip } = this.state;
-    const address = `${address1} ${address2}`;
-    this.props.finalize(address, city, state, zip);
+    const { address, address2, city, state, zip } = this.state;
+    this.props.finalize(address, address2, city, state, zip);
     this.doneEditing();
   }
 
@@ -132,8 +131,8 @@ class Location extends React.Component {
               <label htmlFor="inputAddress">Address</label>
               <input 
                 type="text"
-                name="address1"
-                value={this.state.address1}
+                name="address"
+                value={this.state.address}
                 className="form-control"
                 id="inputAddress"
                 placeholder="1234 Main St"
@@ -173,9 +172,9 @@ class Location extends React.Component {
                   className="form-control"
                   onChange={this.handleEditing}
                 >
-                  <option selected>Choose...</option>
+                  <option>Choose...</option>
                   {states.map(state => (
-                    <option>{state}</option>
+                    <option key={state}>{state}</option>
                   ))}
                 </select>
               </div>
@@ -187,6 +186,7 @@ class Location extends React.Component {
                   value={this.state.zip}
                   className="form-control"
                   id="inputZip"
+                  placeholder="00000"
                   onChange={this.handleEditing}
                 />
               </div>
@@ -204,10 +204,11 @@ class Location extends React.Component {
       );
     } else {
       displayed = (
-        <h6>
-          {neighborhood}<br />
-          {city}, {state}
-        </h6>
+        <div>
+          {editView && (<h6>{this.props.address}</h6>)}
+          {!editView && (<h6>{neighborhood}</h6>)}
+          <h6>{city}, {state}</h6>
+        </div>
       );
     }
 
