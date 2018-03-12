@@ -59,9 +59,11 @@ router.get('/api/isAuthenticated/:token', (req, res) => {
   }
 });
 
-// router.get('/api/currentSpace/token/:token', (req, res) => {
-
-// });
+router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
+  db.helpers.getSpaceById(req.params.spaceId)
+  .then((space) =>
+  res.status(200).send(space));
+});
 
 router.get('/api/currentUser/:token', (req, res) => {
   // console.log('getCurrentUser', Object.keys(req));
@@ -87,13 +89,15 @@ router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
 
 });
 
-router.get('/api/new-search/:token/:search', (req, res) => {
-  db.helpers.addNewSearch(req.params.search);
+router.post('/api/new-search/:token', (req, res) => {
+  console.log(req.body);
+  db.helpers.addNewSearch(JSON.parse(req.body.search));
   res.status(201).send('new-search created');
 });
 
 router.get('/api/get-location/:token/:address', (req, res) => {
-  res.status(200).send('get-location');
+  // is this for the geo-location?
+  res.status(200).send(JSON.stringify({data: `${req.params.address}`}));
 });
 
 

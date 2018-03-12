@@ -25,7 +25,7 @@ class Search extends React.Component {
     console.log('new search did mount');
   }
   getLocation() {
-    Axios.get(`/api/get-location/token/${localstorage.getItem('id_token')}/address/${this.state.city}`)
+    Axios.get(`/api/get-location/token/${localstorage.getItem('id_token')}/${this.state.city}`)
     // , {
     //   params: {
     //     address: this.state.city,
@@ -33,6 +33,7 @@ class Search extends React.Component {
     //   },
     // })
       .then((city) => {
+        city = JSON.parse(city);
         this.setState({ city: city.data });
       });
   }
@@ -100,14 +101,14 @@ class Search extends React.Component {
         this.setState({
           include_people: false,
         }, () => {
-          // Axios.post('/api/new-search', {
-          //   search: this.state,
-          //   token: localstorage.getItem('id_token'),
-          // })
-            // .then((response) => {
-            //   localStorage.setItem('id_search', response.data);
-            //   this.props.history.push('/search-results');
-            // });
+          Axios.post(`/api/new-search/${localStorage.getItem('id_token')}`, 
+          JSON.stringify({
+            search: this.state,
+          }))
+            .then((response) => {
+              localStorage.setItem('id_search', response.data);
+              this.props.history.push('/search-results');
+            });
           this.props.history.push('/search-results');
         });
       }
