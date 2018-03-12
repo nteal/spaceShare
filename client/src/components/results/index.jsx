@@ -31,7 +31,7 @@ class Results extends React.Component {
           <div className="col">
           <ul className="nav nav-tabs justify-content-end" role="tablist">
             <li className="nav-item">
-              <a className="nav-link" href="#">Past Searches</a>
+              <a className="nav-link" href="/saved-searches">Past Searches</a>
             </li>
           </ul>
           </div>
