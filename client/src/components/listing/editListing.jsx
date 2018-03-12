@@ -30,7 +30,6 @@ class EditListing extends React.Component {
       gallery2: {},
       gallery3: {},
     };
-    this.setMultipleStates = this.setMultipleStates.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
     this.finalizeExistingAmenity = this.finalizeExistingAmenity.bind(this);
@@ -64,6 +63,7 @@ class EditListing extends React.Component {
           description,
           neighborhood,
           street_address,
+          street_address2,
           city,
           state,
           zip,
@@ -87,6 +87,7 @@ class EditListing extends React.Component {
           description,
           neighborhood,
           street_address,
+          street_address2,
           city,
           state,
           zip,
@@ -96,20 +97,20 @@ class EditListing extends React.Component {
           gallery,
         });
 
-        this.setMultipleStates(amenities);
-        this.setMultipleStates(gallery);
+        const setMultipleStates = (propertyName, field) => {
+          field.forEach((value, i) => {
+            const name = `${propertyName}${i}`;
+            this.setState({ [name]: value });
+          });
+        }
+        setMultipleStates('amenities', amenities);
+        setMultipleStates('gallery', gallery);
       })
       .catch((error) => {
         console.error('error getting listing info', error);
       });
   }
 
-  setMultipleStates(field) {
-    field.forEach((value, i) => {
-      const name = `${field}${i}`;
-      this.setState({ [name]: value });
-    });
-  }
 
   handleBack() {
     this.props.history.goBack();
@@ -117,7 +118,7 @@ class EditListing extends React.Component {
 
   finalizeEdit(field, value) {
     this.setState({ [field]: value }, () => {
-      console.log('new value', this.state[field]);
+      console.log('new value', field, this.state[field]);
     });
   }
 
@@ -137,12 +138,15 @@ class EditListing extends React.Component {
     });
   }
 
-  finalizeEditLocation(address, city, state, zip) {
+  finalizeEditLocation(address, address2, city, state, zip) {
     this.setState({
       street_address: address,
+      street_address2: address2,
       city,
       state,
       zip,
+    }, () => {
+      console.log('new address', this.state.street_address, this.state.street_address2, this.state.city, this.state.state, this.state.zip);
     });
   }
 
@@ -174,6 +178,7 @@ class EditListing extends React.Component {
       description,
       neighborhood,
       street_address,
+      street_address2,
       city,
       state,
       zip,
@@ -207,6 +212,7 @@ class EditListing extends React.Component {
       description,
       neighborhood,
       street_address,
+      street_address2,
       city,
       state,
       zip,
@@ -252,6 +258,7 @@ class EditListing extends React.Component {
       description,
       neighborhood,
       street_address,
+      street_address2,
       city,
       state,
       zip,
@@ -355,7 +362,7 @@ class EditListing extends React.Component {
             <div className="row pt-res">
               <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column pl-0 pr-0 pr-sm-0 pr-md-2 pr-lg-2 pr-xl-2">
                 <AboutInput field="description" header="About your space" placeholder="A description of your space" value={description} finalize={this.finalizeEdit} />
-                <Location editView address={street_address} neighborhood={neighborhood} city={city} state={state} zip={zip} finalize={this.finalizeEditLocation} />
+                <Location editView address={street_address} address2={street_address2} neighborhood={neighborhood} city={city} state={state} zip={zip} finalize={this.finalizeEditLocation} />
               </div>
               <div className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex flex-column pr-0 pl-0 pl-sm-0 pl-md-2 pl-lg-2 pl-xl-2">
                 <Amenities
