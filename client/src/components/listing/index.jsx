@@ -90,10 +90,11 @@ class Listing extends React.Component {
 
   handleBack() {
     this.props.history.goBack();
-  };
+  }
 
   render() {
     const {
+      id,
       isOwner,
       open,
       main_image,
@@ -152,14 +153,28 @@ class Listing extends React.Component {
           </MediaQuery>
           <div className="container mt-neg-3">
             <div className="row">
-              <MediaQuery minDeviceWidth={800}>
+              <MediaQuery minDeviceWidth={601}>
                 <div className="heading-box mt-neg">
-                  <h1>{name}</h1>
+                  <h1>
+                    {name}
+                    {isOwner && (
+                      <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="heading-box-edit">
+                        <i className="material-icons">edit</i>
+                      </Link>
+                    )}
+                  </h1>
                 </div>
               </MediaQuery>
               <MediaQuery maxDeviceWidth={600}>
                 <div className="mobile-heading-box mt-neg-3">
-                  <h2>{name}</h2>
+                  <h2>
+                    {name}
+                    {isOwner && (
+                      <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="mobile-heading-box-edit">
+                        <i className="material-icons">edit</i>
+                      </Link>
+                    )}
+                  </h2>
                 </div>
               </MediaQuery>
             </div>
