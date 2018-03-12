@@ -143,9 +143,16 @@ const getSpacesForMatching = (searchId) => (
     .catch(err => console.log(err))
 ) 
 
+const isOwner = (fbId, spaceId) => (
+  Space.findById(spaceId)
+    .then(space => space.owner_fb_id === fbId)
+    .catch(err => console.log(err))
+);
+
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
 exports.getSpacesForMatching = getSpacesForMatching;
 exports.getSpaceListingById = getSpaceListingById;
 exports.getDashboardInfoById = getDashboardInfoById;
+exports.isOwner = isOwner;
