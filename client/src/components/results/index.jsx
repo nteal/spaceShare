@@ -6,9 +6,13 @@ class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.newSearch=this.newSearch.bind(this);
+  }
+  newSearch() {
+    this.props.history.push('/search');
   }
   render() {
-    const { heading, people, places, searches } = this.props;
+    const { heading, people, places, searches, history, spacelink, profilelink, } = this.props;
     return (
       <div>
         <div className="row mb-2 mt-2">
@@ -16,13 +20,13 @@ class Results extends React.Component {
             <h1>{heading}</h1>
           </div>
           <div className="col-2">
-            <button>New Search</button>
+            <button className="btn btn-secondary" onClick={this.newSearch}>New Search</button>
           </div>
         </div>
         <div className="row">
           <ul className="nav nav-tabs" role="tablist">
             <li className="nav-item">
-              <a className="nav-link" data-toggle="tab" href="#places" role="tab">Places</a>
+              <a className="nav-link active" data-toggle="tab" href="#places" role="tab">Places</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
@@ -41,6 +45,7 @@ class Results extends React.Component {
                 financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
+                link={profilelink}
               />
             })}
           </div>
@@ -52,10 +57,12 @@ class Results extends React.Component {
                 financial={place.cost}
                 about={place.neighborhood}
                 description={place.description}
-              />
-            })}
+                id={place.id}
+                link={{pathname: '/listing', state: {spaceId: place.id }}}
+          />
+        })}
           </div>
-          <div className="tab-pane" id="searches" role="tabpanel">
+          <div className="tab-pane fade" id="searches" role="tabpanel">
             {searches.map(search => {
               return <SearchListItem
                 purpose={search.purpose}
@@ -71,6 +78,8 @@ class Results extends React.Component {
                 age_min={search.age_min}
                 age_max={search.age_max}
                 timestamp={search.timestamp}
+                id={search.id}
+                history={history}
                 />
               })}
           </div>
