@@ -149,6 +149,9 @@ h1, h2, h3, h4, h5, h6 {
 .pt-res {
   padding-top: 5%;
 }
+.mt-res {
+  margin-top: 5%;
+}
 
 .content-box {
   border: 1px solid rgb(61, 61, 61);
@@ -210,4 +213,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .member-img {
   max-width: 100%;
+}
+
+#edit-profile-back {
+  position: relative;
+  top: 1.25rem;
 }
