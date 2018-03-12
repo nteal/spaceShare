@@ -1,4 +1,5 @@
 import React from 'react';
+import ResultListItem from './result-list-item.jsx';
 
 class Results extends React.Component {
   constructor(props) {
@@ -37,8 +38,26 @@ class Results extends React.Component {
           </div>
         </div>
         <div className="tab-content" id="myTabContent">
-          <div className="tab-pane fade show active" id="people" role="tabpanel">{people}</div>
-          <div className="tab-pane fade" id="places" role="tabpanel">{places}</div>
+          <div className="tab-pane fade show active" id="people" role="tabpanel">
+            {people.map(person => {
+              return <ResultListItem
+                name={person.name}
+                financial={person.occupation}
+                about={person.sleep}
+                description={person.personality}
+              />
+            })}
+          </div>
+          <div className="tab-pane fade" id="places" role="tabpanel">
+            {places.map(place => {
+              return <ResultListItem
+                name={place.name}
+                financial={place.cost}
+                about={place.neighborhood}
+                description={place.description}
+              />
+            })}
+          </div>
         </div>
       </div>
     );
