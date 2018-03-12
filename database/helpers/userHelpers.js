@@ -43,6 +43,12 @@ const addNewUser = (newUserObj) => {
     .catch(err => console.log(err));
 };
 
+const getUserIdByFbId = (fbId) => {
+  return User.findOne({ where: { fb_id: fbId } })
+  .then(user => user.dataValues.id)
+  .catch(err => console.log(err));
+}
+
 const getUserByFbId = (fbId) => {
   const userObj = {};
   return User.findOne({ where: { fb_id: fbId } })
@@ -86,3 +92,4 @@ exports.getUserById = getUserById;
 exports.getUserByFbId = getUserByFbId;
 exports.updateUser = updateUser;
 exports.userInDb = userInDb;
+exports.getUserIdByFbId = getUserIdByFbId;
