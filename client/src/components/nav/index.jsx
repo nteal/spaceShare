@@ -11,6 +11,7 @@ import Profile from '../profile/index.jsx';
 import CommonArea from '../common-area/index.jsx';
 import ChatMain from '../chat-main/index.jsx';
 import CreateSpace from '../create-a-space/index.jsx';
+import Listing from '../listing/index.jsx';
 import Search from '../search/index.jsx';
 import SearchResults from '../search-results/index.jsx';
 import SideNavItems from './side-nav.jsx';
@@ -25,7 +26,7 @@ const styles = {
     padding: 8,
   },
   content: {
-    padding: '16px',
+    fontFamily: 'Raleway',
   },
 };
 
@@ -100,20 +101,22 @@ class Nav extends React.Component {
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
 
     const contentHeader = (
-      <span>
-        <Link to="/">
-          <span>SpaceShare</span>
-        </Link>
-        <Link to="/dashboard" className="header-link">
-          My Dashboard
-        </Link>
-        <span className="header-link">About</span>
-        <span className="header-link">Disclaimer</span>
+      <span className="pr-2">
+        <MediaQuery minDeviceWidth={800}>
+          <Link to="/">
+            <span>SpaceShare</span>
+          </Link>
+        </MediaQuery>
+        <MediaQuery maxDeviceWidth={799}>
+          <Link to="/">
+            <img src={Logo} className="mobile-logo" alt="SpaceShare logo" />
+          </Link>
+        </MediaQuery>
       </span>
     );
 
     const hamburger = (
-      <span>
+      <span className="pl-0 pr-2">
         {!this.state.docked &&
         <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
           <i className="material-icons">menu</i>
@@ -142,7 +145,7 @@ class Nav extends React.Component {
       return (
         <Sidebar {...sidebarProps}>
           <Header hamburger={hamburger} title={contentHeader} mobileTitle={contentHeaderMobile} logout={this.fbLogout}>
-            <main style={styles.content}>
+            <div style={styles.content}>
               <Route
                 exact
                 path="/"
@@ -157,13 +160,14 @@ class Nav extends React.Component {
                 <Route path="/common-area" component={CommonArea} />
                 <Route path="/messages" component={ChatMain} />
                 <Route path="/new-space" component={CreateSpace} />
+                <Route path="/listing" component={Listing} />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
                 <Route path="/results" component={SearchResults} />
                 <Route path="/listings" component={SearchResults} />
                 <Route path="/saved-searches" component={SearchResults} />
               </Switch>
-            </main>
+            </div>
           </Header>
         </Sidebar>
       );

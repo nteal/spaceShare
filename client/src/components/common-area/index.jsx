@@ -14,7 +14,7 @@ class CommonArea extends React.Component {
       ownerId: 0,
       name: null,
       todos: [],
-      mainImage: 'https://kaggle2.blob.core.windows.net/competitions/kaggle/5407/media/housesbanner.png',
+      mainImage: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
       members: [],
       groundRules: '',
     };
@@ -30,7 +30,7 @@ class CommonArea extends React.Component {
       .then((space) => {
         this.setState({
           id: space.data.id,
-          ownerId: space.data.owner_id,
+          ownerId: space.data.owner_fb_id,
           name: space.data.name,
           todos: space.data.todos,
           mainImage: space.data.main_image,
@@ -58,11 +58,13 @@ class CommonArea extends React.Component {
       <div>
 
         <div className="row justify-content-around">
-          <img
-            className="img-fluid"
-            src={this.state.mainImage}
-            alt="Your lovely space"
-          />
+          <div className="space-main-img-container">
+            <img
+              className="img-fluid space-main-img"
+              src={this.state.mainImage}
+              alt="Your lovely space"
+            />
+          </div>
         </div>
 
         <Switch>

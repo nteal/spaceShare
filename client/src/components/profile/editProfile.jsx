@@ -204,101 +204,105 @@ class EditProfile extends React.Component {
     } = this.state;
 
     return (
-      <div className="container-fluid">
+      <div>
         <MediaQuery minDeviceWidth={800}>
-          <div className="row pb-5">
-            <button className="custom-btn" onClick={this.handleBack}>
-              <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
-            </button>
-            <div className="heading-box">
-              <h1>Edit Your Profile</h1>
-            </div>
-          </div>
+          <button id="edit-profile-back" className="custom-btn" onClick={this.handleBack}>
+            <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
+          </button>
         </MediaQuery>
-        <MediaQuery maxDeviceWidth={600}>
-          <div className="row pb-3">
-            <button className="custom-btn" onClick={this.handleBack}>
-              <ArrowLeftBoldCircle className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
-            </button>
-            <div className="mobile-heading-box">
-              <h2>Edit Your Profile</h2>
-            </div>
-          </div>
-        </MediaQuery>
-        <div className="row justify-content-center">
-          <div className="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column align-items-start">
-            {/* user stats sidebar */}
-            <div className="content-box">
-              <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url.display} finalize={this.finalizeEditImage} />
-              <div className="mini-heading-box-side">
-                <span>
-                  <h5>{name_first} {name_last}</h5>
-                </span>
-              </div>
-              <ul className="list-group list-group-flush">
-                <TextInput field="phone" glyph="phone" type="tel" placeholder="Your phone number" value={phone} finalize={this.finalizeEdit} />
-                <TextInput field="email" glyph="email" type="email" placeholder="Your email address" value={email} finalize={this.finalizeEdit} />
-                {/* gender: choose from existing or add new one */}
-                <DropDown field="gender" glyph="filter_vintage" placeholder="Your gender" value={gender} options={['Male', 'Female']} finalize={this.finalizeEdit} />
-                <DateInput field="birthdate" glyph="date_range" value={birthdate} finalize={this.finalizeEdit} />
-                <TextInput field="profession" glyph="work" type="text" placeholder="Your profession" value={profession} finalize={this.finalizeEdit} />
-                <DropDown field="personality" glyph="mood" placeholder="Your personality" value={personality} options={['Introvert', 'Extrovert']} finalize={this.finalizeEdit} />
-                <DropDown field="sleep" glyph="brightness_medium" placeholder="Your sleep schedule" value={sleep} options={['Early bird', 'Night owl']} finalize={this.finalizeEdit} />
-                <LinkInput field="link1" display_name={link1.display_name} url={link1.url} finalize={this.finalizeEditLink} />
-                <LinkInput field="link2" display_name={link2.display_name} url={link2.url} finalize={this.finalizeEditLink} />
-              </ul>
-            </div>
-          </div>
-          <div className="col-12 col-sm-10 col-md-8 col-lg-8 d-flex flex-column align-items-start">
-            <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
-            {/* searchable checkboxes */}
-            <div className="content-box auto-height-box">
-              <MediaQuery minDeviceWidth={800}>
-                <div className="mini-heading-box-top">
-                  <h5>Searchable</h5>
-                </div>
-              </MediaQuery>
-              <MediaQuery maxDeviceWidth={600}>
-                <div className="mini-heading-box-top-mobile">
-                  <h5>Searchable</h5>
-                </div>
-              </MediaQuery>
-              <div className="invisible-content-box">
-                <div className="form-group row ml-1">
-                  <div className="form-check">
-                    <input 
-                      id="searchable-work-checkbox"
-                      className="form-check-input"
-                      type="checkbox"
-                      name="searchable_work"
-                      checked={searchable_work}
-                      onChange={this.handleCheckboxChange}
-                    />
-                    <label className="form-check-label">
-                      Yes, make me available in search results for people looking for a work space partner.
-                    </label>
-                  </div>
-                </div>
-                <div className="form-group row ml-1">
-                  <div className="form-check">
-                    <input 
-                      id="searchable-live-checkbox"
-                      className="form-check-input"
-                      type="checkbox"
-                      name="searchable_live"
-                      checked={searchable_live}
-                      onChange={this.handleCheckboxChange}
-                    />
-                    <label className="form-check-label">
-                      Yes, make me available in search results for people looking for a living space partner.
-                    </label>
-                  </div>
-                </div>
+        <div className="container p-res">
+          <MediaQuery minDeviceWidth={800}>
+            <div className="row mt-neg-3">
+              <div className="heading-box">
+                <h1>Edit Your Profile</h1>
               </div>
             </div>
-            <Link to="/dashboard" className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
-              Submit changes
-            </Link>
+          </MediaQuery>
+          <MediaQuery maxDeviceWidth={799}>
+            <div className="row">
+              <button className="custom-btn" onClick={this.handleBack}>
+                <ArrowLeftBoldCircle className="mdi-btn" height={38} width={38} fill="#6F5BC0" />
+              </button>
+              <div className="mobile-heading-box">
+                <h2>Edit Your Profile</h2>
+              </div>
+            </div>
+          </MediaQuery>
+          <div className="row justify-content-center pt-res">
+            <div className="col-12 col-sm-10 col-md-6 col-lg-4 d-flex flex-column align-items-start">
+              {/* user stats sidebar */}
+              <div className="content-box">
+                <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url.display} finalize={this.finalizeEditImage} />
+                <div className="mini-heading-box-side">
+                  <span>
+                    <h5>{name_first} {name_last}</h5>
+                  </span>
+                </div>
+                <ul className="list-group list-group-flush">
+                  <TextInput field="phone" glyph="phone" type="tel" placeholder="Your phone number" value={phone} finalize={this.finalizeEdit} />
+                  <TextInput field="email" glyph="email" type="email" placeholder="Your email address" value={email} finalize={this.finalizeEdit} />
+                  {/* gender: choose from existing or add new one */}
+                  <DropDown field="gender" glyph="filter_vintage" placeholder="Your gender" value={gender} options={['Male', 'Female']} finalize={this.finalizeEdit} />
+                  <DateInput field="birthdate" glyph="date_range" value={birthdate} finalize={this.finalizeEdit} />
+                  <TextInput field="profession" glyph="work" type="text" placeholder="Your profession" value={profession} finalize={this.finalizeEdit} />
+                  <DropDown field="personality" glyph="mood" placeholder="Your personality" value={personality} options={['Introvert', 'Extrovert']} finalize={this.finalizeEdit} />
+                  <DropDown field="sleep" glyph="brightness_medium" placeholder="Your sleep schedule" value={sleep} options={['Early bird', 'Night owl']} finalize={this.finalizeEdit} />
+                  <LinkInput field="link1" display_name={link1.display_name} url={link1.url} finalize={this.finalizeEditLink} />
+                  <LinkInput field="link2" display_name={link2.display_name} url={link2.url} finalize={this.finalizeEditLink} />
+                </ul>
+              </div>
+            </div>
+            <div className="col-12 col-sm-10 col-md-6 col-lg-8 d-flex flex-column align-items-start">
+              <AboutInput field="about" value={about} finalize={this.finalizeEdit} />
+              {/* searchable checkboxes */}
+              <div className="content-box auto-height-box">
+                <MediaQuery minDeviceWidth={800}>
+                  <div className="mini-heading-box-top">
+                    <h5>Searchable</h5>
+                  </div>
+                </MediaQuery>
+                <MediaQuery maxDeviceWidth={600}>
+                  <div className="mini-heading-box-top-mobile">
+                    <h5>Searchable</h5>
+                  </div>
+                </MediaQuery>
+                <div className="invisible-content-box">
+                  <div className="form-group row ml-1">
+                    <div className="form-check">
+                      <input 
+                        id="searchable-work-checkbox"
+                        className="form-check-input"
+                        type="checkbox"
+                        name="searchable_work"
+                        checked={searchable_work}
+                        onChange={this.handleCheckboxChange}
+                      />
+                      <label className="form-check-label">
+                        Yes, make me available in search results for people looking for a work space partner.
+                      </label>
+                    </div>
+                  </div>
+                  <div className="form-group row ml-1">
+                    <div className="form-check">
+                      <input 
+                        id="searchable-live-checkbox"
+                        className="form-check-input"
+                        type="checkbox"
+                        name="searchable_live"
+                        checked={searchable_live}
+                        onChange={this.handleCheckboxChange}
+                      />
+                      <label className="form-check-label">
+                        Yes, make me available in search results for people looking for a living space partner.
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Link to="/dashboard" className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
+                Submit changes
+              </Link>
+            </div>
           </div>
         </div>
       </div>
