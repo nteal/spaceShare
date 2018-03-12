@@ -1,8 +1,8 @@
 const options = require('./optionHelpers');
 const { User } = require('../models/userModel');
-const { updateLinksForUser } = require('./userLinksHelpers');
 const { getLinksByUser } = require('./userLinksHelpers');
 const { getZodiac } = require('./zodiacHelpers');
+const { updateLinksForUser } = require('./userLinksHelpers');
 
 const randPlanet = () => {
   let planetId = Math.floor(Math.random() * 10);
@@ -59,14 +59,16 @@ const getUserByFbId = (fbId) => {
         options.getPlanetById(user.planet_id),
         options.getPersonalityById(user.personality_id),
         options.getSleepById(user.sleep_id),
+        getLinksByUser(user.id),
       ]);
     })
-    .then(([gender, planet, personality, sleep]) => {
+    .then(([gender, planet, personality, sleep, links]) => {
       userObj.gender = gender.self_identification;
       userObj.planet = planet.name;
       userObj.personality = personality.type;
       userObj.sleep = sleep.schedule;
       userObj.zodiac = getZodiac(userObj.birthdate);
+      userObj.links = links;
       return userObj;
     })
     .catch(err => console.log(err));
