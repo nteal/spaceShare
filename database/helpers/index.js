@@ -24,12 +24,13 @@ const { addNewSpace } = require('./spaceHelpers');
 const { getSpaceById } = require('./spaceHelpers');
 const { updateSpace } = require('./spaceHelpers');
 const { getSpacesForMatching } = require('./spaceHelpers');
-const { getSpaceListingsById } = require('./spaceHelpers');
+const { getSpaceListingById } = require('./spaceHelpers');
 // todo helpers
 const { getTodosBySpaceId } = require('./todoHelpers');
 const { updateTodo } = require('./todoHelpers');
 // spacemembers
 const { addUsersToSpaces } = require('./spaceMembersHelpers');
+const { getSpacesByFbId } = require('./spaceMembersHelpers');
 
 // user exports:
 exports.addNewUser = addNewUser;
@@ -58,9 +59,10 @@ exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
 exports.getSpacesForMatching = getSpacesForMatching;
-exports.getSpaceListingsById = getSpaceListingsById;
+exports.getSpaceListingById = getSpaceListingById;
 // todo exports:
 exports.getTodosBySpaceId = getTodosBySpaceId;
 exports.updateTodo = updateTodo;
 // space members
 exports.addUsersToSpaces = addUsersToSpaces;
+exports.getSpacesByFbId = getSpacesByFbId;
