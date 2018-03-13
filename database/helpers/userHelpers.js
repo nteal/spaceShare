@@ -52,8 +52,8 @@ const addNewUser = (newUserObj) => {
   userObj.fb_id = newUserObj.fb_id || '';
   userObj.fb_link = newUserObj.fb_link || '';
   userObj.fb_verified = newUserObj.fb_verified || false;
-  userObj.searchable_work = newUserObj.searchable_work || true;
-  userObj.searchable_live = newUserObj.searchable_live || true;
+  userObj.searchable_work = newUserObj.searchable_work || false;
+  userObj.searchable_live = newUserObj.searchable_live || false;
   userObj.birthdate = newUserObj.birthdate || new Date(); // YYYY-MM-DD HH:MM:SS
   userObj.gender_id = newUserObj.gender_id || 3;
   userObj.sleep_id = newUserObj.sleep_id || 3;
