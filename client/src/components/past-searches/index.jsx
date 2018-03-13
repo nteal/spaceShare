@@ -123,7 +123,7 @@ class PastSearches extends React.Component {
                 about={place.neighborhood}
                 description={place.description}
                 id={place.id}
-                link={{ pathname: '/listing', state: { spaceId: place.id } }}
+                link="/listing"
               />
             ))}
           </div>
