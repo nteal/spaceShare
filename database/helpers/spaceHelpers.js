@@ -15,6 +15,8 @@ const { getSmokingById } = require('./optionHelpers');
 const { getPetById } = require('./optionHelpers');
 const { getTimelineById } = require('./optionHelpers');
 
+const { addUsersToSpaces } = require('./spaceMembersHelpers');
+
 
 const addDataFromIds = (spaceObj) => {
   const retObj = Object.assign({}, spaceObj);
@@ -114,12 +116,14 @@ const addNewSpace = (spaceObj, fbId) => {
   delete newSpace.amenities;
   // first create user, then add amenities, then call getUser
   return Space.create(newSpace)
-    .then((createdSpace) => {
-      updateAmenities(createdSpace.id, amenitiesArr);
-      return createdSpace.id;
-    })
+    .then(createdSpace => (
+      Promise.all([
+        updateAmenities(createdSpace.id, amenitiesArr),
+        addUsersToSpaces(createdSpace.owner_fb_id, createdSpace.id),
+      ])
+    ))
     // .then(() => getSpaceById(spaceId)) // commented out to return only id!
-    .then(updatedSpaceId => updatedSpaceId)
+    .then(([amenities, userSpaceJunction]) => userSpaceJunction.spaceId)
     .catch(err => console.log(err));
 };
 
