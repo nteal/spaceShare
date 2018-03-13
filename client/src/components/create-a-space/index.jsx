@@ -117,9 +117,9 @@ class CreateSpace extends React.Component {
     });
   }
   handleSubmit() {
-    Axios.post('/api/new-space', {
+    Axios.post(`/api/new-space/${localStorage.getItem('id_token')}`, {
       space: this.state,
-      token: localStorage.getItem('id_token'),
+      // token: localStorage.getItem('id_token'),
     })
       .then((response) => {
         localStorage.setItem('id_space', response.data);
