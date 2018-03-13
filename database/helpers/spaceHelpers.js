@@ -15,6 +15,8 @@ const { getSmokingById } = require('./optionHelpers');
 const { getPetById } = require('./optionHelpers');
 const { getTimelineById } = require('./optionHelpers');
 
+const { addUsersToSpaces } = require('./spaceMembersHelpers');
+
 
 const addDataFromIds = (spaceObj) => {
   const retObj = Object.assign({}, spaceObj);
@@ -86,10 +88,9 @@ const getSpaceById = (spaceId) => {
 };
 
 // takes a space object that INCLUDES a fb id:
-const addNewSpace = (spaceObj) => {
-  const newSpace = spaceObj ? Object.assign({}, spaceObj) : {};
+const addNewSpace = (spaceObj, fbId) => {
+  const newSpace = spaceObj ? Object.assign({ owner_fb_id: fbId }, spaceObj) : {};
   const amenitiesArr = newSpace.amenities || [{}];
-  newSpace.main_image = newSpace.main_image && newSpace.main_image.name ? newSpace.main_image.name : '';
 
   // add defaults
   newSpace.capacity = newSpace.capacity || 0;
@@ -99,6 +100,7 @@ const addNewSpace = (spaceObj) => {
   newSpace.name = newSpace.name || '';
   newSpace.ground_rules = newSpace.ground_rules || '';
   newSpace.neighborhood = newSpace.neighborhood || '';
+  newSpace.main_image = newSpace.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space2.jpg';
   newSpace.open = newSpace.open || false;
   newSpace.owner_fb_id = newSpace.owner_fb_id || '';
   newSpace.purpose_id = newSpace.purpose_id || 1;
@@ -114,12 +116,14 @@ const addNewSpace = (spaceObj) => {
   delete newSpace.amenities;
   // first create user, then add amenities, then call getUser
   return Space.create(newSpace)
-    .then((createdSpace) => {
-      updateAmenities(createdSpace.id, amenitiesArr)
-      return createdSpace.id;
-    })
+    .then(createdSpace => (
+      Promise.all([
+        updateAmenities(createdSpace.id, amenitiesArr),
+        addUsersToSpaces(createdSpace.owner_fb_id, createdSpace.id),
+      ])
+    ))
     // .then(() => getSpaceById(spaceId)) // commented out to return only id!
-    .then(updatedSpaceId => updatedSpaceId)
+    .then(([amenities, userSpaceJunction]) => userSpaceJunction.spaceId)
     .catch(err => console.log(err));
 };
 
@@ -139,7 +143,7 @@ const updateSpace = (spaceObj) => {
     .then(() => Space.findById(spaceObj.id))
     .then((space) => {
       const updatedSpaceObj = Object.assign({}, spaceObj);
-      updatedSpaceObj.main_image = spaceObj.main_image && spaceObj.main_image.name ? spaceObj.main_image.name : '';
+      updatedSpaceObj.main_image = spaceObj.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space2.jpg';
       return space.update(updatedSpaceObj);
     })
     .then(({ id }) => id)
