@@ -73,6 +73,12 @@ router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
   })
 });
 
+router.get('/api/isOwner/:token/:spaceId', (req, res) => {
+  db.helpers.isOwner(req.fb_Id, req.params.spaceId).then((result) => {
+    res.status(200).send(result);
+  })
+})
+
 router.get('/api/currentUser/:token', (req, res) => {
   // console.log('getCurrentUser', Object.keys(req));
   // database helper
