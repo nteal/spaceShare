@@ -64,6 +64,10 @@ ul {
   fill: rgb(49, 23, 155);
 }
 
+.md-xs {
+  font-size: 1rem;
+}
+
 .md-sm {
   font-size: 1.25rem;
 }
@@ -107,6 +111,10 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
   height: 50px;
   padding: 15px 75px 0px 15px;
+}
+
+.descender {
+  padding: 10px 75px 5px 15px!important;
 }
 
 .heading-box-edit {
@@ -230,6 +238,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .user-profile-pic {
+  height: auto;
+  max-width: 100%;
+}
+
+.space-preview-pic {
   height: auto;
   max-width: 100%;
 }
