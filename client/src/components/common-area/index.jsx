@@ -13,6 +13,7 @@ class CommonArea extends React.Component {
       id: 0,
       ownerId: 0,
       name: null,
+      purpose: '',
       todos: [],
       mainImage: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
       members: [],
@@ -32,9 +33,10 @@ class CommonArea extends React.Component {
           id: space.data.id,
           ownerId: space.data.owner_fb_id,
           name: space.data.name,
-          todos: space.data.todos,
-          mainImage: space.data.main_image,
-          members: space.data.members,
+          purpose: space.data.purpose,
+          todos: space.data.todos || [],
+          mainImage: space.data.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
+          members: space.data.members || [],
           groundRules: space.data.ground_rules,
         });
       })
@@ -46,11 +48,12 @@ class CommonArea extends React.Component {
       id,
       ownerId,
       name,
+      purpose,
       todos,
       members,
       groundRules,
     } = this.state;
-    const commonAreaProps = { id, name, todos };
+    const commonAreaProps = { id, name, purpose, todos };
     const membersProps = { ownerId, members };
     const rulesProps = { groundRules };
 
