@@ -50,7 +50,7 @@ class EditProfile extends React.Component {
   }
   componentDidMount() {
     Axios.get('http://localhost:3003/api/currentUser', {
-      params: { token: localStorage.getItem('token_id') },
+      params: { token: localStorage.getItem('id_token') },
     })
       .then((response) => {
         this.setState({
@@ -161,7 +161,7 @@ class EditProfile extends React.Component {
       token: localStorage.getItem('id_token'),
     });
 
-    Axios.post('/api/editProfile', {
+    Axios.post(`/api/editProfile/${localStorage.getItem('id_token')}`, {
       id,
       about,
       image_url: newImage,
