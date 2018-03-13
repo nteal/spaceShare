@@ -170,7 +170,7 @@ class CreateSpace extends React.Component {
       <div className="container p-res">
         <div className="row">
           <MediaQuery minDeviceWidth={800}>
-            <div className="heading-box pb-1">
+            <div className="heading-box descender">
               <h1>New Space</h1>
             </div>
           </MediaQuery>
@@ -180,19 +180,19 @@ class CreateSpace extends React.Component {
             </div>
           </MediaQuery>
         </div>
-        <div className="row justify-content-center pt-5">
+        <div className="row justify-content-center pt-5 pl-4 pr-4 pl-sm-0 pr-sm-0 pl-md-0 pr-md-0 pl-l-0 pr-l-0 pl-xl-0 pl-xl-0">
           <form onSubmit={this.handleSubmit}>
             <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
               <div className="row">
                 <h5>Name</h5>
               </div>
-              <div className="row">
-                <input className="form-control" type="text" placeholder="edit the name of your space here" name="name" onChange={this.handleInputChange} />
+              <div className="row pb-3">
+                <input className="form-control" type="text" placeholder="Your space's name" name="name" onChange={this.handleInputChange} />
               </div>
               <div className="row">
                 <h5>Purpose</h5>
               </div>
-              <div className="row">
+              <div className="row pb-3">
                 <div className="col form-check" onChange={this.handleInputChange}>
                   <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
                   <label className="form-check-label" htmlFor="work">
@@ -209,7 +209,7 @@ class CreateSpace extends React.Component {
               <div className="row">
                 <h5>Availability</h5>
               </div>
-              <div className="row">
+              <div className="row pb-3">
                 <div className="col form-check" onChange={this.handleInputChange}>
                   <input className="form-check-input" type="radio" id="open" name="open" value={'true'} />
                   <label className="form-check-label" htmlFor="open">
@@ -226,7 +226,7 @@ class CreateSpace extends React.Component {
               <div className="row">
                 <h5>Cost</h5>
               </div>
-              <div className="row">
+              <div className="row pb-3">
                 <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
               </div>
             </div>
@@ -236,14 +236,14 @@ class CreateSpace extends React.Component {
             <div className="row">
               <div className="col">
                 <p>
-                  Only your neighborhood, city, and state will be displayed publicly.
+                  <i>Only your neighborhood, city, and state will be displayed publicly.</i>
                 </p>
-                <div className="form-group">
-                  <label htmlFor="inputNeighborhood">Neighborhood</label>
+                <div className="form-group mb-2">
+                  <label className="mb-0" htmlFor="inputNeighborhood">Neighborhood</label>
                   <input id="inputNeighborhood" className="form-control" type="text" placeholder="Enter address" name="neighborhood" onChange={this.handleInputChange} />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="inputAddress">Address</label>
+                <div className="form-group mb-2">
+                  <label className="mb-0" htmlFor="inputAddress">Address</label>
                   <input
                     type="text"
                     name="street_address"
@@ -253,8 +253,8 @@ class CreateSpace extends React.Component {
                     onChange={this.handleInputChange}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="inputAddress2">Address 2</label>
+                <div className="form-group mb-2">
+                  <label className="mb-0" htmlFor="inputAddress2">Address 2</label>
                   <input
                     type="text"
                     name="street_address2"
@@ -264,9 +264,9 @@ class CreateSpace extends React.Component {
                     onChange={this.handleInputChange}
                   />
                 </div>
-                <div className="form-row">
+                <div className="form-row mb-2">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputCity">City</label>
+                    <label className="mb-0" htmlFor="inputCity">City</label>
                     <input
                       type="text"
                       name="city"
@@ -275,8 +275,8 @@ class CreateSpace extends React.Component {
                       onChange={this.handleInputChange}
                     />
                   </div>
-                  <div className="form-group col-md-4">
-                    <label htmlFor="inputState">State</label>
+                  <div className="form-group col-md-4 mb-2">
+                    <label className="mb-0" htmlFor="inputState">State</label>
                     <select
                       id="inputState"
                       name="state"
@@ -289,8 +289,8 @@ class CreateSpace extends React.Component {
                       ))}
                     </select>
                   </div>
-                  <div className="form-group col-md-2">
-                    <label htmlFor="inputZip">Zip</label>
+                  <div className="form-group col-md-2 mb-2">
+                    <label className="mb-0" htmlFor="inputZip">Zip</label>
                     <input
                       type="text"
                       name="zip"
@@ -306,13 +306,13 @@ class CreateSpace extends React.Component {
             <div className="row">
               <h5>Description</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
             </div>
             <div className="row">
               <h5>Timeframe</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
                 <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
                 <label className="form-check-label" htmlFor="daily">
@@ -341,13 +341,13 @@ class CreateSpace extends React.Component {
             <div className="row">
               <h5>Capacity</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <input className="form-control" type="text" placeholder="0 people" name="capacity" onChange={this.handleCapacityChange} />
             </div>
             <div className="row">
               <h5>Smoking?</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
                 <input className="form-check-input" type="radio" id="smoking-outside" name="smoking_id" value={1} />
                 <label className="form-check-label" htmlFor="smoking-outside">
@@ -370,7 +370,7 @@ class CreateSpace extends React.Component {
             <div className="row">
               <h5>Pet-friendly?</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
                 <input className="form-check-input" type="radio" id="pets-outside" name="pet_id" value={1} />
                 <label className="form-check-label" htmlFor="pets-outside">
@@ -408,7 +408,7 @@ class CreateSpace extends React.Component {
               </ul>
             </div>
             <div className="row pr-0 input-group" onChange={this.handleInputChange}>
-              <input type="text" className="form-control" placeholder="add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
+              <input type="text" className="form-control" placeholder="Add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
               <div className="input-group-append">
                 <button className="btn btn-outline-secondary" type="button" onClick={this.addAmenity}>Add</button>
               </div>
