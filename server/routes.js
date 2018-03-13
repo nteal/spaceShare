@@ -65,6 +65,13 @@ router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
   res.status(200).send(space));
 });
 
+router.post('/api/newSpace/:token', (req, res) => {
+  db.helpers.addNewSpace(req.body.space)
+  .then((newSpaceId) => {
+    res.status(201).send(JSON.stringify(newSpaceId));
+  })
+})
+
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
   console.log(req.body);
   req.body.id = req.params.spaceId
