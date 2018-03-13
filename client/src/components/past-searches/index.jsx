@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
 import ResultListItem from '../results/result-list-item.jsx';
 import SearchListItem from '../results/search-list-item.jsx';
 
@@ -151,5 +152,9 @@ class PastSearches extends React.Component {
     );
   }
 }
+
+PastSearches.propTypes = {
+  history: PropTypes.object,
+};
 
 export default PastSearches;
