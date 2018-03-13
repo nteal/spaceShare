@@ -192,7 +192,7 @@ class DashProfile extends React.Component {
           <span>
             <h5>{name_first} {name_last}
               <Link to="/edit-profile">
-                <i className="material-icons ml-2">edit</i>
+                <i className="material-icons ml-4">edit</i>
               </Link>
             </h5>
           </span>

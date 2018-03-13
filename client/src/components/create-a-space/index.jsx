@@ -1,5 +1,7 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
+import Axios from 'axios';
+import ReactS3Uploader from 'react-s3-uploader';
 import TextInput from '../profile/textInput.jsx';
 
 class CreateSpace extends React.Component {
@@ -7,6 +9,7 @@ class CreateSpace extends React.Component {
     super(props);
     this.state = {
       name: 'space',
+      main_image: '',
       purpose_id: 1,
       open: false,
       cost: '0',
@@ -23,8 +26,11 @@ class CreateSpace extends React.Component {
       pet_id: 3,
       amenities: [],
       amenity: '',
-      main_image: {},
+      tempImageUrl: '',
+      editing: true,
     };
+    this.onDrop = this.onDrop.bind(this);
+    this.toggleEditing = this.toggleEditing.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
     this.handleCapacityChange = this.handleCapacityChange.bind(this);
@@ -34,6 +40,17 @@ class CreateSpace extends React.Component {
   }
   componentDidMount() {
     console.log('new space did mount');
+  }
+  onDrop(acceptedFile) {
+    const { filename, publicUrl } = acceptedFile;
+    this.setState({
+      main_image: `https://spaceshare-sfp.s3.amazonaws.com/${filename}`,
+      tempImageUrl: publicUrl,
+      editing: false,
+    });
+  }
+  toggleEditing() {
+    this.setState({ editing: true });
   }
   handleCostChange(event) {
     let decimalFound = false;
@@ -100,19 +117,91 @@ class CreateSpace extends React.Component {
       amenities: updatedAmenities,
     });
   }
-  handleSubmit() {
-    Axios.post(`/api/new-space/${localStorage.getItem('id_token')}`, {
+  handleSubmit(event) {
+    event.preventDefault();
+    Axios.post(`/api/newSpace/${localStorage.getItem('id_token')}`, {
       space: this.state,
       // token: localStorage.getItem('id_token'),
     })
       .then((response) => {
+        console.log('space added', response);
         localStorage.setItem('id_space', response.data);
         this.props.history.push('/common-area');
+      })
+      .catch((error) => {
+        console.error('error adding space', error);
       });
-    this.props.history.push('/common-area');
   }
 
   render() {
+    const { editing, tempImageUrl } = this.state;
+    let imageDisplay;
+    let imageDisplayMobile;
+    if (editing) {
+      imageDisplay = (
+        <div className="content-box image-selection-box h-50 w-75">
+          <div className="pl-2 pr-2 pt-5 pb-5">
+            <h5 className="text-center mb-3">
+              Select an image for your space.
+            </h5>
+            <ReactS3Uploader
+              className="form-control image-select"
+              signingUrl="/s3/sign"
+              signingUrlMethod="GET"
+              accept="image/*"
+              s3path="spaces/"
+              scrubFilename={
+                filename =>
+                  filename.replace(/[^]*/, this.state.name)
+              }
+              multiple={false}
+              onFinish={this.onDrop}
+            />
+          </div>
+        </div>
+      );
+      imageDisplayMobile = (
+        <div className="content-box image-selection-box">
+          <div className="pl-2 pr-2 pt-5 pb-2">
+            <h6 className="text-center mb-3">
+              Select an image for your space.
+            </h6>
+            <ReactS3Uploader
+              className="form-control image-select"
+              signingUrl="/s3/sign"
+              signingUrlMethod="GET"
+              accept="image/*"
+              s3path="spaces/"
+              scrubFilename={
+                filename =>
+                  filename.replace(/[^]*/, this.state.name)
+              }
+              multiple={false}
+              onFinish={this.onDrop}
+            />
+          </div>
+        </div>
+
+      );
+    } else {
+      imageDisplay = (
+        <div className="h-50 w-75">
+          <img src={tempImageUrl} alt="Your space" className="space-preview-pic" />
+          <button className="btn btn-primary btn-block mt-2" onClick={this.toggleEditing}>
+            Change image
+          </button>
+        </div>
+      );
+      imageDisplayMobile = (
+        <div className="w-100">
+          <img src={tempImageUrl} alt="Your space" className="space-preview-pic" />
+          <button className="btn btn-primary btn-block mt-2" onClick={this.toggleEditing}>
+            Change image
+          </button>
+        </div>
+      );
+    }
+
     const states = [
       'Alabama',
       'Alaska',
@@ -170,7 +259,7 @@ class CreateSpace extends React.Component {
       <div className="container p-res">
         <div className="row">
           <MediaQuery minDeviceWidth={800}>
-            <div className="heading-box pb-1">
+            <div className="heading-box descender">
               <h1>New Space</h1>
             </div>
           </MediaQuery>
@@ -180,54 +269,68 @@ class CreateSpace extends React.Component {
             </div>
           </MediaQuery>
         </div>
-        <div className="row justify-content-center pt-5">
-          <form onSubmit={this.handleSubmit}>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+        <div className="row justify-content-center pt-5 pl-4 pl-lg-5 pr-4 pr-lg-5">
+          <form className="w-100" onSubmit={this.handleSubmit}>
+            <div className="col pb-3 pb-sm-0 pb-md-0 pb-lg-0 pb-xl-0">
               <div className="row">
-                <h5>Name</h5>
-              </div>
-              <div className="row">
-                <input className="form-control" type="text" placeholder="edit the name of your space here" name="name" onChange={this.handleInputChange} />
-              </div>
-              <div className="row">
-                <h5>Purpose</h5>
-              </div>
-              <div className="row">
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
-                  <label className="form-check-label" htmlFor="work">
-                    Work
-                  </label>
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+                  <div className="row">
+                    <h5>Name</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <input className="form-control" type="text" placeholder="Your space's name" name="name" onChange={this.handleInputChange} />
+                  </div>
+                  <div className="row">
+                    <h5>Purpose</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
+                      <label className="form-check-label" htmlFor="work">
+                        Work
+                      </label>
+                    </div>
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
+                      <label className="form-check-label" htmlFor="live">
+                        Live
+                      </label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <h5>Availability</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="open" name="open" value={'true'} />
+                      <label className="form-check-label" htmlFor="open">
+                        Open
+                      </label>
+                    </div>
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="closed" name="open" value={'false'} />
+                      <label className="form-check-label" htmlFor="closed">
+                        Closed
+                      </label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <h5>Cost</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
+                  </div>
                 </div>
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
-                  <label className="form-check-label" htmlFor="live">
-                    Live
-                  </label>
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+                  <MediaQuery minDeviceWidth={601}>
+                    <div className="row justify-content-end">
+                      {imageDisplay}
+                    </div>
+                  </MediaQuery>
+                  <MediaQuery maxDeviceWidth={600}>
+                    {imageDisplayMobile}
+                  </MediaQuery>
                 </div>
-              </div>
-              <div className="row">
-                <h5>Availability</h5>
-              </div>
-              <div className="row">
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="open" name="open" value={'true'} />
-                  <label className="form-check-label" htmlFor="open">
-                    Open
-                  </label>
-                </div>
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="closed" name="open" value={'false'} />
-                  <label className="form-check-label" htmlFor="closed">
-                    Closed
-                  </label>
-                </div>
-              </div>
-              <div className="row">
-                <h5>Cost</h5>
-              </div>
-              <div className="row">
-                <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
               </div>
             </div>
             <div className="row">
@@ -236,14 +339,14 @@ class CreateSpace extends React.Component {
             <div className="row">
               <div className="col">
                 <p>
-                  Only your neighborhood, city, and state will be displayed publicly.
+                  <i>Only your neighborhood, city, and state will be displayed publicly.</i>
                 </p>
-                <div className="form-group">
-                  <label htmlFor="inputNeighborhood">Neighborhood</label>
+                <div className="form-group mb-2">
+                  <label className="mb-0" htmlFor="inputNeighborhood">Neighborhood</label>
                   <input id="inputNeighborhood" className="form-control" type="text" placeholder="Enter address" name="neighborhood" onChange={this.handleInputChange} />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="inputAddress">Address</label>
+                <div className="form-group mb-2">
+                  <label className="mb-0" htmlFor="inputAddress">Address</label>
                   <input
                     type="text"
                     name="street_address"
@@ -253,8 +356,8 @@ class CreateSpace extends React.Component {
                     onChange={this.handleInputChange}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="inputAddress2">Address 2</label>
+                <div className="form-group mb-2">
+                  <label className="mb-0" htmlFor="inputAddress2">Address 2</label>
                   <input
                     type="text"
                     name="street_address2"
@@ -264,9 +367,9 @@ class CreateSpace extends React.Component {
                     onChange={this.handleInputChange}
                   />
                 </div>
-                <div className="form-row">
+                <div className="form-row mb-2">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputCity">City</label>
+                    <label className="mb-0" htmlFor="inputCity">City</label>
                     <input
                       type="text"
                       name="city"
@@ -275,8 +378,8 @@ class CreateSpace extends React.Component {
                       onChange={this.handleInputChange}
                     />
                   </div>
-                  <div className="form-group col-md-4">
-                    <label htmlFor="inputState">State</label>
+                  <div className="form-group col-md-4 mb-2">
+                    <label className="mb-0" htmlFor="inputState">State</label>
                     <select
                       id="inputState"
                       name="state"
@@ -289,8 +392,8 @@ class CreateSpace extends React.Component {
                       ))}
                     </select>
                   </div>
-                  <div className="form-group col-md-2">
-                    <label htmlFor="inputZip">Zip</label>
+                  <div className="form-group col-md-2 mb-2">
+                    <label className="mb-0" htmlFor="inputZip">Zip</label>
                     <input
                       type="text"
                       name="zip"
@@ -306,13 +409,13 @@ class CreateSpace extends React.Component {
             <div className="row">
               <h5>Description</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
             </div>
             <div className="row">
               <h5>Timeframe</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
                 <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
                 <label className="form-check-label" htmlFor="daily">
@@ -341,13 +444,13 @@ class CreateSpace extends React.Component {
             <div className="row">
               <h5>Capacity</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <input className="form-control" type="text" placeholder="0 people" name="capacity" onChange={this.handleCapacityChange} />
             </div>
             <div className="row">
               <h5>Smoking?</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
                 <input className="form-check-input" type="radio" id="smoking-outside" name="smoking_id" value={1} />
                 <label className="form-check-label" htmlFor="smoking-outside">
@@ -370,7 +473,7 @@ class CreateSpace extends React.Component {
             <div className="row">
               <h5>Pet-friendly?</h5>
             </div>
-            <div className="row">
+            <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
                 <input className="form-check-input" type="radio" id="pets-outside" name="pet_id" value={1} />
                 <label className="form-check-label" htmlFor="pets-outside">
@@ -408,7 +511,7 @@ class CreateSpace extends React.Component {
               </ul>
             </div>
             <div className="row pr-0 input-group" onChange={this.handleInputChange}>
-              <input type="text" className="form-control" placeholder="add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
+              <input type="text" className="form-control" placeholder="Add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
               <div className="input-group-append">
                 <button className="btn btn-outline-secondary" type="button" onClick={this.addAmenity}>Add</button>
               </div>
