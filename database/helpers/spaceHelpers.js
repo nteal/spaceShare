@@ -91,7 +91,6 @@ const getSpaceById = (spaceId) => {
 const addNewSpace = (spaceObj, fbId) => {
   const newSpace = spaceObj ? Object.assign({ owner_fb_id: fbId }, spaceObj) : {};
   const amenitiesArr = newSpace.amenities || [{}];
-  newSpace.main_image = newSpace.main_image && newSpace.main_image.name ? newSpace.main_image.name : '';
 
   // add defaults
   newSpace.capacity = newSpace.capacity || 0;
@@ -101,6 +100,7 @@ const addNewSpace = (spaceObj, fbId) => {
   newSpace.name = newSpace.name || '';
   newSpace.ground_rules = newSpace.ground_rules || '';
   newSpace.neighborhood = newSpace.neighborhood || '';
+  newSpace.main_image = newSpace.main_image || '';
   newSpace.open = newSpace.open || false;
   newSpace.owner_fb_id = newSpace.owner_fb_id || '';
   newSpace.purpose_id = newSpace.purpose_id || 1;
@@ -143,7 +143,7 @@ const updateSpace = (spaceObj) => {
     .then(() => Space.findById(spaceObj.id))
     .then((space) => {
       const updatedSpaceObj = Object.assign({}, spaceObj);
-      updatedSpaceObj.main_image = spaceObj.main_image && spaceObj.main_image.name ? spaceObj.main_image.name : '';
+      updatedSpaceObj.main_image = spaceObj.main_image || '';
       return space.update(updatedSpaceObj);
     })
     .then(({ id }) => id)
