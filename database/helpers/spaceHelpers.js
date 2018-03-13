@@ -86,8 +86,8 @@ const getSpaceById = (spaceId) => {
 };
 
 // takes a space object that INCLUDES a fb id:
-const addNewSpace = (spaceObj) => {
-  const newSpace = spaceObj ? Object.assign({}, spaceObj) : {};
+const addNewSpace = (spaceObj, fbId) => {
+  const newSpace = spaceObj ? Object.assign({ owner_fb_id: fbId }, spaceObj) : {};
   const amenitiesArr = newSpace.amenities || [{}];
   newSpace.main_image = newSpace.main_image && newSpace.main_image.name ? newSpace.main_image.name : '';
 
@@ -115,7 +115,7 @@ const addNewSpace = (spaceObj) => {
   // first create user, then add amenities, then call getUser
   return Space.create(newSpace)
     .then((createdSpace) => {
-      updateAmenities(createdSpace.id, amenitiesArr)
+      updateAmenities(createdSpace.id, amenitiesArr);
       return createdSpace.id;
     })
     // .then(() => getSpaceById(spaceId)) // commented out to return only id!
