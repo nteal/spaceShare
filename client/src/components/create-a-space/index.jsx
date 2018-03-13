@@ -1,5 +1,6 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
+import Axios from 'axios';
 import ReactS3Uploader from 'react-s3-uploader';
 import TextInput from '../profile/textInput.jsx';
 
@@ -43,7 +44,7 @@ class CreateSpace extends React.Component {
   onDrop(acceptedFile) {
     const { filename, publicUrl } = acceptedFile;
     this.setState({
-      main_image: `https://spaceshare-sfp.s3.amazonaws.com/${fileName}`,
+      main_image: `https://spaceshare-sfp.s3.amazonaws.com/${filename}`,
       tempImageUrl: publicUrl,
       editing: false,
     });
@@ -116,16 +117,20 @@ class CreateSpace extends React.Component {
       amenities: updatedAmenities,
     });
   }
-  handleSubmit() {
-    Axios.post(`/api/new-space/${localStorage.getItem('id_token')}`, {
+  handleSubmit(event) {
+    event.preventDefault();
+    Axios.post(`/api/newSpace/${localStorage.getItem('id_token')}`, {
       space: this.state,
       // token: localStorage.getItem('id_token'),
     })
       .then((response) => {
+        console.log('space added', response);
         localStorage.setItem('id_space', response.data);
         this.props.history.push('/common-area');
+      })
+      .catch((error) => {
+        console.error('error adding space', error);
       });
-    this.props.history.push('/common-area');
   }
 
   render() {
