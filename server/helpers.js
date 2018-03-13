@@ -1,6 +1,6 @@
 const request = require('request');
 const aws4 = require('aws4');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 
 
 const getS3image = (filename, callback) => {
@@ -15,21 +15,21 @@ const getS3image = (filename, callback) => {
   });
 };
 
-const geocode = (address) => {
-  return new Promise((resolve, reject) => {
-    request(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => {
-      err ? reject(err) : resolve(JSON.parse(body).results[0].geometry.location);
-    })
+const geocode = address => (
+  new Promise((resolve, reject) => {
+    request(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => (
+      err ? reject(err) : resolve(JSON.parse(body).results[0].geometry.location)
+    ));
   })
-};
+);
 
-const reverseGeocode = (lat, long) => {
-  return new Promise((resolve, reject) => {
-    request(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => {
-      err ? reject(err) : resolve(JSON.parse(body).results[0]); 
-    })
+const reverseGeocode = (lat, long) => (
+  new Promise((resolve, reject) => {
+    request(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => (
+      err ? reject(err) : resolve(JSON.parse(body).results[0])
+    ));
   })
-}
+);
 
 exports.getS3image = getS3image;
 exports.geocode = geocode;
