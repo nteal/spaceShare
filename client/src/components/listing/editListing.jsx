@@ -247,7 +247,8 @@ class EditListing extends React.Component {
       ],
     })
       .then((response) => {
-        console.log(response);
+        console.log('space updated', response);
+        this.props.toggleRefresh();
       })
       .catch((error) => {
         console.error('error updating your space info', error);
@@ -440,7 +441,7 @@ class EditListing extends React.Component {
               <Gallery editView images={gallery} />
             </div>
             <div className="row justify-content-center">
-              <Link to={{ pathname: '/listing', state: { spaceId: id } }} className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
+              <Link to={{ pathname: '/common-area', state: { spaceId: id } }} className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
                 Submit changes
               </Link>
             </div>
