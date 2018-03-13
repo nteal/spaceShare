@@ -18,11 +18,11 @@ class LinkInput extends React.Component {
   }
 
   toggleEditing(event) {
-    const { display_name, url } = this.props;
+    const { display, url } = this.props;
     this.setState({ 
       editing: true,
-      newDisplayName: display_name || 'A display name for your link',
-      newValue: url || 'An optional link for you',
+      newDisplayName: display || '',
+      newValue: url || '',
     });
   }
 
@@ -34,7 +34,7 @@ class LinkInput extends React.Component {
     const { value, name } = event.target;
     if (name === 'link') {
       this.setState({ newValue: value });
-    } else {
+    } else if (name === 'display') {
       this.setState({ newDisplayName: value });
     }
   }
@@ -46,51 +46,41 @@ class LinkInput extends React.Component {
 
   render() {
     const { editing } = this.state;
-    const { display_name, url } = this.props;
+    const { display, url } = this.props;
 
     let displayed;
     if (editing) {
       displayed = (
         <li className="list-group-item">
           <div className="row">
-            <div className="input-group">
-              <input 
-                type="text"
-                name="display name"
-                value={this.state.newDisplayName}
-                className="form-control"
-                placeholder="A display name for your link"
-                aria-label="A display name for your link"
-                onChange={this.handleEditing}
-              />
-              <div className="input-group-append">
-                <button className="btn btn-outline-secondary pb-0" onClick={this.handleSubmit} type="submit">
-                  <i className="material-icons">check</i>
-                </button>
-                <button className="btn btn-outline-secondary pb-0" onClick={this.doneEditing} type="button">
-                  <i className="material-icons">close</i>
-                </button>
-              </div>
-            </div>
-            <div className="input-group">
-              <input 
-                type="url"
-                name="link"
-                value={this.state.newValue}
-                className="form-control"
-                placeholder="An optional link for you"
-                aria-label="An optional link for you"
-                onChange={this.handleEditing}
-              />
-              <div className="input-group-append">
-                <button className="btn btn-outline-secondary pb-0" onClick={this.handleSubmit} type="submit">
-                  <i className="material-icons">check</i>
-                </button>
-                <button className="btn btn-outline-secondary pb-0" onClick={this.doneEditing} type="button">
-                  <i className="material-icons">close</i>
-                </button>
-              </div>
-            </div>
+            <input 
+              type="text"
+              name="display"
+              value={this.state.newDisplayName}
+              className="form-control"
+              placeholder="A display name for your link"
+              aria-label="A display name for your link"
+              onChange={this.handleEditing}
+            />
+          </div>
+          <div className="row pt-1">
+            <input 
+              type="url"
+              name="link"
+              value={this.state.newValue}
+              className="form-control"
+              placeholder="The URL of your link"
+              aria-label="The URL of your link"
+              onChange={this.handleEditing}
+            />
+          </div>
+          <div className="row pt-1 justify-content-end">
+            <button className="btn btn-outline-secondary btn-sm pb-0 mr-1" onClick={this.handleSubmit} type="submit">
+              <i className="material-icons md-xs">check</i>
+            </button>
+            <button className="btn btn-outline-secondary btn-sm pb-0" onClick={this.doneEditing} type="button">
+              <i className="material-icons md-xs">close</i>
+            </button>
           </div>
         </li>
       );
@@ -100,7 +90,7 @@ class LinkInput extends React.Component {
           <div className="row justify-content-between pl-2 pr-1">
             <div className="row pl-2">
               <i className="material-icons sidebar-icon">link</i>
-              <a href={url || '#'}>{display_name || 'Add a link!'}</a>
+              <a href={url || '#'}>{display || 'An optional link for you!'}</a>
             </div>
             <Pencil className="mdi-btn" onClick={this.toggleEditing} height={20} width={20} fill="#6F5BC0" />
           </div>

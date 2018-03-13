@@ -3,6 +3,7 @@ const { Personality } = require('../models/personalityModel');
 const personalityList = [
   { type: 'Introvert' },
   { type: 'Extrovert' },
+  { type: '' },
 ];
 
 const addPersonalities = () => Personality.bulkCreate(personalityList);
