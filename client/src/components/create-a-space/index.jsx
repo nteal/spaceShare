@@ -1,5 +1,6 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
+import ReactS3Uploader from 'react-s3-uploader';
 import TextInput from '../profile/textInput.jsx';
 
 class CreateSpace extends React.Component {
@@ -7,6 +8,7 @@ class CreateSpace extends React.Component {
     super(props);
     this.state = {
       name: 'space',
+      main_image: '',
       purpose_id: 1,
       open: false,
       cost: '0',
@@ -23,8 +25,11 @@ class CreateSpace extends React.Component {
       pet_id: 3,
       amenities: [],
       amenity: '',
-      main_image: {},
+      tempImageUrl: '',
+      editing: true,
     };
+    this.onDrop = this.onDrop.bind(this);
+    this.toggleEditing = this.toggleEditing.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
     this.handleCapacityChange = this.handleCapacityChange.bind(this);
@@ -34,6 +39,17 @@ class CreateSpace extends React.Component {
   }
   componentDidMount() {
     console.log('new space did mount');
+  }
+  onDrop(acceptedFile) {
+    const { filename, publicUrl } = acceptedFile;
+    this.setState({
+      main_image: `https://spaceshare-sfp.s3.amazonaws.com/${fileName}`,
+      tempImageUrl: publicUrl,
+      editing: false,
+    });
+  }
+  toggleEditing() {
+    this.setState({ editing: true });
   }
   handleCostChange(event) {
     let decimalFound = false;
@@ -113,6 +129,74 @@ class CreateSpace extends React.Component {
   }
 
   render() {
+    const { editing, tempImageUrl } = this.state;
+    let imageDisplay;
+    let imageDisplayMobile;
+    if (editing) {
+      imageDisplay = (
+        <div className="content-box image-selection-box h-50 w-75">
+          <div className="pl-2 pr-2 pt-5 pb-5">
+            <h5 className="text-center mb-3">
+              Select an image for your space.
+            </h5>
+            <ReactS3Uploader
+              className="form-control image-select"
+              signingUrl="/s3/sign"
+              signingUrlMethod="GET"
+              accept="image/*"
+              s3path="spaces/"
+              scrubFilename={
+                filename =>
+                  filename.replace(/[^]*/, this.state.name)
+              }
+              multiple={false}
+              onFinish={this.onDrop}
+            />
+          </div>
+        </div>
+      );
+      imageDisplayMobile = (
+        <div className="content-box image-selection-box">
+          <div className="pl-2 pr-2 pt-5 pb-2">
+            <h6 className="text-center mb-3">
+              Select an image for your space.
+            </h6>
+            <ReactS3Uploader
+              className="form-control image-select"
+              signingUrl="/s3/sign"
+              signingUrlMethod="GET"
+              accept="image/*"
+              s3path="spaces/"
+              scrubFilename={
+                filename =>
+                  filename.replace(/[^]*/, this.state.name)
+              }
+              multiple={false}
+              onFinish={this.onDrop}
+            />
+          </div>
+        </div>
+
+      );
+    } else {
+      imageDisplay = (
+        <div className="h-50 w-75">
+          <img src={tempImageUrl} alt="Your space" className="space-preview-pic" />
+          <button className="btn btn-primary btn-block mt-2" onClick={this.toggleEditing}>
+            Change image
+          </button>
+        </div>
+      );
+      imageDisplayMobile = (
+        <div className="w-100">
+          <img src={tempImageUrl} alt="Your space" className="space-preview-pic" />
+          <button className="btn btn-primary btn-block mt-2" onClick={this.toggleEditing}>
+            Change image
+          </button>
+        </div>
+      );
+    }
+
     const states = [
       'Alabama',
       'Alaska',
@@ -180,54 +264,68 @@ class CreateSpace extends React.Component {
             </div>
           </MediaQuery>
         </div>
-        <div className="row justify-content-center pt-5 pl-4 pr-4 pl-sm-0 pr-sm-0 pl-md-0 pr-md-0 pl-l-0 pr-l-0 pl-xl-0 pl-xl-0">
-          <form onSubmit={this.handleSubmit}>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+        <div className="row justify-content-center pt-5 pl-4 pl-lg-5 pr-4 pr-lg-5">
+          <form className="w-100" onSubmit={this.handleSubmit}>
+            <div className="col pb-3 pb-sm-0 pb-md-0 pb-lg-0 pb-xl-0">
               <div className="row">
-                <h5>Name</h5>
-              </div>
-              <div className="row pb-3">
-                <input className="form-control" type="text" placeholder="Your space's name" name="name" onChange={this.handleInputChange} />
-              </div>
-              <div className="row">
-                <h5>Purpose</h5>
-              </div>
-              <div className="row pb-3">
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
-                  <label className="form-check-label" htmlFor="work">
-                    Work
-                  </label>
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+                  <div className="row">
+                    <h5>Name</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <input className="form-control" type="text" placeholder="Your space's name" name="name" onChange={this.handleInputChange} />
+                  </div>
+                  <div className="row">
+                    <h5>Purpose</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
+                      <label className="form-check-label" htmlFor="work">
+                        Work
+                      </label>
+                    </div>
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
+                      <label className="form-check-label" htmlFor="live">
+                        Live
+                      </label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <h5>Availability</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="open" name="open" value={'true'} />
+                      <label className="form-check-label" htmlFor="open">
+                        Open
+                      </label>
+                    </div>
+                    <div className="col form-check" onChange={this.handleInputChange}>
+                      <input className="form-check-input" type="radio" id="closed" name="open" value={'false'} />
+                      <label className="form-check-label" htmlFor="closed">
+                        Closed
+                      </label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <h5>Cost</h5>
+                  </div>
+                  <div className="row pb-3">
+                    <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
+                  </div>
                 </div>
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
-                  <label className="form-check-label" htmlFor="live">
-                    Live
-                  </label>
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+                  <MediaQuery minDeviceWidth={601}>
+                    <div className="row justify-content-end">
+                      {imageDisplay}
+                    </div>
+                  </MediaQuery>
+                  <MediaQuery maxDeviceWidth={600}>
+                    {imageDisplayMobile}
+                  </MediaQuery>
                 </div>
-              </div>
-              <div className="row">
-                <h5>Availability</h5>
-              </div>
-              <div className="row pb-3">
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="open" name="open" value={'true'} />
-                  <label className="form-check-label" htmlFor="open">
-                    Open
-                  </label>
-                </div>
-                <div className="col form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="closed" name="open" value={'false'} />
-                  <label className="form-check-label" htmlFor="closed">
-                    Closed
-                  </label>
-                </div>
-              </div>
-              <div className="row">
-                <h5>Cost</h5>
-              </div>
-              <div className="row pb-3">
-                <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
               </div>
             </div>
             <div className="row">
