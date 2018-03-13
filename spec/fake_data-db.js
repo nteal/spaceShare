@@ -36,7 +36,7 @@ const newSpace = {
   street_address2: '2nd floor',
   timeline_id: 2,
   zip: 70115,
-}
+};
 
 const updateSpace = {
   id: 1,
@@ -62,7 +62,7 @@ const updateSpace = {
   state: 'LA',
   timeline_id: 2,
   zip: 70115,
-}
+};
 
 
 const newGroundrules = {spaceId: 2, ground_rules: 'do not break the house'};
