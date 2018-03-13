@@ -61,7 +61,7 @@ class Results extends React.Component {
                 about={place.neighborhood}
                 description={place.description}
                 id={place.id}
-                link={{ pathname: '/listing', state: { spaceId: place.id } }}
+                link="/listing"
               />
             ))}
           </div>
@@ -95,9 +95,9 @@ class Results extends React.Component {
 Results.propTypes = {
   history: PropTypes.object,
   heading: PropTypes.string,
-  people: PropTypes.object,
-  places: PropTypes.object,
-  searches: PropTypes.object,
+  people: PropTypes.array,
+  places: PropTypes.array,
+  searches: PropTypes.array,
   profilelink: PropTypes.string,
 };
 
