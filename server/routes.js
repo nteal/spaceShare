@@ -66,11 +66,11 @@ router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
 });
 
 router.post('/api/newSpace/:token', (req, res) => {
-  db.helpers.addNewSpace(req.body.space)
+  db.helpers.addNewSpace(req.body.space, req.fb_Id)
   .then((newSpaceId) => {
     res.status(201).send(JSON.stringify(newSpaceId));
   })
-})
+});
 
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
   console.log(req.body);
@@ -84,12 +84,12 @@ router.get('/api/isOwner/:token/:spaceId', (req, res) => {
   db.helpers.isOwner(req.fb_Id, req.params.spaceId).then((result) => {
     res.status(200).send(result);
   })
-})
+});
 
 router.get('/api/currentUser/:token', (req, res) => {
   // console.log('getCurrentUser', Object.keys(req));
   // database helper
-  console.log('currentUser endpoint', req.params);
+  // console.log('currentUser endpoint', req.params);
   db.helpers.getUserIncludingSpaces(req.fb_Id)
   .then((user) => {
     // send status and user
@@ -109,19 +109,29 @@ router.post('/api/editProfile/:token', (req, res) => {
 
 // deprecated?
 router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
-  console.log('currentUserSpaces endpoint');
+  // console.log('currentUserSpaces endpoint');
   db.helpers.getSpacesByFbId(req.fb_Id)
   .then((spaces) => {
     res.status(200).send(spaces);
   });
-  // res.status(200).send('sheReady');
-
 });
 
 router.post('/api/new-search/:token', (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   db.helpers.addNewSearch(JSON.parse(req.body.search));
   res.status(201).send('new-search created');
+});
+
+router.get('api/search-results/:token/:search_Id', (req, res) => {
+  db.helpers.getAllMatches(req.params.search_Id)
+  .then((matches) => {
+    res.status(200).send(matches);
+  })
+});
+
+router.get('/api/all-listings/:token', (req, res) => {
+  // is there a helper for this?
+  res.status(200).send('all the listings');
 });
 
 router.get('/api/get-location/:token/:address', (req, res) => {
