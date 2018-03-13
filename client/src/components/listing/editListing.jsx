@@ -211,7 +211,7 @@ class EditListing extends React.Component {
       'Live': 2,
     };
 
-    Axios.post(`/api/updateSpace/${localStorage.getItem('id_token')}/${spaceId}`, {
+    Axios.post(`/api/updateSpace/${localStorage.getItem('id_token')}/${this.state.id}`, {
       open,
       main_image,
       name,

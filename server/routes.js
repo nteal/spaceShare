@@ -65,10 +65,13 @@ router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
   res.status(200).send(space));
 });
 
-// router.post('/api/updateSpace/:token', (req, res) => {
-//   console.log(JSON.parse(req.body));
-//   res.status(200).send('updated space');
-// });
+router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
+  console.log(req.body);
+  req.body.id = req.params.spaceId
+  db.helpers.updateSpace(req.body).then((space) => {
+    res.status(200).send(space);
+  })
+});
 
 router.get('/api/currentUser/:token', (req, res) => {
   // console.log('getCurrentUser', Object.keys(req));
@@ -81,6 +84,14 @@ router.get('/api/currentUser/:token', (req, res) => {
     res.status(200).send(user);
   });
 
+});
+
+router.post('/api/editProfile/:token', (req, res) => {
+  console.log(req.body);
+  db.helpers.updateUser(req.body)
+  .then((user) => {
+    res.status(200).send(user);
+  });
 });
 
 // deprecated?
