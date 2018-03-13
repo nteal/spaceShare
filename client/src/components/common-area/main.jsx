@@ -14,7 +14,12 @@ class CommonAreaMain extends React.Component {
   componentDidMount() {
   }
   render() {
-    const { id, name, todos } = this.props;
+    const { id, name, todos, purpose } = this.props;
+    const purposeGlyph = purpose === 'Live' ? (
+      <i className="material-icons md-h3 mr-1">home</i>
+    ) : (
+      <i className="material-icons md-h3 mr-1">business</i>
+    );
 
     return (
       <div className="container">
@@ -35,8 +40,8 @@ class CommonAreaMain extends React.Component {
                     </div>
                   </MediaQuery>
                 </div>
-                <div className="row">
-                  <h2>{name}</h2>
+                <div className="d-flex flex-row align-items-center">
+                  {purposeGlyph}<h2>{name}</h2>
                 </div>
               </div>
             </div>
