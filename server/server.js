@@ -24,7 +24,7 @@ app.use(
     region: 'us-east-1',
     headers: { 'Access-Control-Allow-Origin': '*' },
     ACL: 'public-read',
-    uniquePrefix: false
+    uniquePrefix: false,
   }),
 );
 
@@ -51,8 +51,11 @@ passport.use(new FacebookTokenStrategy(
         name_last: profile.name.familyName,
         email: profile.emails[0].value,
         fb_id: profile.id,
-      }, (err, user) => done(err, user));
-      done(null, newUser);
+      })
+        .then((response) => {
+          console.log('new user created', response);
+          done(null, newUser);
+        });
     } catch (error) {
       done(error);
     }
