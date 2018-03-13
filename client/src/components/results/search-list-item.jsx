@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class SearchListItem extends React.Component {
   constructor(props) {
@@ -11,7 +12,10 @@ class SearchListItem extends React.Component {
     localStorage.setItem('id_search', this.props.id);
   }
   render() {
-    const { purpose, neighborhood, price_min, price_max, timeline, smoking, pet, include_people, sleep, personality, age_min, age_max, timestamp } = this.props;
+    const {
+      purpose, neighborhood, price_min, price_max, timeline,
+      smoking, pet, include_people, sleep, personality, age_min, age_max, timestamp, id,
+    } = this.props;
     return (
       <li className="media">
         <div className="media-body">
@@ -49,7 +53,17 @@ class SearchListItem extends React.Component {
             <div className="col-2">
               <h5 className="mt-0 mb-1">{`Age Range: ${age_min} - ${age_max}`}</h5>
             </div>
-            <Link to="/search-results" refresh="true">
+            <Link
+              to={
+                {
+                  pathname: '/search-results',
+                  state: {
+                    search_id: id,
+                  },
+                }
+              }
+              refresh="true"
+            >
               <button>more info</button>
             </Link>
           </div>
@@ -58,5 +72,22 @@ class SearchListItem extends React.Component {
     );
   }
 }
+
+SearchListItem.propTypes = {
+  purpose: PropTypes.string,
+  neighborhood: PropTypes.string,
+  price_min: PropTypes.number,
+  price_max: PropTypes.number,
+  timeline: PropTypes.string,
+  smoking: PropTypes.string,
+  pet: PropTypes.string,
+  include_people: PropTypes.bool,
+  sleep: PropTypes.string,
+  personality: PropTypes.string,
+  age_min: PropTypes.number,
+  age_max: PropTypes.number,
+  timestamp: PropTypes.string,
+  id: PropTypes.string,
+};
 
 export default SearchListItem;

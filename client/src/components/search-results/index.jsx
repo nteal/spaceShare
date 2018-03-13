@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
 import Results from '../results/index.jsx';
 
 class SearchResults extends React.Component {
@@ -25,16 +26,16 @@ class SearchResults extends React.Component {
       searches: [{
         purpose: 'You do not have any past searches',
         neighborhood: 'location',
-        price_min: '0',
-        price_max: '0',
+        price_min: 0,
+        price_max: 0,
         timeline: 'long-term',
         smoking: 'outside is fine',
         pet: 'anywhere',
-        include_people: 'people included',
+        include_people: true,
         sleep: 'early bird',
         personality: 'introvert',
-        age_min: '0',
-        age_max: '100',
+        age_min: 0,
+        age_max: 100,
         timestamp: 'time-stamp',
       }],
       profilelink: '/profile',
@@ -83,5 +84,9 @@ class SearchResults extends React.Component {
     );
   }
 }
+
+SearchResults.propTypes = {
+  history: PropTypes.object,
+};
 
 export default SearchResults;
