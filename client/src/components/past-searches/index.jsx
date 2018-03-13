@@ -75,7 +75,7 @@ class PastSearches extends React.Component {
   }
   render() {
     const {
-      heading, people, places, searches, profilelink, spacelink,
+      heading, people, places, searches, profilelink,
     } = this.state;
     return (
       <div>
@@ -102,8 +102,8 @@ class PastSearches extends React.Component {
         </div>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
-            {people.map(person => {
-              return <ResultListItem
+            {people.map(person => (
+              <ResultListItem
                 image={person.image_url}
                 name={`${person.name_first} ${person.name_last}`}
                 financial={person.profession}
@@ -111,11 +111,11 @@ class PastSearches extends React.Component {
                 description={person.personality}
                 link={profilelink}
               />
-            })}
+            ))}
           </div>
           <div className="tab-pane fade" id="places" role="tabpanel">
-            {places.map(place => {
-              return <ResultListItem
+            {places.map(place => (
+              <ResultListItem
                 image={place.main_image}
                 name={place.name}
                 financial={place.cost}
@@ -124,11 +124,11 @@ class PastSearches extends React.Component {
                 id={place.id}
                 link={{ pathname: '/listing', state: { spaceId: place.id } }}
               />
-            })}
+            ))}
           </div>
           <div className="tab-pane fade show active" id="searches" role="tabpanel">
-            {searches.map(search => {
-              return <SearchListItem
+            {searches.map(search => (
+              <SearchListItem
                 purpose={search.purpose}
                 neighborhood={search.neighborhood}
                 price_min={search.price_min}
@@ -144,7 +144,7 @@ class PastSearches extends React.Component {
                 timestamp={search.timestamp}
                 id={search.id}
               />
-            })}
+            ))}
           </div>
         </div>
       </div>
