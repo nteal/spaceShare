@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class ResultListItem extends React.Component {
   constructor(props) {
@@ -7,12 +8,23 @@ class ResultListItem extends React.Component {
     this.state = {};
   }
   render() {
-    const { image, name, financial, about, description, id, link } = this.props;
+    const {
+      image, name, financial, about, description, id, link,
+    } = this.props;
     return (
       <li className="media">
         <img className="mr-3" src={image} alt="Generic placeholder image" />
         <div className="media-body">
-          <Link to={link}>
+          <Link
+            to={
+              {
+                pathway: link,
+                state: {
+                  id: id,
+                },
+              }
+            }
+          >
             <h4 className="mt-0 mb-1">{name}</h4>
           </Link>
           <h5 className="mt-0 mb-1">{financial}</h5>
@@ -22,6 +34,16 @@ class ResultListItem extends React.Component {
       </li>
     );
   }
+}
+
+ResultListItem.propTypes = {
+  image: PropTypes.string,
+  name: PropTypes.string,
+  financial: PropTypes.string,
+  about: PropTypes.string,
+  description: PropTypes.string,
+  id: PropTypes.string,
+  link: PropTypes.string,
 }
 
 export default ResultListItem;
