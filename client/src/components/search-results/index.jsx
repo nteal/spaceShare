@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
 import Results from '../results/index.jsx';
 
 class SearchResults extends React.Component {
@@ -83,5 +84,9 @@ class SearchResults extends React.Component {
     );
   }
 }
+
+SearchResults.propTypes = {
+  history: PropTypes.object,
+};
 
 export default SearchResults;
