@@ -24,7 +24,7 @@ app.use(
     region: 'us-east-1',
     headers: { 'Access-Control-Allow-Origin': '*' },
     ACL: 'public-read',
-    uniquePrefix: false,
+    uniquePrefix: true,
   }),
 );
 
