@@ -30,12 +30,12 @@ class EditProfile extends React.Component {
       profession: '',
       link1: {
         id: 1,
-        display_name: '',
+        display: '',
         url: '',
       },
       link2: {
         id: 2,
-        display_name: '',
+        display: '',
         url: '',
       },
       searchable_work: false,
@@ -49,10 +49,9 @@ class EditProfile extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    Axios.get('http://localhost:3003/api/currentUser', {
-      params: { token: localStorage.getItem('id_token') },
-    })
+    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
+        console.log('current! user! data!', response.data);
         this.setState({
           id: response.data.id,
           name_first: response.data.name_first,
@@ -68,8 +67,8 @@ class EditProfile extends React.Component {
           personality: response.data.personality,
           sleep: response.data.sleep,
           profession: response.data.profession,
-          link1: response.data.links[0],
-          link2: response.data.links[1],
+          link1: response.data.links.length ? response.data.links[0] : { display: '', url: '' },
+          link2: response.data.links.length ? response.data.links[1] : { display: '', url: '' },
           searchable_work: response.data.searchable_work,
           searchable_live: response.data.searchable_live,
         });
@@ -93,7 +92,7 @@ class EditProfile extends React.Component {
     const { id } = this.state[field];
     this.setState({ [field]: {
       id,
-      display_name: displayName,
+      display: displayName,
       url: value,
     }}, () => {
       console.log('new value', this.state[field]);
@@ -247,8 +246,8 @@ class EditProfile extends React.Component {
                   <TextInput field="profession" glyph="work" type="text" placeholder="Your profession" value={profession} finalize={this.finalizeEdit} />
                   <DropDown field="personality" glyph="mood" placeholder="Your personality" value={personality} options={['Introvert', 'Extrovert']} finalize={this.finalizeEdit} />
                   <DropDown field="sleep" glyph="brightness_medium" placeholder="Your sleep schedule" value={sleep} options={['Early bird', 'Night owl']} finalize={this.finalizeEdit} />
-                  <LinkInput field="link1" display_name={link1.display_name} url={link1.url} finalize={this.finalizeEditLink} />
-                  <LinkInput field="link2" display_name={link2.display_name} url={link2.url} finalize={this.finalizeEditLink} />
+                  <LinkInput field="link1" display={link1.display} url={link1.url} finalize={this.finalizeEditLink} />
+                  <LinkInput field="link2" display={link2.display} url={link2.url} finalize={this.finalizeEditLink} />
                 </ul>
               </div>
             </div>
