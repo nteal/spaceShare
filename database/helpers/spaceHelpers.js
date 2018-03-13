@@ -5,7 +5,7 @@ const { Space } = require('../models/spaceModel');
 const { Search } = require('../models/searchModel');
 
 const { getAmenitiesBySpaceId } = require('./amenityHelpers');
-const { getImagesBySpaceId} = require('./imageHelpers');
+const { getImagesBySpaceId } = require('./imageHelpers');
 const { getTodosBySpaceId } = require('./todoHelpers');
 const { updateAmenities } = require('./amenityHelpers');
 const { updateImages } = require('./imageHelpers');
@@ -87,66 +87,64 @@ const getSpaceById = (spaceId) => {
 
 // takes a space object that INCLUDES a fb id:
 const addNewSpace = (spaceObj) => {
-  spaceObj = spaceObj || {};
-  const amenitiesArr = spaceObj.amenities || [{}];
-  const newSpace = Object.assign({}, spaceObj);
-  newSpace.main_image = spaceObj.main_image && spaceObj.main_image.name ? spaceObj.main_image.name : '';
+  const newSpace = spaceObj ? Object.assign({}, spaceObj) : {};
+  const amenitiesArr = newSpace.amenities || [{}];
+  newSpace.main_image = newSpace.main_image && newSpace.main_image.name ? newSpace.main_image.name : '';
 
-  // add defaults for now
-  newSpace.capacity = spaceObj.capacity || 0;
-  newSpace.city = spaceObj.city || '';
-  newSpace.cost = spaceObj.cost || 0;
-  newSpace.description = spaceObj.description || '';
-  newSpace.name = spaceObj.name || '';
-  newSpace.ground_rules = spaceObj.ground_rules || '';
-  newSpace.neighborhood = spaceObj.neighborhood || '';
-  newSpace.open = spaceObj.open || false;
-  newSpace.owner_fb_id = spaceObj.owner_fb_id || '';
-  newSpace.purpose_id = spaceObj.purpose_id || 1;
-  newSpace.pet_id = spaceObj.pet_id || 3;
-  newSpace.smoking_id = spaceObj.smoking_id || 3;
-  newSpace.state = spaceObj.state || '';
-  newSpace.street_address = spaceObj.street_address || '';
-  newSpace.street_address2 = spaceObj.street_address2 || '';
-  newSpace.timeline_id = spaceObj.timeline_id || 1;
-  newSpace.zip = spaceObj.zip || 0;
+  // add defaults
+  newSpace.capacity = newSpace.capacity || 0;
+  newSpace.city = newSpace.city || '';
+  newSpace.cost = newSpace.cost || 0;
+  newSpace.description = newSpace.description || '';
+  newSpace.name = newSpace.name || '';
+  newSpace.ground_rules = newSpace.ground_rules || '';
+  newSpace.neighborhood = newSpace.neighborhood || '';
+  newSpace.open = newSpace.open || false;
+  newSpace.owner_fb_id = newSpace.owner_fb_id || '';
+  newSpace.purpose_id = newSpace.purpose_id || 1;
+  newSpace.pet_id = newSpace.pet_id || 3;
+  newSpace.smoking_id = newSpace.smoking_id || 3;
+  newSpace.state = newSpace.state || '';
+  newSpace.street_address = newSpace.street_address || '';
+  newSpace.street_address2 = newSpace.street_address2 || '';
+  newSpace.timeline_id = newSpace.timeline_id || 1;
+  newSpace.zip = newSpace.zip || 0;
 
-
-  let spaceId;
   // remove amenitites Arr from obj:
   delete newSpace.amenities;
   // first create user, then add amenities, then call getUser
   return Space.create(newSpace)
-    .then(createdSpace => {
-      spaceId = createdSpace.id;
+    .then((createdSpace) => {
       updateAmenities(createdSpace.id, amenitiesArr)
+      return createdSpace.id;
     })
     // .then(() => getSpaceById(spaceId)) // commented out to return only id!
-    .then(() => spaceId)
+    .then(updatedSpaceId => updatedSpaceId)
     .catch(err => console.log(err));
-}
+};
 
 // takes a space object, returns a promise for updated space:
 const updateSpace = (spaceObj) => {
   // set defaults to help prevent breaking
-  spaceObj.amenities = spaceObj.amenities || [{}];
-  spaceObj.gallery =  spaceObj.gallery || [{}];
-    return Promise.all([
-      // update amenities related to space
-      updateAmenities(spaceObj.id, spaceObj.amenities),
-      // update images related to space
-      updateImages(spaceObj.id, spaceObj.gallery),
-    ]) 
+  const retObj = spaceObj ? Object.assign({}, spaceObj) : {};
+  retObj.amenities = retObj.amenities || [];
+  retObj.gallery = retObj.gallery || [];
+  return Promise.all([
+    // update amenities related to space
+    updateAmenities(retObj.id, retObj.amenities),
+    // update images related to space
+    updateImages(retObj.id, retObj.gallery),
+  ])
     // update space
     .then(() => Space.findById(spaceObj.id))
-    .then(space => {
+    .then((space) => {
       const updatedSpaceObj = Object.assign({}, spaceObj);
-      updatedSpaceObj.main_image = spaceObj.main_image.name;
-      return space.update(updatedSpaceObj)
+      updatedSpaceObj.main_image = spaceObj.main_image && spaceObj.main_image.name ? spaceObj.main_image.name : '';
+      return space.update(updatedSpaceObj);
     })
-    .then(({id}) => id)
+    .then(({ id }) => id)
     .catch(err => console.log(err));
-}
+};
 
 const getDashboardInfoById = spaceId => {
   return  Space.findById(spaceId)
