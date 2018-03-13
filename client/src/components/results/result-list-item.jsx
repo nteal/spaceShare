@@ -20,7 +20,7 @@ class ResultListItem extends React.Component {
               {
                 pathway: link,
                 state: {
-                  id: id,
+                  space_id: id,
                 },
               }
             }
