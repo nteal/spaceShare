@@ -64,6 +64,10 @@ ul {
   fill: rgb(49, 23, 155);
 }
 
+.md-xs {
+  font-size: 1rem;
+}
+
 .md-sm {
   font-size: 1.25rem;
 }

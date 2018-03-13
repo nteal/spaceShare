@@ -68,7 +68,7 @@ class EditProfile extends React.Component {
           sleep: response.data.sleep,
           profession: response.data.profession,
           link1: response.data.links.length ? response.data.links[0] : { display: '', url: '' },
-          link2: response.data.links.length ? response.data.links[1] : { display: '', url: '' },
+          link2: response.data.links.length > 1 ? response.data.links[1] : { display: '', url: '' },
           searchable_work: response.data.searchable_work,
           searchable_live: response.data.searchable_live,
         });
@@ -90,11 +90,13 @@ class EditProfile extends React.Component {
 
   finalizeEditLink(field, displayName, value) {
     const { id } = this.state[field];
-    this.setState({ [field]: {
-      id,
-      display: displayName,
-      url: value,
-    }}, () => {
+    this.setState({
+      [field]: {
+        id,
+        display: displayName,
+        url: value,
+      },
+    }, () => {
       console.log('new value', this.state[field]);
     });
   }
@@ -103,7 +105,7 @@ class EditProfile extends React.Component {
     this.setState({
       [field]: {
         display: tempUrl,
-        edited: `https://spaceshare-sfp.s3.amazonaws.com/users/${fileName}`,
+        edited: `https://spaceshare-sfp.s3.amazonaws.com/${fileName}`,
       },
     });
   }
@@ -167,9 +169,9 @@ class EditProfile extends React.Component {
       phone,
       email,
       birthdate,
-      gender: fieldIds[gender],
-      personality: fieldIds[personality],
-      sleep: fieldIds[sleep],
+      gender_id: fieldIds[gender],
+      personality_id: fieldIds[personality],
+      sleep_id: fieldIds[sleep],
       profession,
       links: [link1, link2],
       searchable_work,
