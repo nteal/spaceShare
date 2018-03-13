@@ -6,7 +6,7 @@ const { updateLinksForUser } = require('./userLinksHelpers');
 const moment = require('moment');
 
 const randPlanet = () => {
-  let planetId = Math.floor(Math.random() * 10);
+  const planetId = Math.floor(Math.random() * 10);
   console.log('*****************planet id: should be 1-9', planetId);
   return planetId;
 };
@@ -39,9 +39,7 @@ const getUserById = (userId) => {
 };
 
 const addNewUser = (newUserObj) => {
-  newUserObj = newUserObj || {};
-
-  const userObj = Object.assign({ planet_id: randPlanet() }, newUserObj);
+  const userObj = newUserObj ? Object.assign({ planet_id: randPlanet() }, newUserObj) : {};
 
   // create defaults:
   userObj.about = newUserObj.about || '';
@@ -63,16 +61,15 @@ const addNewUser = (newUserObj) => {
   userObj.planet_id = userObj.planet_id || 3;
 
   return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
-    .then(([newUser]) => newUser.id)
-    // .then(([newUser]) => getUserById(newUser.id))
+    .then(([newUser]) => getUserById(newUser.id))
     .catch(err => console.log(err));
 };
 
-const getUserIdByFbId = (fbId) => {
-  return User.findOne({ where: { fb_id: fbId } })
-  .then(user => user.dataValues.id)
-  .catch(err => console.log(err));
-}
+const getUserIdByFbId = fbId => (
+  User.findOne({ where: { fb_id: fbId } })
+    .then(user => user.dataValues.id)
+    .catch(err => console.log(err))
+);
 
 const getUserByFbId = (fbId) => {
   const userObj = {};
