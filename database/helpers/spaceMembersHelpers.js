@@ -43,9 +43,9 @@ const getUserIncludingSpaces = (fbId) => {
   return getUserByFbId(fbId)
     .then(async (user) => {
       user.spaces = await getSpacesByFbId(user.fb_id);
-      return user
+      return user;
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 };
 
 // takes space id, returns full space data including members

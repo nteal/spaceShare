@@ -6,7 +6,7 @@ const { updateLinksForUser } = require('./userLinksHelpers');
 const moment = require('moment');
 
 const randPlanet = () => {
-  let planetId = Math.floor(Math.random() * 10);
+  const planetId = Math.floor(Math.random() * 10);
   console.log('*****************planet id: should be 1-9', planetId);
   return planetId;
 };
@@ -39,17 +39,37 @@ const getUserById = (userId) => {
 };
 
 const addNewUser = (newUserObj) => {
-  const userObj = Object.assign({ planet_id: randPlanet() }, newUserObj);
+  const userObj = newUserObj ? Object.assign({ planet_id: randPlanet() }, newUserObj) : {};
+
+  // create defaults:
+  userObj.about = newUserObj.about || '';
+  userObj.image_url = newUserObj.image_url || '';
+  userObj.name_first = newUserObj.name_first || '';
+  userObj.name_last = newUserObj.name_last || '';
+  userObj.phone = newUserObj.phone || 0;
+  userObj.profession = newUserObj.profession || '';
+  userObj.email = newUserObj.email || '';
+  userObj.fb_id = newUserObj.fb_id || '';
+  userObj.fb_link = newUserObj.fb_link || '';
+  userObj.fb_verified = newUserObj.fb_verified || false;
+  userObj.searchable_work = newUserObj.searchable_work || true;
+  userObj.searchable_live = newUserObj.searchable_live || true;
+  userObj.birthdate = newUserObj.birthdate || new Date(); // YYYY-MM-DD HH:MM:SS
+  userObj.gender_id = newUserObj.gender_id || 3;
+  userObj.sleep_id = newUserObj.sleep_id || 3;
+  userObj.personality_id = newUserObj.personality_id || 3;
+  userObj.planet_id = userObj.planet_id || 3;
+
   return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
     .then(([newUser]) => getUserById(newUser.id))
     .catch(err => console.log(err));
 };
 
-const getUserIdByFbId = (fbId) => {
-  return User.findOne({ where: { fb_id: fbId } })
-  .then(user => user.dataValues.id)
-  .catch(err => console.log(err));
-}
+const getUserIdByFbId = fbId => (
+  User.findOne({ where: { fb_id: fbId } })
+    .then(user => user.dataValues.id)
+    .catch(err => console.log(err))
+);
 
 const getUserByFbId = (fbId) => {
   const userObj = {};

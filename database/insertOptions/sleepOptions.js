@@ -3,6 +3,7 @@ const { Sleep } = require('../models/sleepModel');
 const sleepList = [
   { schedule: 'Early bird' },
   { schedule: 'Night owl' },
+  { schedule: '' },
 ];
 
 const populateSleep = () => Sleep.bulkCreate(sleepList);
