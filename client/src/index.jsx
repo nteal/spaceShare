@@ -28,9 +28,9 @@ class App extends React.Component {
             },
           },
         )
-          .then((response) => {
+          .then((res) => {
             // console.log('auth response', response);
-            if (response.data === true) {
+            if (res.data === true) {
               this.setState({ isAuthenticated: true });
             }
           })
