@@ -13,7 +13,7 @@ class ResultListItem extends React.Component {
     } = this.props;
     return (
       <li className="media">
-        <img className="mr-3" src={image} alt="Generic placeholder image" />
+        <img className="mr-3" src={image} alt="Generic placeholder" />
         <div className="media-body">
           <Link
             to={
