@@ -100,7 +100,7 @@ const addNewSpace = (spaceObj, fbId) => {
   newSpace.name = newSpace.name || '';
   newSpace.ground_rules = newSpace.ground_rules || '';
   newSpace.neighborhood = newSpace.neighborhood || '';
-  newSpace.main_image = newSpace.main_image || '';
+  newSpace.main_image = newSpace.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space2.jpg';
   newSpace.open = newSpace.open || false;
   newSpace.owner_fb_id = newSpace.owner_fb_id || '';
   newSpace.purpose_id = newSpace.purpose_id || 1;
@@ -143,7 +143,7 @@ const updateSpace = (spaceObj) => {
     .then(() => Space.findById(spaceObj.id))
     .then((space) => {
       const updatedSpaceObj = Object.assign({}, spaceObj);
-      updatedSpaceObj.main_image = spaceObj.main_image || '';
+      updatedSpaceObj.main_image = spaceObj.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space2.jpg';
       return space.update(updatedSpaceObj);
     })
     .then(({ id }) => id)
