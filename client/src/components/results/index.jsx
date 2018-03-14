@@ -48,8 +48,10 @@ class Results extends React.Component {
                 financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
+                tag="userId"
                 link={profile_link}
                 history={history}
+                key={person.id}
               />
             ))}
           </div>
@@ -61,9 +63,11 @@ class Results extends React.Component {
                 financial={place.cost}
                 about={place.neighborhood}
                 description={place.description}
+                tag="spaceId"
                 id={place.id}
                 link={listing_link}
                 history={history}
+                key={place.id}
               />
             ))}
           </div>
@@ -85,6 +89,7 @@ class Results extends React.Component {
                 timestamp={search.timestamp}
                 id={search.id}
                 history={history}
+                key={search.id}
               />
             ))}
           </div>

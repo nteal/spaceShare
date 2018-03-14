@@ -6,21 +6,30 @@ class ResultListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.viewProfile = this.viewProfile.bind(this);
+    this.moreInfo = this.moreInfo.bind(this);
   }
-  viewProfile() {
-    localStorage.setItem('id_search', this.props.id);
-    this.props.history.push(this.props.link);
+  moreInfo() {
+    if (this.props.tag === 'spaceId') {
+      this.props.history.push({
+        pathname: this.props.link,
+        state: { spaceId: this.props.id },
+      });
+    } else {
+      this.props.history.push({
+        pathname: this.props.link,
+        state: { userId: this.props.id },
+      });
+    }
   }
   render() {
     const {
-      image, name, financial, about, description, id, link,
+      image, name, financial, about, description, id, link, button_heading,
     } = this.props;
     return (
       <li className="media">
         <img className="mr-3" src={image} alt="Generic placeholder" />
         <div className="media-body">
-          <button className="btn btn-info mt-0 mb-1" onClick={this.viewProfile}>more info</button>
+          <button className="btn btn-info mt-0 mb-1" onClick={this.moreInfo}>{button_heading}</button>
           <h4 className="mt-0 mb-1">{name}</h4>
           <h5 className="mt-0 mb-1">{financial}</h5>
           <h5 className="mt-0 mb-2">{about}</h5>
@@ -40,6 +49,8 @@ ResultListItem.propTypes = {
   id: PropTypes.string,
   link: PropTypes.string,
   history: PropTypes.object,
+  tag: PropTypes.string,
+  button_heading: PropTypes.string,
 };
 ResultListItem.defaultProps = {
   image: 'not available',
@@ -50,6 +61,8 @@ ResultListItem.defaultProps = {
   id: '',
   link: '',
   history: {},
+  tag: 'spaceId',
+  button_heading: 'more info',
 };
 
 /*
