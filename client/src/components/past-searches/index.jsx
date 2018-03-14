@@ -40,43 +40,39 @@ class PastSearches extends React.Component {
         timestamp: 'time-stamp',
       }],
       heading: 'Past Searches',
-      profilelink: '/profile',
+      profile_link: '/profile',
+      listing_link: '/listing',
     };
     this.newSearch = this.newSearch.bind(this);
   }
   componentDidMount() {
     console.log('SearchResults did mount');
-    // Axios.get('/api/search-results', {
-    //   params: {
-    //     token: localStorage.getItem('id_token'),
-    //     search_id: localStorage.getItem('id_search'),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.data.people.length) {
-    //       this.setState({
-    //         people: response.data.people,
-    //       });
-    //     }
-    //     if (response.data.places.length) {
-    //       this.setState({
-    //         places: response.data.places,
-    //       });
-    //     }
-    //     if (response.data.searches.length) {
-    //       this.setState({
-    //         searches: response.data.searches,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => { console.log(error); });
+    Axios.get(`/api/search-results/${localStorage.getItem('id_token')}/${localStorage.getItem('id_search')}`)
+      .then((response) => {
+        if (response.data.people.length) {
+          this.setState({
+            people: response.data.people,
+          });
+        }
+        if (response.data.places.length) {
+          this.setState({
+            places: response.data.places,
+          });
+        }
+        if (response.data.searches.length) {
+          this.setState({
+            searches: response.data.searches,
+          });
+        }
+      })
+      .catch((error) => { console.log(error); });
   }
   newSearch() {
     this.props.history.push('/search');
   }
   render() {
     const {
-      heading, people, places, searches, profilelink,
+      heading, people, places, searches, profile_link, listing_link,
     } = this.state;
     return (
       <div>
@@ -110,7 +106,7 @@ class PastSearches extends React.Component {
                 financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
-                link={profilelink}
+                link={profile_link}
               />
             ))}
           </div>
@@ -123,7 +119,7 @@ class PastSearches extends React.Component {
                 about={place.neighborhood}
                 description={place.description}
                 id={place.id}
-                link="/listing"
+                link={listing_link}
               />
             ))}
           </div>
@@ -155,6 +151,13 @@ class PastSearches extends React.Component {
 
 PastSearches.propTypes = {
   history: PropTypes.object,
+};
+PastSearches.defaultProps = {
+  history: {
+    push: () => (
+      console.log('you do not have access to props.history inside of this component')
+    ),
+  },
 };
 
 export default PastSearches;
