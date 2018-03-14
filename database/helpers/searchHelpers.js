@@ -10,11 +10,12 @@ const { getAge } = require('./userHelpers');
 const Promise = require('bluebird');
 
 // create a search:
-const addNewSearch = searchData => (
-  Search.create(searchData)
+const addNewSearch = (fbId, searchData) => {
+  const searchObjWithFbId = Object.assign({ fb_id: fbId }, searchData);
+  return Search.create(searchObjWithFbId)
     .then(newSearch => newSearch.dataValues.id)
-    .catch(err => console.log(err))
-);
+    .catch(err => console.log(err));
+};
 
 // delete a search by id:
 const deleteSearchById = id => (
