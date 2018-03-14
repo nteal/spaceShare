@@ -22,12 +22,7 @@ class CommonArea extends React.Component {
   }
   componentDidMount() {
     console.log('common area did mount');
-    Axios.get('/api/currentSpace', {
-      params: {
-        spaceId: this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space'),
-        token: localStorage.getItem('id_token'),
-      },
-    })
+    Axios.get(`/api/currentSpace/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
       .then((space) => {
         this.setState({
           id: space.data.id,

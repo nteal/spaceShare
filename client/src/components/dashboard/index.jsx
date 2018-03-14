@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
     console.log('moved dashboard currentUser to 3002')
     Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
-        console.log('response data => ', response.data);
+        console.log('dashboard response data => ', response.data);
 
         this.setState({
           currentUser: response.data,

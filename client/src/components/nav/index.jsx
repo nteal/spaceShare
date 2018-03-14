@@ -44,11 +44,13 @@ class Nav extends React.Component {
       open: props.open,
       transitions: true,
       touch: true,
+      refresh: false,
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.fbLogout = this.fbLogout.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
+    this.toggleRefresh = this.toggleRefresh.bind(this);
   }
   componentDidMount() {
     console.log('nav did mount');
@@ -63,9 +65,7 @@ class Nav extends React.Component {
           this.setState({ isAuthenticated: false });
         }
       })
-      .catch(error => {
-        console.error('error checking authentication', error);
-      });
+      .catch(error => console.error('error checking authentication', error));
   }
 
   componentWillUnmount() {
@@ -96,6 +96,9 @@ class Nav extends React.Component {
     }
   }
 
+  toggleRefresh() {
+    this.setState({ refresh: !this.state.refresh });
+  }
 
   render() {
     const { isAuthenticated } = this.state;
@@ -143,6 +146,14 @@ class Nav extends React.Component {
       onSetOpen: this.onSetSidebarOpen,
     };
 
+    const refreshKeyProp = {
+      key: this.state.refresh,
+    };
+
+    const toggleRefreshProp = {
+      toggleRefresh: this.toggleRefresh,
+    };
+
     if (isAuthenticated) {
       return (
         <Sidebar {...sidebarProps}>
@@ -156,14 +167,39 @@ class Nav extends React.Component {
                 )}
               />
               <Switch>
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/edit-profile" component={EditProfile} />
+                <Route
+                  path="/dashboard"
+                  render={props => (
+                    <Dashboard {...props} {...refreshKeyProp} />
+                  )}
+                />
+                <Route
+                  path="/edit-profile"
+                  render={props => (
+                    <EditProfile {...props} {...toggleRefreshProp} />
+                  )}
+                />
                 <Route path="/profile" component={Profile} />
-                <Route path="/common-area" component={CommonArea} />
+                <Route
+                  path="/common-area"
+                  render={props => (
+                    <CommonArea {...props} {...refreshKeyProp} />
+                  )}
+                />
                 <Route path="/messages" component={ChatMain} />
-                <Route path="/new-space" component={CreateSpace} />
+                <Route
+                  path="/new-space"
+                  render={props => (
+                    <CreateSpace {...props} {...toggleRefreshProp} />
+                  )}
+                />
                 <Route path="/listing" component={Listing} />
-                <Route path="/edit-listing" component={EditListing} />
+                <Route
+                  path="/edit-listing"
+                  render={props => (
+                    <EditListing {...props} {...toggleRefreshProp} />
+                  )}
+                />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
                 <Route path="/search-results" component={SearchResults} />
