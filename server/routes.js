@@ -104,7 +104,7 @@ router.post('/api/editProfile/:token', (req, res) => {
 router.get('/api/userPublic/:token/:userId', (req, res) => {
   // gets public information for a specified user
   // could this be done in batches for search purposes?
-  db.helpers.getUserPublic(userId)
+  db.helpers.getUserPublic(req.params.userId)
   .then(res.status(200).send('a user\'s public profile'))
   .catch(err => console.error(err));
 })
