@@ -13,21 +13,21 @@ class Dashboard extends React.Component {
       currentUser: {
         spaces: [],
       },
+      currentUserSpaces: [],
     };
   }
   componentDidMount() {
     console.log('dashboard did mount');
     // get user data to populate profile content
     console.log('moved dashboard currentUser to 3002')
-    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)//, {
-      // params: { token: localStorage.getItem('id_token') },
-  // })
+    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
-        console.log('response data => ', response.data);
-        
-        this.setState({ currentUser: response.data });
-        // get user's spaces to populate spaces content
-        this.setState({ currentUserSpaces: response.spaces });
+        console.log('dashboard response data => ', response.data);
+
+        this.setState({
+          currentUser: response.data,
+          currentUserSpaces: response.data.spaces || [],
+        });
       })
       .catch((error) => {
         console.error('error retrieving user / space data', error);
@@ -77,7 +77,7 @@ class Dashboard extends React.Component {
               <MediaQuery minDeviceWidth={800}>
                 <Messages />
               </MediaQuery>
-                <Spaces spaces={currentUser.spaces} />
+              <Spaces spaces={currentUserSpaces} />
             </div>
           </div>
         </div>
