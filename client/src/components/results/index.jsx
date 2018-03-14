@@ -49,6 +49,7 @@ class Results extends React.Component {
                 about={person.sleep}
                 description={person.personality}
                 link={profile_link}
+                history={history}
               />
             ))}
           </div>
@@ -62,6 +63,7 @@ class Results extends React.Component {
                 description={place.description}
                 id={place.id}
                 link={listing_link}
+                history={history}
               />
             ))}
           </div>
