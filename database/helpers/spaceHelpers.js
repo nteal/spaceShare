@@ -58,9 +58,6 @@ const getSpaceListingById = (spaceId) => {
       space.gallery = images;
       space.amenities = amenities;
       const owner = await User.findOne({ where: { fb_id: space.owner_fb_id } });
-      if (owner === null || !owner.name_first || !owner.name_last) {
-        debugger;
-      }
       space.owner_name = `${owner.name_first} ${owner.name_last}`;
       return space;
     })
