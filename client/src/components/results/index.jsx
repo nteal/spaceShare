@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ResultListItem from './result-list-item.jsx';
 import SearchListItem from './search-list-item.jsx';
 
@@ -35,7 +36,12 @@ class Results extends React.Component {
               <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/saved-searches">Past Searches</a>
+              <Link
+                className="nav-link"
+                to="/saved-searches"
+                refresh="true"
+              >Saved Searches
+              </Link>
             </li>
           </ul>
         </div>
