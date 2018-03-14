@@ -45,5 +45,14 @@ ResultListItem.propTypes = {
   id: PropTypes.string,
   link: PropTypes.string,
 }
+ResultListItem.defaultProps = {
+  image: 'not available',
+  name: 'No results at this time',
+  financial: '',
+  about: '',
+  description: '',
+  id: '',
+  link: '',
+};
 
 export default ResultListItem;
