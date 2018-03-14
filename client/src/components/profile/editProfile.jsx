@@ -180,6 +180,7 @@ class EditProfile extends React.Component {
     })
       .then((response) => {
         console.log('profile updated!', response);
+        this.props.toggleRefresh();
       })
       .catch((error) => {
         console.error('error updating profile', error);
