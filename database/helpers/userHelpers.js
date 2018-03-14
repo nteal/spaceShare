@@ -110,6 +110,7 @@ const getUserPublic = (id) => {
       publicData.zodiac = user.zodiac;
       publicData.about = user.about;
       publicData.image_url = user.image_url;
+      publicData.fb_link = user.fb_link;
       return publicData;
     })
     .catch(err => console.log(err));
