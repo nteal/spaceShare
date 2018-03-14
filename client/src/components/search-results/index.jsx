@@ -38,42 +38,40 @@ class SearchResults extends React.Component {
         age_max: 100,
         timestamp: 'time-stamp',
       }],
-      profilelink: '/profile',
-      refresh: true,
+      profile_link: '/profile',
+      listing_link: '/listing',
     };
   }
   componentDidMount() {
+    const id_search = this.props.location.state ?
+      this.props.location.state.search_id :
+      localStorage.getItem('id_search');
     console.log('SearchResults did mount');
-    this.setState({
-      refresh: this.props.refresh, togggleRefresh: this.props.toggleRefresh
-    });
-    // Axios.get('/api/search-results', {
-    //   params: {
-    //     token: localStorage.getItem('id_token'),
-    //     search_id: localStorage.getItem('id_search'),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.data.people.length) {
-    //       this.setState({
-    //         people: response.data.people,
-    //       });
-    //     }
-    //     if (response.data.places.length) {
-    //       this.setState({
-    //         places: response.data.places,
-    //       });
-    //     }
-    //     if (response.data.searches.length) {
-    //       this.setState({
-    //         searches: response.data.searches,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => { console.log(error); });
+    Axios.get(`/api/search-results/${localStorage.getItem('id_token')}/${id_search}`)
+      .then((response) => {
+        console.dir(response.data);
+        if (response.data.people.length) {
+          this.setState({
+            people: response.data.people,
+          });
+        }
+        if (response.data.places.length) {
+          this.setState({
+            places: response.data.places,
+          });
+        }
+        if (response.data.searches.length) {
+          this.setState({
+            searches: response.data.searches,
+          });
+        }
+      })
+      .catch((error) => { console.log(error); });
   }
   render() {
-    const { people, places, searches } = this.state;
+    const {
+      people, places, searches, profile_link, listing_link,
+    } = this.state;
     return (
       <div>
         <Results
@@ -81,9 +79,9 @@ class SearchResults extends React.Component {
           people={people}
           places={places}
           searches={searches}
+          profile_link={profile_link}
+          listing_link={listing_link}
           history={this.props.history}
-          profilelink={this.state.profilelink}
-          toggleRefresh={this.props.toggleRefresh}
         />
       </div>
     );
@@ -92,6 +90,19 @@ class SearchResults extends React.Component {
 
 SearchResults.propTypes = {
   history: PropTypes.object,
+  location: PropTypes.object,
+};
+SearchResults.defaultProps = {
+  history: {
+    push: () => (
+      console.log('you do not have access to props.history inside of this component')
+    ),
+  },
+  location: {
+    state: {
+      search_id: false,
+    },
+  },
 };
 
 export default SearchResults;
