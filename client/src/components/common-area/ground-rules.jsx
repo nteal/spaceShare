@@ -2,12 +2,35 @@ import React from 'react';
 import MediaQuery from 'react-responsive';
 import PropTypes from 'prop-types';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
+import AboutInput from '../profile/aboutInput.jsx';
 
 const GroundRules = (props) => {
-  const { groundRules, isOwner } = props;
+  const { groundRules, submit, isOwner } = props;
   const handleBack = () => {
     props.history.goBack();
   };
+  let display;
+  if (isOwner) {
+    display = (
+      <AboutInput
+        value={groundRules}
+        field="groundRules"
+        header="Edit your ground rules"
+        placeholder="Set some ground rules for your space!"
+        finalize={submit}
+      />
+    );
+  } else {
+    display = (
+      <div className="content-box">
+        <div className="invisible-content-box">
+          <p>
+            {groundRules}
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       <MediaQuery minDeviceWidth={800}>
@@ -35,14 +58,8 @@ const GroundRules = (props) => {
           </MediaQuery>
         </div>
         <main>
-          <div className="row pt-4">
-            <div className="content-box">
-              <div className="invisible-content-box">
-                <p>
-                  {groundRules}
-                </p>
-              </div>
-            </div>
+          <div className="row pt-5">
+            {display}
           </div>
         </main>
       </div>
@@ -52,11 +69,13 @@ const GroundRules = (props) => {
 
 GroundRules.propTypes = {
   groundRules: PropTypes.string,
+  submit: PropTypes.func,
   isOwner: PropTypes.bool,
 };
 
 GroundRules.defaultProps = {
   groundRules: 'This space does not have ground rules yet!',
+  submit: null,
   isOwner: false,
 };
 
