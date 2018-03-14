@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactS3Uploader from 'react-s3-uploader';
 import Pencil from 'mdi-react/PencilIcon.js';
 
@@ -7,102 +8,109 @@ class ImageInput extends React.Component {
     super(props);
     this.state = {
       editing: null,
-      newValue: '', 
+      newValue: '',
+      displayImg: '',
+      changed: false,
     };
+
     this.toggleEditing = this.toggleEditing.bind(this);
     this.doneEditing = this.doneEditing.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  toggleEditing(event) {
-    this.setState({ editing: true });
+  componentDidMount() {
+    const { editView } = this.props;
+    if (editView) {
+      this.toggleEditing();
+    }
+  }
+
+  onDrop(acceptedFile) {
+    this.setState({
+      newValue: acceptedFile.filename,
+      displayImg: acceptedFile.publicUrl,
+      changed: true,
+    }, () => {
+      console.log(acceptedFile);
+      this.handleSubmit();
+    });
+  }
+
+  handleSubmit() {
+    const { newValue } = this.state;
+    this.props.finalize(this.props.field, `https://spaceshare-sfp.s3.amazonaws.com/${newValue}`);
+    this.doneEditing();
   }
 
   doneEditing() {
     this.setState({ editing: null });
   }
 
-  onDrop(acceptedFile) {
-    this.setState({ newValue: acceptedFile }, () => {
-      console.log(acceptedFile);
-    });
-  }
-  
-  handleSubmit() {
-    const { filename, publicUrl } = this.state.newValue;
-    this.props.finalize(this.props.field, publicUrl, filename);
-    this.doneEditing();
+  toggleEditing() {
+    this.setState({ editing: true });
   }
 
   render() {
-    const { category, imageId, userId, field, value } = this.props;
-    const { editing } = this.state;
+    const { placeholder, category, imageId, userId, field, value } = this.props;
+
+    const { editing, displayImg, changed } = this.state;
     let displayed;
     if (editing) {
       displayed = (
         <div className="content-box image-selection-box">
-          <div className="pl-2 pr-2 pt-5 pb-5">
-            <div className="input-group">
-              <ReactS3Uploader
-                className="form-control image-select"
-                signingUrl="/s3/sign"
-                signingUrlMethod="GET"
-                accept="image/*"
-                s3path={category}
-                scrubFilename={
-                  filename =>
-                    filename.replace(/[^]*/, `${userId}_${field}_${imageId}`)
-                }
-                multiple={false}
-                onFinish={this.onDrop}
-              />
-              {/* <div className="row justify-content-end mr-0"> */}
-              <div className="input-group-append">
-                <button
-                  className="btn btn-outline-light pb-0"
-                  onClick={this.handleSubmit}
-                  type="submit"
-                >
-                  <i className="material-icons">check</i>
-                </button>
-                <button
-                  className="btn btn-outline-light pb-0"
-                  onClick={this.doneEditing}
-                  type="button"
-                >
-                  <i className="material-icons">close</i>
-                </button>
-              </div>
+          <div className="pl-2 pr-2 pb-5 pt-2">
+            <div className="row justify-content-end mr-0 pb-2">
+              <button
+                className="btn btn-outline-light btn-sm pb-0"
+                onClick={this.doneEditing}
+                type="button"
+              >
+                <i className="material-icons md-sm">close</i>
+              </button>
             </div>
+            <h5 className="text-center mb-3">
+              {placeholder}
+            </h5>
+            <ReactS3Uploader
+              className="form-control image-select"
+              signingUrl="/s3/sign"
+              signingUrlMethod="GET"
+              accept="image/*"
+              s3path={category}
+              scrubFilename={
+                filename =>
+                  filename.replace(/[^]*/, `${userId}_${field}_${imageId}`)
+              }
+              multiple={false}
+              onFinish={this.onDrop}
+            />
           </div>
         </div>
       );
     } else {
-
       displayed = (
         <div>
-          {value && (
+          {changed && (
+            <img
+              src={displayImg}
+              alt="your uploaded file"
+              className="img-fluid img-thumbnail"
+            />
+          )}
+          {!changed && (
             <img
               src={value}
-              alt="user profile"
-              className="user-profile-pic"
+              alt="your uploaded file"
+              className="img-fluid img-thumbnail"
             />
           )}
-          {!value && (
-            <div className="image-select-box">
-              Upload an image!
+          <button className="btn btn-primary btn-block mt-2 mb-2" onClick={this.toggleEditing}>
+            <div className="row justify-content-between pl-2 mr-0">
+              Change image
+              <Pencil className="mdi-btn-alt" height={20} width={20} fill="#FFF" />
             </div>
-          )}
-          <div className="row justify-content-end mr-0 pr-1">
-            <Pencil
-              className="mdi-btn"
-              onClick={this.toggleEditing}
-              height={30}
-              width={30}
-              fill="#6F5BC0"
-            />
-          </div>
+          </button>
         </div>
       );
     }
@@ -114,5 +122,27 @@ class ImageInput extends React.Component {
     );
   }
 }
+
+ImageInput.propTypes = {
+  placeholder: PropTypes.string,
+  category: PropTypes.string,
+  imageId: PropTypes.string,
+  userId: PropTypes.number,
+  field: PropTypes.string,
+  value: PropTypes.string,
+  editView: PropTypes.bool,
+  finalize: PropTypes.func,
+};
+
+ImageInput.defaultProps = {
+  placeholder: 'Upload an image!',
+  category: 'spaces/',
+  imageId: '0',
+  userId: null,
+  field: null,
+  value: 'http://vectips.com/wp-content/uploads/2017/04/14-astronaut-flat.jpg',
+  editView: false,
+  finalize: null,
+};
 
 export default ImageInput;

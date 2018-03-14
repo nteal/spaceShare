@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ResultListItem from './result-list-item.jsx';
 import SearchListItem from './search-list-item.jsx';
 
@@ -6,13 +7,15 @@ class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.newSearch=this.newSearch.bind(this);
+    this.newSearch = this.newSearch.bind(this);
   }
   newSearch() {
     this.props.history.push('/search');
   }
   render() {
-    const { heading, people, places, searches, history, spacelink, profilelink, } = this.props;
+    const {
+      heading, people, places, searches, history, profilelink,
+    } = this.props;
     return (
       <div>
         <div className="row mb-2 mt-2">
@@ -38,8 +41,8 @@ class Results extends React.Component {
         </div>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
-            {people.map(person => {
-              return <ResultListItem
+            {people.map(person => (
+              <ResultListItem
                 image={person.image_url}
                 name={`${person.name_first} ${person.name_last}`}
                 financial={person.profession}
@@ -47,24 +50,24 @@ class Results extends React.Component {
                 description={person.personality}
                 link={profilelink}
               />
-            })}
+            ))}
           </div>
           <div className="tab-pane fade show active" id="places" role="tabpanel">
-            {places.map(place => {
-              return <ResultListItem
+            {places.map(place => (
+              <ResultListItem
                 image={place.main_image}
                 name={place.name}
                 financial={place.cost}
                 about={place.neighborhood}
                 description={place.description}
                 id={place.id}
-                link={{pathname: '/listing', state: {spaceId: place.id }}}
-          />
-        })}
+                link="/listing"
+              />
+            ))}
           </div>
           <div className="tab-pane fade" id="searches" role="tabpanel">
-            {searches.map(search => {
-              return <SearchListItem
+            {searches.map(search => (
+              <SearchListItem
                 purpose={search.purpose}
                 neighborhood={search.neighborhood}
                 price_min={search.price_min}
@@ -80,13 +83,22 @@ class Results extends React.Component {
                 timestamp={search.timestamp}
                 id={search.id}
                 history={history}
-                />
-              })}
+              />
+            ))}
           </div>
         </div>
       </div>
     );
   }
 }
+
+Results.propTypes = {
+  history: PropTypes.object,
+  heading: PropTypes.string,
+  people: PropTypes.array,
+  places: PropTypes.array,
+  searches: PropTypes.array,
+  profilelink: PropTypes.string,
+};
 
 export default Results;

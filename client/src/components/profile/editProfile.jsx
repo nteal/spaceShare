@@ -44,7 +44,6 @@ class EditProfile extends React.Component {
     this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
     this.finalizeEditLink = this.finalizeEditLink.bind(this);
-    this.finalizeEditImage = this.finalizeEditImage.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -57,9 +56,7 @@ class EditProfile extends React.Component {
           name_first: response.data.name_first,
           name_last: response.data.name_last,
           about: response.data.about,
-          image_url: {
-            display: response.data.image_url
-          },
+          image_url: response.data.image_url,
           phone: response.data.phone,
           email: response.data.email,
           birthdate: response.data.birthdate,
@@ -101,15 +98,6 @@ class EditProfile extends React.Component {
     });
   }
 
-  finalizeEditImage(field, tempUrl, fileName) {
-    this.setState({
-      [field]: {
-        display: tempUrl,
-        edited: `https://spaceshare-sfp.s3.amazonaws.com/${fileName}`,
-      },
-    });
-  }
-
   handleCheckboxChange(event) {
     const { name } = event.target;
     const value = event.target.checked;
@@ -143,12 +131,10 @@ class EditProfile extends React.Component {
       'Night owl': 2,
     };
 
-    const newImage = image_url.edited || image_url.display;
-
     console.log({
       id,
       about,
-      image_url: newImage,
+      image_url,
       phone,
       email,
       birthdate,
@@ -165,7 +151,7 @@ class EditProfile extends React.Component {
     Axios.post(`/api/editProfile/${localStorage.getItem('id_token')}`, {
       id,
       about,
-      image_url: newImage,
+      image_url,
       phone,
       email,
       birthdate,
@@ -180,6 +166,7 @@ class EditProfile extends React.Component {
     })
       .then((response) => {
         console.log('profile updated!', response);
+        this.props.toggleRefresh();
       })
       .catch((error) => {
         console.error('error updating profile', error);
@@ -233,8 +220,8 @@ class EditProfile extends React.Component {
             <div className="col-12 col-sm-10 col-md-6 col-lg-4 d-flex flex-column align-items-start">
               {/* user stats sidebar */}
               <div className="content-box">
-                <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url.display} finalize={this.finalizeEditImage} />
-                <div className="mini-heading-box-side">
+                <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} />
+                <div className="mini-heading-box-side mt-0">
                   <span>
                     <h5>{name_first} {name_last}</h5>
                   </span>

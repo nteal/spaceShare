@@ -46,7 +46,7 @@ passport.use(new FacebookTokenStrategy(
       const newUser = profile;
       // create new user if current user is not in db
       db.helpers.addNewUser({
-        image_url: profile.photos[0].value,
+        image_url: profile.photos[0].value || 'http://vectips.com/wp-content/uploads/2017/04/14-astronaut-flat.jpg',
         name_first: profile.name.givenName,
         name_last: profile.name.familyName,
         email: profile.emails[0].value,

@@ -20,14 +20,17 @@ class App extends React.Component {
     FB.getLoginStatus((response) => {
       console.dir(response);
       if (response.status === 'connected') {
-        Axios.get('/api/isAuthenticated', 
-          { params: { 
-              token: localStorage.getItem('id_token') 
-            } 
-          })
-          .then((response) => {
+        Axios.get(
+          `/api/isAuthenticated/${localStorage.getItem('id_token')}`,
+          {
+            params: {
+              token: localStorage.getItem('id_token'),
+            },
+          },
+        )
+          .then((res) => {
             // console.log('auth response', response);
-            if (response.data === true) {
+            if (res.data === true) {
               this.setState({ isAuthenticated: true });
             }
           })
