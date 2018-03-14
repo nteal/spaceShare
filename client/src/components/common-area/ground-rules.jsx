@@ -1,15 +1,15 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
+import PropTypes from 'prop-types';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
 const GroundRules = (props) => {
-  const { groundRules } = props;
+  const { groundRules, isOwner } = props;
   const handleBack = () => {
     props.history.goBack();
   };
   return (
     <div>
-
       <MediaQuery minDeviceWidth={800}>
         <button className="custom-btn" onClick={handleBack}>
           <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
@@ -48,6 +48,16 @@ const GroundRules = (props) => {
       </div>
     </div>
   );
+};
+
+GroundRules.propTypes = {
+  groundRules: PropTypes.string,
+  isOwner: PropTypes.bool,
+};
+
+GroundRules.defaultProps = {
+  groundRules: 'This space does not have ground rules yet!',
+  isOwner: false,
 };
 
 export default GroundRules;
