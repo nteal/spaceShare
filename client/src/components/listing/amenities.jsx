@@ -58,7 +58,7 @@ const Amenities = (props) => {
           />
         ))}
         {newAmenities.length > 0 && (
-          newAmenities.map(newAmenity => (
+          newAmenities.map((newAmenity, i) => (
             <TextInput
               field={newAmenity}
               glyph="store"
@@ -66,6 +66,7 @@ const Amenities = (props) => {
               placeholder="An amenity you offer"
               value="An optional additional amenity"
               finalize={finalizeNew}
+              key={i}
             />
           ))
         )}
