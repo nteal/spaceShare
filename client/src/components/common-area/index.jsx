@@ -36,6 +36,13 @@ class CommonArea extends React.Component {
         });
       })
       .catch((error) => { console.dir(error); });
+    Axios.get(`/api/isOwner/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
+      .then((response) => {
+        this.setState({ isOwner: response.data }, () => {
+          console.log('isOwner', this.state.isOwner);
+        });
+      })
+      .catch(error => console.error('error checking if current user is owner', error));
   }
   render() {
     console.dir(this.state);
@@ -47,10 +54,11 @@ class CommonArea extends React.Component {
       todos,
       members,
       groundRules,
+      isOwner,
     } = this.state;
-    const commonAreaProps = { id, name, purpose, todos };
-    const membersProps = { ownerId, members };
-    const rulesProps = { groundRules };
+    const commonAreaProps = { id, name, purpose, todos, isOwner };
+    const membersProps = { ownerId, members, isOwner };
+    const rulesProps = { groundRules, isOwner };
 
     return (
       <div>
