@@ -5,6 +5,7 @@ const { Space } = require('../models/spaceModel');
 const { Search } = require('../models/searchModel');
 
 const { getAmenitiesBySpaceId } = require('./amenityHelpers');
+const { getUserIdByFbId } = require('./userHelpers');
 const { getImagesBySpaceId } = require('./imageHelpers');
 const { getTodosBySpaceId } = require('./todoHelpers');
 const { updateAmenities } = require('./amenityHelpers');
@@ -15,7 +16,7 @@ const { getSmokingById } = require('./optionHelpers');
 const { getPetById } = require('./optionHelpers');
 const { getTimelineById } = require('./optionHelpers');
 
-const { addUsersToSpaces } = require('./spaceMembersHelpers');
+const { UserSpace } = require('../models/user_spaceModel');
 
 
 const addDataFromIds = (spaceObj) => {
@@ -119,11 +120,12 @@ const addNewSpace = (spaceObj, fbId) => {
     .then(createdSpace => (
       Promise.all([
         updateAmenities(createdSpace.id, amenitiesArr),
-        addUsersToSpaces(createdSpace.owner_fb_id, createdSpace.id),
+        getUserIdByFbId(createdSpace.owner_fb_id),
+        createdSpace.id,
       ])
     ))
-    // .then(() => getSpaceById(spaceId)) // commented out to return only id!
-    .then(([amenities, userSpaceJunction]) => userSpaceJunction.spaceId)
+    .then(([amenities, userId, spaceId]) => UserSpace.create({ spaceId, userId }))
+    .then(newUserSpace => newUserSpace.dataValues.spaceId)
     .catch(err => console.log(err));
 };
 
@@ -159,6 +161,7 @@ const getDashboardInfoById = spaceId => {
     .then(space => ({ name: space.name, purpose: space.purpose, id: space.id }))
     .catch(err => console.log(err));
 }
+
 
 // get space info for matching purposes
   // based on location and purpose
