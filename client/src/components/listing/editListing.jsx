@@ -35,23 +35,19 @@ class EditListing extends React.Component {
     };
     this.handleBack = this.handleBack.bind(this);
     this.finalizeEdit = this.finalizeEdit.bind(this);
+    this.finalizeEditImage = this.finalizeEditImage.bind(this);
     this.finalizeExistingAmenity = this.finalizeExistingAmenity.bind(this);
     this.finalizeNewAmenity = this.finalizeNewAmenity.bind(this);
     this.finalizeEditLocation = this.finalizeEditLocation.bind(this);
-    this.finalizeEditImage = this.finalizeEditImage.bind(this);
     this.finalizeEditOwner = this.finalizeEditOwner.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
-    Axios.get('/api/currentSpace', {
-      params: { 
-        spaceId,
-        token: localStorage.getItem('id_token'),
-      },
-    })
+    Axios.get(`/api/currentSpace/${localStorage.getItem('id_token')}/${spaceId}`)
       .then((response) => {
+        console.log('listing data', response.data);
         const {
           id,
           main_image,
@@ -83,7 +79,7 @@ class EditListing extends React.Component {
           purpose,
           owner_fb_id,
           owner_name,
-          members,
+          members: members || [],
           cost,
           timeline,
           capacity,
@@ -97,16 +93,18 @@ class EditListing extends React.Component {
           zip,
           pet,
           smoking,
-          amenities,
-          gallery,
+          amenities: amenities || [],
+          gallery: gallery || [],
         });
 
         const setMultipleStates = (propertyName, field) => {
-          field.forEach((value, i) => {
-            const name = `${propertyName}${i}`;
-            this.setState({ [name]: value });
-          });
-        }
+          if (field) {
+            field.forEach((value, i) => {
+              const fieldName = `${propertyName}${i}`;
+              this.setState({ [fieldName]: value });
+            });
+          }
+        };
         setMultipleStates('amenities', amenities);
         setMultipleStates('gallery', gallery);
       })
@@ -126,6 +124,23 @@ class EditListing extends React.Component {
     });
   }
 
+  finalizeEditImage(field, value) {
+    let newImg;
+    if (this.state[field].id) {
+      newImg = {
+        id: this.state[field].id,
+        name: value,
+      };
+    } else {
+      newImg = {
+        name: value,
+      };
+    }
+    this.setState({ [field]: newImg }, () => {
+      console.log('new value', field, this.state[field]);
+    });
+  }
+
   finalizeExistingAmenity(field, value) {
     const { id } = this.state[field];
     this.setState({
@@ -137,8 +152,13 @@ class EditListing extends React.Component {
   }
 
   finalizeNewAmenity(field, value) {
+    const { amenities } = this.state;
+    let newAmenities = amenities.slice(0);
+    const amenityNum = field.match(/\d+/)[0];
+    newAmenities.splice(amenityNum, 1, { text: value });
     this.setState({
       [field]: { text: value },
+      amenities: newAmenities,
     });
   }
 
@@ -151,15 +171,6 @@ class EditListing extends React.Component {
       zip,
     }, () => {
       console.log('new address', this.state.street_address, this.state.street_address2, this.state.city, this.state.state, this.state.zip);
-    });
-  }
-
-  finalizeEditImage(field, tempUrl, fileName) {
-    this.setState({
-      [field]: {
-        display: tempUrl,
-        edited: fileName,
-      },
     });
   }
 
@@ -195,8 +206,18 @@ class EditListing extends React.Component {
       zip,
       pet,
       smoking,
-      amenities,
-      gallery,
+      amenities0,
+      amenities1,
+      amenities2,
+      amenities3,
+      amenities4,
+      amenities5,
+      amenities6,
+      amenities7,
+      gallery0,
+      gallery1,
+      gallery2,
+      gallery3,
     } = this.state;
 
     const fieldIds = {
@@ -290,7 +311,7 @@ class EditListing extends React.Component {
     );
 
     return (
-      <div>
+      <div className="pb-5">
         <div className="row justify-content-around">
           <div className="space-main-img-container">
             <img
@@ -327,7 +348,7 @@ class EditListing extends React.Component {
             <div className="row pt-1">
               <div className="col">
                 <MediaQuery minDeviceWidth={800}>
-                  <ListingDropDown 
+                  <ListingDropDown
                     displayGlyph
                     field="purpose"
                     placeholder="The purpose of your space"
@@ -336,7 +357,7 @@ class EditListing extends React.Component {
                     headingSize="3"
                     finalize={this.finalizeEdit}
                   />
-                  <ListingDropDown 
+                  <ListingDropDown
                     displayGlyph
                     field="owner_fb_id"
                     placeholder="The owner of your space"
@@ -348,7 +369,7 @@ class EditListing extends React.Component {
                   />
                 </MediaQuery>
                 <MediaQuery maxDeviceWidth={600}>
-                  <ListingDropDown 
+                  <ListingDropDown
                     displayGlyph
                     field="purpose"
                     placeholder="The purpose of your space"
@@ -357,7 +378,7 @@ class EditListing extends React.Component {
                     headingSize="4"
                     finalize={this.finalizeEdit}
                   />
-                  <ListingDropDown 
+                  <ListingDropDown
                     displayGlyph
                     field="owner_fb_id"
                     placeholder="The owner of your space"
@@ -438,7 +459,7 @@ class EditListing extends React.Component {
               </div>
             </div>
             <div className="row">
-              <Gallery editView images={gallery} />
+              <Gallery editView images={gallery} spaceId={id} finalize={this.finalizeEditImage} />
             </div>
             <div className="row justify-content-center">
               <Link to={{ pathname: '/common-area', state: { spaceId: id } }} className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
