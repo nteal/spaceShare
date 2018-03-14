@@ -14,7 +14,7 @@ class Results extends React.Component {
   }
   render() {
     const {
-      heading, people, places, searches, history, profilelink, toggleRefresh,
+      heading, people, places, searches, history, profile_link, listing_link,
     } = this.props;
     return (
       <div>
@@ -48,7 +48,7 @@ class Results extends React.Component {
                 financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
-                link={profilelink}
+                link={profile_link}
               />
             ))}
           </div>
@@ -61,7 +61,7 @@ class Results extends React.Component {
                 about={place.neighborhood}
                 description={place.description}
                 id={place.id}
-                link="/listing"
+                link={listing_link}
               />
             ))}
           </div>
@@ -83,7 +83,6 @@ class Results extends React.Component {
                 timestamp={search.timestamp}
                 id={search.id}
                 history={history}
-                toggleRefresh={toggleRefresh}
               />
             ))}
           </div>
@@ -99,8 +98,21 @@ Results.propTypes = {
   people: PropTypes.array,
   places: PropTypes.array,
   searches: PropTypes.array,
-  profilelink: PropTypes.string,
-  toggleRefresh: PropTypes.func,
+  profile_link: PropTypes.string,
+  listing_link: PropTypes.string,
+};
+Results.defaultProps = {
+  history: {
+    push: () => (
+      console.log('you do not have access to props.history inside of this component')
+    ),
+  },
+  heading: 'Results',
+  people: [],
+  places: [],
+  searches: [],
+  profile_link: '/profile',
+  listing_link: '/listing',
 };
 
 export default Results;
