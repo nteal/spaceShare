@@ -39,7 +39,7 @@ router.param('token', (req, res, next, JWT) => {
     console.log('fb_Id attached', req.fb_Id);
   } else {
     // or tell them no
-    console.log('forbidden');
+    console.error('unauthorized: forbidden');
     res.sendStatus(403);
   }
   // move
@@ -49,7 +49,7 @@ router.param('token', (req, res, next, JWT) => {
 router.get('/api/isAuthenticated/:token', (req, res) => {
   console.log('isTTTTTTTAuth');
   // console.log('req.params => ', req.params);
-  // console.log('req.query => ', req.query); // empty object
+  // console.log('req.query => ', req.query);
   if (req.params && req.params.token) {
     const id = jwt.verify(req.params.token, 'secret').id;
     // console.log('id: ', id);
@@ -82,11 +82,13 @@ router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
   req.body.id = req.params.spaceId
   db.helpers.updateSpace(req.body)
   .then((space) => res.status(200).send(space))
+  .catch(err => console.error(err));
 });
 
 router.get('/api/isOwner/:token/:spaceId', (req, res) => {
   db.helpers.isOwner(req.fb_Id, req.params.spaceId)
   .then((result) => res.status(200).send(result))
+  .catch(err => console.error(err));
 });
 
 router.get('/api/currentUser/:token', (req, res) => {
@@ -101,13 +103,13 @@ router.post('/api/editProfile/:token', (req, res) => {
   .catch(err => console.error(err));
 });
 
-// router.get('/api/userPublic/:token/:userId', (req, res) => {
-//   // gets public information for a specified user
-//   // could this be done in batches for search purposes?
-//   db.helpers.getUserPublic(req.params.userId)
-//   .then(publicInfo => res.status(200).send(publicInfo))
-//   .catch(err => console.error(err));
-// })
+router.get('/api/userPublic/:token/:userId', (req, res) => {
+  // gets public information for a specified user
+  // could this be done in batches for search purposes?
+  db.helpers.getUserPublic(req.params.userId)
+  .then(publicInfo => res.status(200).send(publicInfo))
+  .catch(err => console.error(err));
+})
 
 // deprecated?
 router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
