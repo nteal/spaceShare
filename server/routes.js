@@ -61,90 +61,100 @@ router.get('/api/isAuthenticated/:token', (req, res) => {
 
 router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
   db.helpers.getSpaceIncludingMembers(req.params.spaceId)
-  .then((space) =>
-  res.status(200).send(space));
+  .then((space) => res.status(200).send(space))
+  .catch(err => console.error(err))
 });
 
 router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   db.helpers.getSpaceById(req.params.spaceId)
-  .then((space) =>
-  res.status(200).send(space));
+  .then(space => res.status(200).send(space))
+  .catch(err => console.error(err))
 });
 
 router.post('/api/newSpace/:token', (req, res) => {
   db.helpers.addNewSpace(req.body.space, req.fb_Id)
-  .then((newSpaceId) => {
-    res.status(201).send(JSON.stringify(newSpaceId));
-  })
+  .then((newSpaceId) => res.status(201).send(JSON.stringify(newSpaceId)))
+  .catch((err) => {console.error(err)});
 });
 
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
   console.log(req.body);
   req.body.id = req.params.spaceId
-  db.helpers.updateSpace(req.body).then((space) => {
-    res.status(200).send(space);
-  })
+  db.helpers.updateSpace(req.body)
+  .then((space) => res.status(200).send(space))
 });
 
 router.get('/api/isOwner/:token/:spaceId', (req, res) => {
-  db.helpers.isOwner(req.fb_Id, req.params.spaceId).then((result) => {
-    res.status(200).send(result);
-  })
+  db.helpers.isOwner(req.fb_Id, req.params.spaceId)
+  .then((result) => res.status(200).send(result))
 });
 
 router.get('/api/currentUser/:token', (req, res) => {
-  // console.log('getCurrentUser', Object.keys(req));
-  // database helper
-  // console.log('currentUser endpoint', req.params);
   db.helpers.getUserIncludingSpaces(req.fb_Id)
-  .then((user) => {
-    // send status and user
-    console.log('user', user);
-    res.status(200).send(user);
-  });
-
+  .then((user) => res.status(200).send(user))
+  .catch(err => {console.error(err)});
 });
 
 router.post('/api/editProfile/:token', (req, res) => {
-  console.log(req.body);
   db.helpers.updateUser(req.body)
-  .then((user) => {
-    res.status(200).send(user);
-  });
+  .then((user) => res.status(200).send(user))
+  .catch(err => console.error(err));
 });
+
+router.get('/api/userPublic/:token/:userId', (req, res) => {
+  // gets public information for a specified user
+  // could this be done in batches for search purposes?
+  db.helpers.getUserPublic(userId)
+  .then(res.status(200).send('a user\'s public profile'))
+  .catch(err => console.error(err));
+})
 
 // deprecated?
 router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
   // console.log('currentUserSpaces endpoint');
   db.helpers.getSpacesByFbId(req.fb_Id)
-  .then((spaces) => {
-    res.status(200).send(spaces);
-  });
+  .then((spaces) => res.status(200).send(spaces))
+  .catch(err => console.error(err));
 });
 
 router.post('/api/new-search/:token', (req, res) => {
   // console.log(req.body);
-  db.helpers.addNewSearch(JSON.parse(req.body.search));
-  res.status(201).send('new-search created');
+  db.helpers.addNewSearch(req.fb_Id, JSON.parse(req.body.search))
+  .then((newSearchId) => res.status(201).send(JSON.stringify(newSearchId)))
+  .catch(err => console.error(err));
 });
 
-router.get('api/search-results/:token/:search_Id', (req, res) => {
+router.post('api/delete-search/:token/:searchId', (req, res) => {
+  db.helpers.deleteSearchById(req.params.searchId)
+  .then(destroyed => res.status(200).send(destroyed))
+  .catch(err => console.error(err));
+});
+
+router.get('api/saved-searches/:token', (req, res) => {
+  db.helpers.getSearchesByFbId(req.fb_Id)
+  .then(searches => res.status(200).send(searches))
+  .catch(err => console.error(err));
+})
+
+router.get('/api/search-results/:token/:search_Id', (req, res) => {
   db.helpers.getAllMatches(req.params.search_Id)
   .then((matches) => {
+    // no need to stringify
     res.status(200).send(matches);
-  })
+  }).catch(err => console.error(err));
 });
 
 router.get('/api/all-listings/:token', (req, res) => {
   // is there a helper for this?
-  res.status(200).send('all the listings');
+  res.status(200).send('all the listings')
+  .catch(err => console.error(err));
 });
 
 router.get('/api/get-location/:token/:address', (req, res) => {
   // is this for the geo-location?
-  res.status(200).send(JSON.stringify({data: `${req.params.address}`}));
+  res.status(200).send(JSON.stringify({data: `${req.params.address}`}))
+  .catch(err => console.error(err));
 });
-
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {

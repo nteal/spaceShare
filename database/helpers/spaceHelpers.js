@@ -88,7 +88,6 @@ const getSpaceById = (spaceId) => {
     .catch(err => console.log(err))
 };
 
-// takes a space object that INCLUDES a fb id:
 const addNewSpace = (spaceObj, fbId) => {
   const newSpace = spaceObj ? Object.assign({ owner_fb_id: fbId }, spaceObj) : {};
   const amenitiesArr = newSpace.amenities || [{}];
