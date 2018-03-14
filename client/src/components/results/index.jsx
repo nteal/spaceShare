@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ResultListItem from './result-list-item.jsx';
 import SearchListItem from './search-list-item.jsx';
 
@@ -14,7 +15,7 @@ class Results extends React.Component {
   }
   render() {
     const {
-      heading, people, places, searches, history, profilelink,
+      heading, people, places, searches, history, profile_link, listing_link,
     } = this.props;
     return (
       <div>
@@ -35,7 +36,12 @@ class Results extends React.Component {
               <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" data-toggle="tab" href="#searches" role="tab">Past Searches</a>
+              <Link
+                className="nav-link"
+                to="/saved-searches"
+                refresh="true"
+              >Saved Searches
+              </Link>
             </li>
           </ul>
         </div>
@@ -48,7 +54,10 @@ class Results extends React.Component {
                 financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
-                link={profilelink}
+                tag="userId"
+                link={profile_link}
+                history={history}
+                key={person.id}
               />
             ))}
           </div>
@@ -60,8 +69,11 @@ class Results extends React.Component {
                 financial={place.cost}
                 about={place.neighborhood}
                 description={place.description}
+                tag="spaceId"
                 id={place.id}
-                link="/listing"
+                link={listing_link}
+                history={history}
+                key={place.id}
               />
             ))}
           </div>
@@ -83,6 +95,7 @@ class Results extends React.Component {
                 timestamp={search.timestamp}
                 id={search.id}
                 history={history}
+                key={search.id}
               />
             ))}
           </div>
@@ -98,7 +111,21 @@ Results.propTypes = {
   people: PropTypes.array,
   places: PropTypes.array,
   searches: PropTypes.array,
-  profilelink: PropTypes.string,
+  profile_link: PropTypes.string,
+  listing_link: PropTypes.string,
+};
+Results.defaultProps = {
+  history: {
+    push: () => (
+      console.log('you do not have access to props.history inside of this component')
+    ),
+  },
+  heading: 'Results',
+  people: [],
+  places: [],
+  searches: [],
+  profile_link: '/profile',
+  listing_link: '/listing',
 };
 
 export default Results;
