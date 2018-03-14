@@ -1,68 +1,52 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
-import Pencil from 'mdi-react/PencilIcon.js';
-import ImageImport from '../profile/imageInput.jsx';
+import PropTypes from 'prop-types';
+import ImageInput from '../profile/imageInput.jsx';
 
 class Gallery extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      editing: null,
-      newValue: '',
-    };
-    this.toggleEditing = this.toggleEditing.bind(this);
-    this.doneEditing = this.doneEditing.bind(this);
-    this.handleEditing = this.handleEditing.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  toggleEditing(event) {
-    this.setState({ 
-      editing: true,
-      newValue: this.props.value,
-    });
-  }
-
-  doneEditing() {
-    this.setState({ editing: null });
-  }
-
-  handleEditing(event) {
-    const { value } = event.target;
-    this.setState({ newValue: value });
-  }
-
-  handleSubmit() {
-    this.props.finalize(this.props.field, this.state.newValue);
-    this.doneEditing();
+    this.state = {};
   }
 
   render() {
-    const { editView, images } = this.props;
-    const { editing } = this.state;
+    const { editView, images, finalize, spaceId } = this.props;
+    const newImages = [];
+    if (images.length < 4) {
+      const emptyImageSlots = 4 - images.length;
+      for (let i = 4 - emptyImageSlots; i < 4; i++) {
+        newImages.push(`gallery${i}`);
+      }
+    }
 
     let displayed;
-    if (editing) {
+    if (editView) {
       displayed = (
         <div>
-          <div className="row">
+          <div className="row justify-content-around">
             {images.map((image, i) => (
-              <ImageImport
-                category="spaces"
-                imageId="image.id"
-                userId="image.space_id"
-                field={`gallery${i}`}
-                value={image.name}
-              />
+              <div className="col-12 col-lg-6 pr-5 pl-5 pb-2" key={image.id}>
+                <ImageInput
+                  category="spaces/"
+                  imageId={image.id}
+                  userId={image.space_id}
+                  field={`gallery${i}`}
+                  value={image.name}
+                  finalize={finalize}
+                />
+              </div>
             ))}
-          </div>
-          <div className="row justify-content-end mr-0">
-            <button className="btn btn-outline-secondary pb-0 mr-2" onClick={this.handleSubmit} type="submit">
-              <i className="material-icons">check</i>
-            </button>
-            <button className="btn btn-outline-secondary pb-0" onClick={this.doneEditing} type="button">
-              <i className="material-icons">close</i>
-            </button>
+            {newImages.length > 0 && newImages.map((newImage, i) => (
+              <div className="col-12 col-lg-6 pr-5 pl-5 pb-2" key={i}>
+                <ImageInput
+                  editView
+                  category="spaces/"
+                  userId={spaceId}
+                  field={newImage}
+                  finalize={finalize}
+                />
+              </div>
+            ))}
           </div>
         </div>
       );
@@ -93,20 +77,6 @@ class Gallery extends React.Component {
             <h5>More Images</h5>
           </div>
         </MediaQuery>
-        <MediaQuery minDeviceWidth={800}>
-          {editView && (
-            <div className="row justify-content-end mr-0 pr-3">
-              <Pencil className="mdi-btn" onClick={this.toggleEditing} height={20} width={20} fill="#6F5BC0" />
-            </div>
-          )}
-        </MediaQuery>
-        <MediaQuery maxDeviceWidth={600}>
-          {editView && (
-            <div className="row justify-content-end mr-0 mt-0 pt-1 pr-1">
-              <Pencil className="mdi-btn" onClick={this.toggleEditing} height={20} width={20} fill="#6F5BC0" />
-            </div>
-          )}
-        </MediaQuery>
         <div className="invisible-content-box">
           {displayed}
         </div>
@@ -114,5 +84,12 @@ class Gallery extends React.Component {
     );
   }
 }
+
+Gallery.propTypes = {
+  editView: PropTypes.bool,
+  images: PropTypes.array,
+  finalize: PropTypes.func,
+  spaceId: PropTypes.number,
+};
 
 export default Gallery;
