@@ -51,6 +51,7 @@ ResultListItem.propTypes = {
   history: PropTypes.object,
   tag: PropTypes.string,
   button_heading: PropTypes.string,
+  key: PropTypes.number,
 };
 ResultListItem.defaultProps = {
   image: 'not available',
@@ -63,6 +64,7 @@ ResultListItem.defaultProps = {
   history: {},
   tag: 'spaceId',
   button_heading: 'more info',
+  key: 1,
 };
 
 /*
