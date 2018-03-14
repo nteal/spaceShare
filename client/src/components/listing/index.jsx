@@ -2,7 +2,6 @@ import React from 'react';
 import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
-import Pencil from 'mdi-react/PencilIcon.js';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 import Email from 'mdi-react/EmailIcon.js';
 import Location from './location.jsx';

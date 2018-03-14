@@ -19,6 +19,7 @@ class CommonArea extends React.Component {
       members: [],
       groundRules: '',
     };
+    this.submitGroundRules = this.submitGroundRules.bind(this);
   }
   componentDidMount() {
     console.log('common area did mount');
@@ -36,6 +37,23 @@ class CommonArea extends React.Component {
         });
       })
       .catch((error) => { console.dir(error); });
+    Axios.get(`/api/isOwner/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
+      .then((response) => {
+        this.setState({ isOwner: response.data }, () => {
+          console.log('isOwner', this.state.isOwner);
+        });
+      })
+      .catch(error => console.error('error checking if current user is owner', error));
+  }
+  submitGroundRules(field, newRules) {
+    this.setState({ groundRules: newRules }, () => {
+      const { id, groundRules } = this.state;
+      const updateObj = { spaceId: id, ground_rules: groundRules };
+
+      Axios.post(`/api/updateGroundRules/${localStorage.getItem('id_token')}`, updateObj)
+        .then(response => console.log('ground rules updated!', response))
+        .catch(error => console.error('error updating ground rules', error));
+    });
   }
   render() {
     console.dir(this.state);
@@ -47,10 +65,11 @@ class CommonArea extends React.Component {
       todos,
       members,
       groundRules,
+      isOwner,
     } = this.state;
-    const commonAreaProps = { id, name, purpose, todos };
-    const membersProps = { ownerId, members };
-    const rulesProps = { groundRules };
+    const commonAreaProps = { id, name, purpose, todos, isOwner };
+    const membersProps = { ownerId, members, isOwner };
+    const rulesProps = { groundRules, submit: this.submitGroundRules, isOwner };
 
     return (
       <div>
