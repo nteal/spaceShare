@@ -27,13 +27,14 @@ const { getSpacesForMatching } = require('./spaceHelpers');
 const { getSpaceListingById } = require('./spaceHelpers');
 const { isOwner } = require('./spaceHelpers');
 const { updateGroundrules } = require('./spaceHelpers');
+const { destroySpace } = require('./spaceHelpers');
 // todo helpers
 const { getTodosBySpaceId } = require('./todoHelpers');
 const { updateTodo } = require('./todoHelpers');
 // spacemembers
 const { addUsersToSpaces } = require('./spaceMembersHelpers');
 const { getSpacesByFbId } = require('./spaceMembersHelpers');
-const { getSpaceMembers} = require('./spaceMembersHelpers');
+const { getSpaceMembers } = require('./spaceMembersHelpers');
 const { getUserIncludingSpaces } = require('./spaceMembersHelpers');
 const { getSpaceIncludingMembers } = require('./spaceMembersHelpers');
 // matches
@@ -79,5 +80,6 @@ exports.getSpacesByFbId = getSpacesByFbId;
 exports.getSpaceMembers = getSpaceMembers;
 exports.getUserIncludingSpaces = getUserIncludingSpaces;
 exports.getSpaceIncludingMembers = getSpaceIncludingMembers;
+exports.destroySpace = destroySpace;
 // matches
 exports.getAllMatches = getAllMatches;
