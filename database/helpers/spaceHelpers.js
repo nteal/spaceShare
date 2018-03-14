@@ -81,7 +81,7 @@ const getSpaceById = (spaceId) => {
       spaceObj.gallery = images;
       spaceObj.amenities = amenities;
       spaceObj.todos = todos;
-      const owner = await User.findOne({where: { fb_id: spaceObj.owner_fb_id } });
+      const owner = await User.findOne({ where: { fb_id: spaceObj.owner_fb_id } });
       spaceObj.owner_name = `${owner.name_first} ${owner.name_last}`;
       return addDataFromIds(spaceObj);
     })
@@ -192,6 +192,13 @@ const updateGroundrules = (updateObj) => (
     .catch(err => console.log(err))
 )
 
+const destroySpace = spaceId => (
+  Space.findById(spaceId)
+    .then(space => space.destroy())
+    .then(destroyedSpace => destroyedSpace.dataValues)
+    .catch(err => console.log(err))
+);
+
 exports.addNewSpace = addNewSpace;
 exports.getSpaceById = getSpaceById;
 exports.updateSpace = updateSpace;
@@ -200,3 +207,4 @@ exports.getSpaceListingById = getSpaceListingById;
 exports.getDashboardInfoById = getDashboardInfoById;
 exports.isOwner = isOwner;
 exports.updateGroundrules = updateGroundrules;
+exports.destroySpace = destroySpace;
