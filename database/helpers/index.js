@@ -4,6 +4,7 @@ const { getUserByFbId } = require('./userHelpers');
 const { getUserById } = require('./userHelpers');
 const { updateUser } = require('./userHelpers');
 const { userInDb } = require('./userHelpers');
+const { getUserPublic } = require('./userHelpers');
 // options helpers:
 const { addGender } = require('./genderHelpers');
 const { addNewSearch } = require('./searchHelpers');
@@ -47,6 +48,7 @@ exports.getUserByFbId = getUserByFbId;
 exports.getUserById = getUserById;
 exports.updateUser = updateUser;
 exports.userInDb = userInDb;
+exports.getUserPublic = getUserPublic;
 // options exports:
 exports.addGender = addGender;
 exports.addNewSearch = addNewSearch;

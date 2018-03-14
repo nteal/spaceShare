@@ -96,6 +96,25 @@ const getUserByFbId = (fbId) => {
     .catch(err => console.log(err));
 };
 
+const getUserPublic = (id) => {
+  return getUserById(id)
+    .then((user) => {
+      const publicData = {};
+      publicData.gender = user.gender;
+      publicData.links = user.links;
+      publicData.name_first = user.name_first;
+      publicData.name_last = user.name_last;
+      publicData.profession = user.profession;
+      publicData.personality = user.personality;
+      publicData.sleep = user.sleep;
+      publicData.zodiac = user.zodiac;
+      publicData.about = user.about;
+      publicData.image_url = user.image_url;
+      return publicData;
+    })
+    .catch(err => console.log(err));
+};
+
 const userInDb = fbId => (
   User.findOne({ where: { fb_id: fbId } })
     .then(user => (!!user))
@@ -118,3 +137,4 @@ exports.updateUser = updateUser;
 exports.userInDb = userInDb;
 exports.getUserIdByFbId = getUserIdByFbId;
 exports.getAge = getAge;
+exports.getUserPublic = getUserPublic;
