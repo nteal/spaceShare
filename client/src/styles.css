@@ -64,6 +64,10 @@ ul {
   fill: rgb(49, 23, 155);
 }
 
+.mdi-btn-alt:hover {
+  fill: #FFFCA0;
+}
+
 .md-xs {
   font-size: 1rem;
 }
@@ -164,6 +168,10 @@ h1, h2, h3, h4, h5, h6 {
   padding: 15px 10px 0px 10px;
   position: relative;
   z-index: 1;
+}
+
+mt-0 {
+  margin-top: 0rem!important;
 }
 
 .mini-heading-box-top {
