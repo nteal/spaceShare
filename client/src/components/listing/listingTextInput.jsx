@@ -1,6 +1,4 @@
 import React from 'react';
-import Axios from 'axios';
-import MediaQuery from 'react-responsive';
 import Pencil from 'mdi-react/PencilIcon.js';
 
 class ListingTextInput extends React.Component {
