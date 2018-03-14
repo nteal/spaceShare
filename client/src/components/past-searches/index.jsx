@@ -40,8 +40,6 @@ class PastSearches extends React.Component {
         timestamp: 'time-stamp',
       }],
       heading: 'Past Searches',
-      profile_link: '/profile',
-      listing_link: '/listing',
     };
     this.newSearch = this.newSearch.bind(this);
     this.deleteSearch = this.deleteSearch.bind(this);
@@ -97,7 +95,7 @@ class PastSearches extends React.Component {
   }
   render() {
     const {
-      heading, people, places, searches, profile_link, listing_link,
+      heading, people, places, searches,
     } = this.state;
     return (
       <div>
