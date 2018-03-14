@@ -60,7 +60,7 @@ class SearchListItem extends React.Component {
               }
               refresh="true"
             >
-              <button type="submit" onClick={this.props.toggleRefresh}>view search results</button>
+              <button className="btn btn-info">view search results</button>
             </Link>
           </div>
         </div>
@@ -84,7 +84,22 @@ SearchListItem.propTypes = {
   age_max: PropTypes.number,
   timestamp: PropTypes.string,
   id: PropTypes.string,
-  toggleRefresh: ProtoType.func,
+};
+SearchListItem.defaultProps = {
+  purpose: 'Live',
+  neighborhood: 'Neighborhood not found',
+  price_min: 0,
+  price_max: 0,
+  timeline: 'Long-term',
+  smoking: 'Outside is fine',
+  pet: 'Anywhere is fine',
+  include_people: false,
+  sleep: 'Night Owl',
+  personality: 'Introvert',
+  age_min: 0,
+  age_max: 100,
+  timestamp: 'not available',
+  id: 'not available',
 };
 
 export default SearchListItem;
