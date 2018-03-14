@@ -39,10 +39,14 @@ class SearchResults extends React.Component {
         timestamp: 'time-stamp',
       }],
       profilelink: '/profile',
+      refresh: true,
     };
   }
   componentDidMount() {
     console.log('SearchResults did mount');
+    this.setState({
+      refresh: this.props.refresh, togggleRefresh: this.props.toggleRefresh
+    });
     // Axios.get('/api/search-results', {
     //   params: {
     //     token: localStorage.getItem('id_token'),
@@ -79,6 +83,7 @@ class SearchResults extends React.Component {
           searches={searches}
           history={this.props.history}
           profilelink={this.state.profilelink}
+          toggleRefresh={this.props.toggleRefresh}
         />
       </div>
     );

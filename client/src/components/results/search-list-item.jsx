@@ -6,10 +6,6 @@ class SearchListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.componentDidMount = this.componentDidMount(this);
-  }
-  componentDidMount() {
-    localStorage.setItem('id_search', this.props.id);
   }
   render() {
     const {
@@ -64,7 +60,7 @@ class SearchListItem extends React.Component {
               }
               refresh="true"
             >
-              <button>more info</button>
+              <button type="submit" onClick={this.props.toggleRefresh}>view search results</button>
             </Link>
           </div>
         </div>
@@ -88,6 +84,7 @@ SearchListItem.propTypes = {
   age_max: PropTypes.number,
   timestamp: PropTypes.string,
   id: PropTypes.string,
+  toggleRefresh: ProtoType.func,
 };
 
 export default SearchListItem;

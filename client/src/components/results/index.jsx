@@ -14,7 +14,7 @@ class Results extends React.Component {
   }
   render() {
     const {
-      heading, people, places, searches, history, profilelink,
+      heading, people, places, searches, history, profilelink, toggleRefresh,
     } = this.props;
     return (
       <div>
@@ -83,6 +83,7 @@ class Results extends React.Component {
                 timestamp={search.timestamp}
                 id={search.id}
                 history={history}
+                toggleRefresh={toggleRefresh}
               />
             ))}
           </div>
@@ -99,6 +100,7 @@ Results.propTypes = {
   places: PropTypes.array,
   searches: PropTypes.array,
   profilelink: PropTypes.string,
+  toggleRefresh: PropTypes.func,
 };
 
 export default Results;
