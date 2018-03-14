@@ -40,43 +40,62 @@ class PastSearches extends React.Component {
         timestamp: 'time-stamp',
       }],
       heading: 'Past Searches',
-      profilelink: '/profile',
     };
     this.newSearch = this.newSearch.bind(this);
+    this.deleteSearch = this.deleteSearch.bind(this);
   }
   componentDidMount() {
     console.log('SearchResults did mount');
-    // Axios.get('/api/search-results', {
-    //   params: {
-    //     token: localStorage.getItem('id_token'),
-    //     search_id: localStorage.getItem('id_search'),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.data.people.length) {
-    //       this.setState({
-    //         people: response.data.people,
-    //       });
-    //     }
-    //     if (response.data.places.length) {
-    //       this.setState({
-    //         places: response.data.places,
-    //       });
-    //     }
-    //     if (response.data.searches.length) {
-    //       this.setState({
-    //         searches: response.data.searches,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => { console.log(error); });
+    Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`)
+      .then((response) => {
+        if (response.data.people.length) {
+          this.setState({
+            people: response.data.people,
+          });
+        }
+        if (response.data.places.length) {
+          this.setState({
+            places: response.data.places,
+          });
+        }
+        if (response.data.searches.length) {
+          this.setState({
+            searches: response.data.searches,
+          });
+        }
+      })
+      .catch((error) => { console.log(error); });
   }
   newSearch() {
     this.props.history.push('/search');
   }
+  deleteSearch(searchId) {
+    Axios.post(`/api/delete-search/${localStorage.getItem('id_token')}/${searchId}`)
+      .then(() => {
+        Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`);
+      })
+      .then((response) => {
+        if (response.data.people.length) {
+          this.setState({
+            people: response.data.people,
+          });
+        }
+        if (response.data.places.length) {
+          this.setState({
+            places: response.data.places,
+          });
+        }
+        if (response.data.searches.length) {
+          this.setState({
+            searches: response.data.searches,
+          });
+        }
+      })
+      .catch((error) => { console.error(error); });
+  }
   render() {
     const {
-      heading, people, places, searches, profilelink,
+      heading, people, places, searches,
     } = this.state;
     return (
       <div>
@@ -110,7 +129,12 @@ class PastSearches extends React.Component {
                 financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
-                link={profilelink}
+                link="/search"
+                tag="userId"
+                id={person.id}
+                key={person.id}
+                history={this.props.history}
+                button_heading="search for people"
               />
             ))}
           </div>
@@ -122,8 +146,13 @@ class PastSearches extends React.Component {
                 financial={place.cost}
                 about={place.neighborhood}
                 description={place.description}
+                tag="spaceId"
                 id={place.id}
-                link="/listing"
+                key={place.id}
+                link="/search"
+                place={place.id}
+                history={this.props.history}
+                button_heading="search for places"
               />
             ))}
           </div>
@@ -144,6 +173,9 @@ class PastSearches extends React.Component {
                 age_max={search.age_max}
                 timestamp={search.timestamp}
                 id={search.id}
+                history={this.props.history}
+                key={search.id}
+                deleteSearch={this.deleteSearch}
               />
             ))}
           </div>
@@ -155,6 +187,13 @@ class PastSearches extends React.Component {
 
 PastSearches.propTypes = {
   history: PropTypes.object,
+};
+PastSearches.defaultProps = {
+  history: {
+    push: () => (
+      console.log('you do not have access to props.history inside of this component')
+    ),
+  },
 };
 
 export default PastSearches;

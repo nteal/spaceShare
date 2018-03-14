@@ -6,10 +6,10 @@ class SearchListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.componentDidMount = this.componentDidMount(this);
+    this.deleteSearch = this.deleteSearch.bind(this);
   }
-  componentDidMount() {
-    localStorage.setItem('id_search', this.props.id);
+  deleteSearch() {
+    this.props.deleteSearch(this.props.id);
   }
   render() {
     const {
@@ -29,7 +29,14 @@ class SearchListItem extends React.Component {
               </div>
             </div>
           </div>
-          <h4 className="mt-0 mb-1">{neighborhood}</h4>
+          <div className="row">
+            <div className="col">
+              <h4 className="mt-0 mb-1">{neighborhood}</h4>
+            </div>
+            <div className="col">
+              <button className="btn btn-warning" onClick={this.deleteSearch}>Delete this Search</button>
+            </div>
+          </div>
           <h4 className="mt-0 mb-1">{`\$${price_min} - \$${price_max}`}</h4>
           <h4 className="mt-0 mb-2">{timeline}</h4>
           <div className="row">
@@ -64,7 +71,7 @@ class SearchListItem extends React.Component {
               }
               refresh="true"
             >
-              <button>more info</button>
+              <button className="btn btn-info">view search results</button>
             </Link>
           </div>
         </div>
@@ -88,6 +95,24 @@ SearchListItem.propTypes = {
   age_max: PropTypes.number,
   timestamp: PropTypes.string,
   id: PropTypes.string,
+  deleteSearch: PropTypes.func,
+};
+SearchListItem.defaultProps = {
+  purpose: 'Live',
+  neighborhood: 'Neighborhood not found',
+  price_min: 0,
+  price_max: 0,
+  timeline: 'Long-term',
+  smoking: 'Outside is fine',
+  pet: 'Anywhere is fine',
+  include_people: false,
+  sleep: 'Night Owl',
+  personality: 'Introvert',
+  age_min: 0,
+  age_max: 100,
+  timestamp: 'not available',
+  id: 'not available',
+  deleteSearch: () => console.log('deleteSearch is not available'),
 };
 
 export default SearchListItem;
