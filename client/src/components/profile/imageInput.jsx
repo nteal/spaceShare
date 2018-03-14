@@ -126,7 +126,7 @@ class ImageInput extends React.Component {
 ImageInput.propTypes = {
   placeholder: PropTypes.string,
   category: PropTypes.string,
-  imageId: PropTypes.string,
+  imageId: PropTypes.number,
   userId: PropTypes.number,
   field: PropTypes.string,
   value: PropTypes.string,
@@ -137,7 +137,7 @@ ImageInput.propTypes = {
 ImageInput.defaultProps = {
   placeholder: 'Upload an image!',
   category: 'spaces/',
-  imageId: '0',
+  imageId: 0,
   userId: null,
   field: null,
   value: 'http://vectips.com/wp-content/uploads/2017/04/14-astronaut-flat.jpg',
