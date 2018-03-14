@@ -7,6 +7,7 @@ import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 import Email from 'mdi-react/EmailIcon.js';
 import ListingDropDown from './listingDropDown.jsx';
 import ListingTextInput from './listingTextInput.jsx';
+import ListingOpen from './listingOpen.jsx';
 import Location from './location.jsx';
 import AboutInput from '../profile/aboutInput.jsx';
 import Amenities from './amenities.jsx';
@@ -367,6 +368,13 @@ class EditListing extends React.Component {
                     finalize={this.finalizeEditOwner}
                     additionalData={members}
                   />
+                  <ListingOpen
+                    field="open"
+                    value={open}
+                    headingSize="5"
+                    editView
+                    finalize={this.finalizeEdit}
+                  />
                 </MediaQuery>
                 <MediaQuery maxDeviceWidth={600}>
                   <ListingDropDown
@@ -392,9 +400,8 @@ class EditListing extends React.Component {
               </div>
               <div className="col">
                 <MediaQuery minDeviceWidth={800}>
-                  <div className="row justify-content-end d-flex flex-no-wrap one-line">
-                    {/* <h4 className="mb-0">${cost} / {timeline}</h4> */}
-                    <h4 className="d-inline-block one-line">
+                  <div className="row justify-content-end d-flex">
+                    <h4 className="mb-0">
                       <ListingTextInput
                         field="cost"
                         type="number"
@@ -403,16 +410,17 @@ class EditListing extends React.Component {
                         headingSize="0"
                         finalize={this.finalizeEdit}
                       />
-                      
-                      <ListingDropDown
-                        field="timeline"
-                        placeholder="The time for which your space will be available"
-                        value={timeline}
-                        options={['Daily', 'Weekly', 'Monthly', 'Long-term']}
-                        headingSize="0"
-                        finalize={this.finalizeEdit}
-                      />
                     </h4>
+                  </div>
+                  <div className="row justify-content-end d-flex">
+                    <ListingDropDown
+                      field="timeline"
+                      placeholder="The time for which your space will be available"
+                      value={timeline}
+                      options={['Daily', 'Weekly', 'Monthly', 'Long-term']}
+                      headingSize="4"
+                      finalize={this.finalizeEdit}
+                      />
                   </div>
                   <div className="row justify-content-end">
                     {/* <h5>Space available for {capacity} {pronoun}</h5> */}

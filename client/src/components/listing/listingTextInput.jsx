@@ -47,7 +47,7 @@ class ListingTextInput extends React.Component {
       displayed = (
         <div className="row">
           <div className="input-group">
-            <input 
+            <input
               type={type}
               name={field}
               value={this.state.newValue}
@@ -77,25 +77,24 @@ class ListingTextInput extends React.Component {
           {field === 'capacity' && (
             <h5 className="mb-0">Space available for {value} {pronoun}</h5>
           )}
-          {headingSize === "0" && `$${value}`}
-          {headingSize === "1" && (
+          {headingSize === '0' && `$${value}`}
+          {headingSize === '1' && (
             <h1 className="mb-0">{value}</h1>
           )}
-          {headingSize === "2" && (
+          {headingSize === '2' && (
             <h2 className="mb-0">{value}</h2>
           )}
-          {headingSize === "3" && (
+          {headingSize === '3' && (
             <h3 className="mb-0">{value}</h3>
           )}
-          {headingSize === "4" && (
+          {headingSize === '4' && (
             <h4 className="mb-0">{value}</h4>
           )}
-          {headingSize === "5" && (
+          {headingSize === '5' && (
             <h5 className="mb-0">{value}</h5>
           )}
 
           <Pencil className="mdi-btn ml-2" onClick={this.toggleEditing} height={20} width={20} fill="#6F5BC0" />
-          {headingSize === "0" && ' / ' }
         </div>
       );
     }
