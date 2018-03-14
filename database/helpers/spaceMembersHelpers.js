@@ -34,9 +34,7 @@ const getSpaceMembers = spaceId => (
 const getSpacesByFbId = fbId => (
   getUserIdByFbId(fbId)
     .then(userId => UserSpace.findAll({ where: { userId: userId } }))
-    .then(userSpaces => Promise.map(userSpaces, userSpace => {
-      return getDashboardInfoById(userSpace.spaceId)
-    }))
+    .then(userSpaces => Promise.map(userSpaces, userSpace => getDashboardInfoById(userSpace.spaceId)))
     .catch(err => console.log(err))
 );
 
