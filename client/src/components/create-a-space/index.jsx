@@ -31,6 +31,7 @@ class CreateSpace extends React.Component {
     };
     this.onDrop = this.onDrop.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
+    this.doneEditing = this.doneEditing.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
     this.handleCapacityChange = this.handleCapacityChange.bind(this);
@@ -51,6 +52,9 @@ class CreateSpace extends React.Component {
   }
   toggleEditing() {
     this.setState({ editing: true });
+  }
+  doneEditing() {
+    this.setState({ editing: null });
   }
   handleCostChange(event) {
     let decimalFound = false;
@@ -101,9 +105,9 @@ class CreateSpace extends React.Component {
       window.alert('you have reached the maximum limit of 8 amenities\nyou may edit any existing amenity');
     } else {
       this.setState({
-        amenities: this.state.amenities.concat({name: this.state.amenity}),
+        amenities: this.state.amenities.concat({ name: this.state.amenity }),
         amenity: '',
-      })
+      });
     }
   }
   updateAmenities(field, value) {
@@ -143,7 +147,16 @@ class CreateSpace extends React.Component {
     if (editing) {
       imageDisplay = (
         <div className="content-box image-selection-box h-50 w-75">
-          <div className="pl-2 pr-2 pt-5 pb-5">
+          <div className="pl-2 pr-2 pt-2 pb-5">
+            <div className="row justify-content-end mr-0 pb-2">
+              <button
+                className="btn btn-outline-light btn-sm pb-0"
+                onClick={this.doneEditing}
+                type="button"
+              >
+                <i className="material-icons md-sm">close</i>
+              </button>
+            </div>
             <h5 className="text-center mb-3">
               Select an image for your space.
             </h5>
@@ -165,7 +178,16 @@ class CreateSpace extends React.Component {
       );
       imageDisplayMobile = (
         <div className="content-box image-selection-box">
-          <div className="pl-2 pr-2 pt-5 pb-2">
+          <div className="pl-2 pr-2 pt-2 pb-2">
+            <div className="row justify-content-end mr-0 pb-2">
+              <button
+                className="btn btn-outline-light btn-sm pb-0"
+                onClick={this.doneEditing}
+                type="button"
+              >
+                <i className="material-icons md-sm">close</i>
+              </button>
+            </div>
             <h6 className="text-center mb-3">
               Select an image for your space.
             </h6>
@@ -305,13 +327,13 @@ class CreateSpace extends React.Component {
                   </div>
                   <div className="row pb-3">
                     <div className="col form-check" onChange={this.handleInputChange}>
-                      <input className="form-check-input" type="radio" id="open" name="open" value={'true'} />
+                      <input className="form-check-input" type="radio" id="open" name="open" value="true" />
                       <label className="form-check-label" htmlFor="open">
                         Open
                       </label>
                     </div>
                     <div className="col form-check" onChange={this.handleInputChange}>
-                      <input className="form-check-input" type="radio" id="closed" name="open" value={'false'} />
+                      <input className="form-check-input" type="radio" id="closed" name="open" value="false" />
                       <label className="form-check-label" htmlFor="closed">
                         Closed
                       </label>
