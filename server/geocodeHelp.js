@@ -8,30 +8,6 @@ const geocode = address => (
   })
 );
 
-const reverseGeocodeSearch = (lat, lng) => {
-  // needs to save long/lat and city
-  return new Promise((resolve, reject) => {
-    request(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-      const { results } = JSON.parse(body);
-      for (let i = 0; i < results.length; i += 1) {
-        for (let j = 0; j < results.length; j += 1) {
-          const addressComp = results[i][j];
-          if (addressComp.types.contains('locality')) {
-            resolve(addressComp.long_name);
-            return true;
-          }
-        }
-      }
-      resolve('');
-      return true;
-    });
-  });
-};
-
 const reverseGeocode = (lat, long) => {
   return new Promise((resolve, reject) => {
     request(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => {
@@ -41,18 +17,9 @@ const reverseGeocode = (lat, long) => {
       }
       resolve(JSON.parse(body));
       return true;
-    
-      // if (purpose === 'search') {
-      //   resolve(reverseGeocodeSearch(lat, long, results));
-      //   return true;
-      // } else if (purpose === 'space') {
-      //   resolve(reverseGeocodeSpace(lat, long, results));
-      //   return true;
-      // }
     });
   });
 };
-
 
 const reverseGeocodeSpace = (lat, lng) => {
   return reverseGeocode(lat, lng)
@@ -72,6 +39,25 @@ const reverseGeocodeSpace = (lat, lng) => {
     .catch(err => console.log(err));
 };
 
+const reverseGeocodeSearch = (lat, lng) => {
+  // needs to save long/lat and city
+  return reverseGeocode(lat, lng)
+    .then(({ results }) => {
+      const searchLocation = { lat, lng, city: '' };
+      for (let i = 0; i < results.length; i += 1) {
+        for (let j = 0; j < results[i].address_components.length; j += 1) {
+          const addressComp = results[i].address_components[j];
+          if (addressComp.types.includes('locality')) {
+            searchLocation.city = addressComp.long_name;
+            return searchLocation;
+          }
+        }
+      }
+      return searchLocation;
+    })
+    .catch(err => console.log(err));
+};
+
 // const getSpaceLocation = (userInput) => {
 //   // format correctly for user input:
 //   geocode(userInput)
@@ -80,4 +66,5 @@ const reverseGeocodeSpace = (lat, lng) => {
 
 exports.geocode = geocode;
 exports.reverseGeocodeSpace = reverseGeocodeSpace;
+exports.reverseGeocodeSearch = reverseGeocodeSearch;
 
