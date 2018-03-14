@@ -60,6 +60,12 @@ router.get('/api/isAuthenticated/:token', (req, res) => {
 });
 
 router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
+  db.helpers.getSpaceIncludingMembers(req.params.spaceId)
+  .then((space) =>
+  res.status(200).send(space));
+});
+
+router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   db.helpers.getSpaceById(req.params.spaceId)
   .then((space) =>
   res.status(200).send(space));

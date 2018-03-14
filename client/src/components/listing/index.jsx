@@ -23,9 +23,7 @@ class Listing extends React.Component {
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
-    Axios.get(`/api/currentListing/${localStorage.getItem('id_token')}`, {
-      params: { spaceId },
-    })
+    Axios.get(`/api/currentListing/${localStorage.getItem('id_token')}/${spaceId}`)
       .then((response) => {
         const {
           id,
@@ -64,8 +62,8 @@ class Listing extends React.Component {
           state,
           pet,
           smoking,
-          amenities,
-          gallery,
+          amenities: amenities || [],
+          gallery: gallery || [],
         });
 
         Axios.get('/api/isOwner', {
