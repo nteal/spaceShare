@@ -6,6 +6,10 @@ class SearchListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.deleteSearch = this.deleteSearch.bind(this);
+  }
+  deleteSearch() {
+    this.props.deleteSearch(this.props.id);
   }
   render() {
     const {
@@ -25,7 +29,14 @@ class SearchListItem extends React.Component {
               </div>
             </div>
           </div>
-          <h4 className="mt-0 mb-1">{neighborhood}</h4>
+          <div className="row">
+            <div className="col">
+              <h4 className="mt-0 mb-1">{neighborhood}</h4>
+            </div>
+            <div className="col">
+              <button className="btn btn-warning" onClick={this.deleteSearch}>Delete this Search</button>
+            </div>
+          </div>
           <h4 className="mt-0 mb-1">{`\$${price_min} - \$${price_max}`}</h4>
           <h4 className="mt-0 mb-2">{timeline}</h4>
           <div className="row">
@@ -84,6 +95,7 @@ SearchListItem.propTypes = {
   age_max: PropTypes.number,
   timestamp: PropTypes.string,
   id: PropTypes.string,
+  deleteSearch: PropTypes.func,
 };
 SearchListItem.defaultProps = {
   purpose: 'Live',
@@ -100,6 +112,7 @@ SearchListItem.defaultProps = {
   age_max: 100,
   timestamp: 'not available',
   id: 'not available',
+  deleteSearch: () => console.log('deleteSearch is not available'),
 };
 
 export default SearchListItem;

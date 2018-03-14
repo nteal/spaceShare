@@ -44,10 +44,11 @@ class PastSearches extends React.Component {
       listing_link: '/listing',
     };
     this.newSearch = this.newSearch.bind(this);
+    this.deleteSearch = this.deleteSearch.bind(this);
   }
   componentDidMount() {
     console.log('SearchResults did mount');
-    Axios.get(`/api/search-results/${localStorage.getItem('id_token')}/${localStorage.getItem('id_search')}`)
+    Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`)
       .then((response) => {
         if (response.data.people.length) {
           this.setState({
@@ -69,6 +70,30 @@ class PastSearches extends React.Component {
   }
   newSearch() {
     this.props.history.push('/search');
+  }
+  deleteSearch(searchId) {
+    Axios.post(`/api/delete-search/${localStorage.getItem('id_token')}/${searchId}`)
+      .then(() => {
+        Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`);
+      })
+      .then((response) => {
+        if (response.data.people.length) {
+          this.setState({
+            people: response.data.people,
+          });
+        }
+        if (response.data.places.length) {
+          this.setState({
+            places: response.data.places,
+          });
+        }
+        if (response.data.searches.length) {
+          this.setState({
+            searches: response.data.searches,
+          });
+        }
+      })
+      .catch((error) => { console.error(error); });
   }
   render() {
     const {
@@ -106,7 +131,12 @@ class PastSearches extends React.Component {
                 financial={person.profession}
                 about={person.sleep}
                 description={person.personality}
-                link={profile_link}
+                link="/search"
+                tag="userId"
+                id={person.id}
+                key={person.id}
+                history={this.props.history}
+                button_heading="search for people"
               />
             ))}
           </div>
@@ -118,8 +148,13 @@ class PastSearches extends React.Component {
                 financial={place.cost}
                 about={place.neighborhood}
                 description={place.description}
+                tag="spaceId"
                 id={place.id}
-                link={listing_link}
+                key={place.id}
+                link="/search"
+                place={place.id}
+                history={this.props.history}
+                button_heading="search for places"
               />
             ))}
           </div>
@@ -140,6 +175,9 @@ class PastSearches extends React.Component {
                 age_max={search.age_max}
                 timestamp={search.timestamp}
                 id={search.id}
+                history={this.props.history}
+                key={search.id}
+                deleteSearch={this.deleteSearch}
               />
             ))}
           </div>
