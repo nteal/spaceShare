@@ -145,7 +145,7 @@ router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
 
 router.post('/api/new-search/:token', (req, res) => {
   // console.log(req.body);
-  db.helpers.addNewSearch(req.fb_Id, JSON.parse(req.body.search))
+  db.helpers.addNewSearch(req.fb_Id, req.body.search)
   .then((newSearchId) => res.status(201).send(JSON.stringify(newSearchId)))
   .catch(err => console.error(err));
 });
