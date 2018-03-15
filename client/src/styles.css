@@ -68,6 +68,19 @@ ul {
   fill: #FFFCA0;
 }
 
+.delete-member-btn {
+  position: relative;
+  height: 5rem;
+}
+
+.modal-rocket {
+  margin-top: -1.35rem;
+}
+
+.modal-btns {
+  margin-top: -4rem;
+}
+
 .md-xs {
   font-size: 1rem;
 }
@@ -214,6 +227,12 @@ mt-0 {
   height: 100%;
   margin-bottom: 3em;
   width: 100%;
+}
+
+.content-box-colorful {
+  border-image: linear-gradient(45deg, #23037E, #BD00FF) 1;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .invisible-content-box {
