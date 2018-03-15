@@ -19,12 +19,16 @@ class CommonArea extends React.Component {
       members: [],
       groundRules: '',
     };
+    this.setSpaceInfo = this.setSpaceInfo.bind(this);
     this.submitGroundRules = this.submitGroundRules.bind(this);
     this.addMember = this.addMember.bind(this);
     this.deleteMember = this.deleteMember.bind(this);
   }
   componentDidMount() {
     console.log('common area did mount');
+    this.setSpaceInfo();
+  }
+  setSpaceInfo() {
     Axios.get(`/api/currentSpace/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
       .then((space) => {
         this.setState({
@@ -52,7 +56,10 @@ class CommonArea extends React.Component {
     const updateObj = { fbId, spaceId: id };
 
     Axios.post(`/api/addMember/${localStorage.getItem('id_token')}`, updateObj)
-      .then(response => console.log('member added', response.data))
+      .then((response) => {
+        console.log('member added', response.data);
+        this.setSpaceInfo();
+      })
       .catch(error => console.error('error adding member', error));
   }
   deleteMember(userId) {
@@ -60,7 +67,10 @@ class CommonArea extends React.Component {
     const updateObj = { userId, spaceId: id };
 
     Axios.post(`/api/deleteMember/${localStorage.getItem('id_token')}`, updateObj)
-      .then(response => console.log('member deleted', response.data))
+      .then((response) => {
+        console.log('member deleted', response.data);
+        this.setSpaceInfo();
+      })
       .catch(error => console.error('error deleting member', error));
   }
   submitGroundRules(field, newRules) {
