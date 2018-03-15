@@ -8,8 +8,8 @@ const geocode = address => (
   })
 );
 
-const reverseGeocode = (lat, long) => {
-  return new Promise((resolve, reject) => {
+const reverseGeocode = (lat, long) => (
+  new Promise((resolve, reject) => {
     request(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => {
       if (err) {
         reject(err);
@@ -18,11 +18,11 @@ const reverseGeocode = (lat, long) => {
       resolve(JSON.parse(body));
       return true;
     });
-  });
-};
+  })
+);
 
-const reverseGeocodeSpace = (lat, lng) => {
-  return reverseGeocode(lat, lng)
+const reverseGeocodeNeighborhood = (lat, lng) => (
+  reverseGeocode(lat, lng)
     .then(({ results }) => {
       const spaceLocation = { lat, lng, neighborhood: '' };
       for (let i = 0; i < results.length; i += 1) {
@@ -36,12 +36,12 @@ const reverseGeocodeSpace = (lat, lng) => {
       }
       return spaceLocation;
     })
-    .catch(err => console.log(err));
-};
+    .catch(err => console.log(err))
+);
 
-const reverseGeocodeSearch = (lat, lng) => {
+const reverseGeocodeCity = (lat, lng) => (
   // needs to save long/lat and city
-  return reverseGeocode(lat, lng)
+  reverseGeocode(lat, lng)
     .then(({ results }) => {
       const searchLocation = { lat, lng, city: '' };
       for (let i = 0; i < results.length; i += 1) {
@@ -55,16 +55,25 @@ const reverseGeocodeSearch = (lat, lng) => {
       }
       return searchLocation;
     })
-    .catch(err => console.log(err));
-};
+    .catch(err => console.log(err))
+);
 
-// const getSpaceLocation = (userInput) => {
-//   // format correctly for user input:
-//   geocode(userInput)
-//     .then(loc => reverseGeo)
-// }
+const getSpaceLocation = userInput => (
+  // format correctly for user input:
+  geocode(userInput)
+    .then(loc => reverseGeocodeNeighborhood(loc.lat, loc.lng))
+    .catch(err => console.log(err))
+);
+
+const getSearchLocation = userInput => (
+  geocode(userInput)
+    .then(loc => reverseGeocodeCity(loc.lat, loc.lng))
+    .catch(err => console.log(err))
+);
 
 exports.geocode = geocode;
-exports.reverseGeocodeSpace = reverseGeocodeSpace;
-exports.reverseGeocodeSearch = reverseGeocodeSearch;
+exports.reverseGeocodeNeighborhood = reverseGeocodeNeighborhood;
+exports.reverseGeocodeCity = reverseGeocodeCity;
+exports.getSpaceLocation = getSpaceLocation;
+exports.getSearchLocation = getSearchLocation;
 
