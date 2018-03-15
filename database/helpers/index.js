@@ -38,8 +38,10 @@ const { getSpacesByFbId } = require('./spaceMembersHelpers');
 const { getSpaceMembers } = require('./spaceMembersHelpers');
 const { getUserIncludingSpaces } = require('./spaceMembersHelpers');
 const { getSpaceIncludingMembers } = require('./spaceMembersHelpers');
+const { removeUserFromSpace } = require('./spaceMembersHelpers');
 // matches
 const { getAllMatches } = require('./matchingHelpers');
+const { getListingsAndSavedSearches } = require('./matchingHelpers');
 
 
 // user exports:
@@ -83,5 +85,7 @@ exports.getSpaceMembers = getSpaceMembers;
 exports.getUserIncludingSpaces = getUserIncludingSpaces;
 exports.getSpaceIncludingMembers = getSpaceIncludingMembers;
 exports.destroySpace = destroySpace;
+exports.removeUserFromSpace = removeUserFromSpace;
 // matches
 exports.getAllMatches = getAllMatches;
+exports.getListingsAndSavedSearches = getListingsAndSavedSearches;

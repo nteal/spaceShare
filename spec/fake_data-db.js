@@ -84,7 +84,7 @@ const newUser = {
   gender_id: 2,
   sleep_id: 1,
   personality_id: 1,
-  planet_id: 3
+  planet_id: 3,
 };
 
 const newSearch = {
