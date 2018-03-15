@@ -50,14 +50,15 @@ class CommonArea extends React.Component {
   addMember(fbId) {
     const { id } = this.state;
     const updateObj = { fbId, spaceId: id };
-    console.log(updateObj);
-    // Axios.post(`/api/addMember/${localStorage.getItem('id_token')}`, updateObj)
-    //   .then(response => console.log('member added', response.data))
-    //   .catch(error => console.error('error adding member', error));
+
+    Axios.post(`/api/addMember/${localStorage.getItem('id_token')}`, updateObj)
+      .then(response => console.log('member added', response.data))
+      .catch(error => console.error('error adding member', error));
   }
   deleteMember(userId) {
     const { id } = this.state;
     const updateObj = { userId, spaceId: id };
+
     Axios.post(`/api/deleteMember/${localStorage.getItem('id_token')}`, updateObj)
       .then(response => console.log('member deleted', response.data))
       .catch(error => console.error('error deleting member', error));
