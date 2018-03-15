@@ -27,7 +27,7 @@ const newSpace = {
   name: 'myspace',
   neighborhood: 'garden district',
   open: true,
-  owner_fb_id: 'sadf9pwp8rypf98dsiyr9pfeouyfasfasd',
+  owner_fb_id: 'a',
   purpose_id: 1,
   pet_id: 3,
   smoking_id: 2,
@@ -65,7 +65,7 @@ const updateSpace = {
 };
 
 
-const newGroundrules = {spaceId: 2, ground_rules: 'do not break the house'};
+const newGroundrules = { spaceId: 2, ground_rules: 'do not break the house' };
 
 const newUser = {
   about: 'i\'m me! and no one else. except for sometimes',
@@ -75,7 +75,7 @@ const newUser = {
   phone: 555555555555,
   profession: 'programmer',
   email: 'email@email.email',
-  fb_id: 'sadf9pwp8rypf98dsiyr9pfeouyfasfasd',
+  fb_id: 'a',
   fb_link: 'facebook.com',
   fb_verified: false,
   searchable_work: true,
@@ -84,7 +84,6 @@ const newUser = {
   gender_id: 2,
   sleep_id: 1,
   personality_id: 1,
-  planet_id: 3,
 };
 
 const newSearch = {
@@ -92,13 +91,12 @@ const newSearch = {
   price_max: 500.00,
   age_min: 20,
   age_max: 30,
-  location_specificity: 'this is the specificity from geocoding',
-  location_search: 'this is exactly what the user typed!',
+  location: 'this is exactly what the user typed!',
   zip: '70118',
   city: 'New Orleans',
   state: 'la',
   include_people: true,
-  fb_id: 'sadf9pwp8rypf98dsiyr9pfeouyfasfasd',
+  fb_id: 'c',
   personality_id: 2,
   sleep_id: 2,
   purpose_id: 1,
