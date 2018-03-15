@@ -24,7 +24,15 @@ const addLocToSpace = (spaceObj) => {
     .catch(err => console.log(err));
 };
 
+const addLocToSearch = (searchObj) => {
+  // double check where user input will be stored
+  const userInput = `${searchObj.search}`;
+  return geoHelp.getSearchLocation(userInput)
+    .then(locObj => Object.assign({}, searchObj, locObj))
+    .catch(err => console.log(err));
+};
 
 
 exports.getS3image = getS3image;
 exports.addLocToSpace = addLocToSpace;
+exports.addLocToSearch = addLocToSearch;
