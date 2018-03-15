@@ -71,6 +71,12 @@ router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   .catch(err => console.error(err))
 });
 
+router.get('/api/listings/:token/:location', (req, res) => {
+  db.helpers.getAllListings(req.params.location, req.fb_Id)
+  .then(resultObj => res.status(200).send(resultObj))
+  .catch(err => console.error(err));
+});
+
 router.post('/api/newSpace/:token', (req, res) => {
   db.helpers.addNewSpace(req.body.space, req.fb_Id)
   .then((newSpaceId) => res.status(201).send(JSON.stringify(newSpaceId)))
@@ -78,11 +84,29 @@ router.post('/api/newSpace/:token', (req, res) => {
 });
 
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   req.body.id = req.params.spaceId
   db.helpers.updateSpace(req.body)
   .then((space) => res.status(200).send(space))
   .catch(err => console.error(err));
+});
+
+router.post('/api/updateGroundRules/:token', (req, res) => {
+  db.helpers.updateGroundrules(req.body)
+  .then((result) => res.status(200).send(result))
+  .catch(err => console.error(err));
+})
+
+router.post('/api/addMember/:token', (req, res) => {
+  db.helpers.addUsersToSpaces(req.body.fbId, req.body.spaceId)
+  .then(spaceMembers => res.status(201).send(spaceMembers))
+  .catch(err => console.error(err));
+});
+
+router.post('/api/deleteMember/:token', (req, res) => {
+  db.helpers.deleteUsersFromSpaces(req.body.userId, req.body.spaceId)
+  .then(spaceMembers => res.status(201).send(spaceMembers))
+.catch(err => console.error(err));
 });
 
 router.get('/api/isOwner/:token/:spaceId', (req, res) => {
@@ -144,12 +168,6 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
     // no need to stringify
     res.status(200).send(matches);
   }).catch(err => console.error(err));
-});
-
-router.get('/api/all-listings/:token', (req, res) => {
-  // is there a helper for this?
-  res.status(200).send('all the listings')
-  .catch(err => console.error(err));
 });
 
 router.get('/api/get-location/:token/:address', (req, res) => {
