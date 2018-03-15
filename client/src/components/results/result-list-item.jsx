@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class ResultListItem extends React.Component {
@@ -9,21 +8,25 @@ class ResultListItem extends React.Component {
     this.moreInfo = this.moreInfo.bind(this);
   }
   moreInfo() {
-    if (this.props.tag === 'spaceId') {
-      this.props.history.push({
-        pathname: this.props.link,
-        state: { spaceId: this.props.id },
-      });
+    if (this.props.id) {
+      if (this.props.tag === 'spaceId') {
+        this.props.history.push({
+          pathname: this.props.link,
+          state: { spaceId: this.props.id },
+        });
+      } else {
+        this.props.history.push({
+          pathname: this.props.link,
+          state: { userId: this.props.id },
+        });
+      }
     } else {
-      this.props.history.push({
-        pathname: this.props.link,
-        state: { userId: this.props.id },
-      });
+      window.alert('No information available');
     }
   }
   render() {
     const {
-      image, name, financial, about, description, id, link, button_heading,
+      image, name, financial, about, description, button_heading,
     } = this.props;
     return (
       <li className="media">
@@ -66,20 +69,5 @@ ResultListItem.defaultProps = {
   button_heading: 'more info',
   key: 1,
 };
-
-/*
-<Link
-            to={
-              {
-                pathway: link,
-                state: {
-                  space_id: id,
-                },
-              }
-            }
-          >
-            <h4 className="mt-0 mb-1">{name}</h4>
-          </Link>
-*/
 
 export default ResultListItem;
