@@ -1,10 +1,11 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
+import PropTypes from 'prop-types';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 import Member from './member.jsx';
 
 const Members = (props) => {
-  const { ownerId, members } = props;
+  const { ownerId, members, isOwner } = props;
   const handleBack = () => {
     props.history.goBack();
   };
@@ -49,6 +50,18 @@ const Members = (props) => {
       </div>
     </div>
   );
+};
+
+Members.propTypes = {
+  ownerId: PropTypes.number,
+  members: PropTypes.array,
+  isOwner: PropTypes.bool,
+};
+
+Members.defaultProps = {
+  ownerId: null,
+  members: [],
+  isOwner: false,
 };
 
 export default Members;

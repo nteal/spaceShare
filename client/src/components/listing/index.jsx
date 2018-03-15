@@ -2,11 +2,10 @@ import React from 'react';
 import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
-import Pencil from 'mdi-react/PencilIcon.js';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 import Email from 'mdi-react/EmailIcon.js';
 import Location from './location.jsx';
-import AboutSpace from './aboutSpace.jsx';
+import AboutBox from './aboutBox.jsx';
 import Amenities from './amenities.jsx';
 import Gallery from './gallery.jsx';
 
@@ -229,7 +228,7 @@ class Listing extends React.Component {
             </div>
             <div className="row pt-res">
               <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column pl-0 pr-0 pr-sm-0 pr-md-2 pr-lg-2 pr-xl-2">
-                <AboutSpace text={description} />
+                <AboutBox heading="About this space" text={description} />
                 <Location neighborhood={neighborhood} city={city} state={state} />
               </div>
               <div className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex flex-column pr-0 pl-0 pl-sm-0 pl-md-2 pl-lg-2 pl-xl-2">
