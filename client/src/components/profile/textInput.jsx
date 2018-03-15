@@ -10,10 +10,18 @@ class TextInput extends React.Component {
       editing: null,
       newValue: '',
     };
+    this.setValue = this.setValue.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
     this.doneEditing = this.doneEditing.bind(this);
     this.handleEditing = this.handleEditing.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  componentDidMount() {
+    this.setValue();
+  }
+  setValue() {
+    const { value } = this.props;
+    this.setState({ value });
   }
 
   toggleEditing(event) {
@@ -35,12 +43,14 @@ class TextInput extends React.Component {
 
   handleSubmit() {
     this.props.finalize(this.props.field, this.state.newValue);
-    this.doneEditing();
+    this.setState({ value: this.state.newValue }, () => {
+      this.doneEditing();
+    });
   }
 
   render() {
-    const { editing } = this.state;
-    const { type, glyph, field, placeholder, value } = this.props;
+    const { editing, value } = this.state;
+    const { type, glyph, field, placeholder } = this.props;
 
     let displayed;
     if (editing) {
