@@ -298,3 +298,12 @@ mt-0 {
   position: relative;
   top: 1.25rem;
 }
+
+.incomplete-todo {
+  font-weight: 600;
+}
+
+.complete-todo {
+  font-weight: 400;
+  font-style: italic;
+}
