@@ -40,7 +40,7 @@ const { getUserIncludingSpaces } = require('./spaceMembersHelpers');
 const { getSpaceIncludingMembers } = require('./spaceMembersHelpers');
 // matches
 const { getAllMatches } = require('./matchingHelpers');
-const { getAllListings } = require('./matchingHelpers');
+const { getListingsAndSavedSearches } = require('./matchingHelpers');
 
 
 // user exports:
@@ -86,4 +86,4 @@ exports.getSpaceIncludingMembers = getSpaceIncludingMembers;
 exports.destroySpace = destroySpace;
 // matches
 exports.getAllMatches = getAllMatches;
-exports.getAllListings = getAllListings;
+exports.getListingsAndSavedSearches = getListingsAndSavedSearches;

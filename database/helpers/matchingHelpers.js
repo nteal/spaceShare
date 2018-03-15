@@ -46,5 +46,13 @@ const getAllListings = city => (
     .catch(err => console.log(err))
 );
 
+const getListingsAndSavedSearches = async(city, fbId) => {
+  const listingsAndSearches = {};
+  listingsAndSearches.listings = await getAllListings(city);
+  listingsAndSearches.searches = await getSearchesByFbId(fbId);
+  return listingsAndSearches;
+};
+
 exports.getAllMatches = getAllMatches;
 exports.getAllListings = getAllListings;
+exports.getListingsAndSavedSearches = getListingsAndSavedSearches;
