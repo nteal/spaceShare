@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Email from 'mdi-react/EmailIcon.js';
+import MessageText from 'mdi-react/MessageTextIcon.js';
 
 const Member = (props) => {
   const {
@@ -13,6 +13,8 @@ const Member = (props) => {
   } = props.member;
 
   const isOwner = !!props.owner;
+  const phoneStr = `${phone}`;
+  const phoneDisplay = `(${phoneStr.slice(0, 3)}) ${phoneStr.slice(3, 6)}-${phoneStr.slice(6)}`;
 
   return (
     <div className="col-10 col-sm-6 col-md-4 col-lg-4 d-flex flex-column">
@@ -31,20 +33,29 @@ const Member = (props) => {
           <div className="col pt-2 pb-0">
             <ul>
               <li>
-                {phone}
+                <div className="row d-flex align-items-center pl-2">
+                  <i className="material-icons md-sm mr-2">phone</i>
+                  {phoneDisplay}
+                </div>
               </li>
               <li>
-                {email}
+                <div className="row d-flex align-items-center pl-2">
+                  <i className="material-icons md-sm mr-2">email</i>
+                  {email}
+                </div>
               </li>
               {isOwner && (
                 <li>
-                  Owner
+                  <div className="row d-flex align-items-center pl-2">
+                    <i className="material-icons md-sm mr-2">star_border</i>
+                    Owner
+                  </div>
                 </li>
               )}
             </ul>
-            <div className="row justify-content-end pr-4">
+            <div className="row justify-content-end pr-2">
               <Link to={{ pathname: '/messages', state: { userId: id } }}>
-                <Email className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
+                <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
               </Link>
             </div>
           </div>
