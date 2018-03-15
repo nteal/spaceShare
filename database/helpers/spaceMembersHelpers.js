@@ -4,9 +4,9 @@ const { isOwner } = require('./spaceHelpers');
 const { getSpaceById } = require('./spaceHelpers');
 const { getUserIdByFbId } = require('./userHelpers');
 const { getUserByFbId } = require('./userHelpers');
-const { UserSpace } = require('../models/user_spaceModel');
 const { getDashboardInfoById } = require('./spaceHelpers');
 
+const { UserSpace } = require('../models/user_spaceModel');
 const { Space } = require('../models/spaceModel');
 const { User } = require('../models/userModel');
 
@@ -71,8 +71,16 @@ const addUsersToSpaces = (fbId, spaceId) => (
     .catch(err => console.log(err))
 );
 
+const removeUserFromSpace = (userId, spaceId) => (
+  UserSpace.findOne({ where: { userId, spaceId } })
+    .then(userSpace => userSpace.destroy())
+    .then(destroyed => destroyed.dataValues)
+    .catch(err => console.log(err))
+);
+
 exports.addUsersToSpaces = addUsersToSpaces;
 exports.getSpacesByFbId = getSpacesByFbId;
 exports.getSpaceMembers = getSpaceMembers;
 exports.getUserIncludingSpaces = getUserIncludingSpaces;
 exports.getSpaceIncludingMembers = getSpaceIncludingMembers;
+exports.removeUserFromSpace = removeUserFromSpace;
