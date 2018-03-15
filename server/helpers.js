@@ -34,7 +34,7 @@ const addLocToSearch = (searchObj) => {
 
 const getLocForListings = userInput => (
   geoHelp.getSearchLocation(userInput)
-    .then(locObj => locObj)
+    .then(locObj => locObj.city)
     .catch(err => console.log(err))
 );
 
