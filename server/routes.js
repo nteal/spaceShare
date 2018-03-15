@@ -170,12 +170,13 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
   }).catch(err => console.error(err));
 });
 
-router.get('/api/get-location/:token/:city', (req, res) => {
-  // is this for the geo-location?
-  // returning 200 & input city
-  res.status(200).send(JSON.stringify({data: `${req.params.city}`}))
-  .catch(err => console.error(err));
-});
+// depracated
+// router.get('/api/get-location/:token/:city', (req, res) => {
+//   // is this for the geo-location?
+//   // returning 200 & input city
+//   res.status(200).send(JSON.stringify({data: `${req.params.city}`}))
+//   .catch(err => console.error(err));
+// });
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
