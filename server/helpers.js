@@ -1,6 +1,7 @@
 const request = require('request');
 const aws4 = require('aws4');
 require('dotenv').config();
+const geoHelp = require('./geocodeHelp');
 
 
 const getS3image = (filename, callback) => {
@@ -15,5 +16,15 @@ const getS3image = (filename, callback) => {
   });
 };
 
+const addLocToSpace = (spaceObj) => {
+  // double check where user input will be stored
+  const userInput = `${spaceObj.street_address} ${spaceObj.street_address2} ${spaceObj.city} ${spaceObj.state} ${spaceObj.zip}`;
+  return geoHelp.getSpaceLocation(userInput)
+    .then(locObj => Object.assign({}, spaceObj, locObj))
+    .catch(err => console.log(err));
+};
+
+
 
 exports.getS3image = getS3image;
+exports.addLocToSpace = addLocToSpace;
