@@ -20,7 +20,7 @@ const getAllMatches = searchId => (
 );
 
 // this function will eventually gets its data from geocoding, which will take user input
-const getAllListings = city => (
+const allListings = city => (
   Space.findAll({ where: { city, open: true } })
     .then(spaces => Promise.map(spaces, (space) => {
       const spaceObj = space.dataValues;
@@ -46,13 +46,14 @@ const getAllListings = city => (
     .catch(err => console.log(err))
 );
 
-const getListingsAndSavedSearches = async(city, fbId) => {
+// returns obj with arr of listings and saved searches
+const getAllListings = async (city, fbId) => {
   const listingsAndSearches = {};
-  listingsAndSearches.listings = await getAllListings(city);
+  listingsAndSearches.listings = await allListings(city);
   listingsAndSearches.searches = await getSearchesByFbId(fbId);
   return listingsAndSearches;
 };
 
 exports.getAllMatches = getAllMatches;
 exports.getAllListings = getAllListings;
-exports.getListingsAndSavedSearches = getListingsAndSavedSearches;
+exports.getAllListings = getAllListings;
