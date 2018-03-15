@@ -103,11 +103,11 @@ router.post('/api/addMember/:token', (req, res) => {
   .catch(err => console.error(err));
 });
 
-router.post('/api/deleteMember/:token', (req, res) => {
-  db.helpers.deleteUsersFromSpaces(req.body.userId, req.body.spaceId)
-  .then(spaceMembers => res.status(201).send(spaceMembers))
-.catch(err => console.error(err));
-});
+// router.post('/api/deleteMember/:token', (req, res) => {
+//   db.helpers.deleteUsersFromSpaces(req.body.userId, req.body.spaceId)
+//   .then(spaceMembers => res.status(201).send(spaceMembers))
+// .catch(err => console.error(err));
+// });
 
 router.get('/api/isOwner/:token/:spaceId', (req, res) => {
   db.helpers.isOwner(req.fb_Id, req.params.spaceId)
@@ -170,11 +170,11 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
   }).catch(err => console.error(err));
 });
 
-router.get('/api/get-location/:token/:address', (req, res) => {
-  // is this for the geo-location?
-  res.status(200).send(JSON.stringify({data: `${req.params.address}`}))
-  .catch(err => console.error(err));
-});
+// router.get('/api/get-location/:token/:address', (req, res) => {
+//   // is this for the geo-location?
+//   res.status(200).send(JSON.stringify({data: `${req.params.address}`}))
+//   .catch(err => console.error(err));
+// });
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
