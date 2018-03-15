@@ -71,11 +71,11 @@ router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   .catch(err => console.error(err))
 });
 
-router.get('/api/listings/:token/:location', (req, res) => {
-  db.helpers.getAllListings(req.params.location, req.fb_Id)
-  .then(resultObj => res.status(200).send(resultObj))
-  .catch(err => console.error(err));
-});
+// router.get('/api/listings/:token/:location', (req, res) => {
+//   db.helpers.getAllListings(req.params.location, req.fb_Id)
+//   .then(resultObj => res.status(200).send(resultObj))
+//   .catch(err => console.error(err));
+// });
 
 router.post('/api/newSpace/:token', (req, res) => {
   db.helpers.addNewSpace(req.body.space, req.fb_Id)
