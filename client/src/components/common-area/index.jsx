@@ -20,6 +20,8 @@ class CommonArea extends React.Component {
       groundRules: '',
     };
     this.submitGroundRules = this.submitGroundRules.bind(this);
+    this.addMember = this.addMember.bind(this);
+    this.deleteMember = this.deleteMember.bind(this);
   }
   componentDidMount() {
     console.log('common area did mount');
@@ -34,7 +36,7 @@ class CommonArea extends React.Component {
           mainImage: space.data.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
           members: space.data.members || [],
           groundRules: space.data.ground_rules,
-        });
+        }, () => console.log('common area', space.data));
       })
       .catch((error) => { console.dir(error); });
     Axios.get(`/api/isOwner/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
@@ -44,6 +46,22 @@ class CommonArea extends React.Component {
         });
       })
       .catch(error => console.error('error checking if current user is owner', error));
+  }
+  addMember(fbId) {
+    const { id } = this.state;
+    const updateObj = { fbId, spaceId: id };
+
+    Axios.post(`/api/addMember/${localStorage.getItem('id_token')}`, updateObj)
+      .then(response => console.log('member added', response.data))
+      .catch(error => console.error('error adding member', error));
+  }
+  deleteMember(userId) {
+    const { id } = this.state;
+    const updateObj = { userId, spaceId: id };
+
+    Axios.post(`/api/deleteMember/${localStorage.getItem('id_token')}`, updateObj)
+      .then(response => console.log('member deleted', response.data))
+      .catch(error => console.error('error deleting member', error));
   }
   submitGroundRules(field, newRules) {
     this.setState({ groundRules: newRules }, () => {
@@ -56,7 +74,6 @@ class CommonArea extends React.Component {
     });
   }
   render() {
-    console.dir(this.state);
     const {
       id,
       ownerId,
@@ -68,7 +85,13 @@ class CommonArea extends React.Component {
       isOwner,
     } = this.state;
     const commonAreaProps = { id, name, purpose, todos, isOwner };
-    const membersProps = { ownerId, members, isOwner };
+    const membersProps = {
+      ownerId,
+      members,
+      addMember: this.addMember,
+      deleteMember: this.deleteMember,
+      isOwner,
+    };
     const rulesProps = { groundRules, submit: this.submitGroundRules, isOwner };
 
     return (

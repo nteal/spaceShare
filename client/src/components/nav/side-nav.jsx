@@ -42,7 +42,7 @@ const SideNavItems = (props) => {
       </Link>
       <Link className="btn btn-primary" to="/messages" style={styles.sidebarLink}>
         <div className="row pl-2">
-          <i className="material-icons sidebar-icon">mail</i>
+          <i className="material-icons sidebar-icon">chat</i>
           Messages
         </div>
       </Link>
