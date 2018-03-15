@@ -21,6 +21,8 @@ const Space = db.define('space', {
   cost: Sequelize.DECIMAL(12, 2),
   description: Sequelize.TEXT,
   ground_rules: Sequelize.TEXT,
+  lat: Sequelize.DECIMAL(9, 7),
+  lng: Sequelize.DECIMAL(10, 7),
   main_image: Sequelize.TEXT,
   name: Sequelize.TEXT,
   neighborhood: Sequelize.STRING,
