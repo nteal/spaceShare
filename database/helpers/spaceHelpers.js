@@ -207,3 +207,4 @@ exports.getDashboardInfoById = getDashboardInfoById;
 exports.isOwner = isOwner;
 exports.updateGroundrules = updateGroundrules;
 exports.destroySpace = destroySpace;
+exports.addDataFromIds = addDataFromIds;
