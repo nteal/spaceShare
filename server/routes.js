@@ -71,11 +71,11 @@ router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   .catch(err => console.error(err))
 });
 
-// router.get('/api/listings/:token/:location', (req, res) => {
-//   db.helpers.getAllListings(req.params.location, req.fb_Id)
-//   .then(resultObj => res.status(200).send(resultObj))
-//   .catch(err => console.error(err));
-// });
+router.get('/api/listings/:token/:location', (req, res) => {
+  db.helpers.getAllListings(req.params.location, req.fb_Id)
+  .then(resultObj => res.status(200).send(resultObj))
+  .catch(err => console.error(err));
+});
 
 router.post('/api/newSpace/:token', (req, res) => {
   db.helpers.addNewSpace(req.body.space, req.fb_Id)
@@ -87,27 +87,27 @@ router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
   // console.log(req.body);
   req.body.id = req.params.spaceId
   db.helpers.updateSpace(req.body)
-  .then((space) => res.status(200).send(space))
+  .then((space) => res.status(202).send(space))
   .catch(err => console.error(err));
 });
 
 router.post('/api/updateGroundRules/:token', (req, res) => {
   db.helpers.updateGroundrules(req.body)
-  .then((result) => res.status(200).send(result))
+  .then((result) => res.status(202).send(result))
   .catch(err => console.error(err));
 })
 
 router.post('/api/addMember/:token', (req, res) => {
   db.helpers.addUsersToSpaces(req.body.fbId, req.body.spaceId)
-  .then(spaceMembers => res.status(201).send(spaceMembers))
+  .then(spaceMembers => res.status(202).send(spaceMembers))
   .catch(err => console.error(err));
 });
 
-// router.post('/api/deleteMember/:token', (req, res) => {
-//   db.helpers.deleteUsersFromSpaces(req.body.userId, req.body.spaceId)
-//   .then(spaceMembers => res.status(201).send(spaceMembers))
-// .catch(err => console.error(err));
-// });
+router.post('/api/deleteMember/:token', (req, res) => {
+  db.helpers.deleteUsersFromSpaces(req.body.userId, req.body.spaceId)
+  .then(spaceMembers => res.status(202).send(spaceMembers))
+.catch(err => console.error(err));
+});
 
 router.get('/api/isOwner/:token/:spaceId', (req, res) => {
   db.helpers.isOwner(req.fb_Id, req.params.spaceId)
@@ -150,13 +150,13 @@ router.post('/api/new-search/:token', (req, res) => {
   .catch(err => console.error(err));
 });
 
-router.post('api/delete-search/:token/:searchId', (req, res) => {
+router.post('/api/delete-search/:token/:searchId', (req, res) => {
   db.helpers.deleteSearchById(req.params.searchId)
-  .then(destroyed => res.status(200).send(destroyed))
+  .then(destroyed => res.status(202).send(destroyed))
   .catch(err => console.error(err));
 });
 
-router.get('api/saved-searches/:token', (req, res) => {
+router.get('/api/saved-searches/:token', (req, res) => {
   db.helpers.getSearchesByFbId(req.fb_Id)
   .then(searches => res.status(200).send(searches))
   .catch(err => console.error(err));
@@ -170,11 +170,12 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
   }).catch(err => console.error(err));
 });
 
-// router.get('/api/get-location/:token/:address', (req, res) => {
-//   // is this for the geo-location?
-//   res.status(200).send(JSON.stringify({data: `${req.params.address}`}))
-//   .catch(err => console.error(err));
-// });
+router.get('/api/get-location/:token/:city', (req, res) => {
+  // is this for the geo-location?
+  // returning 200 & input city
+  res.status(200).send(JSON.stringify({data: `${req.params.city}`}))
+  .catch(err => console.error(err));
+});
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
