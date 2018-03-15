@@ -32,7 +32,13 @@ const addLocToSearch = (searchObj) => {
     .catch(err => console.log(err));
 };
 
+const getLocForListings = userInput => (
+  geoHelp.getSearchLocation(userInput)
+    .then(locObj => locObj)
+    .catch(err => console.log(err))
+);
 
 exports.getS3image = getS3image;
 exports.addLocToSpace = addLocToSpace;
 exports.addLocToSearch = addLocToSearch;
+exports.getLocForListings = getLocForListings;
