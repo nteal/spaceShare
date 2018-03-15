@@ -39,7 +39,7 @@ router.param('token', (req, res, next, JWT) => {
     console.log('fb_Id attached', req.fb_Id);
   } else {
     // or tell them no
-    console.log('forbidden');
+    console.error('unauthorized: forbidden');
     res.sendStatus(403);
   }
   // move
@@ -49,7 +49,7 @@ router.param('token', (req, res, next, JWT) => {
 router.get('/api/isAuthenticated/:token', (req, res) => {
   console.log('isTTTTTTTAuth');
   // console.log('req.params => ', req.params);
-  // console.log('req.query => ', req.query); // empty object
+  // console.log('req.query => ', req.query);
   if (req.params && req.params.token) {
     const id = jwt.verify(req.params.token, 'secret').id;
     // console.log('id: ', id);
@@ -71,6 +71,12 @@ router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   .catch(err => console.error(err))
 });
 
+// router.get('/api/listings/:token/:location', (req, res) => {
+//   db.helpers.getAllListings(req.params.location, req.fb_Id)
+//   .then(resultObj => res.status(200).send(resultObj))
+//   .catch(err => console.error(err));
+// });
+
 router.post('/api/newSpace/:token', (req, res) => {
   db.helpers.addNewSpace(req.body.space, req.fb_Id)
   .then((newSpaceId) => res.status(201).send(JSON.stringify(newSpaceId)))
@@ -78,15 +84,35 @@ router.post('/api/newSpace/:token', (req, res) => {
 });
 
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   req.body.id = req.params.spaceId
   db.helpers.updateSpace(req.body)
   .then((space) => res.status(200).send(space))
+  .catch(err => console.error(err));
 });
+
+router.post('/api/updateGroundRules/:token', (req, res) => {
+  db.helpers.updateGroundrules(req.body)
+  .then((result) => res.status(200).send(result))
+  .catch(err => console.error(err));
+})
+
+router.post('/api/addMember/:token', (req, res) => {
+  db.helpers.addUsersToSpaces(req.body.fbId, req.body.spaceId)
+  .then(spaceMembers => res.status(201).send(spaceMembers))
+  .catch(err => console.error(err));
+});
+
+// router.post('/api/deleteMember/:token', (req, res) => {
+//   db.helpers.deleteUsersFromSpaces(req.body.userId, req.body.spaceId)
+//   .then(spaceMembers => res.status(201).send(spaceMembers))
+// .catch(err => console.error(err));
+// });
 
 router.get('/api/isOwner/:token/:spaceId', (req, res) => {
   db.helpers.isOwner(req.fb_Id, req.params.spaceId)
   .then((result) => res.status(200).send(result))
+  .catch(err => console.error(err));
 });
 
 router.get('/api/currentUser/:token', (req, res) => {
@@ -101,13 +127,13 @@ router.post('/api/editProfile/:token', (req, res) => {
   .catch(err => console.error(err));
 });
 
-// router.get('/api/userPublic/:token/:userId', (req, res) => {
-//   // gets public information for a specified user
-//   // could this be done in batches for search purposes?
-//   db.helpers.getUserPublic(req.params.userId)
-//   .then(res.status(200).send('a user\'s public profile'))
-//   .catch(err => console.error(err));
-// })
+router.get('/api/userPublic/:token/:userId', (req, res) => {
+  // gets public information for a specified user
+  // could this be done in batches for search purposes?
+  db.helpers.getUserPublic(req.params.userId)
+  .then(publicInfo => res.status(200).send(publicInfo))
+  .catch(err => console.error(err));
+})
 
 // deprecated?
 router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
@@ -144,17 +170,11 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
   }).catch(err => console.error(err));
 });
 
-router.get('/api/all-listings/:token', (req, res) => {
-  // is there a helper for this?
-  res.status(200).send('all the listings')
-  .catch(err => console.error(err));
-});
-
-router.get('/api/get-location/:token/:address', (req, res) => {
-  // is this for the geo-location?
-  res.status(200).send(JSON.stringify({data: `${req.params.address}`}))
-  .catch(err => console.error(err));
-});
+// router.get('/api/get-location/:token/:address', (req, res) => {
+//   // is this for the geo-location?
+//   res.status(200).send(JSON.stringify({data: `${req.params.address}`}))
+//   .catch(err => console.error(err));
+// });
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
