@@ -17,11 +17,22 @@ const Member = (props) => {
   const isOwner = !!props.owner;
   const phoneStr = `${phone}`;
   const phoneDisplay = `(${phoneStr.slice(0, 3)}) ${phoneStr.slice(3, 6)}-${phoneStr.slice(6)}`;
+  const handleDelete = () => {
+    props.deleteMember(id);
+  };
 
   return (
     <div className="col-10 col-sm-6 col-md-4 col-lg-4 d-flex flex-column pt-4">
       <div className="content-box member-card container pb-0">
         <div className="row">
+          {canDelete && (
+            <button className="btn btn-primary btn-block" aria-label="remove this member from this space" onClick={handleDelete}>
+              <div className="row pl-2">
+                <i className="material-icons sidebar-icon">delete_forever</i>
+                Eject this member
+              </div>
+            </button>
+          )}
           <div className="member-img-box">
             <img className="card-img-top member-img" src={image_url} alt={`${name_first}'s face`} />
           </div>
