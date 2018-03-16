@@ -1,7 +1,4 @@
-const express = require('express');
 const Nexmo = require('nexmo');
-
-const router = express.Router();
 
 const nexmo = new Nexmo({
   apiKey: process.env.NEXMO_API_KEY,
@@ -32,6 +29,50 @@ const createConversation = (displayName, callback) => {
   });
 };
 
+const joinConversation = (userNexmoId, conversationId, callback) => {
+  nexmo.conversations.members.add(conversationId, {
+    action: 'join',
+    user_id: userNexmoId,
+    channel: {
+      type: 'app',
+    },
+  }, (error, response) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, response);
+    }
+  });
+};
+
+const inviteToConversation = (userNexmoId, conversationId, callback) => {
+  nexmo.conversations.members.add(conversationId, {
+    action: 'invite',
+    user_id: userNexmoId,
+    channel: {
+      type: 'app',
+    },
+  }, (error, response) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, response);
+    }
+  });
+};
+
+const getAllConversations = (userNexmoId, callback) => {
+  nexmo.users.getConversations(userNexmoId, (error, response) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, response);
+    }
+  });
+};
 
 exports.createUser = createUser;
 exports.createConversation = createConversation;
+exports.joinConversation = joinConversation;
+exports.inviteToConversation = inviteToConversation;
+exports.getAllConversations = getAllConversations;
