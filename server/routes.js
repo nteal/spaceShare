@@ -3,6 +3,7 @@ const path = require('path');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const db = require('../database');
+const helpers = require('./helpers');
 
 
 router.post(
@@ -143,12 +144,13 @@ router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
   .catch(err => console.error(err));
 });
 
-router.post('/api/new-search/:token', (req, res) => {
+router.post('/api/new-search/:token', (req, res) => (
   // console.log(req.body);
-  db.helpers.addNewSearch(req.fb_Id, req.body.search)
-  .then((newSearchId) => res.status(201).send(JSON.stringify(newSearchId)))
-  .catch(err => console.error(err));
-});
+  helpers.addLocToSearch(req.body.search)
+    .then(searchObj => db.helpers.addNewSearch(req.fb_Id, searchObj))
+    .then(newSearchId => res.status(201).send(JSON.stringify(newSearchId)))
+    .catch(err => console.error(err))
+));
 
 router.post('/api/delete-search/:token/:searchId', (req, res) => {
   db.helpers.deleteSearchById(req.params.searchId)
