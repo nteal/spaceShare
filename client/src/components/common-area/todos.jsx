@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import {
   SortableContainer,
@@ -54,83 +53,65 @@ class Todos extends React.Component {
       newTodo: '',
     };
     this.onSortEnd = this.onSortEnd.bind(this);
-    this.setTodos = this.setTodos.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addTodo = this.addTodo.bind(this);
     this.toggleTodoComplete = this.toggleTodoComplete.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
-    this.submitTodos = this.submitTodos.bind(this);
-  }
-  componentDidMount() {
-    const { todos } = this.props;
-    this.setTodos(todos, () => console.log(todos));
   }
   onSortEnd({ oldIndex, newIndex }) {
-    const { items } = this.state;
-    const updatedOrder = arrayMove(items, oldIndex, newIndex);
-    this.setTodos(updatedOrder, () => {
+    const { todos, setTodos } = this.props;
+    const updatedOrder = arrayMove(todos, oldIndex, newIndex);
+    setTodos(updatedOrder, () => {
       console.log(this.state);
     });
-  }
-  setTodos(todos, callback) {
-    const complete = todos.filter(todo => todo.completed);
-    const incomplete = todos.filter(todo => !todo.completed);
-    this.setState({ items: todos, complete, incomplete }, callback);
   }
   handleChange(event) {
     const { value } = event.target;
     this.setState({ newTodo: value });
   }
   addTodo() {
-    const { newTodo, items } = this.state;
+    const { newTodo } = this.state;
+    const { todos, setTodos, submitTodos } = this.props;
     const newTodoObj = {
-      id: 1,
       content: newTodo,
       completed: false,
     };
-    const newTodos = items.concat(newTodoObj);
+    const newTodos = todos.concat(newTodoObj);
     this.setState({ newTodo: '' });
-    this.setTodos(newTodos, () => {
-      this.submitTodos();
+    setTodos(newTodos, () => {
+      submitTodos();
       console.log('todos', this.state);
     });
   }
   toggleTodoComplete(todoId) {
-    const { items } = this.state;
-    const updatedItems = items.map((item) => {
-      if (item.id === todoId) {
-        item.completed = !item.completed;
+    const { todos, setTodos, submitTodos } = this.props;
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === todoId) {
+        todo.completed = !todo.completed;
       }
-      return item;
+      return todo;
     });
-    this.setTodos(updatedItems, () => {
-      this.submitTodos();
+    setTodos(updatedTodos, () => {
+      submitTodos();
       console.log(this.state);
     });
   }
   updateTodo(todoId, content) {
-    // also deletes todos if content is empty
-    const { items } = this.state;
-    const updatedItems = items.map((item) => {
-      if (item.id === todoId) {
-        item.content = content;
+    const { todos, submitTodos, setTodos } = this.props;
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === todoId) {
+        todo.content = content;
       }
-      return item;
+      return todo;
     });
-    this.setState({ items: updatedItems }, () => {
+    setTodos(updatedTodos, () => {
       console.log(this.state);
-      this.submitTodos();
+      submitTodos();
     });
-  }
-  submitTodos() {
-    const { spaceId } = this.props;
-    const { items } = this.state;
-    // Axios.post(`/api/updateTodos/${localStorage.getItem('id_token')}/${spaceId}`, items)
-    //   .then(response => console.log('todos updated', response.data))
-    //   .catch(error => console.error('error updating todos', error));
   }
   render() {
-    const { complete, incomplete, newTodo } = this.state;
+    const { newTodo } = this.state;
+    const { complete, incomplete } = this.props;
     return (
       <div className="content-box">
         <MediaQuery minDeviceWidth={800}>
@@ -165,12 +146,14 @@ class Todos extends React.Component {
 }
 
 Todos.propTypes = {
-  spaceId: PropTypes.number,
   todos: PropTypes.array,
+  complete: PropTypes.array,
+  incomplete: PropTypes.array,
+  setTodos: PropTypes.func,
+  submitTodos: PropTypes.func,
 };
 
 Todos.defaultProps = {
-  spaceId: null,
   todos: [
     {
       id: 0,
@@ -183,6 +166,10 @@ Todos.defaultProps = {
       completed: false,
     },
   ],
+  complete: [],
+  incomplete: [],
+  setTodos: null,
+  submitTodos: null,
 };
 
 export default Todos;
