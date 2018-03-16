@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DeleteCircle from 'mdi-react/DeleteCircleIcon.js';
 
 class TodoListItem extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class TodoListItem extends React.Component {
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   componentDidMount() {
     const { complete } = this.props;
@@ -52,6 +54,10 @@ class TodoListItem extends React.Component {
   toggleEdit() {
     this.setState({ editing: false });
   }
+  handleDelete() {
+    const { updateTodo, todo } = this.props;
+    updateTodo(todo.id, null);
+  }
   render() {
     const { isComplete, editing, value } = this.state;
     const { todo, complete } = this.props;
@@ -62,7 +68,7 @@ class TodoListItem extends React.Component {
       display = (
         <input
           type="text"
-          className="form-control"
+          className="form-control todo-input"
           aria-label="enter new todo or edit existing"
           placeholder="Edit your todo"
           value={value}
@@ -86,9 +92,12 @@ class TodoListItem extends React.Component {
     }
 
     return (
-      <div className="pl-4">
-        <input className="form-check-input" type="checkbox" id={id} checked={isComplete} onChange={this.handleChange} />
-        {display}
+      <div className="row pl-4 pr-3 d-flex align-items-center justify-content-between">
+        <div>
+          <input className="form-check-input" type="checkbox" id={id} checked={isComplete} onChange={this.handleChange} />
+          {display}
+        </div>
+        <DeleteCircle className="mdi-btn" onClick={this.handleDelete} height={25} width={25} fill="#6F5BC0" />
       </div>
     );
   }
