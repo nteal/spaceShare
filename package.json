@@ -58,6 +58,7 @@
     "mdi-react": "^2.1.19",
     "moment": "^2.21.0",
     "mysql2": "^1.5.2",
+    "nexmo": "^2.2.0",
     "nexmo-conversation": "^0.1.19",
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
