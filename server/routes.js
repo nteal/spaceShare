@@ -3,6 +3,7 @@ const path = require('path');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const db = require('../database');
+const helpers = require('./helpers');
 
 
 router.post(
@@ -77,19 +78,20 @@ router.get('/api/listings/:token/:location', (req, res) => {
   .catch(err => console.error(err));
 });
 
-router.post('/api/newSpace/:token', (req, res) => {
-  db.helpers.addNewSpace(req.body.space, req.fb_Id)
-  .then((newSpaceId) => res.status(201).send(JSON.stringify(newSpaceId)))
-  .catch((err) => {console.error(err)});
-});
+router.post('/api/newSpace/:token', (req, res) => (
+  helpers.addLocToSpace(req.body.space)
+    .then(spaceObj => db.helpers.addNewSpace(spaceObj, req.fb_Id))
+    .then(newSpaceId => res.status(201).send(JSON.stringify(newSpaceId)))
+    .catch(err => console.error(err))
+));
 
-router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
+router.post('/api/updateSpace/:token/:spaceId', (req, res) => (
   // console.log(req.body);
-  req.body.id = req.params.spaceId
-  db.helpers.updateSpace(req.body)
-  .then((space) => res.status(202).send(space))
-  .catch(err => console.error(err));
-});
+  helpers.addLocToSpace(req.body.space)
+    .then(spaceObj => db.helpers.updateSpace(Object.assign({ id: req.params.spaceId }, spaceObj)))
+    .then(space => res.status(202).send(JSON.stringify(space)))
+    .catch(err => console.error(err))
+));
 
 router.post('/api/updateGroundRules/:token', (req, res) => {
   db.helpers.updateGroundrules(req.body)
@@ -143,12 +145,13 @@ router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
   .catch(err => console.error(err));
 });
 
-router.post('/api/new-search/:token', (req, res) => {
+router.post('/api/new-search/:token', (req, res) => (
   // console.log(req.body);
-  db.helpers.addNewSearch(req.fb_Id, req.body.search)
-  .then((newSearchId) => res.status(201).send(JSON.stringify(newSearchId)))
-  .catch(err => console.error(err));
-});
+  helpers.addLocToSearch(req.body.search)
+    .then(searchObj => db.helpers.addNewSearch(req.fb_Id, searchObj))
+    .then(newSearchId => res.status(201).send(JSON.stringify(newSearchId)))
+    .catch(err => console.error(err))
+));
 
 router.post('/api/delete-search/:token/:searchId', (req, res) => {
   db.helpers.deleteSearchById(req.params.searchId)
