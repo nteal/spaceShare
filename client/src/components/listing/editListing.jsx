@@ -270,7 +270,6 @@ class EditListing extends React.Component {
     })
       .then((response) => {
         console.log('space updated', response);
-        this.props.toggleRefresh();
       })
       .catch((error) => {
         console.error('error updating your space info', error);

@@ -66,7 +66,7 @@ const Amenities = (props) => {
               placeholder="An amenity you offer"
               value="An optional additional amenity"
               finalize={finalizeNew}
-              key={i}
+              key={newAmenity}
             />
           ))
         )}
@@ -89,7 +89,7 @@ const Amenities = (props) => {
             </div>
           </li>
           {amenities.map(amenity => (
-            <Amenity amenity={amenity} key={amenity.id}/>
+            <Amenity amenity={amenity} key={amenity.id} />
           ))}
         </ul>
       </div>

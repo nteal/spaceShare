@@ -174,7 +174,7 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
 });
 
 router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
-  db.helpers.updateTodos(req.params.spaceId, req.body.items)
+  db.helpers.updateTodos(req.params.spaceId, req.body)
     .then((todos) => {
       res.status(201).send(todos);
     }).catch(err => console.error(err));
