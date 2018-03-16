@@ -59,14 +59,14 @@ class PastSearches extends React.Component {
             searches: response.data,
           });
         }
-        if (this.props.location.state.people.name_first !== 'no people were found for this search') {
+        if (this.props.location.state && this.props.location.state.people.name_first !== 'no people were found for this search') {
           this.setState({
             people: this.props.location.state.people,
             people_button_heading: 'more info',
             people_link: '/profile',
           });
         }
-        if (this.props.location.state.places.name !== 'There are no results for this search') {
+        if (this.props.location.state && this.props.location.state.places.name !== 'There are no results for this search') {
           this.setState({
             places: this.props.location.state.places,
             places_button_heading: 'more info',
