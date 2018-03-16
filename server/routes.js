@@ -85,13 +85,13 @@ router.post('/api/newSpace/:token', (req, res) => (
     .catch(err => console.error(err))
 ));
 
-router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
+router.post('/api/updateSpace/:token/:spaceId', (req, res) => (
   // console.log(req.body);
-  req.body.id = req.params.spaceId
-  db.helpers.updateSpace(req.body)
-  .then((space) => res.status(202).send(space))
-  .catch(err => console.error(err));
-});
+  helpers.addLocToSpace(req.body.space)
+    .then(spaceObj => db.helpers.updateSpace(Object.assign({ id: req.params.spaceId }, spaceObj)))
+    .then(space => res.status(202).send(JSON.stringify(space)))
+    .catch(err => console.error(err))
+));
 
 router.post('/api/updateGroundRules/:token', (req, res) => {
   db.helpers.updateGroundrules(req.body)
