@@ -15,6 +15,9 @@ class Search extends React.Component {
       pet_id: 2,
       include_people: true,
       peopleSearch: false,
+      personality_id: 1,
+      pet_id: 1,
+      sleep_id: 1,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.isValidBudgetEntry = this.isValidBudgetEntry.bind(this);
@@ -91,9 +94,7 @@ class Search extends React.Component {
         }, () => {
           Axios.post(
             `/api/new-search/${localStorage.getItem('id_token')}`,
-            JSON.stringify({
-              search: this.state,
-            }),
+            { search: this.state },
           )
             .then((response) => {
               localStorage.setItem('id_search', response.data);

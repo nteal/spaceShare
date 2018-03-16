@@ -50,6 +50,8 @@ class SearchResults extends React.Component {
     console.log('SearchResults did mount');
     Axios.get(`/api/search-results/${localStorage.getItem('id_token')}/${id_search}`)
       .then((response) => {
+        console.log('get search-results');
+        console.dir(response);
         if (response.data.people.length) {
           this.setState({
             people: response.data.people,

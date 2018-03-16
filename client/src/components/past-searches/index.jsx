@@ -48,19 +48,11 @@ class PastSearches extends React.Component {
     console.log('SearchResults did mount');
     Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`)
       .then((response) => {
-        if (response.data.people.length) {
+        console.log('get saved-searches');
+        console.dir(response);
+        if (response.data.length) {
           this.setState({
-            people: response.data.people,
-          });
-        }
-        if (response.data.places.length) {
-          this.setState({
-            places: response.data.places,
-          });
-        }
-        if (response.data.searches.length) {
-          this.setState({
-            searches: response.data.searches,
+            searches: response.data,
           });
         }
       })
@@ -75,19 +67,9 @@ class PastSearches extends React.Component {
         Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`);
       })
       .then((response) => {
-        if (response.data.people.length) {
+        if (response && response.data) {
           this.setState({
-            people: response.data.people,
-          });
-        }
-        if (response.data.places.length) {
-          this.setState({
-            places: response.data.places,
-          });
-        }
-        if (response.data.searches.length) {
-          this.setState({
-            searches: response.data.searches,
+            searches: response.data,
           });
         }
       })

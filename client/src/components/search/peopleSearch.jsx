@@ -46,22 +46,10 @@ class PeopleSearch extends React.Component {
       this.setState({
         age_min: min,
         age_max: max,
-      }, () => {
-        Axios.post(
-          `/api/new-search/${localStorage.getItem('id_token')}`,
-          JSON.stringify({
-            search: this.state,
-          }),
-        )
-          .then((response) => {
-            localStorage.setItem('id_search', response.data);
-            this.props.history.push('/search-results');
-          });
       });
-    } else {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
   handleInputChange(event) {
     const { target } = event;
@@ -71,8 +59,18 @@ class PeopleSearch extends React.Component {
     });
   }
   handleSubmit(event) {
-    if (!this.isValidAgeRange()) {
-      event.preventDefault();
+    event.preventDefault();
+    if (this.isValidAgeRange()) {
+      Axios.post(
+        `/api/new-search/${localStorage.getItem('id_token')}`,
+        { search: this.state },
+      )
+        .then((response) => {
+          localStorage.setItem('id_search', response.data);
+          this.props.history.push('/search-results');
+        });
+    } else {
+      // eslint-disable-next-line
       window.alert('Please enter a valid AGE range wherein\nleft-number <= right-number');
     }
   }
