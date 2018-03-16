@@ -165,17 +165,22 @@ const getDashboardInfoById = spaceId => {
 // get space info for matching purposes
   // based on location and purpose
 // get users associated with space (members)
-const getSpacesForMatching = (searchId) => (
+const getSpacesForMatching = searchId => (
   Search.findById(searchId)
     .then(searchObj => (
       // get all spaces with matching city and purpose to search obj
-      Space.findAll({ where: { city: searchObj.city, purpose_id: searchObj.purpose_id, open: true}}))
-    )
-    .then(compatibleSpaces => Promise.map(compatibleSpaces, space => {
-      return getSpaceListingById(space.id);
-    }))
+      Space.findAll({
+        where: {
+          purpose_id: searchObj.purpose_id,
+          open: true,
+        },
+      })
+    ))
+    .then(compatibleSpaces => Promise.map(compatibleSpaces, space => (
+      getSpaceListingById(space.id)
+    )))
     .catch(err => console.log(err))
-) 
+);
 
 const isOwner = (fbId, spaceId) => (
   Space.findById(spaceId)
