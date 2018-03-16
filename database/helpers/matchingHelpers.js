@@ -12,9 +12,7 @@ const getAllMatches = searchId => (
     .then(async (search) => {
       const matches = {};
       matches.places = await getSpacesForMatching(search.id);
-      if (search.include_people) {
-        matches.people = search.include_people ? await getSearchesForMatching(search.id) : [];
-      }
+      matches.people = search.include_people ? await getSearchesForMatching(search.id) : [];
       matches.searches = await getSearchesByFbId(search.fb_id);
       return matches;
     })
