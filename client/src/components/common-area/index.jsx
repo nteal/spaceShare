@@ -15,16 +15,29 @@ class CommonArea extends React.Component {
       name: null,
       purpose: '',
       todos: [],
+      complete: [],
+      incomplete: [],
       mainImage: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
       members: [],
       groundRules: '',
     };
+    this.setTodos = this.setTodos.bind(this);
+    this.submitTodos = this.submitTodos.bind(this);
+    this.setSpaceInfo = this.setSpaceInfo.bind(this);
     this.submitGroundRules = this.submitGroundRules.bind(this);
     this.addMember = this.addMember.bind(this);
     this.deleteMember = this.deleteMember.bind(this);
   }
   componentDidMount() {
     console.log('common area did mount');
+    this.setSpaceInfo();
+  }
+  setTodos(todos, callback) {
+    const complete = todos.filter(todo => todo.completed);
+    const incomplete = todos.filter(todo => !todo.completed);
+    this.setState({ todos, complete, incomplete }, callback);
+  }
+  setSpaceInfo() {
     Axios.get(`/api/currentSpace/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
       .then((space) => {
         this.setState({
@@ -36,7 +49,11 @@ class CommonArea extends React.Component {
           mainImage: space.data.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
           members: space.data.members || [],
           groundRules: space.data.ground_rules,
-        }, () => console.log('common area', space.data));
+        }, () => {
+          this.setTodos(this.state.todos, () => {
+            console.log('common area', this.state);
+          });
+        });
       })
       .catch((error) => { console.dir(error); });
     Axios.get(`/api/isOwner/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
@@ -47,12 +64,26 @@ class CommonArea extends React.Component {
       })
       .catch(error => console.error('error checking if current user is owner', error));
   }
+  submitTodos() {
+    const { id, todos } = this.state;
+    Axios.post(`/api/updateTodos/${localStorage.getItem('id_token')}/${id}`, todos)
+      .then((response) => {
+        console.log('todos updated', response.data);
+        this.setTodos(response.data, () => {
+          console.log(this.state);
+        });
+      })
+      .catch(error => console.error('error updating todos', error));
+  }
   addMember(fbId) {
     const { id } = this.state;
     const updateObj = { fbId, spaceId: id };
 
     Axios.post(`/api/addMember/${localStorage.getItem('id_token')}`, updateObj)
-      .then(response => console.log('member added', response.data))
+      .then((response) => {
+        console.log('member added', response.data);
+        this.setSpaceInfo();
+      })
       .catch(error => console.error('error adding member', error));
   }
   deleteMember(userId) {
@@ -60,7 +91,10 @@ class CommonArea extends React.Component {
     const updateObj = { userId, spaceId: id };
 
     Axios.post(`/api/deleteMember/${localStorage.getItem('id_token')}`, updateObj)
-      .then(response => console.log('member deleted', response.data))
+      .then((response) => {
+        console.log('member deleted', response.data);
+        this.setSpaceInfo();
+      })
       .catch(error => console.error('error deleting member', error));
   }
   submitGroundRules(field, newRules) {
@@ -80,11 +114,23 @@ class CommonArea extends React.Component {
       name,
       purpose,
       todos,
+      complete,
+      incomplete,
       members,
       groundRules,
       isOwner,
     } = this.state;
-    const commonAreaProps = { id, name, purpose, todos, isOwner };
+    const commonAreaProps = {
+      id,
+      name,
+      purpose,
+      todos,
+      complete,
+      incomplete,
+      isOwner,
+      setTodos: this.setTodos,
+      submitTodos: this.submitTodos,
+    };
     const membersProps = {
       ownerId,
       members,
