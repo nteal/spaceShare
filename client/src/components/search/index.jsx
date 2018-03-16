@@ -18,6 +18,7 @@ class Search extends React.Component {
       personality_id: 1,
       pet_id: 1,
       sleep_id: 1,
+      distance: 20,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.isValidBudgetEntry = this.isValidBudgetEntry.bind(this);
@@ -120,6 +121,7 @@ class Search extends React.Component {
           smoking_id={this.state.smoking_id}
           pet_id={this.state.pet_id}
           include_people={this.state.include_people}
+          distance={this.state.distance}
           history={this.props.history}
         />
       );
@@ -152,6 +154,25 @@ class Search extends React.Component {
         <div className="row">
           <div className="col-8">
             <input className="form-control" type="text" placeholder="" name="location" onChange={this.handleInputChange} />
+          </div>
+        </div>
+        <div className="row">
+          <h3>Set size of search area around {this.state.location}</h3>
+        </div>
+        <div className="row">
+          <div className="col-8">
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <label className="input-group-text" htmlFor="distance">Radius</label>
+              </div>
+              <select className="custom-select" id="distance" name="distance" onChange={this.handleInputChange}>
+                <option selected>20</option>
+                <option value={1}>1</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="row">
