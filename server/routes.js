@@ -93,6 +93,12 @@ router.post('/api/updateSpace/:token/:spaceId', (req, res) => (
     .catch(err => console.error(err))
 ));
 
+router.post('/api/deleteSpace/:token', (req, res) => {
+  db.helpers.destroySpace(req.body)
+  .then(oldSpaceData => res.status(202).send(oldSpaceData))
+  .catch(err => console.error(err))
+});
+
 router.post('/api/updateGroundRules/:token', (req, res) => {
   db.helpers.updateGroundrules(req.body)
   .then((result) => res.status(202).send(result))
@@ -180,7 +186,7 @@ router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
     }).catch(err => console.error(err));
 });
 
-// depracated
+// deprecated
 // router.get('/api/get-location/:token/:city', (req, res) => {
 //   // is this for the geo-location?
 //   // returning 200 & input city
