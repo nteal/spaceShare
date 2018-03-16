@@ -49,8 +49,8 @@ class TextInput extends React.Component {
   }
 
   render() {
-    const { editing, value } = this.state;
-    const { type, glyph, field, placeholder } = this.props;
+    const { editing } = this.state;
+    const { type, glyph, field, placeholder, value } = this.props;
 
     let displayed;
     if (editing) {
