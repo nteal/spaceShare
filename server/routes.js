@@ -78,11 +78,12 @@ router.get('/api/listings/:token/:location', (req, res) => {
   .catch(err => console.error(err));
 });
 
-router.post('/api/newSpace/:token', (req, res) => {
-  db.helpers.addNewSpace(req.body.space, req.fb_Id)
-  .then((newSpaceId) => res.status(201).send(JSON.stringify(newSpaceId)))
-  .catch((err) => {console.error(err)});
-});
+router.post('/api/newSpace/:token', (req, res) => (
+  helpers.addLocToSpace(req.body.space)
+    .then(spaceObj => db.helpers.addNewSpace(spaceObj, req.fb_Id))
+    .then(newSpaceId => res.status(201).send(JSON.stringify(newSpaceId)))
+    .catch(err => console.error(err))
+));
 
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => {
   // console.log(req.body);
