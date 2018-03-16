@@ -113,7 +113,7 @@ class Search extends React.Component {
       return (
         <PeopleSearch
           purpose_id={this.state.purpose_id}
-          city={this.state.city}
+          location={this.state.location}
           price_min={this.state.price_min}
           price_max={this.state.price_max}
           timeline_id={this.state.timeline_id}
