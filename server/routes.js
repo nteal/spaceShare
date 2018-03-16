@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const db = require('../database');
 const helpers = require('./helpers');
+const chat = require('./chatHelp');
 
 
 router.post(
@@ -187,6 +188,54 @@ router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
 //   res.status(200).send(JSON.stringify({data: `${req.params.city}`}))
 //   .catch(err => console.error(err));
 // });
+
+router.post('/api/newChat', (req, res, next) => {
+  const { displayName } = req.body;
+
+  chat.createConversation(displayName, (error, response) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.send(response);
+    }
+  });
+});
+
+router.put('/api/joinChat', (req, res, next) => {
+  const { userNexmoId, conversationId } = req.body;
+
+  chat.joinConversation(userNexmoId, conversationId, (error, response) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.send(response);
+    }
+  });
+});
+
+router.put('/api/inviteToChat', (req, res, next) => {
+  const { userNexmoId, conversationId } = req.body;
+
+  chat.inviteToConversation(userNexmoId, conversationId, (error, response) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.send(response);
+    }
+  });
+});
+
+router.get('/api/userChats', (req, res, next) => {
+  const { userNexmoId } = req.body;
+
+  chat.getAllConversations(userNexmoId, (error, response) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.send(response);
+    }
+  });
+});
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
