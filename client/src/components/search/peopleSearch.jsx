@@ -56,7 +56,6 @@ class PeopleSearch extends React.Component {
             localStorage.setItem('id_search', response.data);
             this.props.history.push('/search-results');
           });
-        this.props.history.push('/search-results');
       });
     } else {
       return false;
