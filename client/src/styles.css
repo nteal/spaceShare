@@ -306,4 +306,5 @@ mt-0 {
 .complete-todo {
   font-weight: 400;
   font-style: italic;
+  text-decoration: line-through;
 }
