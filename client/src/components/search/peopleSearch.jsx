@@ -20,7 +20,7 @@ class PeopleSearch extends React.Component {
     console.log('person search did mount');
     this.setState({
       purpose_id: this.props.purpose_id,
-      city: this.props.city,
+      location: this.props.location,
       price_min: this.props.price_min,
       price_max: this.props.price_max,
       timeline_id: this.props.timeline_id,
@@ -47,16 +47,16 @@ class PeopleSearch extends React.Component {
         age_min: min,
         age_max: max,
       }, () => {
-        Axios.post(`/api/new-search/token/${localStorage.getItem('id_token')}/search/${this.state}`) 
-        // {
-          // search: this.state,
-          // token: localStorage.getItem('id_token'),
-        // })
+        Axios.post(
+          `/api/new-search/${localStorage.getItem('id_token')}`,
+          JSON.stringify({
+            search: this.state,
+          }),
+        )
           .then((response) => {
             localStorage.setItem('id_search', response.data);
             this.props.history.push('/search-results');
           });
-        this.props.history.push('/search-results');
       });
     } else {
       return false;
