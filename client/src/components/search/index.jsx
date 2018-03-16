@@ -1,14 +1,13 @@
 import React from 'react';
 import Axios from 'axios';
 import PeopleSearch from './peopleSearch.jsx';
-import SearchResults from '../search-results/index.jsx';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       purpose_id: 2,
-      city: 'New Orleans',
+      location: 'New Orleans',
       price_min: '0',
       price_max: '1000000',
       timeline_id: 4,
@@ -22,20 +21,8 @@ class Search extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
+    // eslint-disable-next-line
     console.log('new search did mount');
-  }
-  getLocation() {
-    Axios.get(`/api/get-location/token/${localstorage.getItem('id_token')}/${this.state.city}`)
-    // , {
-    //   params: {
-    //     address: this.state.city,
-    //     token: localstorage.getItem('id_token'),
-    //   },
-    // })
-      .then((city) => {
-        city = JSON.parse(city);
-        this.setState({ city: city.data });
-      });
   }
   isValidBudgetEntry() {
     const { price_min, price_max } = this.state;
@@ -46,7 +33,7 @@ class Search extends React.Component {
         if (((char >= '0' && char <= '9') || char === '.') && !decimalFound) {
           if (char === '.') {
             number.push(char);
-            for (let j = 1; j < 3; j++) {
+            for (let j = 1; j < 3; j += 1) {
               if (numArray[i + j] >= '0' && numArray[i + j] <= '9') {
                 number.push(numArray[i + j]);
               }
@@ -90,6 +77,7 @@ class Search extends React.Component {
     });
   }
   handleSubmit(event) {
+    event.preventDefault();
     if (this.isValidBudgetEntry()) {
       if (this.state.include_people !== 'false') {
         event.preventDefault();
@@ -101,10 +89,12 @@ class Search extends React.Component {
         this.setState({
           include_people: false,
         }, () => {
-          Axios.post(`/api/new-search/${localStorage.getItem('id_token')}`, 
-          JSON.stringify({
-            search: this.state,
-          }))
+          Axios.post(
+            `/api/new-search/${localStorage.getItem('id_token')}`,
+            JSON.stringify({
+              search: this.state,
+            }),
+          )
             .then((response) => {
               localStorage.setItem('id_search', response.data);
               this.props.history.push('/search-results');
@@ -114,6 +104,7 @@ class Search extends React.Component {
       }
     } else {
       event.preventDefault();
+      // eslint-disable-next-line
       window.alert('Please enter a valid BUDGET range wherein\nleft-number <= right-number');
     }
   }
@@ -160,7 +151,7 @@ class Search extends React.Component {
         </div>
         <div className="row">
           <div className="col-8">
-            <input className="form-control" type="text" placeholder="" name="city" onChange={this.handleInputChange} />
+            <input className="form-control" type="text" placeholder="" name="location" onChange={this.handleInputChange} />
           </div>
         </div>
         <div className="row">
@@ -178,7 +169,7 @@ class Search extends React.Component {
           </div>
         </div>
         <div className="row">
-          <h3>Timeframe</h3>
+          <h3>Time-frame</h3>
         </div>
         <div className="row">
           <div className="col-2 form-check" onChange={this.handleInputChange}>
@@ -271,7 +262,7 @@ class Search extends React.Component {
         </div>
         <div className="row">
           <div className="col-8 text-center">
-            <button type="submit" className="btn btn-outline-primary">Let's go</button>
+            <button type="submit" className="btn btn-outline-primary">Let&apos;s go</button>
           </div>
         </div>
       </form>
