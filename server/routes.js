@@ -170,6 +170,14 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
   }).catch(err => console.error(err));
 });
 
+router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
+  db.helpers.updateTodos(req.params.spaceId, req.body.items)
+    .then((todos) => {
+      // no need to stringify
+      res.status(201).send(todos);
+    }).catch(err => console.error(err));
+});
+
 // depracated
 // router.get('/api/get-location/:token/:city', (req, res) => {
 //   // is this for the geo-location?
