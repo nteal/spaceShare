@@ -21,6 +21,7 @@ class Search extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
+    // eslint-disable-next-line
     console.log('new search did mount');
   }
   isValidBudgetEntry() {
@@ -76,6 +77,7 @@ class Search extends React.Component {
     });
   }
   handleSubmit(event) {
+    event.preventDefault();
     if (this.isValidBudgetEntry()) {
       if (this.state.include_people !== 'false') {
         event.preventDefault();
