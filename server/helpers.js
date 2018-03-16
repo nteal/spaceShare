@@ -18,7 +18,7 @@ const getS3image = (filename, callback) => {
 
 const addLocToSpace = (spaceObj) => {
   // double check where user input will be stored
-  const userInput = `${spaceObj.street_address} ${spaceObj.street_address2} ${spaceObj.city} ${spaceObj.state} ${spaceObj.zip}`;
+  const userInput = `${spaceObj.street_address} ${spaceObj.city} ${spaceObj.state} ${spaceObj.zip}`;
   return geoHelp.getSpaceLocation(userInput)
     .then(locObj => Object.assign({}, spaceObj, locObj))
     .catch(err => console.log(err));
