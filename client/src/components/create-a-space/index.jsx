@@ -133,7 +133,6 @@ class CreateSpace extends React.Component {
           pathname: '/common-area',
           state: { spaceId: response.data },
         });
-        this.props.toggleRefresh();
       })
       .catch((error) => {
         console.error('error adding space', error);
