@@ -104,7 +104,7 @@ router.post('/api/addMember/:token', (req, res) => {
 });
 
 router.post('/api/deleteMember/:token', (req, res) => {
-  db.helpers.deleteUsersFromSpaces(req.body.userId, req.body.spaceId)
+  db.helpers.removeUserFromSpaces(req.body.userId, req.body.spaceId)
   .then(spaceMembers => res.status(202).send(spaceMembers))
 .catch(err => console.error(err));
 });
@@ -170,12 +170,20 @@ router.get('/api/search-results/:token/:search_Id', (req, res) => {
   }).catch(err => console.error(err));
 });
 
-router.get('/api/get-location/:token/:city', (req, res) => {
-  // is this for the geo-location?
-  // returning 200 & input city
-  res.status(200).send(JSON.stringify({data: `${req.params.city}`}))
-  .catch(err => console.error(err));
+router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
+  db.helpers.updateTodos(req.params.spaceId, req.body.items)
+    .then((todos) => {
+      res.status(201).send(todos);
+    }).catch(err => console.error(err));
 });
+
+// depracated
+// router.get('/api/get-location/:token/:city', (req, res) => {
+//   // is this for the geo-location?
+//   // returning 200 & input city
+//   res.status(200).send(JSON.stringify({data: `${req.params.city}`}))
+//   .catch(err => console.error(err));
+// });
 
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
