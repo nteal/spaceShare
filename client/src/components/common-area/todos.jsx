@@ -28,8 +28,12 @@ const DragHandle = SortableHandle(() => (
 const SortableItem = SortableElement(({ value, complete, toggleComplete, updateTodo }) => (
   <li className="list-group-item pt-1 pr-1 pb-1 pl-1">
     <div className="row d-flex align-items-center ml-0">
-      <DragHandle />
-      <TodoListItem todo={value} complete={complete} toggleComplete={toggleComplete} updateTodo={updateTodo} />
+      <div className="flex-column">
+        <DragHandle />
+      </div>
+      <div className="col">
+        <TodoListItem todo={value} complete={complete} toggleComplete={toggleComplete} updateTodo={updateTodo} />
+      </div>
     </div>
   </li>
 ));
