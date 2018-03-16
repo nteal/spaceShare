@@ -81,7 +81,13 @@ const getSearchesForMatching = searchId => (
   // get all searches
   Search.findById(searchId)
     // only include searches with same purpose and city, that include people
-    .then(search => [Search.findAll({ where: { purpose_id: search.purpose_id, city: search.city, include_people: true } }), search.fb_id])
+    .then(search => [Search.findAll({
+      where: {
+        purpose_id: search.purpose_id,
+        city: search.city,
+        include_people: true,
+      },
+    }), search.fb_id])
     .then(([searches, currentFbId]) => {
       // don't include searches by same user
       const samePurposeArr = searches.filter(search => search.dataValues.fb_id !== currentFbId)
