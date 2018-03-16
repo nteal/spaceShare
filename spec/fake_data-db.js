@@ -91,6 +91,10 @@ const newSearch = {
   age_min: 20,
   age_max: 30,
   location: 'New Orleans',
+<<<<<<< HEAD
+=======
+  state: 'la',
+>>>>>>> 2e302697827d319b2d8847ca3a81e3c5dc59302d
   include_people: true,
   fb_id: 'c',
   personality_id: 2,

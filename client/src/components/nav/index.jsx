@@ -183,21 +183,21 @@ class Nav extends React.Component {
                 <Route
                   path="/common-area"
                   render={props => (
-                    <CommonArea {...props} {...refreshKeyProp} />
+                    <CommonArea {...props} />
                   )}
                 />
                 <Route path="/messages" component={ChatMain} />
                 <Route
                   path="/new-space"
                   render={props => (
-                    <CreateSpace {...props} {...toggleRefreshProp} />
+                    <CreateSpace {...props} />
                   )}
                 />
                 <Route path="/listing" component={Listing} />
                 <Route
                   path="/edit-listing"
                   render={props => (
-                    <EditListing {...props} {...toggleRefreshProp} />
+                    <EditListing {...props} />
                   )}
                 />
                 <Route path="/edit-space" component={CreateSpace} />
