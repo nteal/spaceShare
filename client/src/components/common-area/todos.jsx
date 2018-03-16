@@ -26,17 +26,19 @@ const DragHandle = SortableHandle(() => (
   </svg>
 ));
 
-const SortableItem = SortableElement(({ value }) => (
-  <li>
-    <DragHandle />
-    <TodoListItem todo={value} />
+const SortableItem = SortableElement(({ value, complete, toggleComplete, updateTodo }) => (
+  <li className="list-group-item pt-1 pr-1 pb-1 pl-1">
+    <div className="row d-flex align-items-center ml-0">
+      <DragHandle />
+      <TodoListItem todo={value} complete={complete} toggleComplete={toggleComplete} updateTodo={updateTodo} />
+    </div>
   </li>
 ));
 
-const SortableList = SortableContainer(({ items, complete, toggleComplete }) => (
-  <ul>
+const SortableList = SortableContainer(({ items, complete, toggleComplete, updateTodo }) => (
+  <ul className="list-group">
     {items.map((value, i) => (
-      <SortableItem key={value.id} index={i} value={value} complete={complete} toggleComplete={toggleComplete} />
+      <SortableItem key={value.id} index={i} value={value} complete={complete} toggleComplete={toggleComplete} updateTodo={updateTodo} />
     ))}
   </ul>
 ));
@@ -48,6 +50,8 @@ class Todos extends React.Component {
       items: [],
       complete: [],
       incomplete: [],
+      value: '',
+      newTodo: '',
     };
     this.onSortEnd = this.onSortEnd.bind(this);
     this.setTodos = this.setTodos.bind(this);
@@ -59,71 +63,74 @@ class Todos extends React.Component {
   }
   componentDidMount() {
     const { todos } = this.props;
-    this.setTodos(todos);
+    this.setTodos(todos, () => console.log(todos));
   }
   onSortEnd({ oldIndex, newIndex }) {
     const { items } = this.state;
-    this.setState({
-      items: arrayMove(items, oldIndex, newIndex),
+    const updatedOrder = arrayMove(items, oldIndex, newIndex);
+    this.setTodos(updatedOrder, () => {
+      console.log(this.state);
     });
   }
-  setTodos(todos) {
+  setTodos(todos, callback) {
     const complete = todos.filter(todo => todo.completed);
     const incomplete = todos.filter(todo => !todo.completed);
-    this.setState({ items: todos, complete, incomplete });
+    this.setState({ items: todos, complete, incomplete }, callback);
   }
   handleChange(event) {
     const { value } = event.target;
     this.setState({ newTodo: value });
   }
   addTodo() {
-    const { newTodo } = this.state;
+    const { newTodo, items } = this.state;
     const newTodoObj = {
+      id: 1,
       content: newTodo,
       completed: false,
     };
-    this.setState({ items: this.state.items.concat(newTodoObj) }, () => {
+    const newTodos = items.concat(newTodoObj);
+    this.setState({ newTodo: '' });
+    this.setTodos(newTodos, () => {
       this.submitTodos();
+      console.log('todos', this.state);
     });
   }
   toggleTodoComplete(todoId) {
     const { items } = this.state;
-    const updatedItems = items.slice(0);
-    for (let i = 0; i < updatedItems; i++) {
-      const updatedItem = updatedItems[i];
-      if (updatedItem.id === todoId) {
-        updatedItem.complete = !updatedItem.complete;
-        break;
+    const updatedItems = items.map((item) => {
+      if (item.id === todoId) {
+        item.completed = !item.completed;
       }
-    }
-    this.setState({ items: updatedItems }, () => {
+      return item;
+    });
+    this.setTodos(updatedItems, () => {
       this.submitTodos();
+      console.log(this.state);
     });
   }
   updateTodo(todoId, content) {
     // also deletes todos if content is empty
     const { items } = this.state;
-    const updatedItems = items.slice(0);
-    for (let i = 0; i < updatedItems; i++) {
-      const updatedItem = updatedItems[i];
-      if (updatedItem.id === todoId) {
-        updatedItem.content = !updatedItem.content;
-        break;
+    const updatedItems = items.map((item) => {
+      if (item.id === todoId) {
+        item.content = content;
       }
-    }
+      return item;
+    });
     this.setState({ items: updatedItems }, () => {
+      console.log(this.state);
       this.submitTodos();
     });
   }
   submitTodos() {
     const { spaceId } = this.props;
     const { items } = this.state;
-    Axios.post(`/api/updateTodos/${localStorage.getItem('id_token')}/${spaceId}`, items)
-      .then(response => console.log('todos updated', response.data))
-      .catch(error => console.error('error updating todos', error));
+    // Axios.post(`/api/updateTodos/${localStorage.getItem('id_token')}/${spaceId}`, items)
+    //   .then(response => console.log('todos updated', response.data))
+    //   .catch(error => console.error('error updating todos', error));
   }
   render() {
-    const { complete, incomplete } = this.state;
+    const { complete, incomplete, newTodo } = this.state;
     return (
       <div className="content-box">
         <MediaQuery minDeviceWidth={800}>
@@ -136,18 +143,20 @@ class Todos extends React.Component {
             <h5>Todos</h5>
           </div>
         </MediaQuery>
-        <div className="invisible-content-box">
+        <div className="pl-1 pr-1 pb-1 pt-2">
           <div>
-            <SortableList items={incomplete} onSortEnd={this.onSortEnd} useDragHandle />
+            <SortableList items={incomplete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} updateTodo={this.updateTodo} useDragHandle lockAxis="y" />
           </div>
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="Add a todo" onChange={this.handleChange} />
+          <div className="input-group">
+            <input type="text" className="form-control" placeholder="Add a todo" onChange={this.handleChange} value={newTodo} />
             <div className="input-group-append">
-              <button className="btn btn-outline-secondary" type="button">Add</button>
+              <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.addTodo}>
+                <i className="material-icons">add</i>
+              </button>
             </div>
           </div>
           <div>
-            <SortableList items={complete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} useDragHandle complete />
+            <SortableList items={complete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} updateTodo={this.updateTodo} useDragHandle lockAxis="y" complete />
           </div>
         </div>
       </div>
