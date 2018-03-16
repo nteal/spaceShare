@@ -7,9 +7,9 @@ const { getGeoDist } = require('./geocodeHelp');
 
 const getDiffOfSpace = (search, place) => {
   let diff = 0;
-  if (place.pet_id === search.pet_id) { diff += 1; }
-  if (place.smoking_id === search.smoking_id) { diff += 1; }
-  if (place.timeline_id === search.timeline_id) { diff += 1; }
+  if (place.pet_id !== search.pet_id) { diff += 1; }
+  if (place.smoking_id !== search.smoking_id) { diff += 1; }
+  if (place.timeline_id !== search.timeline_id) { diff += 1; }
   return diff;
 };
 
@@ -26,3 +26,12 @@ const matchSpaces = (currentSearch, allPlaces) => {
   }, [[], [], [], []]);
 };
 
+const getDiffOfPeople = (currentSearch, match) => {
+  let diff = 0;
+  if (match.pet_id !== currentSearch.pet_id) { diff += 1; }
+  if (match.smoking_id !== currentSearch.smoking_id) { diff += 1; }
+  if (match.timeline_id !== currentSearch.timeline_id) { diff += 1; }
+  if (match.personality_id !== currentSearch.personality_id) { diff += 1; }
+  if (match.sleep_id !== currentSearch.sleep_id) { diff += 1; }
+  return diff;
+};
