@@ -7,7 +7,7 @@ class Search extends React.Component {
     super(props);
     this.state = {
       purpose_id: 2,
-      city: 'New Orleans',
+      location: 'New Orleans',
       price_min: '0',
       price_max: '1000000',
       timeline_id: 4,
@@ -151,7 +151,7 @@ class Search extends React.Component {
         </div>
         <div className="row">
           <div className="col-8">
-            <input className="form-control" type="text" placeholder="" name="city" onChange={this.handleInputChange} />
+            <input className="form-control" type="text" placeholder="" name="location" onChange={this.handleInputChange} />
           </div>
         </div>
         <div className="row">
