@@ -38,7 +38,13 @@ class Results extends React.Component {
             <li className="nav-item">
               <Link
                 className="nav-link"
-                to="/saved-searches"
+                to={{
+                  pathname: '/saved-searches',
+                  state: {
+                    people: people,
+                    places: places,
+                  },
+                }}
                 refresh="true"
               >Saved Searches
               </Link>
