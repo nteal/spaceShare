@@ -20,7 +20,7 @@ class PeopleSearch extends React.Component {
     console.log('person search did mount');
     this.setState({
       purpose_id: this.props.purpose_id,
-      city: this.props.city,
+      location: this.props.location,
       price_min: this.props.price_min,
       price_max: this.props.price_max,
       timeline_id: this.props.timeline_id,
@@ -56,7 +56,6 @@ class PeopleSearch extends React.Component {
             localStorage.setItem('id_search', response.data);
             this.props.history.push('/search-results');
           });
-        this.props.history.push('/search-results');
       });
     } else {
       return false;
