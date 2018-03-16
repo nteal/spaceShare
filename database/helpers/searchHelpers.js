@@ -8,6 +8,7 @@ const { getPersonalityById } = require('./optionHelpers');
 const { getUserByFbId } = require('./userHelpers');
 const { getAge } = require('./userHelpers');
 const Promise = require('bluebird');
+const { Op } = require('sequelize');
 
 // create a search:
 const addNewSearch = (fbId, searchData) => {
@@ -30,6 +31,7 @@ const addUserData = (searchObj) => {
   return getUserByFbId(retObj.fb_id)
     .then((user) => {
       retObj.name_first = user.name_first;
+      retObj.name_last = user.name_last;
       retObj.image_url = user.image_url;
       retObj.profession = user.profession;
       retObj.age = getAge(user.birthdate);
@@ -84,13 +86,18 @@ const getSearchesForMatching = searchId => (
     .then(search => [Search.findAll({
       where: {
         purpose_id: search.purpose_id,
-        city: search.city,
+        price_min: {
+          [Op.lte]: search.price_max,
+        },
+        price_max: {
+          [Op.gte]: search.price_min,
+        },
         include_people: true,
       },
     }), search.fb_id])
-    .then(([searches, currentFbId]) => {
+    .then(([matches, currentFbId]) => {
       // don't include searches by same user
-      const samePurposeArr = searches.filter(search => search.dataValues.fb_id !== currentFbId)
+      const samePurposeArr = matches.filter(match => match.dataValues.fb_id !== currentFbId)
         .map(seqSearchObj => seqSearchObj.dataValues);
       // add data from user
       return Promise.map(samePurposeArr, search => addUserData(search));
