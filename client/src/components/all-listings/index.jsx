@@ -87,7 +87,7 @@ class AllListings extends React.Component {
           <div className="input-group mb-3" onChange={this.handleLocationChange}>
             <input type="text" className="form-control" placeholder="Filter by location" />
             <div className="input-group-append">
-              <button className="btn btn-outline-primary"type="button">Submit</button>
+              <button className="btn btn-outline-primary"type="button" onClick={this.filterByLocation}>Submit</button>
             </div>
           </div>
         </div>
