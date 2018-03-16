@@ -1,4 +1,5 @@
 const Promise = require('bluebird');
+
 const { getSpacesForMatching } = require('./spaceHelpers');
 const { addDataFromIds } = require('./spaceHelpers');
 const { getSearchesForMatching } = require('./searchHelpers');
