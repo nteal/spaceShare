@@ -13,7 +13,9 @@ const dotenv = require('dotenv').config();
 
 const app = express();
 const pathway = path.join(__dirname, '/../client/dist');
+const nodeModulesPath = path.join(__dirname, '/../node_modules');
 app.use(express.static(pathway));
+app.use(express.static(nodeModulesPath));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(passport.initialize());
