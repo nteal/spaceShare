@@ -46,10 +46,10 @@ class SearchResults extends React.Component {
     const id_search = this.props.location.state ?
       this.props.location.state.search_id :
       localStorage.getItem('id_search');
+      // eslint-disable-next-line
     console.log('SearchResults did mount');
     Axios.get(`/api/search-results/${localStorage.getItem('id_token')}/${id_search}`)
       .then((response) => {
-        console.dir(response.data);
         if (response.data.people.length) {
           this.setState({
             people: response.data.people,
@@ -66,7 +66,8 @@ class SearchResults extends React.Component {
           });
         }
       })
-      .catch((error) => { console.log(error); });
+      // eslint-disable-next-line
+      .catch((error) => { console.error(error); });
   }
   render() {
     const {
@@ -89,12 +90,15 @@ class SearchResults extends React.Component {
 }
 
 SearchResults.propTypes = {
+  // eslint-disable-next-line
   history: PropTypes.object,
+  // eslint-disable-next-line
   location: PropTypes.object,
 };
 SearchResults.defaultProps = {
   history: {
     push: () => (
+      // eslint-disable-next-line
       console.log('you do not have access to props.history inside of this component')
     ),
   },

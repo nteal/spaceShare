@@ -7,6 +7,6 @@ const Todo = db.define('todo', {
   completed: Sequelize.BOOLEAN,
 });
 
-Space.hasMany(Todo, { foreignKey: 'space_id' });
+Space.hasMany(Todo, { foreignKey: 'space_id', onDelete: 'CASCADE' });
 
 exports.Todo = Todo;

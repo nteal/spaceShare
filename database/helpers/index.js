@@ -31,7 +31,7 @@ const { updateGroundrules } = require('./spaceHelpers');
 const { destroySpace } = require('./spaceHelpers');
 // todo helpers
 const { getTodosBySpaceId } = require('./todoHelpers');
-const { updateTodo } = require('./todoHelpers');
+const { updateTodos } = require('./todoHelpers');
 // spacemembers
 const { addUsersToSpaces } = require('./spaceMembersHelpers');
 const { getSpacesByFbId } = require('./spaceMembersHelpers');
@@ -77,7 +77,7 @@ exports.isOwner = isOwner;
 exports.updateGroundrules = updateGroundrules;
 // todo exports:
 exports.getTodosBySpaceId = getTodosBySpaceId;
-exports.updateTodo = updateTodo;
+exports.updateTodos = updateTodos;
 // space members
 exports.addUsersToSpaces = addUsersToSpaces;
 exports.getSpacesByFbId = getSpacesByFbId;
