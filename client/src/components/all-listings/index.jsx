@@ -1,9 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import ResultListItem from '../results/result-list-item.jsx';
-import SearchListItem from '../results/search-list-item.jsx';
 
 class AllListings extends React.Component {
   constructor(props) {
@@ -26,27 +24,24 @@ class AllListings extends React.Component {
     this.filterByLocation = this.filterByLocation.bind(this);
   }
   componentDidMount() {
+    // eslint-disable-next-line
     console.log('SearchResults did mount');
-    // Axios.get(`/api/listings/${localStorage.getItem('id_token')}`)
-    //   .then((response) => {
-    //     if (response.data.places.length) {
-    //       this.setState({
-    //         places: response.data.places,
-    //       });
-    //     }
-    //     if (response.data.searches.length) {
-    //       this.setState({
-    //         searches: response.data.searches,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => { console.error(error); });
+    Axios.get(`/api/listings/${localStorage.getItem('id_token')}`)
+      .then((response) => {
+        if (response.data.places.length) {
+          this.setState({
+            places: response.data.places,
+          });
+        }
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.error(error);
+      });
   }
   handleLocationChange(event) {
     this.setState({
       location: event.target.value,
-    }, () => {
-      console.log(this.state.location);
     });
   }
   newSearch() {
@@ -60,17 +55,15 @@ class AllListings extends React.Component {
             places: response.data.places,
           });
         }
-        if (response.data.searches.length) {
-          this.setState({
-            searches: response.data.searches,
-          });
-        }
       })
-      .catch((error) => { console.log(error); });
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.error(error);
+      });
   }
   render() {
     const {
-      heading, people, places, searches, listing_link,
+      heading, places, listing_link,
     } = this.state;
     return (
       <div>
@@ -113,11 +106,13 @@ class AllListings extends React.Component {
 }
 
 AllListings.propTypes = {
+  // eslint-disable-next-line
   history: PropTypes.object,
 };
 AllListings.defaultProps = {
   history: {
     push: () => (
+      // eslint-disable-next-line
       console.log('you do not have access to props.history inside of this component')
     ),
   },
