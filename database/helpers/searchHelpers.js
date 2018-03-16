@@ -110,7 +110,14 @@ const getSearchesForMatching = searchId => (
     .catch(err => console.log(err))
 );
 
+const getSearchById = id => (
+  Search.findById(id)
+    .then(search => search.dataValues)
+    .catch(err => console.log(err))
+);
+
 exports.addNewSearch = addNewSearch;
 exports.deleteSearchById = deleteSearchById;
 exports.getSearchesByFbId = getSearchesByFbId;
 exports.getSearchesForMatching = getSearchesForMatching;
+exports.getSearchById = getSearchById;
