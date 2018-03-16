@@ -133,7 +133,6 @@ class CreateSpace extends React.Component {
           pathname: '/common-area',
           state: { spaceId: response.data },
         });
-        this.props.toggleRefresh();
       })
       .catch((error) => {
         console.error('error adding space', error);
@@ -366,10 +365,6 @@ class CreateSpace extends React.Component {
                 <p>
                   <i>Only your neighborhood, city, and state will be displayed publicly.</i>
                 </p>
-                <div className="form-group mb-2">
-                  <label className="mb-0" htmlFor="inputNeighborhood">Neighborhood</label>
-                  <input id="inputNeighborhood" className="form-control" type="text" placeholder="Enter address" name="neighborhood" onChange={this.handleInputChange} />
-                </div>
                 <div className="form-group mb-2">
                   <label className="mb-0" htmlFor="inputAddress">Address</label>
                   <input
