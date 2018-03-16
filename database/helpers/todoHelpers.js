@@ -18,7 +18,7 @@ const addTodo = todoObj => (
 const deleteTodo = todoId => (
   Todo.findById(todoId)
     .then(todo => todo.destroy())
-    .then(destroyed => destroyed.dataValues)
+    .then(() => 'destroyed')
     .catch(err => console.log(err))
 );
 
@@ -44,7 +44,7 @@ const updateTodo = (todoObj) => {
 
 const updateTodos = (spaceId, todos) => (
   Promise.all(todos.map(todo => updateTodo(Object.assign({ space_id: spaceId }, todo))))
-    .then(updatedTodos => updatedTodos)
+    .then(updatedTodos => updatedTodos.filter(todo => todo !== 'destroyed'))
     .catch(err => console.log(err))
 );
 
