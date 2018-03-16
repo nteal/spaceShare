@@ -26,7 +26,7 @@ const addLocToSpace = (spaceObj) => {
 
 const addLocToSearch = (searchObj) => {
   // double check where user input will be stored
-  const userInput = `${searchObj.search}`;
+  const userInput = `${searchObj.location}`;
   return geoHelp.getSearchLocation(userInput)
     .then(locObj => Object.assign({}, searchObj, locObj))
     .catch(err => console.log(err));
@@ -34,7 +34,7 @@ const addLocToSearch = (searchObj) => {
 
 const getLocForListings = userInput => (
   geoHelp.getSearchLocation(userInput)
-    .then(locObj => locObj)
+    .then(locObj => locObj.city)
     .catch(err => console.log(err))
 );
 

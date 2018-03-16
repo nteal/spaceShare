@@ -21,6 +21,8 @@ const Space = db.define('space', {
   cost: Sequelize.DECIMAL(12, 2),
   description: Sequelize.TEXT,
   ground_rules: Sequelize.TEXT,
+  lat: Sequelize.DECIMAL(9, 7),
+  lng: Sequelize.DECIMAL(10, 7),
   main_image: Sequelize.TEXT,
   name: Sequelize.TEXT,
   neighborhood: Sequelize.STRING,
@@ -41,8 +43,8 @@ Smoking.hasMany(Space, { foreignKey: 'smoking_id' });
 // add other relationships  
 // removed for mvp
 // Neighborhood.hasMany(Space, { foreignKey: 'neighborhood_id' });
-Space.hasMany(Image, { foreignKey: 'space_id' });
-Space.hasMany(Amenity, { foreignKey: 'space_id' });
+Space.hasMany(Image, { foreignKey: 'space_id', onDelete: 'CASCADE' });
+Space.hasMany(Amenity, { foreignKey: 'space_id', onDelete: 'CASCADE' });
 // targetKey doesn't work......
 // User.hasOne(Space, { foreignKey: 'owner_fb_id', targetKey: 'fb_id'});
 
