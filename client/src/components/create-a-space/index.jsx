@@ -367,10 +367,6 @@ class CreateSpace extends React.Component {
                   <i>Only your neighborhood, city, and state will be displayed publicly.</i>
                 </p>
                 <div className="form-group mb-2">
-                  <label className="mb-0" htmlFor="inputNeighborhood">Neighborhood</label>
-                  <input id="inputNeighborhood" className="form-control" type="text" placeholder="Enter address" name="neighborhood" onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group mb-2">
                   <label className="mb-0" htmlFor="inputAddress">Address</label>
                   <input
                     type="text"
