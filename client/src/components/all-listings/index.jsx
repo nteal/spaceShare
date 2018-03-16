@@ -26,18 +26,18 @@ class AllListings extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line
     console.log('SearchResults did mount');
-    Axios.get(`/api/listings/${localStorage.getItem('id_token')}`)
-      .then((response) => {
-        if (response.data.places.length) {
-          this.setState({
-            places: response.data.places,
-          });
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line
-        console.error(error);
-      });
+    // Axios.get(`/api/listings/${localStorage.getItem('id_token')}`)
+    //   .then((response) => {
+    //     if (response.data.places.length) {
+    //       this.setState({
+    //         places: response.data.places,
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     // eslint-disable-next-line
+    //     console.error(error);
+    //   });
   }
   handleLocationChange(event) {
     this.setState({
@@ -50,9 +50,11 @@ class AllListings extends React.Component {
   filterByLocation() {
     Axios.get(`/api/listings/${localStorage.getItem('id_token')}/${this.state.location}`)
       .then((response) => {
-        if (response.data.places.length) {
+        console.log('get listings');
+        console.dir(response);
+        if (response.data.listings.length) {
           this.setState({
-            places: response.data.places,
+            places: response.data.listings,
           });
         }
       })
