@@ -20,6 +20,8 @@ class CommonArea extends React.Component {
       mainImage: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
       members: [],
       groundRules: '',
+      conversationId: '',
+      chat: {},
     };
     this.setTodos = this.setTodos.bind(this);
     this.submitTodos = this.submitTodos.bind(this);
@@ -49,10 +51,15 @@ class CommonArea extends React.Component {
           mainImage: space.data.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
           members: space.data.members || [],
           groundRules: space.data.ground_rules,
+          conversationId: space.data.convo_id,
         }, () => {
-          this.setTodos(this.state.todos, () => {
+          const { todos, conversationId } = this.state;
+          this.setTodos(todos, () => {
             console.log('common area', this.state);
           });
+          Axios.get(`/api/getChat/${localStorage.getItem('id_token')}/${conversationId}`)
+            .then(response => this.setState({ chat: response.data }))
+            .catch(error => console.error('error getting space chat', error));
         });
       })
       .catch((error) => { console.dir(error); });
@@ -119,6 +126,8 @@ class CommonArea extends React.Component {
       members,
       groundRules,
       isOwner,
+      conversationId,
+      chat,
     } = this.state;
     const commonAreaProps = {
       id,
@@ -128,6 +137,8 @@ class CommonArea extends React.Component {
       complete,
       incomplete,
       isOwner,
+      conversationId,
+      chat,
       setTodos: this.setTodos,
       submitTodos: this.submitTodos,
     };
