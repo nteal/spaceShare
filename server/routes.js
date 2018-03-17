@@ -195,7 +195,7 @@ router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
 //   .catch(err => console.error(err));
 // });
 
-router.post('/api/newChat', (req, res, next) => {
+router.post('/api/newChat/:token', (req, res, next) => {
   const { displayName } = req.body;
 
   chat.createConversation(displayName, (error, response) => {
@@ -207,7 +207,7 @@ router.post('/api/newChat', (req, res, next) => {
   });
 });
 
-router.put('/api/joinChat', (req, res, next) => {
+router.put('/api/joinChat/:token', (req, res, next) => {
   const { userNexmoId, conversationId } = req.body;
 
   chat.joinConversation(userNexmoId, conversationId, (error, response) => {
@@ -219,7 +219,7 @@ router.put('/api/joinChat', (req, res, next) => {
   });
 });
 
-router.put('/api/inviteToChat', (req, res, next) => {
+router.put('/api/inviteToChat/:token', (req, res, next) => {
   const { userNexmoId, conversationId } = req.body;
 
   chat.inviteToConversation(userNexmoId, conversationId, (error, response) => {
@@ -231,7 +231,7 @@ router.put('/api/inviteToChat', (req, res, next) => {
   });
 });
 
-router.get('/api/userChats', (req, res, next) => {
+router.get('/api/userChats/:token', (req, res, next) => {
   const { userNexmoId } = req.body;
 
   chat.getAllConversations(userNexmoId, (error, response) => {
@@ -243,7 +243,7 @@ router.get('/api/userChats', (req, res, next) => {
   });
 });
 
-router.get('api/nexmoJwt', (req, res, next) => {
+router.get('/api/nexmoJwt/:token', (req, res, next) => {
   const { userNexmoId } = req.body;
 
   chat.getJwt(userNexmoId, (error, response) => {
