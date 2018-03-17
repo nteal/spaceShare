@@ -16,22 +16,17 @@ class App extends React.Component {
   }
   componentDidMount() {
     Axios.get('/');
-    // check if user is authenticated; if they are, redirect to dashboard; else, GET '/'
     FB.getLoginStatus((response) => {
       console.dir(response);
       if (response.status === 'connected') {
-        Axios.get(
-          `/api/isAuthenticated/${localStorage.getItem('id_token')}`,
-          {
-            params: {
-              token: localStorage.getItem('id_token'),
-            },
-          },
-        )
+        Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
           .then((res) => {
-            // console.log('auth response', response);
             if (res.data === true) {
-              this.setState({ isAuthenticated: true });
+              const client = new ConversationClient;
+              this.setState({
+                isAuthenticated: true,
+                chatClient: client,
+              });
             }
           })
           .catch((error) => {
@@ -41,9 +36,9 @@ class App extends React.Component {
     });
   }
   render() {
-    const { isAuthenticated } = this.state;
+    const { isAuthenticated, chatClient } = this.state;
 
-    return isAuthenticated ? <Nav /> : <Login />;
+    return isAuthenticated ? <Nav chatClient={chatClient} /> : <Login chatClient={chatClient} />;
   }
 }
 
