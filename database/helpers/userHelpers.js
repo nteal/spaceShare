@@ -3,7 +3,9 @@ const { User } = require('../models/userModel');
 const { getLinksByUser } = require('./userLinksHelpers');
 const { getZodiac } = require('./zodiacHelpers');
 const { updateLinksForUser } = require('./userLinksHelpers');
+const createNexmo = require('../../server/chatHelp').createUser;
 const moment = require('moment');
+
 
 const randPlanet = () => {
   const planetId = Math.floor(Math.random() * 10);
@@ -38,6 +40,16 @@ const getUserById = (userId) => {
     .catch(err => console.log(err));
 };
 
+
+const updateUser = newUserData => (
+  // having multiple links doesn't allow me to include it in .then chaining
+  updateLinksForUser(newUserData.id, newUserData.links)
+    .then(() => User.findById(newUserData.id))
+    .then(user => user.update(newUserData))
+    .then(updatedUser => getUserById(updatedUser.id))
+    .catch(err => console.log(err))
+);
+
 const addNewUser = (newUserObj) => {
   const userObj = newUserObj ? Object.assign({ planet_id: randPlanet() }, newUserObj) : {};
 
@@ -61,7 +73,17 @@ const addNewUser = (newUserObj) => {
   userObj.planet_id = userObj.planet_id || 3;
 
   return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
-    .then(([newUser]) => getUserById(newUser.id))
+    .then(newUser => (
+      Promise.all([
+        createNexmo(newUser.id),
+        newUser,
+      ])
+    ))
+    .then(([nexmoRes, newUser]) => {
+      const nexmo_id = nexmoRes.id;
+      return newUser.update({ nexmo_id });
+    })
+    .then(newUser => getUserById(newUser.id))
     .catch(err => console.log(err));
 };
 
@@ -122,12 +144,10 @@ const userInDb = fbId => (
     .catch(err => console.log(err))
 );
 
-const updateUser = newUserData => (
-  // having multiple links doesn't allow me to include it in .then chaining
-  updateLinksForUser(newUserData.id, newUserData.links)
-    .then(() => User.findById(newUserData.id))
-    .then(user => user.update(newUserData))
-    .then(updatedUser => getUserById(updatedUser.id))
+
+const getNexmoIdByFbId = fb_id => (
+  User.findOne({ where: { fb_id } })
+    .then(user => user.dataValues.nexmo_id)
     .catch(err => console.log(err))
 );
 
@@ -139,3 +159,4 @@ exports.userInDb = userInDb;
 exports.getUserIdByFbId = getUserIdByFbId;
 exports.getAge = getAge;
 exports.getUserPublic = getUserPublic;
+exports.getNexmoIdByFbId = getNexmoIdByFbId;
