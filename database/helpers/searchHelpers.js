@@ -8,6 +8,7 @@ const { getPersonalityById } = require('./optionHelpers');
 const { getUserByFbId } = require('./userHelpers');
 const { getAge } = require('./userHelpers');
 const Promise = require('bluebird');
+const { Op } = require('sequelize');
 
 // create a search:
 const addNewSearch = (fbId, searchData) => {
@@ -30,6 +31,7 @@ const addUserData = (searchObj) => {
   return getUserByFbId(retObj.fb_id)
     .then((user) => {
       retObj.name_first = user.name_first;
+      retObj.name_last = user.name_last;
       retObj.image_url = user.image_url;
       retObj.profession = user.profession;
       retObj.age = getAge(user.birthdate);
@@ -81,10 +83,21 @@ const getSearchesForMatching = searchId => (
   // get all searches
   Search.findById(searchId)
     // only include searches with same purpose and city, that include people
-    .then(search => [Search.findAll({ where: { purpose_id: search.purpose_id, city: search.city, include_people: true } }), search.fb_id])
-    .then(([searches, currentFbId]) => {
+    .then(search => [Search.findAll({
+      where: {
+        purpose_id: search.purpose_id,
+        price_min: {
+          [Op.lte]: search.price_max,
+        },
+        price_max: {
+          [Op.gte]: search.price_min,
+        },
+        include_people: true,
+      },
+    }), search.fb_id])
+    .then(([matches, currentFbId]) => {
       // don't include searches by same user
-      const samePurposeArr = searches.filter(search => search.dataValues.fb_id !== currentFbId)
+      const samePurposeArr = matches.filter(match => match.dataValues.fb_id !== currentFbId)
         .map(seqSearchObj => seqSearchObj.dataValues);
       // add data from user
       return Promise.map(samePurposeArr, search => addUserData(search));
@@ -97,7 +110,14 @@ const getSearchesForMatching = searchId => (
     .catch(err => console.log(err))
 );
 
+const getSearchById = id => (
+  Search.findById(id)
+    .then(search => search.dataValues)
+    .catch(err => console.log(err))
+);
+
 exports.addNewSearch = addNewSearch;
 exports.deleteSearchById = deleteSearchById;
 exports.getSearchesByFbId = getSearchesByFbId;
 exports.getSearchesForMatching = getSearchesForMatching;
+exports.getSearchById = getSearchById;

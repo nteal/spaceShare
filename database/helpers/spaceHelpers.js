@@ -1,4 +1,5 @@
 const Promise = require('bluebird');
+const { Op } = require('sequelize');
 
 const { User } = require('../models/userModel');
 const { Space } = require('../models/spaceModel');
@@ -173,6 +174,10 @@ const getSpacesForMatching = searchId => (
         where: {
           purpose_id: searchObj.purpose_id,
           open: true,
+          cost: {
+            [Op.between]: [parseFloat(searchObj.price_min), parseFloat(searchObj.price_max)],
+            // [Op.between]: [parseFloat(searchObj.price_min), 99999],
+          },
         },
       })
     ))
