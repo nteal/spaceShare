@@ -48,9 +48,10 @@ class Login extends React.Component {
                   Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
                     .then((response) => {
                       const nexmoId = response.data;
-                      Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}`, nexmoId)
+                      Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoId}`)
                         .then((res) => {
                           const { user_jwt } = res.data;
+                          localStorage.setItem('nexmo_token', user_jwt);
                           chatClient.login(user_jwt);
                         })
                         .catch(error => console.error('error getting nexmo token', error));
