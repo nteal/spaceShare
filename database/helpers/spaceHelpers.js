@@ -19,6 +19,8 @@ const { getTimelineById } = require('./optionHelpers');
 
 const { UserSpace } = require('../models/user_spaceModel');
 
+const { createConversation } = require('../../server/chatHelp');
+
 
 const addDataFromIds = (spaceObj) => {
   const retObj = Object.assign({}, spaceObj);
@@ -116,16 +118,23 @@ const addNewSpace = (spaceObj, fbId) => {
   // remove amenitites Arr from obj:
   delete newSpace.amenities;
   // first create user, then add amenities, then call getUser
-  return Space.create(newSpace)
+  return createConversation(newSpace.name)
+    .then((nexmoRes) => {
+      newSpace.convo_id = nexmoRes.id;
+      return Space.create(newSpace);
+    })
     .then(createdSpace => (
       Promise.all([
         updateAmenities(createdSpace.id, amenitiesArr),
         getUserIdByFbId(createdSpace.owner_fb_id),
-        createdSpace.id,
+        createdSpace,
       ])
     ))
-    .then(([amenities, userId, spaceId]) => UserSpace.create({ spaceId, userId }))
-    .then(newUserSpace => newUserSpace.dataValues.spaceId)
+    .then(([amenities, userId, space]) => Promise.all([
+      UserSpace.create({ spaceId: space.id, userId }),
+      space,
+    ]))
+    .then(([newUserSpace, space]) => ({ spaceId: space.id, convoId: space.convo_id }))
     .catch(err => console.log(err));
 };
 
