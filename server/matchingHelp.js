@@ -1,5 +1,6 @@
 const db = require('../database');
 const { getGeoDist } = require('./geocodeHelp');
+const { addUserDataForMatching } = require('../database/helpers/searchHelpers');
 
 // match space helper for match
 // takes arr of spaces and current search
@@ -33,6 +34,7 @@ const getDiffOfPeople = (currentSearch, match) => {
   if (match.timeline_id !== currentSearch.timeline_id) { diff += 1; }
   if (match.personality_id !== currentSearch.personality_id) { diff += 1; }
   if (match.sleep_id !== currentSearch.sleep_id) { diff += 1; }
+  // add age
   return diff;
 };
 
@@ -51,19 +53,29 @@ const matchPeople = (currentSearch, allMatches) => {
 
 // make func to take current search, find all searches, then compare
 const match = (searchId) => {
-  let currentSearch;
-  const finalMatches = {};
   return db.helpers.getSearchById(searchId)
     .then((search) => {
-      currentSearch = search;
-      // ensure that every object is within budget, and open
-      return db.helpers.getAllMatches(search.id);
+      const currentSearch = Object.assign({}, search);
+      // move sleep_id and personality_id to search_<...>
+      currentSearch.search_sleep_id = currentSearch.sleep_id;
+      currentSearch.search_personality_id = currentSearch.personality_id;
+      delete currentSearch.personality_id;
+      delete currentSearch.sleep_id;
+      // add user data, inlcuding sleep_id and personality_id
+      return addUserDataForMatching(currentSearch);
     })
-    .then(({ people, searches, places }) => {
+    .then(currentSearch => (
+      // return all the baseline matches from db and the currentSearch obj including user data
+      Promise.all([
+        db.helpers.getAllMatches(currentSearch),
+        currentSearch,
+      ])
+    ))
+    .then(([{ people, searches, places }, currentSearch]) => {
       // searches are good
+      const finalMatches = {};
       finalMatches.searches = searches;
       // match places:
-      debugger;
       // const thePlaces = matchSpaces(currentSearch, places);
       // const theNewPlaces = thePlaces.reduce((concatPlaces, space) => concatPlaces.concat(space), []);
       // finalMatches.places = theNewPlaces;
