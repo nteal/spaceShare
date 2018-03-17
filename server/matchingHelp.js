@@ -36,11 +36,10 @@ const getDiffOfPeople = (currentSearch, match) => {
   return diff;
 };
 
-
 const matchPeople = (currentSearch, allMatches) => {
   // remove places outside of search distance
   const matchesInDist = allMatches.filter(match =>
-    getGeoDist({ lat: currentSearch.lat, lon: currentSearch.lng }, { lat: match.lat, lon: match.lng }) < currentSearch.distance + match.distance);
+    getGeoDist({ lat: currentSearch.lat, lon: currentSearch.lng }, { lat: match.lat, lon: match.lng }) < currentSearch.distance + (match.distance || 0));
   // TODO: trim objs here?
   // return arr or arrs ordered by difference between matching search and current search
   return matchesInDist.reduce((orderedMatches, match) => {
@@ -49,3 +48,35 @@ const matchPeople = (currentSearch, allMatches) => {
     return orderedMatches;
   }, [[], [], [], [], [], []]);
 };
+
+// make func to take current search, find all searches, then compare
+const match = (searchId) => {
+  let currentSearch;
+  const finalMatches = {};
+  return db.helpers.getSearchById(searchId)
+    .then((search) => {
+      currentSearch = search;
+      // ensure that every object is within budget, and open
+      return db.helpers.getAllMatches(search.id);
+    })
+    .then(({ people, searches, places }) => {
+      // searches are good
+      finalMatches.searches = searches;
+      // match places:
+      debugger;
+      // const thePlaces = matchSpaces(currentSearch, places);
+      // const theNewPlaces = thePlaces.reduce((concatPlaces, space) => concatPlaces.concat(space), []);
+      // finalMatches.places = theNewPlaces;
+      finalMatches.places = matchSpaces(currentSearch, places).reduce((concatPlaces, space) => concatPlaces.concat(space), []);
+      // match people:
+      finalMatches.people = matchPeople(currentSearch, people).reduce((concatPeople, person) => concatPeople.concat(person), []);
+      return finalMatches;
+    })
+    .catch(err => console.log(err));
+};
+    // also, should not match user to self or  spaces they are a member of
+    // also, should only match to 1 listing / user if looking for ppl
+  // sort every obj into arrays based on difference
+  // trim data in each obj to include what is necessary
+  // return object with different arrays based on differences
+exports.match = match;
