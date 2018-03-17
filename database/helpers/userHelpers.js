@@ -40,6 +40,16 @@ const getUserById = (userId) => {
     .catch(err => console.log(err));
 };
 
+
+const updateUser = newUserData => (
+  // having multiple links doesn't allow me to include it in .then chaining
+  updateLinksForUser(newUserData.id, newUserData.links)
+    .then(() => User.findById(newUserData.id))
+    .then(user => user.update(newUserData))
+    .then(updatedUser => getUserById(updatedUser.id))
+    .catch(err => console.log(err))
+);
+
 const addNewUser = (newUserObj) => {
   const userObj = newUserObj ? Object.assign({ planet_id: randPlanet() }, newUserObj) : {};
 
@@ -61,12 +71,19 @@ const addNewUser = (newUserObj) => {
   userObj.sleep_id = newUserObj.sleep_id || 3;
   userObj.personality_id = newUserObj.personality_id || 3;
   userObj.planet_id = userObj.planet_id || 3;
-  return createNexmo(userObj.name_first)
-    .then((nexmoRes) => {
-      userObj.nexmo_id = nexmoRes.id;
-      return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj });
+
+  return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
+    .then(newUser => (
+      Promise.all([
+        createNexmo(newUser.id),
+        newUser,
+      ])
+    ))
+    .then(([nexmoRes, newUser]) => {
+      const nexmo_id = nexmoRes.id;
+      return newUser.update({ nexmo_id });
     })
-    .then(([newUser]) => getUserById(newUser.id))
+    .then(newUser => getUserById(newUser.id))
     .catch(err => console.log(err));
 };
 
@@ -127,14 +144,6 @@ const userInDb = fbId => (
     .catch(err => console.log(err))
 );
 
-const updateUser = newUserData => (
-  // having multiple links doesn't allow me to include it in .then chaining
-  updateLinksForUser(newUserData.id, newUserData.links)
-    .then(() => User.findById(newUserData.id))
-    .then(user => user.update(newUserData))
-    .then(updatedUser => getUserById(updatedUser.id))
-    .catch(err => console.log(err))
-);
 
 const getNexmoIdByFbId = fb_id => (
   User.findOne({ where: { fb_id } })
