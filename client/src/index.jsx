@@ -13,20 +13,18 @@ class App extends React.Component {
     this.state = {
       isAuthenticated: false,
     };
+    this.startChatClient = this.startChatClient.bind(this);
   }
   componentDidMount() {
     Axios.get('/');
+    this.startChatClient();
     FB.getLoginStatus((response) => {
       console.dir(response);
       if (response.status === 'connected') {
         Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
           .then((res) => {
             if (res.data === true) {
-              const client = new ConversationClient;
-              this.setState({
-                isAuthenticated: true,
-                chatClient: client,
-              });
+              this.setState({ isAuthenticated: true });
             }
           })
           .catch((error) => {
@@ -34,6 +32,13 @@ class App extends React.Component {
           });
       }
     });
+  }
+  startChatClient() {
+    const client = new ConversationClient({
+      debug: true,
+      environment: 'development',
+    });
+    this.setState({ chatClient: client });
   }
   render() {
     const { isAuthenticated, chatClient } = this.state;
