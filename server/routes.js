@@ -243,6 +243,18 @@ router.get('/api/userChats', (req, res, next) => {
   });
 });
 
+router.get('api/nexmoJwt', (req, res, next) => {
+  const { userNexmoId } = req.body;
+
+  chat.getJwt(userNexmoId, (error, response) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.send(response);
+    }
+  });
+});
+
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {

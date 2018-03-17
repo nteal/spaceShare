@@ -71,8 +71,44 @@ const getAllConversations = (userNexmoId, callback) => {
   });
 };
 
+const getJwt = (userNexmoId, callback) => {
+  const nonAdminAcl = {
+    paths: {
+      '/v1/sessions/**': {
+        methods: ['GET'],
+      },
+      '/v1/users/*': {
+        methods: ['GET'],
+      },
+      '/v1/conversations/*': {
+        methods: ['GET', 'POST', 'PUT'],
+      },
+    },
+  };
+  nexmo.users.get({}, (error, response) => {
+    if (error) {
+      callback(error);
+    } else {
+      const filteredUsers = response.filter(user => user.id === userNexmoId);
+      if (!filteredUsers.length) {
+        callback({ error: 'User not found' });
+      } else {
+        callback({
+          user_jwt: Nexmo.generateJwt(process.env.NEXMO_PRIVATE_KEY, {
+            application_id: process.env.NEXMO_APP_ID,
+            exp: new Date().getTime() + 86400,
+            acl: nonAdminAcl,
+          }),
+        });
+      }
+    }
+  });
+};
+
 exports.createUser = createUser;
 exports.createConversation = createConversation;
 exports.joinConversation = joinConversation;
 exports.inviteToConversation = inviteToConversation;
 exports.getAllConversations = getAllConversations;
+exports.getJwt = getJwt;
+
