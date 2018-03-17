@@ -3,7 +3,9 @@ const { User } = require('../models/userModel');
 const { getLinksByUser } = require('./userLinksHelpers');
 const { getZodiac } = require('./zodiacHelpers');
 const { updateLinksForUser } = require('./userLinksHelpers');
+const createNexmo = require('../../server/chatHelp').createUser;
 const moment = require('moment');
+
 
 const randPlanet = () => {
   const planetId = Math.floor(Math.random() * 10);
@@ -60,7 +62,11 @@ const addNewUser = (newUserObj) => {
   userObj.personality_id = newUserObj.personality_id || 3;
   userObj.planet_id = userObj.planet_id || 3;
 
-  return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
+  createNexmo(userObj.name_first)
+    .then((nexmoRes) => {
+      userObj.nexmo_id = nexmoRes.id;
+      return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj });
+    })
     .then(([newUser]) => getUserById(newUser.id))
     .catch(err => console.log(err));
 };
