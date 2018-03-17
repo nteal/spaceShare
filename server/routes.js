@@ -243,6 +243,12 @@ router.get('/api/userChats/:token', (req, res, next) => {
   });
 });
 
+router.get('/api/getNexmoId/:token', (req, res) => {
+  db.helpers.getNexmoIdByFbId(req.fb_Id)
+    .then(nexmoId => res.status(200).send(nexmoId))
+    .catch(err => console.error(err));
+});
+
 router.get('/api/nexmoJwt/:token', (req, res, next) => {
   const { userNexmoId } = req.body;
 
