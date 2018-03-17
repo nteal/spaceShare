@@ -86,14 +86,14 @@ const newUser = {
 };
 
 const newSearch = {
-  price_min: 500.00,
-  price_max: 500.00,
+  price_min: 499.00,
+  price_max: 501.00,
   age_min: 20,
   age_max: 30,
+  distance: 5,
   location: 'New Orleans',
-  state: 'la',
   include_people: true,
-  fb_id: 'c',
+  fb_id: 'a',
   personality_id: 2,
   sleep_id: 2,
   purpose_id: 1,
