@@ -8,17 +8,16 @@ const { Search } = require('../models/searchModel');
 const { Space } = require('../models/spaceModel');
 const { User } = require('../models/userModel');
 
-const getAllMatches = searchId => (
-  Search.findById(searchId)
-    .then(async (search) => {
-      const matches = {};
-      matches.places = await getSpacesForMatching(search.id);
-      matches.people = search.include_people ? await getSearchesForMatching(search.id) : [];
-      matches.searches = await getSearchesByFbId(search.fb_id);
-      return matches;
-    })
-    .catch(err => console.log(err))
-);
+const getAllMatches = (search) => {
+  const getPeople = search.include_people ? getSearchesForMatching : () => ([]);
+  return Promise.all([
+    getSpacesForMatching(search.id),
+    getSearchesByFbId(search.fb_id),
+    getPeople(search.id),
+  ])
+    .then(([places, searches, people]) => ({ places, searches, people }))
+    .catch(err => console.log(err));
+};
 
 // this function will eventually gets its data from geocoding, which will take user input
 const allListings = city => (
