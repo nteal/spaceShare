@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
+import PropTypes from 'prop-types';
 import Information from 'mdi-react/InformationIcon.js';
 import Todos from './todos.jsx';
 import Chat from './chat.jsx';
@@ -21,7 +22,9 @@ class CommonAreaMain extends React.Component {
       incomplete,
       setTodos,
       submitTodos,
-      purpose
+      purpose,
+      conversationId,
+      chat,
     } = this.props;
     const purposeGlyph = purpose === 'Live' ? (
       <i className="material-icons md-h3 mr-1">home</i>
@@ -86,7 +89,7 @@ class CommonAreaMain extends React.Component {
             />
           </div>
           <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column">
-            <Chat />
+            <Chat chat={chat} conversationId={conversationId} />
           </div>
         </div>
 
@@ -94,5 +97,31 @@ class CommonAreaMain extends React.Component {
     );
   }
 }
+
+CommonAreaMain.propTypes = {
+  id: PropTypes.number,
+  name: PropTypes.string,
+  todos: PropTypes.array,
+  complete: PropTypes.array,
+  incomplete: PropTypes.array,
+  setTodos: PropTypes.func,
+  submitTodos: PropTypes.func,
+  purpose: PropTypes.string,
+  conversationId: PropTypes.string,
+  chat: PropTypes.object,
+};
+
+CommonAreaMain.defaultProps = {
+  id: null,
+  name: 'A Space Neither Here Nor There',
+  todos: [],
+  complete: [],
+  incomplete: [],
+  setTodos: null,
+  submitTodos: null,
+  purpose: 'Live',
+  conversationId: null,
+  chat: null,
+};
 
 export default CommonAreaMain;
