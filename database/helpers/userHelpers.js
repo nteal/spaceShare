@@ -61,7 +61,7 @@ const addNewUser = (newUserObj) => {
   userObj.sleep_id = newUserObj.sleep_id || 3;
   userObj.personality_id = newUserObj.personality_id || 3;
   userObj.planet_id = userObj.planet_id || 3;
-  return reateNexmo(userObj.name_first)
+  return createNexmo(userObj.name_first)
     .then((nexmoRes) => {
       userObj.nexmo_id = nexmoRes.id;
       return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj });
