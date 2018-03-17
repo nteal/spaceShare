@@ -35,3 +35,17 @@ const getDiffOfPeople = (currentSearch, match) => {
   if (match.sleep_id !== currentSearch.sleep_id) { diff += 1; }
   return diff;
 };
+
+
+const matchPeople = (currentSearch, allMatches) => {
+  // remove places outside of search distance
+  const matchesInDist = allMatches.filter(match =>
+    getGeoDist({ lat: currentSearch.lat, lon: currentSearch.lng }, { lat: match.lat, lon: match.lng }) < currentSearch.distance + match.distance);
+  // TODO: trim objs here?
+  // return arr or arrs ordered by difference between matching search and current search
+  return matchesInDist.reduce((orderedMatches, match) => {
+    const ind = getDiffOfPeople(currentSearch, match);
+    orderedMatches[ind] = orderedMatches[ind] ? orderedMatches[ind].concat(match) : [match];
+    return orderedMatches;
+  }, [[], [], [], [], [], []]);
+};
