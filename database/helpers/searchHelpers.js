@@ -26,7 +26,7 @@ const deleteSearchById = id => (
     .catch(err => console.log(err))
 );
 
-const addUserData = (searchObj) => {
+const addUserDataForMatching = (searchObj) => {
   const retObj = Object.assign({}, searchObj);
   return getUserByFbId(retObj.fb_id)
     .then((user) => {
@@ -35,6 +35,8 @@ const addUserData = (searchObj) => {
       retObj.image_url = user.image_url;
       retObj.profession = user.profession;
       retObj.age = getAge(user.birthdate);
+      retObj.personality_id = user.personality_id;
+      retObj.sleep_id = user.sleep_id;
       // need to get searchable bool from user
       if (retObj.purpose_id === 1) {
         retObj.searchable = user.searchable_work;
@@ -65,8 +67,8 @@ const addDataFromIds = (searchObj) => {
       retObj.smoking = smoking.location;
       retObj.pet = pet.location;
       retObj.timeline = timeline.range;
-      retObj.searchSleep = sleep.schedule;
-      retObj.searchPersonality = personality.type;
+      retObj.sleep = sleep.schedule;
+      retObj.personality = personality.type;
       return retObj;
     })
     .catch(err => console.log(err));
@@ -83,25 +85,34 @@ const getSearchesForMatching = searchId => (
   // get all searches
   Search.findById(searchId)
     // only include searches with same purpose and city, that include people
-    .then(search => [Search.findAll({
-      where: {
-        purpose_id: search.purpose_id,
-        price_min: {
-          [Op.lte]: search.price_max,
+    .then(search => (
+      Search.findAll({
+        where: {
+          purpose_id: search.purpose_id,
+          price_min: {
+            [Op.lte]: parseFloat(search.price_max),
+          },
+          price_max: {
+            [Op.gte]: parseFloat(search.price_min),
+          },
+          include_people: true,
+          fb_id: {
+            [Op.ne]: search.fb_id,
+          },
         },
-        price_max: {
-          [Op.gte]: search.price_min,
-        },
-        include_people: true,
-      },
-    }), search.fb_id])
-    .then(([matches, currentFbId]) => {
-      // don't include searches by same user
-      const samePurposeArr = matches.filter(match => match.dataValues.fb_id !== currentFbId)
-        .map(seqSearchObj => seqSearchObj.dataValues);
-      // add data from user
-      return Promise.map(samePurposeArr, search => addUserData(search));
-    })
+      })))
+    .then(matches => (
+      Promise.map(matches, (match) => {
+        const useableMatch = Object.assign({}, match.dataValues);
+        // move personality and sleep ids to search_<>
+        useableMatch.search_sleep_id = useableMatch.sleep_id;
+        useableMatch.search_personality_id = useableMatch.personality_id;
+        // delete personality and sleep ids, will add actual user info for these properties
+        delete useableMatch.sleep_id;
+        delete useableMatch.personality_id;
+        return addUserDataForMatching(useableMatch);
+      })
+    ))
     .then((objsWithUserData) => {
       // only include searches from people who are "open"
       const openSearches = objsWithUserData.filter(search => search.searchable);
@@ -121,3 +132,5 @@ exports.deleteSearchById = deleteSearchById;
 exports.getSearchesByFbId = getSearchesByFbId;
 exports.getSearchesForMatching = getSearchesForMatching;
 exports.getSearchById = getSearchById;
+// only for matching, used only twice in program at the moment
+exports.addUserDataForMatching = addUserDataForMatching;

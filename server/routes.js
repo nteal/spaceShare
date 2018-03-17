@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../database');
 const helpers = require('./helpers');
 const chat = require('./chatHelp');
+const matchingHelp = require('./matchingHelp');
 
 
 router.post(
@@ -173,7 +174,7 @@ router.get('/api/saved-searches/:token', (req, res) => {
 });
 
 router.get('/api/search-results/:token/:search_Id', (req, res) => {
-  db.helpers.getAllMatches(req.params.search_Id)
+  matchingHelp.match(req.params.search_Id)
     .then((matches) => {
       // no need to stringify
       res.status(200).send(matches);
