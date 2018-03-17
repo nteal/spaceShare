@@ -7,18 +7,19 @@ const { Planet } = require('./planetModel');
 
 const User = db.define('user', {
   about: Sequelize.TEXT,
-  image_url: Sequelize.STRING,
-  name_first: Sequelize.STRING,
-  name_last: Sequelize.STRING,
-  phone: Sequelize.BIGINT,
-  profession: Sequelize.STRING,
+  birthdate: Sequelize.DATE,
   email: Sequelize.STRING,
   fb_id: Sequelize.STRING,
   fb_link: Sequelize.STRING,
   fb_verified: Sequelize.BOOLEAN,
+  image_url: Sequelize.STRING,
+  name_first: Sequelize.STRING,
+  name_last: Sequelize.STRING,
+  nexmo_id: Sequelize.STRING,
+  phone: Sequelize.BIGINT,
+  profession: Sequelize.STRING,
   searchable_work: Sequelize.BOOLEAN,
   searchable_live: Sequelize.BOOLEAN,
-  birthdate: Sequelize.DATE,
 });
 
 // add foreign keys for many:1 relationships
