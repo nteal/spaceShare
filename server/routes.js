@@ -34,8 +34,8 @@ router.param('token', (req, res, next, JWT) => {
     // console.log(fbId);
     // verify user exists
     return db.helpers.userInDb(fbId);
-  }
-  if (isAuthorized(JWT)){
+  };
+  if (isAuthorized(JWT)) {
     // add ID to req
     req.fb_Id = jwt.verify(JWT, 'secret').id;
     console.log('fb_Id attached', req.fb_Id);
@@ -46,7 +46,7 @@ router.param('token', (req, res, next, JWT) => {
   }
   // move
   next();
-})
+});
 
 router.get('/api/isAuthenticated/:token', (req, res) => {
   console.log('isTTTTTTTAuth');
@@ -63,20 +63,20 @@ router.get('/api/isAuthenticated/:token', (req, res) => {
 
 router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
   db.helpers.getSpaceIncludingMembers(req.params.spaceId)
-  .then((space) => res.status(200).send(space))
-  .catch(err => console.error(err))
+    .then(space => res.status(200).send(space))
+    .catch(err => console.error(err));
 });
 
 router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   db.helpers.getSpaceById(req.params.spaceId)
-  .then(space => res.status(200).send(space))
-  .catch(err => console.error(err))
+    .then(space => res.status(200).send(space))
+    .catch(err => console.error(err));
 });
 
 router.get('/api/listings/:token/:location', (req, res) => {
   db.helpers.getAllListings(req.params.location, req.fb_Id)
-  .then(resultObj => res.status(200).send(resultObj))
-  .catch(err => console.error(err));
+    .then(resultObj => res.status(200).send(resultObj))
+    .catch(err => console.error(err));
 });
 
 router.post('/api/newSpace/:token', (req, res) => (
@@ -96,60 +96,60 @@ router.post('/api/updateSpace/:token/:spaceId', (req, res) => (
 
 router.post('/api/deleteSpace/:token', (req, res) => {
   db.helpers.destroySpace(req.body)
-  .then(oldSpaceData => res.status(202).send(oldSpaceData))
-  .catch(err => console.error(err))
+    .then(oldSpaceData => res.status(202).send(oldSpaceData))
+    .catch(err => console.error(err));
 });
 
 router.post('/api/updateGroundRules/:token', (req, res) => {
   db.helpers.updateGroundrules(req.body)
-  .then((result) => res.status(202).send(result))
-  .catch(err => console.error(err));
-})
+    .then(result => res.status(202).send(result))
+    .catch(err => console.error(err));
+});
 
 router.post('/api/addMember/:token', (req, res) => {
   db.helpers.addUsersToSpaces(req.body.fbId, req.body.spaceId)
-  .then(spaceMembers => res.status(202).send(spaceMembers))
-  .catch(err => console.error(err));
+    .then(spaceMembers => res.status(202).send(spaceMembers))
+    .catch(err => console.error(err));
 });
 
 router.post('/api/deleteMember/:token', (req, res) => {
   db.helpers.removeUserFromSpaces(req.body.userId, req.body.spaceId)
-  .then(spaceMembers => res.status(202).send(spaceMembers))
-.catch(err => console.error(err));
+    .then(spaceMembers => res.status(202).send(spaceMembers))
+    .catch(err => console.error(err));
 });
 
 router.get('/api/isOwner/:token/:spaceId', (req, res) => {
   db.helpers.isOwner(req.fb_Id, req.params.spaceId)
-  .then((result) => res.status(200).send(result))
-  .catch(err => console.error(err));
+    .then(result => res.status(200).send(result))
+    .catch(err => console.error(err));
 });
 
 router.get('/api/currentUser/:token', (req, res) => {
   db.helpers.getUserIncludingSpaces(req.fb_Id)
-  .then((user) => res.status(200).send(user))
-  .catch(err => {console.error(err)});
+    .then(user => res.status(200).send(user))
+    .catch(err => {console.error(err)});
 });
 
 router.post('/api/editProfile/:token', (req, res) => {
   db.helpers.updateUser(req.body)
-  .then((user) => res.status(200).send(user))
-  .catch(err => console.error(err));
+    .then(user => res.status(200).send(user))
+    .catch(err => console.error(err));
 });
 
 router.get('/api/userPublic/:token/:userId', (req, res) => {
   // gets public information for a specified user
   // could this be done in batches for search purposes?
   db.helpers.getUserPublic(req.params.userId)
-  .then(publicInfo => res.status(200).send(publicInfo))
-  .catch(err => console.error(err));
+    .then(publicInfo => res.status(200).send(publicInfo))
+    .catch(err => console.error(err));
 })
 
 // deprecated?
 router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
   // console.log('currentUserSpaces endpoint');
   db.helpers.getSpacesByFbId(req.fb_Id)
-  .then((spaces) => res.status(200).send(spaces))
-  .catch(err => console.error(err));
+    .then(spaces => res.status(200).send(spaces))
+    .catch(err => console.error(err));
 });
 
 router.post('/api/new-search/:token', (req, res) => (
@@ -162,22 +162,22 @@ router.post('/api/new-search/:token', (req, res) => (
 
 router.post('/api/delete-search/:token/:searchId', (req, res) => {
   db.helpers.deleteSearchById(req.params.searchId)
-  .then(destroyed => res.status(202).send(destroyed))
-  .catch(err => console.error(err));
+    .then(destroyed => res.status(202).send(destroyed))
+    .catch(err => console.error(err));
 });
 
 router.get('/api/saved-searches/:token', (req, res) => {
   db.helpers.getSearchesByFbId(req.fb_Id)
-  .then(searches => res.status(200).send(searches))
-  .catch(err => console.error(err));
-})
+    .then(searches => res.status(200).send(searches))
+    .catch(err => console.error(err));
+});
 
 router.get('/api/search-results/:token/:search_Id', (req, res) => {
   db.helpers.getAllMatches(req.params.search_Id)
-  .then((matches) => {
-    // no need to stringify
-    res.status(200).send(matches);
-  }).catch(err => console.error(err));
+    .then((matches) => {
+      // no need to stringify
+      res.status(200).send(matches);
+    }).catch(err => console.error(err));
 });
 
 router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
