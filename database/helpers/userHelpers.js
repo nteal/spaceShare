@@ -72,11 +72,11 @@ const addNewUser = (newUserObj) => {
   userObj.personality_id = newUserObj.personality_id || 3;
   userObj.planet_id = userObj.planet_id || 3;
 
-  return User.findOrCreate({ where: { fb_id: newUserObj.fb_id }, defaults: userObj })
+  return User.findOrCreate({ where: { fb_id: userObj.fb_id }, defaults: userObj })
     .then(newUser => (
       Promise.all([
-        createNexmo(newUser.id),
-        newUser,
+        createNexmo(newUser[0].dataValues.id),
+        newUser[0],
       ])
     ))
     .then(([nexmoRes, newUser]) => {
