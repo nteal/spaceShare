@@ -206,65 +206,45 @@ router.post('/api/newChat/:token', (req, res, next) => {
 router.put('/api/joinChat/:token', (req, res, next) => {
   const { userNexmoId, conversationId } = req.body;
 
-  chat.joinConversation(userNexmoId, conversationId, (error, response) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.send(response);
-    }
-  });
+  chat.joinConversation(userNexmoId, conversationId)
+    .then(response => res.send(response))
+    .catch(error => res.status(500).send(error));
 });
 
 router.put('/api/inviteToChat/:token', (req, res, next) => {
   const { userNexmoId, conversationId } = req.body;
 
-  chat.inviteToConversation(userNexmoId, conversationId, (error, response) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.send(response);
-    }
-  });
+  chat.inviteToConversation(userNexmoId, conversationId)
+    .then(response => res.send(response))
+    .catch(error => res.status(500).send(error));
 });
 
 router.get('/api/userChats/:token', (req, res, next) => {
   const { userNexmoId } = req.body;
 
-  chat.getAllConversations(userNexmoId, (error, response) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.send(response);
-    }
-  });
+  chat.getAllConversations(userNexmoId)
+    .then(response => res.send(response))
+    .catch(error => res.status(500).send(error));
 });
 
 router.get('/api/getChat/:token/:conversationId', (req, res, next) => {
-  chat.getConversationById(req.params.conversationId, (error, response) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.send(response);
-    }
-  });
+  chat.getConversationById(req.params.conversationId)
+    .then(response => res.send(response))
+    .catch(error => res.status(500).send(error));
 });
 
 router.get('/api/getNexmoId/:token', (req, res) => {
   db.helpers.getNexmoIdByFbId(req.fb_Id)
     .then(nexmoId => res.status(200).send(nexmoId))
-    .catch(err => console.error(err));
+    .catch(err => res.status(500).send(err));
 });
 
 router.get('/api/nexmoJwt/:token', (req, res, next) => {
   const { userNexmoId } = req.body;
 
-  chat.getJwt(userNexmoId, (error, response) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.send(response);
-    }
-  });
+  chat.getJwt(userNexmoId)
+    .then(response => res.send(response))
+    .catch(error => res.status(500).send(error));
 });
 
 router.get('/*', (req, res) => {
