@@ -198,13 +198,9 @@ router.post('/api/updateTodos/:token/:spaceId', (req, res) => {
 router.post('/api/newChat/:token', (req, res, next) => {
   const { displayName } = req.body;
 
-  chat.createConversation(displayName, (error, response) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.send(response);
-    }
-  });
+  chat.createConversation(displayName)
+    .then(response => res.send(response))
+    .catch(error => res.status(500).send(error));
 });
 
 router.put('/api/joinChat/:token', (req, res, next) => {
@@ -235,6 +231,16 @@ router.get('/api/userChats/:token', (req, res, next) => {
   const { userNexmoId } = req.body;
 
   chat.getAllConversations(userNexmoId, (error, response) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.send(response);
+    }
+  });
+});
+
+router.get('/api/getChat/:token/:conversationId', (req, res, next) => {
+  chat.getConversationById(req.params.conversationId, (error, response) => {
     if (error) {
       res.status(500).send(error);
     } else {

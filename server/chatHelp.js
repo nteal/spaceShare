@@ -7,27 +7,31 @@ const nexmo = new Nexmo({
   privateKey: process.env.NEXMO_PRIVATE_KEY,
 });
 
-const createUser = (username, callback) => {
-  nexmo.users.create({ name: username }, (error, response) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      // nexmo user id = response.id
-      callback(null, response);
-    }
-  });
-};
+const createUser = username => (
+  new Promise((resolve, reject) => {
+    nexmo.users.create({ name: username }, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        // nexmo user id = response.id
+        resolve(response);
+      }
+    });
+  })
+);
 
-const createConversation = (displayName, callback) => {
-  nexmo.conversations.create({ display_name: displayName }, (error, response) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      // conversation id = response.id
-      callback(null, response);
-    }
-  });
-};
+const createConversation = displayName => (
+  new Promise((resolve, reject) => {
+    nexmo.conversations.create({ display_name: displayName }, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        // conversation id = response.id
+        resolve(response);
+      }
+    });
+  })
+);
 
 const joinConversation = (userNexmoId, conversationId, callback) => {
   nexmo.conversations.members.add(conversationId, {
@@ -63,6 +67,16 @@ const inviteToConversation = (userNexmoId, conversationId, callback) => {
 
 const getAllConversations = (userNexmoId, callback) => {
   nexmo.users.getConversations(userNexmoId, (error, response) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, response);
+    }
+  });
+};
+
+const getConversationById = (conversationId, callback) => {
+  nexmo.conversations.get(conversationId, (error, response) => {
     if (error) {
       callback(error, null);
     } else {
@@ -110,5 +124,6 @@ exports.createConversation = createConversation;
 exports.joinConversation = joinConversation;
 exports.inviteToConversation = inviteToConversation;
 exports.getAllConversations = getAllConversations;
+exports.getConversationById = getConversationById;
 exports.getJwt = getJwt;
 
