@@ -7,19 +7,22 @@ const { userInDb } = require('./userHelpers');
 const { getUserPublic } = require('./userHelpers');
 // options helpers:
 const { addGender } = require('./genderHelpers');
-const { addNewSearch } = require('./searchHelpers');
-const { deleteSearchById } = require('./searchHelpers');
-const { getSearchesByFbId } = require('./searchHelpers');
-const { getSearchesForMatching } = require('./searchHelpers');
 const { getGenderOptions } = require('./optionHelpers');
 const { getPlanetOptions } = require('./optionHelpers');
 const { getPersonalityOptions } = require('./optionHelpers');
 const { getSleepOptions } = require('./optionHelpers');
 
+
 const { getPurposeOptions } = require('./optionHelpers');
 const { getTimelineOptions } = require('./optionHelpers');
 const { getPetOptions } = require('./optionHelpers');
 const { getSmokingOptions } = require('./optionHelpers');
+// search helpers:
+const { addNewSearch } = require('./searchHelpers');
+const { deleteSearchById } = require('./searchHelpers');
+const { getSearchesByFbId } = require('./searchHelpers');
+const { getSearchesForMatching } = require('./searchHelpers');
+const { getSearchById } = require('./searchHelpers');
 // space helpers
 const { addNewSpace } = require('./spaceHelpers');
 const { getSpaceById } = require('./spaceHelpers');
@@ -53,14 +56,16 @@ exports.userInDb = userInDb;
 exports.getUserPublic = getUserPublic;
 // options exports:
 exports.addGender = addGender;
-exports.addNewSearch = addNewSearch;
-exports.deleteSearchById = deleteSearchById;
-exports.getSearchesByFbId = getSearchesByFbId;
-exports.getSearchesForMatching = getSearchesForMatching;
 exports.getGenderOptions = getGenderOptions;
 exports.getPlanetOptions = getPlanetOptions;
 exports.getPersonalityOptions = getPersonalityOptions;
 exports.getSleepOptions = getSleepOptions;
+// search helpers
+exports.addNewSearch = addNewSearch;
+exports.deleteSearchById = deleteSearchById;
+exports.getSearchesByFbId = getSearchesByFbId;
+exports.getSearchesForMatching = getSearchesForMatching;
+exports.getSearchById = getSearchById;
 
 exports.getPurposeOptions = getPurposeOptions;
 exports.getTimelineOptions = getTimelineOptions;

@@ -102,6 +102,7 @@ class Nav extends React.Component {
 
   render() {
     const { isAuthenticated } = this.state;
+    const { chatClient } = this.props;
 
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
 
@@ -146,6 +147,8 @@ class Nav extends React.Component {
       onSetOpen: this.onSetSidebarOpen,
     };
 
+    const chatClientProp = { chatClient };
+
     const refreshKeyProp = {
       key: this.state.refresh,
     };
@@ -159,47 +162,16 @@ class Nav extends React.Component {
         <Sidebar {...sidebarProps}>
           <Header hamburger={hamburger} title={contentHeader} mobileTitle={contentHeaderMobile} logout={this.fbLogout}>
             <div style={styles.content}>
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  isAuthenticated && (<Redirect to="/dashboard" />)
-                )}
-              />
+              <Route exact path="/" render={() => isAuthenticated && <Redirect to="/dashboard" />} />
               <Switch>
-                <Route
-                  path="/dashboard"
-                  render={props => (
-                    <Dashboard {...props} {...refreshKeyProp} />
-                  )}
-                />
-                <Route
-                  path="/edit-profile"
-                  render={props => (
-                    <EditProfile {...props} {...toggleRefreshProp} />
-                  )}
-                />
+                <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...chatClientProp} />} />
+                <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
                 <Route path="/profile" component={Profile} />
-                <Route
-                  path="/common-area"
-                  render={props => (
-                    <CommonArea {...props} />
-                  )}
-                />
-                <Route path="/messages" component={ChatMain} />
-                <Route
-                  path="/new-space"
-                  render={props => (
-                    <CreateSpace {...props} />
-                  )}
-                />
+                <Route path="/common-area" render={props => <CommonArea {...props} {...chatClientProp} />} />
+                <Route path="/messages" render={props => <ChatMain {...props} {...chatClientProp} />} />
+                <Route path="/new-space" render={props => <CreateSpace {...props} />} />
                 <Route path="/listing" component={Listing} />
-                <Route
-                  path="/edit-listing"
-                  render={props => (
-                    <EditListing {...props} />
-                  )}
-                />
+                <Route path="/edit-listing" render={props => <EditListing {...props} />} />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
                 <Route path="/search-results" component={SearchResults} />

@@ -18,6 +18,7 @@ const { User } = require('./userModel');
 const Space = db.define('space', {
   capacity: Sequelize.INTEGER,
   city: Sequelize.STRING,
+  convo_id: Sequelize.STRING,
   cost: Sequelize.DECIMAL(12, 2),
   description: Sequelize.TEXT,
   ground_rules: Sequelize.TEXT,
