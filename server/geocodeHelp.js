@@ -1,4 +1,5 @@
 const request = require('request');
+const geoDist = require('geodist');
 
 const geocode = address => (
   new Promise((resolve, reject) => {
@@ -71,9 +72,11 @@ const getSearchLocation = userInput => (
     .catch(err => console.log(err))
 );
 
+const getGeoDist = (geoLoc1, geoLoc2) => geoDist(geoLoc1, geoLoc2);
+
 exports.geocode = geocode;
 exports.reverseGeocodeNeighborhood = reverseGeocodeNeighborhood;
 exports.reverseGeocodeCity = reverseGeocodeCity;
 exports.getSpaceLocation = getSpaceLocation;
 exports.getSearchLocation = getSearchLocation;
-
+exports.getGeoDist = getGeoDist;
