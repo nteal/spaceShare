@@ -131,6 +131,13 @@ const updateUser = newUserData => (
     .catch(err => console.log(err))
 );
 
+const getNexmoIdByFbId = fbId => (
+  User.findOne({ where: { nexmo_id: 'y' } })
+    .then(user => 
+      user.dataValues.nexmo_id)
+    .catch(err => console.log(err))
+);
+
 exports.addNewUser = addNewUser;
 exports.getUserById = getUserById;
 exports.getUserByFbId = getUserByFbId;
@@ -139,3 +146,4 @@ exports.userInDb = userInDb;
 exports.getUserIdByFbId = getUserIdByFbId;
 exports.getAge = getAge;
 exports.getUserPublic = getUserPublic;
+exports.getNexmoIdByFbId = getNexmoIdByFbId;
