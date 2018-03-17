@@ -9,12 +9,27 @@ const nexmo = new Nexmo({
 
 const createUser = username => (
   new Promise((resolve, reject) => {
-    nexmo.users.create({ name: username }, (error, response) => {
+    // get all users
+    nexmo.users.get({}, (error, users) => {
       if (error) {
         reject(error);
       } else {
-        // nexmo user id = response.id
-        resolve(response);
+        // check if user exists
+        const filteredUsers = users.filter(user => user.name === username);
+        // if user doesn't already exist, create them
+        if (!filteredUsers.length) {
+          nexmo.users.create({ name: username }, (err, response) => {
+            if (err) {
+              reject(err);
+            } else {
+              // nexmo user id = response.id
+              resolve(response);
+            }
+          });
+        // else, just send back their id
+        } else {
+          resolve({ id: filteredUsers[0].id });
+        }
       }
     });
   })
