@@ -75,7 +75,7 @@ const addNewUser = (newUserObj) => {
   return User.findOrCreate({ where: { fb_id: userObj.fb_id }, defaults: userObj })
     .then(newUser => (
       Promise.all([
-        createNexmo(newUser[0].dataValues.id),
+        createNexmo(`${newUser[0].dataValues.id}`),
         newUser[0],
       ])
     ))
