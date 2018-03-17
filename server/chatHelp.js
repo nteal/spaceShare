@@ -7,71 +7,97 @@ const nexmo = new Nexmo({
   privateKey: process.env.NEXMO_PRIVATE_KEY,
 });
 
-const createUser = (username, callback) => {
-  nexmo.users.create({ name: username }, (error, response) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      // nexmo user id = response.id
-      callback(null, response);
-    }
-  });
-};
+const createUser = username => (
+  new Promise((resolve, reject) => {
+    nexmo.users.create({ name: username }, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        // nexmo user id = response.id
+        resolve(response);
+      }
+    });
+  })
+);
 
-const createConversation = (displayName, callback) => {
-  nexmo.conversations.create({ display_name: displayName }, (error, response) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      // conversation id = response.id
-      callback(null, response);
-    }
-  });
-};
+const createConversation = displayName => (
+  new Promise((resolve, reject) => {
+    nexmo.conversations.create({ display_name: displayName }, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        // conversation id = response.id
+        resolve(response);
+      }
+    });
+  })
+);
 
-const joinConversation = (userNexmoId, conversationId, callback) => {
-  nexmo.conversations.members.add(conversationId, {
-    action: 'join',
-    user_id: userNexmoId,
-    channel: {
-      type: 'app',
-    },
-  }, (error, response) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      callback(null, response);
-    }
-  });
-};
+const joinConversation = (userNexmoId, conversationId) => (
+  new Promise((resolve, reject) => {
+    nexmo.conversations.members.add(conversationId, {
+      action: 'join',
+      user_id: userNexmoId,
+      channel: {
+        type: 'app',
+      },
+    }, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  })
+);
 
-const inviteToConversation = (userNexmoId, conversationId, callback) => {
-  nexmo.conversations.members.add(conversationId, {
-    action: 'invite',
-    user_id: userNexmoId,
-    channel: {
-      type: 'app',
-    },
-  }, (error, response) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      callback(null, response);
-    }
-  });
-};
 
-const getAllConversations = (userNexmoId, callback) => {
-  nexmo.users.getConversations(userNexmoId, (error, response) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      callback(null, response);
-    }
-  });
-};
+const inviteToConversation = (userNexmoId, conversationId) => (
+  new Promise((resolve, reject) => {
+    nexmo.conversations.members.add(conversationId, {
+      action: 'invite',
+      user_id: userNexmoId,
+      channel: {
+        type: 'app',
+      },
+    }, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  })
+);
 
-const getJwt = (userNexmoId, callback) => {
+
+const getAllConversations = userNexmoId => (
+  new Promise((resolve, reject) => {
+    nexmo.users.getConversations(userNexmoId, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  })
+);
+
+
+const getConversationById = conversationId => (
+  new Promise((resolve, reject) => {
+    nexmo.conversations.get(conversationId, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  })
+);
+
+
+const getJwt = (userNexmoId) => {
   const nonAdminAcl = {
     paths: {
       '/v1/sessions/**': {
@@ -85,23 +111,25 @@ const getJwt = (userNexmoId, callback) => {
       },
     },
   };
-  nexmo.users.get({}, (error, response) => {
-    if (error) {
-      callback(error);
-    } else {
-      const filteredUsers = response.filter(user => user.id === userNexmoId);
-      if (!filteredUsers.length) {
-        callback({ error: 'User not found' });
+  return new Promise((resolve, reject) => {
+    nexmo.users.get({}, (error, response) => {
+      if (error) {
+        reject(error);
       } else {
-        callback({
-          user_jwt: Nexmo.generateJwt(process.env.NEXMO_PRIVATE_KEY, {
-            application_id: process.env.NEXMO_APP_ID,
-            exp: new Date().getTime() + 86400,
-            acl: nonAdminAcl,
-          }),
-        });
+        const filteredUsers = response.filter(user => user.id === userNexmoId);
+        if (!filteredUsers.length) {
+          reject({ error: 'User not found' });
+        } else {
+          resolve({
+            user_jwt: Nexmo.generateJwt(process.env.NEXMO_PRIVATE_KEY, {
+              application_id: process.env.NEXMO_APP_ID,
+              exp: new Date().getTime() + 86400,
+              acl: nonAdminAcl,
+            }),
+          });
+        }
       }
-    }
+    });
   });
 };
 
@@ -110,5 +138,6 @@ exports.createConversation = createConversation;
 exports.joinConversation = joinConversation;
 exports.inviteToConversation = inviteToConversation;
 exports.getAllConversations = getAllConversations;
+exports.getConversationById = getConversationById;
 exports.getJwt = getJwt;
 
