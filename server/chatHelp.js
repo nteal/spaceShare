@@ -138,6 +138,7 @@ const getJwt = (userNexmoId) => {
           resolve({
             user_jwt: Nexmo.generateJwt(process.env.NEXMO_PRIVATE_KEY, {
               application_id: process.env.NEXMO_APP_ID,
+              sub: userNexmoId,
               exp: new Date().getTime() + 86400,
               acl: nonAdminAcl,
             }),
