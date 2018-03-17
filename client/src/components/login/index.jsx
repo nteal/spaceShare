@@ -19,12 +19,13 @@ class Login extends React.Component {
   }
   componentDidMount() {}
   fbLogin() {
+    const { chatClient } = this.props;
     this.setState();
     FB.login((result) => {
       console.log('fb login result:');
       console.dir(result);
       if (result.authResponse) {
-        Axios.post('auth/facebook', {
+        Axios.post('/auth/facebook', {
           access_token: result.authResponse.accessToken,
         })
           .then((response) => {
@@ -38,21 +39,23 @@ class Login extends React.Component {
           })
           .then(() => {
             console.log('this call in particular');
-            Axios.get(
-              '/isAuthenticated',
-              {
-                params: {
-                  token: localStorage.getItem('id_token'),
-                },
-              },
-            )
+            Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
               .then((isAuthenticated) => {
                 console.log('isAuth...');
                 console.dir(isAuthenticated);
                 if (isAuthenticated.data) {
-                  this.setState({
-                    isAuthenticated: true,
-                  });
+                  this.setState({ isAuthenticated: true });
+                  Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+                    .then((response) => {
+                      const nexmoId = response.data;
+                      Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}`, nexmoId)
+                        .then((res) => {
+                          const { user_jwt } = res.data;
+                          chatClient.login(user_jwt);
+                        })
+                        .catch(error => console.error('error getting nexmo token', error));
+                    })
+                    .catch(error => console.error('error getting nexmo id', error));
                 }
               });
           })
