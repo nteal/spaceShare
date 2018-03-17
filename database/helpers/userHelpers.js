@@ -131,10 +131,9 @@ const updateUser = newUserData => (
     .catch(err => console.log(err))
 );
 
-const getNexmoIdByFbId = fbId => (
-  User.findOne({ where: { nexmo_id: 'y' } })
-    .then(user => 
-      user.dataValues.nexmo_id)
+const getNexmoIdByFbId = fb_id => (
+  User.findOne({ where: { fb_id } })
+    .then(user => user.dataValues.nexmo_id)
     .catch(err => console.log(err))
 );
 
