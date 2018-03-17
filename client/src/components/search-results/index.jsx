@@ -17,7 +17,7 @@ class SearchResults extends React.Component {
       }],
       places: [{
         main_image: '',
-        name: 'There are no results for this search.',
+        name: 'There are no results for this search',
         cost: '',
         neighborhood: '',
         description: '',

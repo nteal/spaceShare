@@ -27,6 +27,7 @@ class PeopleSearch extends React.Component {
       smoking_id: this.props.smoking_id,
       pet_id: this.props.pet_id,
       include_people: this.props.include_people,
+      distance: this.props.distance,
     });
   }
   isValidAgeRange() {
