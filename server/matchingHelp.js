@@ -32,9 +32,12 @@ const getDiffOfPeople = (currentSearch, match) => {
   if (match.pet_id !== currentSearch.pet_id) { diff += 1; }
   if (match.smoking_id !== currentSearch.smoking_id) { diff += 1; }
   if (match.timeline_id !== currentSearch.timeline_id) { diff += 1; }
-  if (match.personality_id !== currentSearch.personality_id) { diff += 1; }
-  if (match.sleep_id !== currentSearch.sleep_id) { diff += 1; }
-  // add age
+  // check for matching personality preferences
+  if ((match.personality_id !== currentSearch.search_personality_id) || (match.search_personality_id !== currentSearch.personality_id)) { diff += 1; }
+  // check for matching sleep preferences
+  if ((match.sleep_id !== currentSearch.search_sleep_id) || (match.search_sleep_id !== currentSearch.sleep_id)) { diff += 1; }
+  // check for ages
+  if ((match.age > currentSearch.age_max || match.age < currentSearch.age_min) || (currentSearch.age > match.age_max || currentSearch.age < match.age_min)) { diff += 1; }
   return diff;
 };
 
@@ -48,7 +51,7 @@ const matchPeople = (currentSearch, allMatches) => {
     const ind = getDiffOfPeople(currentSearch, match);
     orderedMatches[ind] = orderedMatches[ind] ? orderedMatches[ind].concat(match) : [match];
     return orderedMatches;
-  }, [[], [], [], [], [], []]);
+  }, [[], [], [], [], [], [], []]);
 };
 
 // make func to take current search, find all searches, then compare
