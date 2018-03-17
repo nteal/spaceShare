@@ -20,6 +20,7 @@ const Search = db.define('search', {
   price_max: Sequelize.DECIMAL(12, 2),
   age_min: Sequelize.INTEGER,
   age_max: Sequelize.INTEGER,
+  distance: Sequelize.INTEGER,
   location: Sequelize.STRING,
   city: Sequelize.STRING,
   lat: Sequelize.DECIMAL(9, 7),
