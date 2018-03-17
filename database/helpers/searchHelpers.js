@@ -26,7 +26,7 @@ const deleteSearchById = id => (
     .catch(err => console.log(err))
 );
 
-const addUserData = (searchObj) => {
+const addUserDataForMatching = (searchObj) => {
   const retObj = Object.assign({}, searchObj);
   return getUserByFbId(retObj.fb_id)
     .then((user) => {
@@ -110,7 +110,7 @@ const getSearchesForMatching = searchId => (
         // delete personality and sleep ids, will add actual user info for these properties
         delete useableMatch.sleep_id;
         delete useableMatch.personality_id;
-        return addUserData(useableMatch);
+        return addUserDataForMatching(useableMatch);
       })
     ))
     .then((objsWithUserData) => {
@@ -132,3 +132,5 @@ exports.deleteSearchById = deleteSearchById;
 exports.getSearchesByFbId = getSearchesByFbId;
 exports.getSearchesForMatching = getSearchesForMatching;
 exports.getSearchById = getSearchById;
+// only for matching, used only twice in program at the moment
+exports.addUserDataForMatching = addUserDataForMatching;
