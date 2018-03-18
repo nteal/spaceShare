@@ -4,7 +4,6 @@ import MediaQuery from 'react-responsive';
 import PropTypes from 'prop-types';
 import Information from 'mdi-react/InformationIcon.js';
 import Todos from './todos.jsx';
-import SpaceChatLogic from './spaceChatLogic.jsx';
 import Chat from './chat.jsx';
 
 class CommonAreaMain extends React.Component {
