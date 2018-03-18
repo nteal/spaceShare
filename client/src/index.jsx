@@ -3,9 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import Axios from 'axios';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import Login from './components/login/index.jsx';
 import Nav from './components/nav/index.jsx';
 import './styles.css';
+
+OfflinePluginRuntime.install();
 
 class App extends React.Component {
   constructor(props) {
