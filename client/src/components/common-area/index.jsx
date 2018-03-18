@@ -126,14 +126,14 @@ class CommonArea extends React.Component {
         if (chat) {
           switch (events[Object.keys(events)[i - 1]].type) {
             case 'text':
-              eventsHistory.push({
+              eventsHistory.unshift({
                 sender: membersById[chat.user.name],
                 timestamp: date,
                 text: events[Object.keys(events)[i - 1]].body.text,
               });
               break;
             case 'member:joined':
-              eventsHistory.push({
+              eventsHistory.unshift({
                 notMessage: true,
                 sender: membersById[chat.user.name],
                 timestamp: date,
@@ -141,7 +141,7 @@ class CommonArea extends React.Component {
               });
               break;
             case 'member:left':
-              eventsHistory.push({
+              eventsHistory.unshift({
                 notMessage: true,
                 sender: chat.user.name,
                 timestamp: date,
@@ -149,7 +149,7 @@ class CommonArea extends React.Component {
               });
               break;
             default:
-              eventsHistory.push({
+              eventsHistory.unshift({
                 notMessage: true,
                 sender: chat.user.name,
                 timestamp: date,
