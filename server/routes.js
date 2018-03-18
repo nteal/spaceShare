@@ -246,6 +246,18 @@ router.get('/api/nexmoJwt/:token/:nexmoUsername', (req, res, next) => {
     .catch(error => res.status(500).send(error));
 });
 
+router.get('/api/spaceChats/:token', (req, res) => {
+  db.getSpaceConversations(req.fb_Id)
+    .then(spaceConvoIds => res.send(spaceConvoIds))
+    .catch(error => res.status(500).send(error));
+});
+
+router.get('/api/usersByNexmoId/:token', (req, res) => {
+  db.getUsersFromNexmoIds(req.params.nexmoIds)
+    .then(users => res.send(users))
+    .catch(error => res.status(500).send(error));
+});
+
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
