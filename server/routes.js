@@ -89,7 +89,7 @@ router.post('/api/newSpace/:token', (req, res) => (
 
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => (
   // console.log(req.body);
-  helpers.addLocToSpace(req.body.space)
+  helpers.addLocToSpace(req.body)
     .then(spaceObj => db.helpers.updateSpace(Object.assign({ id: req.params.spaceId }, spaceObj)))
     .then(space => res.status(202).send(JSON.stringify(space)))
     .catch(err => console.error(err))
@@ -114,7 +114,7 @@ router.post('/api/addMember/:token', (req, res) => {
 });
 
 router.post('/api/deleteMember/:token', (req, res) => {
-  db.helpers.removeUserFromSpaces(req.body.userId, req.body.spaceId)
+  db.helpers.removeUserFromSpace(req.body.userId, req.body.spaceId)
     .then(spaceMembers => res.status(202).send(spaceMembers))
     .catch(err => console.error(err));
 });
