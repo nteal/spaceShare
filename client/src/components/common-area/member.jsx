@@ -7,6 +7,7 @@ const Member = (props) => {
   const { canDelete, member } = props;
   const {
     id,
+    nexmo_id,
     image_url,
     name_first,
     name_last,
@@ -67,7 +68,7 @@ const Member = (props) => {
               )}
             </ul>
             <div className="row justify-content-end pr-2">
-              <Link to={{ pathname: '/messages', state: { userId: id } }}>
+              <Link to={{ pathname: '/messages/chat', state: { nexmoId: nexmo_id } }}>
                 <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
               </Link>
             </div>
@@ -81,6 +82,7 @@ const Member = (props) => {
 Member.propTypes = {
   member: PropTypes.shape({
     id: PropTypes.number,
+    nexmo_id: PropTypes.string,
     image_url: PropTypes.string,
     name_first: PropTypes.string,
     name_last: PropTypes.string,
@@ -95,6 +97,7 @@ Member.propTypes = {
 Member.defaultProps = {
   member: {
     id: null,
+    nexmo_id: null,
     image_url: 'http://vectips.com/wp-content/uploads/2017/04/14-astronaut-flat.jpg',
     name_first: 'Bobo',
     name_last: 'Boberton',
