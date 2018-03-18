@@ -4,13 +4,21 @@ import Moment from 'moment';
 
 const ChatBubble = (props) => {
   const { sender, timestamp, text } = props.message;
-  return (
-    <div className="row">
+  const timeDisplay = Moment(timestamp).fromNow();
+  const display = props.message.notMessage ? (
+    <small>{sender} {text} {timeDisplay}</small>
+  ) : (
+    <span>
       <b>{sender}</b>: {text} 
       <small>
         {Moment(timestamp).fromNow()}
       </small>
+    </span>
+  );
 
+  return (
+    <div className="row">
+      {display}
     </div>
   );
 };
