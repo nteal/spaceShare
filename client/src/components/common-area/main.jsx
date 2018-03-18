@@ -4,6 +4,7 @@ import MediaQuery from 'react-responsive';
 import PropTypes from 'prop-types';
 import Information from 'mdi-react/InformationIcon.js';
 import Todos from './todos.jsx';
+import SpaceChatLogic from './spaceChatLogic.jsx';
 import Chat from './chat.jsx';
 
 class CommonAreaMain extends React.Component {
@@ -23,8 +24,10 @@ class CommonAreaMain extends React.Component {
       setTodos,
       submitTodos,
       purpose,
+      members,
       conversationId,
       chat,
+      incomingMessages,
     } = this.props;
     const purposeGlyph = purpose === 'Live' ? (
       <i className="material-icons md-h3 mr-1">home</i>
@@ -89,7 +92,7 @@ class CommonAreaMain extends React.Component {
             />
           </div>
           <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column">
-            <Chat chat={chat} conversationId={conversationId} />
+            <Chat chat={chat} conversationId={conversationId} members={members} incomingMessages={incomingMessages} />
           </div>
         </div>
 
@@ -109,6 +112,7 @@ CommonAreaMain.propTypes = {
   purpose: PropTypes.string,
   conversationId: PropTypes.string,
   chat: PropTypes.object,
+  incomingMessages: PropTypes.array,
 };
 
 CommonAreaMain.defaultProps = {
@@ -122,6 +126,7 @@ CommonAreaMain.defaultProps = {
   purpose: 'Live',
   conversationId: null,
   chat: null,
+  incomingMessages: [],
 };
 
 export default CommonAreaMain;
