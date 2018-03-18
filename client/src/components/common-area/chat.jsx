@@ -18,6 +18,20 @@ class Chat extends React.Component {
     this.setState({ newMessage: value });
   }
 
+  handleTyping(event) {
+    const { chat } = this.props;
+    chat.startTyping()
+      .then(() => console.log('typing'))
+      .catch(error => console.error(error));
+  }
+  
+  handleStopTyping(event) {
+    const { chat } = this.props;
+    chat.stopTyping()
+      .then(() => console.log('stopped typing'))
+      .catch(error => console.error(error));
+  }
+
   sendMessage() {
     const { newMessage } = this.state;
     const { chat } = this.props;
@@ -63,11 +77,11 @@ class Chat extends React.Component {
             <div className="col">
               {/* Messages go here */}
               {incomingMessages.map(message => (
-                <ChatBubble message={message} />
+                <ChatBubble message={message} key={message.timestamp} />
               ))}
             </div>
           </div>
-          <div className="row align-self-end pl-1 pr-1">
+          <div className="row align-self-end pl-1 pr-1 pb-1 pt-2">
             <div className="input-group">
               <input
                 type="text"
@@ -75,6 +89,8 @@ class Chat extends React.Component {
                 value={newMessage}
                 onChange={this.handleChange}
                 onKeyPress={this.sendMessageOnEnter}
+                onFocus={this.handleTyping}
+                onBlur={this.handleStopTyping}
                 aria-label="talk in your space chat"
               />
               <div className="input-group-append">
