@@ -163,8 +163,9 @@ class CommonArea extends React.Component {
     });
   }
   joinConversation(userToken) {
+    const { chatClient } = this.props;
     const { conversationId } = this.state;
-    new ConversationClient({ debug: false })
+    chatClient
       .login(userToken)
       .then(app => app.getConversation(conversationId))
       .then((conversation) => {
