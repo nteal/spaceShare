@@ -22,10 +22,33 @@ const getUsersFromNexmoIds = nexmoIds => (
         return retObj;
       }, {})
     ))
+    .catch(err => console.log(err))
 );
 
 
 // takes fb_id
 // returns obj with all their spaces' nexmo ids
+const getSpaceConversations = fb_id => (
+  // getUserObj
+  User.findOne({
+    where: { fb_id },
+  })
+    // get all spaces associated with user
+    .then(user => (
+      user.getSpaces({ attributes: ['id', 'name', 'convo_id'] })
+    ))
+    // return object with needed properties for all user's spaces
+    .then(spaces => (
+      spaces.reduce((retObj, spaceModel) => {
+        const spaceObj = {};
+        spaceObj.id = spaceModel.dataValues.id;
+        spaceObj.name = spaceModel.dataValues.name;
+        const { convo_id } = spaceModel.dataValues;
+        retObj[convo_id] = spaceObj;
+        return retObj;
+      }, {})
+    ))
+);
 
 exports.getUsersFromNexmoIds = getUsersFromNexmoIds;
+exports.getSpaceConversations = getSpaceConversations;

@@ -48,6 +48,7 @@ const { getAllMatches } = require('./matchingHelpers');
 const { getAllListings } = require('./matchingHelpers');
 // nexmo helpers
 const { getUsersFromNexmoIds } = require('./nexmoHelpers');
+const { getSpaceConversations } = require('./nexmoHelpers');
 
 
 // user exports:
@@ -100,3 +101,4 @@ exports.getAllMatches = getAllMatches;
 exports.getAllListings = getAllListings;
 // nexmo exports
 exports.getUsersFromNexmoIds = getUsersFromNexmoIds;
+exports.getSpaceConversations = getSpaceConversations;
