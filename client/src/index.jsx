@@ -34,11 +34,27 @@ class App extends React.Component {
     });
   }
   startChatClient() {
-    const client = new ConversationClient({
-      debug: true,
-      environment: 'development',
-    });
-    this.setState({ chatClient: client });
+    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+      .then((response) => {
+        // const nexmoId = response.data;
+        const nexmoId = '1';
+        console.log('nexmoId', nexmoId);
+        Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoId}`)
+          .then((res) => {
+            const { user_jwt } = res.data;
+            const client = new ConversationClient({
+              debug: true,
+              environment: 'development',
+            });
+            this.setState({ chatClient: client }, () => {
+              console.log('chat client started');
+            });
+            localStorage.removeItem('nexmo_token');
+            localStorage.setItem('nexmo_token', user_jwt);
+          })
+          .catch(error => console.error('error getting nexmo token', error));
+      })
+      .catch(error => console.error('error getting nexmo id', error));
   }
   render() {
     const { isAuthenticated, chatClient } = this.state;
