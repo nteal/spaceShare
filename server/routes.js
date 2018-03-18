@@ -239,8 +239,8 @@ router.get('/api/getNexmoId/:token', (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-router.get('/api/nexmoJwt/:token/:nexmoId', (req, res, next) => {
-  chat.getJwt(req.params.nexmoId)
+router.get('/api/nexmoJwt/:token/:nexmoUsername', (req, res, next) => {
+  chat.getJwt(req.params.nexmoUsername)
     .then(response => res.send(response))
     .catch(error => res.status(500).send(error));
 });
