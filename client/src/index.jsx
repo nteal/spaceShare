@@ -16,20 +16,18 @@ class App extends React.Component {
     this.state = {
       isAuthenticated: false,
     };
+    this.startChatClient = this.startChatClient.bind(this);
   }
   componentDidMount() {
     Axios.get('/');
+    this.startChatClient();
     FB.getLoginStatus((response) => {
       console.dir(response);
       if (response.status === 'connected') {
         Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
           .then((res) => {
             if (res.data === true) {
-              const client = new ConversationClient;
-              this.setState({
-                isAuthenticated: true,
-                chatClient: client,
-              });
+              this.setState({ isAuthenticated: true });
             }
           })
           .catch((error) => {
@@ -37,6 +35,29 @@ class App extends React.Component {
           });
       }
     });
+  }
+  startChatClient() {
+    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+      .then((response) => {
+        // const nexmoId = response.data;
+        const nexmoUsername = response.data.id;
+        console.log('nexmoUsername', nexmoUsername);
+        Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoUsername}`)
+          .then((res) => {
+            const { user_jwt } = res.data;
+            const client = new ConversationClient({
+              debug: true,
+              environment: 'development',
+            });
+            this.setState({ chatClient: client }, () => {
+              console.log('chat client started');
+            });
+            localStorage.removeItem('nexmo_token');
+            localStorage.setItem('nexmo_token', user_jwt);
+          })
+          .catch(error => console.error('error getting nexmo token', error));
+      })
+      .catch(error => console.error('error getting nexmo id', error));
   }
   render() {
     const { isAuthenticated, chatClient } = this.state;

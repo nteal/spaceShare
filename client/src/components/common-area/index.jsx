@@ -20,10 +20,16 @@ class CommonArea extends React.Component {
       mainImage: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
       members: [],
       groundRules: '',
+      conversationId: '',
+      chat: {},
+      incomingMessages: [],
     };
     this.setTodos = this.setTodos.bind(this);
     this.submitTodos = this.submitTodos.bind(this);
     this.setSpaceInfo = this.setSpaceInfo.bind(this);
+    this.setupConversationEvents = this.setupConversationEvents.bind(this);
+    this.showConversationHistory = this.showConversationHistory.bind(this);
+    this.joinConversation = this.joinConversation.bind(this);
     this.submitGroundRules = this.submitGroundRules.bind(this);
     this.addMember = this.addMember.bind(this);
     this.deleteMember = this.deleteMember.bind(this);
@@ -49,10 +55,21 @@ class CommonArea extends React.Component {
           mainImage: space.data.main_image || 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
           members: space.data.members || [],
           groundRules: space.data.ground_rules,
+          conversationId: space.data.convo_id,
         }, () => {
-          this.setTodos(this.state.todos, () => {
+          const { todos, conversationId, members } = this.state;
+          const membersById = members.reduce((membersById, member) => {
+            membersById[member.id] = member.name_first;
+            return membersById;
+          }, {});
+          this.setState({ membersById });
+          this.setTodos(todos, () => {
             console.log('common area', this.state);
           });
+          this.joinConversation(localStorage.getItem('nexmo_token'));
+          // Axios.get(`/api/getChat/${localStorage.getItem('id_token')}/${conversationId}`)
+          //   .then(response => this.setState({ chat: response.data }))
+          //   .catch(error => console.error('error getting space chat', error));
         });
       })
       .catch((error) => { console.dir(error); });
@@ -63,6 +80,100 @@ class CommonArea extends React.Component {
         });
       })
       .catch(error => console.error('error checking if current user is owner', error));
+  }
+
+  setupConversationEvents(conversation) {
+    this.conversation = conversation;
+    console.log('*** Conversation Retrieved', conversation);
+    console.log('*** Conversation Member', conversation.me);
+
+    conversation.on('text', (sender, message) => {
+      console.log('*** Message received', sender, message);
+      const { incomingMessages, membersById } = this.state;
+      const newIncomingMessage = {
+        sender: membersById[sender.user.name],
+        timestamp: message.timestamp,
+        text: message.body.text,
+      };
+      console.log('incoming', newIncomingMessage);
+      this.setState({
+        incomingMessages: incomingMessages.concat(newIncomingMessage),
+      });
+      if (sender.name !== this.conversation.me.name) {
+        message
+          .seen()
+          .then(this.eventLogger('text:seen'))
+          .catch(this.errorLogger);
+      }
+    });
+
+    conversation.on('member:joined', member => console.log(member, 'joined'));
+    conversation.on('member:left', member => console.log(member, 'left'));
+
+    this.showConversationHistory(conversation);
+
+    conversation.on('text:seen', (data, text) => console.log(`${data.name} saw text: ${text.body.text}`));
+    conversation.on('text:typing:off', data => console.log(`${data.name} stopped typing...`));
+    conversation.on('text:typing:on', data => console.log(`${data.name} started typing...`));
+  }
+  showConversationHistory(conversation) {
+    const { membersById } = this.state;
+    conversation.getEvents().then((events) => {
+      const eventsHistory = [];
+      for (let i = Object.keys(events).length; i > 0; i--) {
+        const date = events[Object.keys(events)[i - 1]].timestamp;
+        const chat = conversation.members[events[Object.keys(events)[i - 1]].from];
+        if (chat) {
+          switch (events[Object.keys(events)[i - 1]].type) {
+            case 'text':
+              eventsHistory.unshift({
+                sender: membersById[chat.user.name],
+                timestamp: date,
+                text: events[Object.keys(events)[i - 1]].body.text,
+              });
+              break;
+            case 'member:joined':
+              eventsHistory.unshift({
+                notMessage: true,
+                sender: membersById[chat.user.name],
+                timestamp: date,
+                text: 'is in the space! :)',
+              });
+              break;
+            case 'member:left':
+              eventsHistory.unshift({
+                notMessage: true,
+                sender: chat.user.name,
+                timestamp: date,
+                text: 'left for now... :(',
+              });
+              break;
+            default:
+              eventsHistory.unshift({
+                notMessage: true,
+                sender: chat.user.name,
+                timestamp: date,
+                text: 'did something weird...',
+              });
+          }
+        }
+      }
+      this.setState({ incomingMessages: this.state.incomingMessages.concat(eventsHistory) });
+    });
+  }
+  joinConversation(userToken) {
+    const { conversationId } = this.state;
+    new ConversationClient({ debug: false })
+      .login(userToken)
+      .then(app => app.getConversation(conversationId))
+      .then((conversation) => {
+        this.setState({ chat: conversation }, () => {
+          console.log('chat', conversation);
+          conversation.join();
+          this.setupConversationEvents(conversation);
+        });
+      })
+      .catch(error => console.error('error joining conversation', error));
   }
   submitTodos() {
     const { id, todos } = this.state;
@@ -119,6 +230,9 @@ class CommonArea extends React.Component {
       members,
       groundRules,
       isOwner,
+      conversationId,
+      chat,
+      incomingMessages,
     } = this.state;
     const commonAreaProps = {
       id,
@@ -128,8 +242,12 @@ class CommonArea extends React.Component {
       complete,
       incomplete,
       isOwner,
+      members,
+      conversationId,
+      chat,
       setTodos: this.setTodos,
       submitTodos: this.submitTodos,
+      incomingMessages,
     };
     const membersProps = {
       ownerId,

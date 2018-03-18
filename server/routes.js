@@ -89,7 +89,7 @@ router.post('/api/newSpace/:token', (req, res) => (
 
 router.post('/api/updateSpace/:token/:spaceId', (req, res) => (
   // console.log(req.body);
-  helpers.addLocToSpace(req.body.space)
+  helpers.addLocToSpace(req.body)
     .then(spaceObj => db.helpers.updateSpace(Object.assign({ id: req.params.spaceId }, spaceObj)))
     .then(space => res.status(202).send(JSON.stringify(space)))
     .catch(err => console.error(err))
@@ -114,7 +114,7 @@ router.post('/api/addMember/:token', (req, res) => {
 });
 
 router.post('/api/deleteMember/:token', (req, res) => {
-  db.helpers.removeUserFromSpaces(req.body.userId, req.body.spaceId)
+  db.helpers.removeUserFromSpace(req.body.userId, req.body.spaceId)
     .then(spaceMembers => res.status(202).send(spaceMembers))
     .catch(err => console.error(err));
 });
@@ -128,7 +128,7 @@ router.get('/api/isOwner/:token/:spaceId', (req, res) => {
 router.get('/api/currentUser/:token', (req, res) => {
   db.helpers.getUserIncludingSpaces(req.fb_Id)
     .then(user => res.status(200).send(user))
-    .catch(err => {console.error(err)});
+    .catch(err => console.error(err));
 });
 
 router.post('/api/editProfile/:token', (req, res) => {
@@ -240,10 +240,8 @@ router.get('/api/getNexmoId/:token', (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-router.get('/api/nexmoJwt/:token', (req, res, next) => {
-  const { userNexmoId } = req.body;
-
-  chat.getJwt(userNexmoId)
+router.get('/api/nexmoJwt/:token/:nexmoUsername', (req, res, next) => {
+  chat.getJwt(req.params.nexmoUsername)
     .then(response => res.send(response))
     .catch(error => res.status(500).send(error));
 });

@@ -5,6 +5,7 @@ const { getUserById } = require('./userHelpers');
 const { updateUser } = require('./userHelpers');
 const { userInDb } = require('./userHelpers');
 const { getUserPublic } = require('./userHelpers');
+const { getNexmoIdByFbId } = require('./userHelpers');
 // options helpers:
 const { addGender } = require('./genderHelpers');
 const { getGenderOptions } = require('./optionHelpers');
@@ -54,6 +55,7 @@ exports.getUserById = getUserById;
 exports.updateUser = updateUser;
 exports.userInDb = userInDb;
 exports.getUserPublic = getUserPublic;
+exports.getNexmoIdByFbId = getNexmoIdByFbId;
 // options exports:
 exports.addGender = addGender;
 exports.getGenderOptions = getGenderOptions;

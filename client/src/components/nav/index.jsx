@@ -53,16 +53,43 @@ class Nav extends React.Component {
     this.toggleRefresh = this.toggleRefresh.bind(this);
   }
   componentDidMount() {
-    console.log('nav did mount');
+    const { chatClient } = this.props;
     mql.addListener(this.mediaQueryChanged);
     this.setState({mql: mql, sidebarDocked: mql.matches});
-    // check if user is authenticated; if they aren't, redirect to /
-    // console.log('moved nav auth check to 3002');
+
     Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
       .then((response) => {
-        // console.log('nav auth response exposed');
         if (response.data === false) {
           this.setState({ isAuthenticated: false });
+        } else {
+          chatClient.login(localStorage.getItem('nexmo_token'))
+            .then((app) => {
+              this.app = app;
+              console.log('*** logged into app', app);
+
+              app.on('member:invited', (member, event) => {
+                console.log('*** invitation received:', event);
+
+                // app.getConversation(event.cid || event.body.cname)
+                //   .then((conversation) => {
+                //     this.conversation = conversation;
+                //     conversation.join()
+                //       .then(() => {
+                //         const conversationDictionary = {};
+                //         conversationDictionary[this.conversation.id] = this.conversation;
+                //         this.updateConversationsList(conversationDictionary);
+                //       })
+                //       .catch(error => console.error(error));
+                //   })
+                //   .catch(error => console.error(error));
+              });
+              return app.getConversations();
+            })
+            .then((conversations) => {
+              console.log('*** Retrieved conversations', conversations);
+              this.setState({ allUserChats: conversations });
+            })
+            .catch(error => console.error('error logging into nexmo', error));
         }
       })
       .catch(error => console.error('error checking authentication', error));
@@ -77,8 +104,11 @@ class Nav extends React.Component {
   }
 
   fbLogout() {
+    const { chatClient } = this.state;
     console.log('logging out!');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('nexmo_token');
+    chatClient.logout();
     this.setState({
       isAuthenticated: false,
     });
@@ -101,7 +131,7 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { isAuthenticated } = this.state;
+    const { isAuthenticated, allUserChats } = this.state;
     const { chatClient } = this.props;
 
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
@@ -149,6 +179,8 @@ class Nav extends React.Component {
 
     const chatClientProp = { chatClient };
 
+    const chatClientAndChats = { chatClient, allUserChats };
+
     const refreshKeyProp = {
       key: this.state.refresh,
     };
@@ -164,12 +196,12 @@ class Nav extends React.Component {
             <div style={styles.content}>
               <Route exact path="/" render={() => isAuthenticated && <Redirect to="/dashboard" />} />
               <Switch>
-                <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...chatClientProp} />} />
+                <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...chatClientAndChats} />} />
                 <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
                 <Route path="/profile" component={Profile} />
-                <Route path="/common-area" render={props => <CommonArea {...props} {...chatClientProp} />} />
-                <Route path="/messages" render={props => <ChatMain {...props} {...chatClientProp} />} />
-                <Route path="/new-space" render={props => <CreateSpace {...props} />} />
+                <Route path="/common-area" render={props => <CommonArea {...props} {...chatClientProp} {...refreshKeyProp} />} />
+                <Route path="/messages" render={props => <ChatMain {...props} {...chatClientAndChats} />} />
+                <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
                 <Route path="/listing" component={Listing} />
                 <Route path="/edit-listing" render={props => <EditListing {...props} />} />
                 <Route path="/edit-space" component={CreateSpace} />
