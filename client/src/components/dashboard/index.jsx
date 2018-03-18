@@ -20,8 +20,6 @@ class Dashboard extends React.Component {
     // get user data to populate profile content
     Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
-        console.log('dashboard response data => ', response.data);
-
         this.setState({
           currentUser: response.data,
           currentUserSpaces: response.data.spaces || [],
