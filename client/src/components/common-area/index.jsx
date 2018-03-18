@@ -83,6 +83,7 @@ class CommonArea extends React.Component {
   }
 
   setupConversationEvents(conversation) {
+    const { membersById } = this.state;
     this.conversation = conversation;
     console.log('*** Conversation Retrieved', conversation);
     console.log('*** Conversation Member', conversation.me);
@@ -112,9 +113,9 @@ class CommonArea extends React.Component {
 
     this.showConversationHistory(conversation);
 
-    conversation.on('text:seen', (data, text) => console.log(`${data.name} saw text: ${text.body.text}`));
-    conversation.on('text:typing:off', data => console.log(`${data.name} stopped typing...`));
-    conversation.on('text:typing:on', data => console.log(`${data.name} started typing...`));
+    conversation.on('text:seen', (data, text) => console.log(`${membersById[data.user.name]} saw text: ${text.body.text}`));
+    conversation.on('text:typing:off', data => this.setState({ typingStatus: '' }));
+    conversation.on('text:typing:on', data => this.setState({ typingStatus: `${membersById[data.user.name]} is typing...` }));
   }
   showConversationHistory(conversation) {
     const { membersById } = this.state;
@@ -143,7 +144,7 @@ class CommonArea extends React.Component {
             case 'member:left':
               eventsHistory.unshift({
                 notMessage: true,
-                sender: chat.user.name,
+                sender: membersById[chat.user.name],
                 timestamp: date,
                 text: 'left for now... :(',
               });
@@ -151,7 +152,7 @@ class CommonArea extends React.Component {
             default:
               eventsHistory.unshift({
                 notMessage: true,
-                sender: chat.user.name,
+                sender: membersById[chat.user.name],
                 timestamp: date,
                 text: 'did something weird...',
               });
@@ -233,6 +234,7 @@ class CommonArea extends React.Component {
       conversationId,
       chat,
       incomingMessages,
+      typingStatus,
     } = this.state;
     const commonAreaProps = {
       id,
@@ -248,6 +250,7 @@ class CommonArea extends React.Component {
       setTodos: this.setTodos,
       submitTodos: this.submitTodos,
       incomingMessages,
+      typingStatus,
     };
     const membersProps = {
       ownerId,
