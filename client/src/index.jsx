@@ -37,12 +37,12 @@ class App extends React.Component {
     });
   }
   startChatClient() {
-    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         // const nexmoId = response.data;
-        const nexmoId = '1';
-        console.log('nexmoId', nexmoId);
-        Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoId}`)
+        const nexmoUsername = response.data.id;
+        console.log('nexmoUsername', nexmoUsername);
+        Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoUsername}`)
           .then((res) => {
             const { user_jwt } = res.data;
             const client = new ConversationClient({
