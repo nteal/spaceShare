@@ -104,8 +104,11 @@ class Nav extends React.Component {
   }
 
   fbLogout() {
+    const { chatClient } = this.state;
     console.log('logging out!');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('nexmo_token');
+    chatClient.logout();
     this.setState({
       isAuthenticated: false,
     });
