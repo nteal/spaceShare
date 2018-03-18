@@ -117,42 +117,48 @@ class CommonArea extends React.Component {
     conversation.on('text:typing:on', data => console.log(`${data.name} started typing...`));
   }
   showConversationHistory(conversation) {
+    const { membersById } = this.state;
     conversation.getEvents().then((events) => {
-      let eventsHistory = '';
+      const eventsHistory = [];
       for (let i = Object.keys(events).length; i > 0; i--) {
-        const date = new Date(Date.parse(events[Object.keys(events)[i - 1]].timestamp));
-        if (conversation.members[events[Object.keys(events)[i - 1]].from]) {
+        const date = events[Object.keys(events)[i - 1]].timestamp;
+        const chat = conversation.members[events[Object.keys(events)[i - 1]].from];
+        if (chat) {
           switch (events[Object.keys(events)[i - 1]].type) {
             case 'text':
-              eventsHistory += `${conversation.members[events[Object.keys(events)[i - 1]].from].user.name} @ ${date}: <b>${events[Object.keys(events)[i - 1]].body.text}</b><br>`
-              console.log('+++', eventsHistory);
+              eventsHistory.push({
+                sender: membersById[chat.user.name],
+                timestamp: date,
+                text: events[Object.keys(events)[i - 1]].body.text,
+              });
               break;
-
-            case 'member:media':
-              eventsHistory += `${conversation.members[events[Object.keys(events)[i - 1]].from].user.name} @ ${date}: <b>${events[Object.keys(events)[i - 1]].body.audio ? "enabled" : "disabled"} audio</b><br>`
-              console.log('+++', eventsHistory);
-              break;
-
             case 'member:joined':
-              eventsHistory += `${conversation.members[events[Object.keys(events)[i - 1]].from].user.name} @ ${date}: <b>joined the conversation</b><br>`;
-              console.log('+++', eventsHistory);
+              eventsHistory.push({
+                notMessage: true,
+                sender: membersById[chat.user.name],
+                timestamp: date,
+                text: 'is in the space! :)',
+              });
               break;
             case 'member:left':
-              eventsHistory += `${conversation.members[events[Object.keys(events)[i - 1]].from].user.name} @ ${date}: <b>left the conversation</b><br>`;
-              console.log('+++', eventsHistory);
+              eventsHistory.push({
+                notMessage: true,
+                sender: chat.user.name,
+                timestamp: date,
+                text: 'left for now... :(',
+              });
               break;
-            case 'member:invited':
-              eventsHistory += `${conversation.members[events[Object.keys(events)[i - 1]].from].user.name} @ ${date}: <b>invited to the conversation</b><br>`;
-              console.log('+++', eventsHistory);
-              break;
-
             default:
-              eventsHistory += `${conversation.members[events[Object.keys(events)[i - 1]].from].user.name} @ ${date}: <b>unknown event</b><br>`;
-              console.log('+++', eventsHistory);
+              eventsHistory.push({
+                notMessage: true,
+                sender: chat.user.name,
+                timestamp: date,
+                text: 'did something weird...',
+              });
           }
         }
       }
-      this.setState({ chatHistory: eventsHistory });
+      this.setState({ incomingMessages: this.state.incomingMessages.concat(eventsHistory) });
     });
   }
   joinConversation(userToken) {
