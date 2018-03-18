@@ -112,35 +112,43 @@ const getConversationById = conversationId => (
 );
 
 
-const getJwt = (userNexmoId) => {
+const getJwt = (userNexmoName) => {
+  const adminAcl = {
+    "paths": {
+      "/v1/sessions/**": {},
+      "/v1/users/**": {},
+      "/v1/conversations/**": {}
+    }
+  };
+
   const nonAdminAcl = {
-    paths: {
-      '/v1/sessions/**': {
-        methods: ['GET'],
+    "paths": {
+      "/v1/sessions/**": {
+        "methods": ["GET"]
       },
-      '/v1/users/*': {
-        methods: ['GET'],
+      "/v1/users/*": {
+        "methods": ["GET"]
       },
-      '/v1/conversations/*': {
-        methods: ['GET', 'POST', 'PUT'],
-      },
-    },
+      "/v1/conversations/*": {
+        "methods": ["GET", "POST", "PUT"]
+      }
+    }
   };
   return new Promise((resolve, reject) => {
     nexmo.users.get({}, (error, response) => {
       if (error) {
         reject(error);
       } else {
-        const filteredUsers = response.filter(user => user.id === userNexmoId);
+        const filteredUsers = response.filter(user => user.name === userNexmoName);
         if (!filteredUsers.length) {
           reject({ error: 'User not found' });
         } else {
           resolve({
             user_jwt: Nexmo.generateJwt(process.env.NEXMO_PRIVATE_KEY, {
               application_id: process.env.NEXMO_APP_ID,
-              sub: userNexmoId,
+              sub: userNexmoName,
               exp: new Date().getTime() + 86400,
-              acl: nonAdminAcl,
+              acl: adminAcl,
             }),
           });
         }
