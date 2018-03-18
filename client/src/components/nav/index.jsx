@@ -70,27 +70,26 @@ class Nav extends React.Component {
               app.on('member:invited', (member, event) => {
                 console.log('*** invitation received:', event);
 
-                app.getConversation(event.cid || event.body.cname)
-                  .then((conversation) => {
-                    this.conversation = conversation;
-                    conversation.join()
-                      .then(() => {
-                        const conversationDictionary = {};
-                        conversationDictionary[this.conversation.id] = this.conversation;
-                        this.updateConversationsList(conversationDictionary);
-                      })
-                      .catch(error => console.error(error));
-                  })
-                  .catch(error => console.error(error));
+                // app.getConversation(event.cid || event.body.cname)
+                //   .then((conversation) => {
+                //     this.conversation = conversation;
+                //     conversation.join()
+                //       .then(() => {
+                //         const conversationDictionary = {};
+                //         conversationDictionary[this.conversation.id] = this.conversation;
+                //         this.updateConversationsList(conversationDictionary);
+                //       })
+                //       .catch(error => console.error(error));
+                //   })
+                //   .catch(error => console.error(error));
               });
               return app.getConversations();
             })
             .then((conversations) => {
               console.log('*** Retrieved conversations', conversations);
-              this.updateConversationsList(conversations);
               this.setState({ allUserChats: conversations });
             })
-            .catch(error => console.error(error));
+            .catch(error => console.error('error logging into nexmo', error));
         }
       })
       .catch(error => console.error('error checking authentication', error));
@@ -197,9 +196,9 @@ class Nav extends React.Component {
                 <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...chatClientAndChats} />} />
                 <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
                 <Route path="/profile" component={Profile} />
-                <Route path="/common-area" render={props => <CommonArea {...props} {...chatClientProp} />} />
+                <Route path="/common-area" render={props => <CommonArea {...props} {...chatClientProp} {...refreshKeyProp} />} />
                 <Route path="/messages" render={props => <ChatMain {...props} {...chatClientAndChats} />} />
-                <Route path="/new-space" render={props => <CreateSpace {...props} />} />
+                <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
                 <Route path="/listing" component={Listing} />
                 <Route path="/edit-listing" render={props => <EditListing {...props} />} />
                 <Route path="/edit-space" component={CreateSpace} />
