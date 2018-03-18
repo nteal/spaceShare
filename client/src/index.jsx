@@ -62,7 +62,9 @@ class App extends React.Component {
   render() {
     const { isAuthenticated, chatClient } = this.state;
 
-    return isAuthenticated ? <Nav chatClient={chatClient} /> : <Login chatClient={chatClient} />;
+    return isAuthenticated ? 
+      <Nav chatClient={chatClient} startChatClient={this.startChatClient} /> :
+      <Login chatClient={chatClient} startChatClient={this.startChatClient} />;
   }
 }
 
