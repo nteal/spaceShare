@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import Sidebar from 'react-sidebar';
@@ -32,7 +33,7 @@ const styles = {
   },
 };
 
-const mql = window.matchMedia(`(min-width: 800px)`);
+const mql = window.matchMedia('(min-width: 800px)');
 
 class Nav extends React.Component {
   constructor(props) {
@@ -218,5 +219,13 @@ class Nav extends React.Component {
     return <Login />;
   }
 }
+
+Nav.propTypes = {
+  chatClient: PropTypes.object,
+};
+
+Nav.defaultProps = {
+  chatClient: new ConversationClient(),
+};
 
 export default Nav;
