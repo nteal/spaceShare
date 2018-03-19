@@ -12,6 +12,9 @@ import AboutInput from './aboutInput.jsx';
 import ImageInput from './imageInput.jsx';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
+
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -173,6 +176,11 @@ class EditProfile extends React.Component {
       });
   }
 
+  _crop() {
+    // image in dataUrl
+    console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+  }
+
   render() {
     const { id, name_first, name_last } = this.state;
     const {
@@ -220,7 +228,16 @@ class EditProfile extends React.Component {
             <div className="col-12 col-sm-10 col-md-6 col-lg-4 d-flex flex-column align-items-start">
               {/* user stats sidebar */}
               <div className="content-box">
-                <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} />
+                {/* <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} /> */}
+                <Cropper
+                  ref="cropper"
+                  src="http://akns-images.eonline.com/eol_images/Entire_Site/2014128/rs_560x415-140228123734-1024.huskie-loves-head-massager-022814.jpg?fit=inside|900:auto&output-quality=100"
+                  style={{ height: 400, width: '100%' }}
+                  // Cropper.js options
+                  aspectRatio={16 / 9}
+                  guides={false}
+                  crop={this._crop.bind(this)}
+                />
                 <div className="mini-heading-box-side mt-0">
                   <span>
                     <h5>{name_first} {name_last}</h5>
@@ -257,7 +274,7 @@ class EditProfile extends React.Component {
                 <div className="invisible-content-box">
                   <div className="form-group row ml-1">
                     <div className="form-check">
-                      <input 
+                      <input
                         id="searchable-work-checkbox"
                         className="form-check-input"
                         type="checkbox"
@@ -272,7 +289,7 @@ class EditProfile extends React.Component {
                   </div>
                   <div className="form-group row ml-1">
                     <div className="form-check">
-                      <input 
+                      <input
                         id="searchable-live-checkbox"
                         className="form-check-input"
                         type="checkbox"
