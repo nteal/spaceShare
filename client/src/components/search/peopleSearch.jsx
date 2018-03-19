@@ -1,10 +1,11 @@
 import React from 'react';
 import Axios from 'axios';
-import SearchResults from '../search-results/index.jsx';
+import PropTypes from 'prop-types';
 
 class PeopleSearch extends React.Component {
   constructor(props) {
     super(props);
+    /* eslint-disable */
     this.state = {
       sleep_id: 1,
       personality_id: 1,
@@ -29,11 +30,12 @@ class PeopleSearch extends React.Component {
       include_people: this.props.include_people,
       distance: this.props.distance,
     });
+    /* eslint-enable */
   }
   isValidAgeRange() {
     const { age_min, age_max } = this.state;
     const ages = [age_min, age_max].reduce((numbers, num) => {
-      numbers.push(num.split('').reduce((number, char, i, numArray) => {
+      numbers.push(num.split('').reduce((number, char) => {
         if (char >= '0' && char <= '9') { number.push(char); }
         return number;
       }, []));
@@ -41,8 +43,8 @@ class PeopleSearch extends React.Component {
     }, []);
     let min = Number.parseFloat(ages[0].join(''));
     let max = Number.parseFloat(ages[1].join(''));
-    if (isNaN(min)) { min = 0; }
-    if (isNaN(max)) { max = 100; }
+    if (isNaN(min)) { min = 0; } // eslint-disable-line
+    if (isNaN(max)) { max = 100; } // eslint-disable-line
     if (min <= max) {
       this.setState({
         age_min: min,
@@ -67,8 +69,10 @@ class PeopleSearch extends React.Component {
         { search: this.state },
       )
         .then((response) => {
-          localStorage.setItem('id_search', response.data);
-          this.props.history.push('/search-results');
+          this.props.history.push({
+            pathname: '/search-results',
+            state: { id_search: response.data },
+          });
         });
     } else {
       // eslint-disable-next-line
@@ -77,7 +81,7 @@ class PeopleSearch extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="pl-4">
         <div className="row">
           <h1>Person Search</h1>
         </div>
@@ -135,5 +139,28 @@ class PeopleSearch extends React.Component {
     );
   }
 }
+
+PeopleSearch.propTypes = {
+  location: PropTypes.string,
+  price_min: PropTypes.number,
+  price_max: PropTypes.number,
+  timeline_id: PropTypes.number,
+  smoking_id: PropTypes.number,
+  pet_id: PropTypes.number,
+  include_people: PropTypes.bool,
+  distance: PropTypes.number,
+  history: PropTypes.obj, // eslint-disable-line
+};
+PeopleSearch.defaultProps = {
+  location: 'New Orleans',
+  price_min: 0,
+  price_max: 100000000,
+  timeline_id: 4,
+  smoking_id: 1,
+  pet_id: 2,
+  include_people: true,
+  distance: 20,
+  history: {},
+};
 
 export default PeopleSearch;
