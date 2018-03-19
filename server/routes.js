@@ -247,13 +247,13 @@ router.get('/api/nexmoJwt/:token/:nexmoUsername', (req, res, next) => {
 });
 
 router.get('/api/spaceChats/:token', (req, res) => {
-  db.getSpaceConversations(req.fb_Id)
+  db.helpers.getSpaceConversations(req.fb_Id)
     .then(spaceConvoIds => res.send(spaceConvoIds))
     .catch(error => res.status(500).send(error));
 });
 
 router.get('/api/usersByNexmoId/:token', (req, res) => {
-  db.getUsersFromNexmoIds(req.params.nexmoIds)
+  db.helpers.getUsersFromNexmoIds(req.params.nexmoIds)
     .then(users => res.send(users))
     .catch(error => res.status(500).send(error));
 });
