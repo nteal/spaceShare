@@ -172,7 +172,7 @@ class CommonArea extends React.Component {
       .then(app => app.getConversation(conversationId))
       .then((conversation) => {
         this.setState({ chat: conversation }, () => {
-          if (conversation.me.state !== 'JOINED') {
+          if (conversation.me && conversation.me.state !== 'JOINED') {
             conversation.join();
           }
           this.setupConversationEvents(conversation);
