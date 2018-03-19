@@ -46,7 +46,7 @@ class App extends React.Component {
           .then((res) => {
             const { user_jwt } = res.data;
             const client = new ConversationClient({
-              debug: true,
+              debug: false,
               environment: 'development',
             });
             this.setState({ chatClient: client }, () => {
