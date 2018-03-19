@@ -56,9 +56,22 @@ class ChatRoom extends React.Component {
   }
   render() {
     const { newMessage } = this.state;
-    const { incomingMessages, typingStatus } = this.props;
+    const { incomingMessages, typingStatus, chat } = this.props;
+
+    let displayHeading = (/[qypg]/).test(chat.display_name) ? (
+      <div className="heading-box-chat chat-descender">
+        <h4>{chat.display_name}</h4>
+      </div>
+    ) : (
+      <div className="heading-box-chat">
+        <h4>{chat.display_name}</h4>
+      </div>
+    );
     return (
       <div className="col">
+        <div className="row pt-2 pl-2">
+          {displayHeading}
+        </div>
         <div className="row messages-container">
           <div className="col message-col">
             <div>
