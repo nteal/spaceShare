@@ -18,7 +18,7 @@ class Results extends React.Component {
       heading, people, places, searches, history, profile_link, listing_link,
     } = this.props;
     return (
-      <div>
+      <div className="pl-4">
         <div className="row mb-2 mt-2">
           <div className="col-10">
             <h1>{heading}</h1>
