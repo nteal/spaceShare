@@ -13,7 +13,8 @@ class ChatMain extends React.Component {
       usersByNexmoId: {},
       currentUserNexmoId: '',
     };
-    this.getAllConversations = this.getAllConversations.bind();
+    this.getAllChats = this.getAllChats.bind(this);
+    this.getAllMemberNames = this.getAllMemberNames.bind(this);
   }
   componentDidMount() {
     Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
@@ -22,14 +23,29 @@ class ChatMain extends React.Component {
 
     Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
       .then(response => this.setState({ currentUserNexmoId: response.data }, () => {
-        this.getAllMemberNames();
+        const { allUserChats } = this.props;
+        if (!allUserChats) {
+          this.getAllChats();
+        } else {
+          this.getAllMemberNames();
+        }
       }))
       .catch(error => console.error('error getting nexmo id', error));
   }
+  getAllChats() {
+    const { getAllChats, allUserChats } = this.props;
+    getAllChats(() => {
+      console.log('all chats gotten', allUserChats);
+      this.getAllMemberNames();
+    });
+  }
   getAllMemberNames() {
     const { allUserChats } = this.props;
+
     const uniqueIds = Object.keys(allUserChats).reduce((idObj, chat) => {
-      Object.keys(chat.members).forEach(memberId => idObj[memberId] = true);
+      if (chat && chat.members) {
+        Object.keys(chat.members).forEach(memberId => idObj[memberId] = true);
+      }
       return idObj;
     }, {});
     const nexmoIds = Object.keys(uniqueIds);
@@ -42,25 +58,32 @@ class ChatMain extends React.Component {
   render() {
     const { allUserChats, chatClient } = this.props;
     const { userSpaceChats, currentUserNexmoId, usersByNexmoId } = this.state;
-    const spaceChats = Object.keys(allUserChats)
-      .filter(chatId => !!userSpaceChats[chatId])
-      .map(chatId => allUserChats[chatId]);
-    const userChats = Object.keys(allUserChats)
-      .filter(chatId => !userSpaceChats[chatId])
-      .map(chatId => allUserChats[chatId]);
+    const spaceChats = allUserChats ?
+      Object.keys(allUserChats)
+        .filter(chatId => !!userSpaceChats[chatId])
+        .map(chatId => allUserChats[chatId]) :
+      [];
+    const userChats = allUserChats ?
+      Object.keys(allUserChats)
+        .filter(chatId => !userSpaceChats[chatId])
+        .map(chatId => allUserChats[chatId]) :
+      [];
     const chatProps = { chatClient };
 
     return (
-      <div>
+      <div className="wrapper">
         {/* side nav listing all user's chats */}
-        <nav className="nav flex-column">
-          <h4 className="mb-3">
+        <nav className="chat-nav pt-4 pl-3">
+          <div className="flex-row d-flex align-items-center pb-3">
             <MessageText className="mr-3" height={30} width={30} fill="#FFF" />
-            Chats
-          </h4>
+            <h4 className="mb-0">
+              Chats
+            </h4>
+          </div>
           <h6>Space Chats</h6>
           {spaceChats.map(chat => (
             <Link
+              key={chat.id}
               className="nav-link"
               to={{
                 pathname: '/messages/chat',
@@ -71,13 +94,16 @@ class ChatMain extends React.Component {
             </Link>
           ))}
           <h6 className="mt-3">Direct Messages</h6>
-          {userChats.map((chat) => {
+          {userChats.length > 0 && userChats.map((chat) => {
             const messagePartner = Object.keys(chat.members)
               .filter(nexmoId => nexmoId !== currentUserNexmoId)[0];
-            const name = `${usersByNexmoId[messagePartner].name_first} ${usersByNexmoId[messagePartner].name_last}`;
+            const name = usersByNexmoId[messagePartner] ?
+              `${usersByNexmoId[messagePartner].name_first} ${usersByNexmoId[messagePartner].name_last}` :
+              'Unknown';
             const convoId = chat.id;
             return (
               <Link
+                chat={chat.id}
                 className="nav-link"
                 to={{
                   pathname: '/messages/chat',
@@ -101,12 +127,14 @@ class ChatMain extends React.Component {
 }
 
 ChatMain.propTypes = {
+  getAllChats: PropTypes.func,
   allUserChats: PropTypes.object,
   chatClient: PropTypes.object,
 };
 
 ChatMain.defaultProps = {
-  allUserChats: null,
+  getAllChats: null,
+  allUserChats: {},
   chatClient: null,
 };
 

@@ -68,6 +68,18 @@ ul {
   fill: #FFFCA0;
 }
 
+.wrapper {
+  display: flex;
+}
+
+.chat-nav {
+  background-color: #6F5BC0;
+  color: white;
+  height: 100vh;
+  overflow: scroll;
+  width: 15%;
+}
+
 .delete-member-btn {
   position: relative;
   height: 5rem;
