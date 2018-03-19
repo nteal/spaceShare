@@ -3,7 +3,7 @@ import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
-import Email from 'mdi-react/EmailIcon.js';
+import MessageText from 'mdi-react/MessageTextIcon.js';
 import Location from './location.jsx';
 import AboutBox from './aboutBox.jsx';
 import Amenities from './amenities.jsx';
@@ -48,6 +48,7 @@ class Listing extends React.Component {
           amenities,
           gallery,
         } = response.data;
+        console.log('response', response.data);
         this.setState({
           id,
           main_image,
@@ -70,7 +71,7 @@ class Listing extends React.Component {
           smoking,
           amenities: amenities || [],
           gallery: gallery || [],
-        });
+        }, () => { console.log('listing', this.state)});
 
         Axios.get('/api/isOwner', {
           params: {
@@ -99,6 +100,7 @@ class Listing extends React.Component {
   messageOwner() {
     const { owner_nexmo_id, owner_name_first, owner_name_last } = this.state;
     const { startNewChat } = this.props;
+    console.log('trying to start new chat', owner_nexmo_id, owner_name_first, owner_name_last);
 
     startNewChat(owner_nexmo_id, owner_name_first, owner_name_last);
   }
@@ -205,8 +207,8 @@ class Listing extends React.Component {
                     {purposeGlyph}<h3 className="mb-0">{purpose}</h3>
                   </div>
                   <div className="d-flex flex-row align-items-center">
-                    <Link to={{ pathname: '/messages', state: { userId: owner_fb_id } }}>
-                      <Email className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
+                    <Link to="/messages" onClick={this.messageOwner}>
+                      <MessageText className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
                     </Link>
                     <h5>
                       {owner_name}
@@ -219,7 +221,7 @@ class Listing extends React.Component {
                   </div>
                   <div className="d-flex flex-row align-items-center">
                     <Link to="/messages" onClick={this.messageOwner}>
-                      <Email className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
+                      <MessageText className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
                     </Link>
                     <h6>
                       {owner_name}
