@@ -35,7 +35,7 @@ const getSpaceConversations = fb_id => (
   })
     // get all spaces associated with user
     .then(user => (
-      user.getSpaces({ attributes: ['id', 'name', 'convo_id'] })
+      user.getSpaces({ attributes: ['id', 'name', 'convo_id', 'purpose_id'] })
     ))
     // return object with needed properties for all user's spaces
     .then(spaces => (
@@ -43,6 +43,7 @@ const getSpaceConversations = fb_id => (
         const spaceObj = {};
         spaceObj.id = spaceModel.dataValues.id;
         spaceObj.name = spaceModel.dataValues.name;
+        spaceObj.purpose_id = spaceModel.dataValues.purpose_id;
         const { convo_id } = spaceModel.dataValues;
         retObj[convo_id] = spaceObj;
         return retObj;
