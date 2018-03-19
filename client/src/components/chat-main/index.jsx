@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 import MessageText from 'mdi-react/MessageTextIcon.js';
+import CloseCircleOutline from 'mdi-react/CloseCircleOutlineIcon.js';
 import ChatRoom from './chat-room.jsx';
 
 class ChatMain extends React.Component {
@@ -12,9 +13,17 @@ class ChatMain extends React.Component {
       userSpaceChats: {},
       usersByNexmoId: {},
       currentUserNexmoId: '',
+      conversationId: '',
+      incomingMessages: [],
+      typingStatus: '',
     };
     this.getAllChats = this.getAllChats.bind(this);
     this.getAllMemberNames = this.getAllMemberNames.bind(this);
+    this.setConversation = this.setConversation.bind(this);
+    this.setupConversationEvents = this.setupConversationEvents.bind(this);
+    this.showConversationHistory = this.showConversationHistory.bind(this);
+    this.joinConversation = this.joinConversation.bind(this);
+    this.deleteConversation = this.deleteConversation.bind(this);
   }
   componentDidMount() {
     Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
@@ -43,9 +52,11 @@ class ChatMain extends React.Component {
     const { allUserChats } = this.props;
 
     const uniqueIds = Object.keys(allUserChats).reduce((idObj, chat) => {
-      if (chat && chat.members) {
-        Object.keys(chat.members).forEach(memberId => idObj[memberId] = true);
-      }
+      const { members } = allUserChats[chat];
+      Object.keys(members).forEach((memberId) => {
+        const member = members[memberId];
+        idObj[member.user.id] = true;
+      });
       return idObj;
     }, {});
     const nexmoIds = Object.keys(uniqueIds);
@@ -55,9 +66,136 @@ class ChatMain extends React.Component {
       .then(response => this.setState({ usersByNexmoId: response.data }))
       .catch(error => console.error('error getting users by nexmo id', error));
   }
+  setConversation(event) {
+    const { id } = event.target;
+    this.setState({
+      conversationId: id,
+      incomingMessages: [],
+    }, () => {
+      this.joinConversation(localStorage.getItem('nexmo_token'));
+    });
+  }
+  setupConversationEvents(conversation) {
+    const { usersByNexmoId } = this.state;
+    this.conversation = conversation;
+    console.log('*** Conversation Retrieved', conversation);
+    console.log('*** Conversation Member', conversation.me);
+
+    conversation.on('text', (sender, message) => {
+      console.log('*** Message received', sender, message);
+      const { incomingMessages } = this.state;
+      const newIncomingMessage = {
+        sender: usersByNexmoId[sender.user.id].name_first,
+        timestamp: message.timestamp,
+        text: message.body.text,
+      };
+      if (newIncomingMessage.timestamp !== incomingMessages[incomingMessages.length - 1].timestamp) {
+        this.setState({
+          incomingMessages: incomingMessages.concat(newIncomingMessage),
+        });
+      }
+      if (sender.name !== this.conversation.me.name) {
+        message
+          .seen()
+          .then(this.eventLogger('text:seen'))
+          .catch(this.errorLogger);
+      }
+    });
+
+    conversation.on('member:joined', member => console.log(member, 'joined'));
+    conversation.on('member:left', member => console.log(member, 'left'));
+
+    this.showConversationHistory(conversation);
+
+    conversation.on('text:seen', (data, text) => console.log(`${usersByNexmoId[data.user.id].name_first} saw text: ${text.body.text}`));
+    conversation.on('text:typing:off', data => this.setState({ typingStatus: '' }));
+    conversation.on('text:typing:on', data => this.setState({ typingStatus: `${usersByNexmoId[data.user.id].name_first} is typing...` }));
+  }
+  showConversationHistory(conversation) {
+    const { usersByNexmoId } = this.state;
+    conversation.getEvents().then((events) => {
+      const eventsHistory = [];
+      for (let i = Object.keys(events).length; i > 0; i--) {
+        const date = events[Object.keys(events)[i - 1]].timestamp;
+        const chat = conversation.members[events[Object.keys(events)[i - 1]].from];
+        if (chat) {
+          switch (events[Object.keys(events)[i - 1]].type) {
+            case 'text':
+              eventsHistory.unshift({
+                sender: usersByNexmoId[chat.user.id].name_first,
+                timestamp: date,
+                text: events[Object.keys(events)[i - 1]].body.text,
+              });
+              break;
+            case 'member:joined':
+              eventsHistory.unshift({
+                notMessage: true,
+                sender: usersByNexmoId[chat.user.id].name_first,
+                timestamp: date,
+                text: 'is in the space! :)',
+              });
+              break;
+            case 'member:left':
+              eventsHistory.unshift({
+                notMessage: true,
+                sender: usersByNexmoId[chat.user.id].name_first,
+                timestamp: date,
+                text: 'left for now... :(',
+              });
+              break;
+            default:
+              eventsHistory.unshift({
+                notMessage: true,
+                sender: usersByNexmoId[chat.user.id].name_first,
+                timestamp: date,
+                text: 'did something weird...',
+              });
+          }
+        }
+      }
+      this.setState({ incomingMessages: this.state.incomingMessages.concat(eventsHistory) });
+    });
+  }
+  joinConversation(userToken) {
+    const { chatApp } = this.props;
+    const { conversationId } = this.state;
+    chatApp.getConversation(conversationId)
+      .then((conversation) => {
+        this.setState({ chat: conversation }, () => {
+          if (conversation.me.state !== 'JOINED') {
+            conversation.join();
+          }
+          this.setupConversationEvents(conversation);
+        });
+      })
+      .catch(error => console.error('error joining conversation', error));
+  }
+  deleteConversation(event) {
+    const { id } = event.target;
+    console.log('convo id', id);
+    const { chatApp } = this.props;
+    chatApp.getConversation(id)
+      .then((conversation) => {
+        conversation.del()
+          .then(() => {
+            console.log('conversation deleted');
+            this.getAllChats();
+          })
+          .catch(error => console.error('error deleting conversation', error));
+      })
+      .catch(error => console.error('error getting conversation', error));
+  }
   render() {
     const { allUserChats, chatClient } = this.props;
-    const { userSpaceChats, currentUserNexmoId, usersByNexmoId } = this.state;
+    const {
+      userSpaceChats,
+      currentUserNexmoId,
+      usersByNexmoId,
+      conversationId,
+      chat,
+      incomingMessages,
+      typingStatus,
+    } = this.state;
     const spaceChats = allUserChats ?
       Object.keys(allUserChats)
         .filter(chatId => !!userSpaceChats[chatId])
@@ -68,7 +206,6 @@ class ChatMain extends React.Component {
         .filter(chatId => !userSpaceChats[chatId])
         .map(chatId => allUserChats[chatId]) :
       [];
-    const chatProps = { chatClient };
 
     return (
       <div className="wrapper">
@@ -82,44 +219,40 @@ class ChatMain extends React.Component {
           </div>
           <h6>Space Chats</h6>
           {spaceChats.map(chat => (
-            <Link
+            <a
               key={chat.id}
+              id={chat.id}
               className="nav-link"
-              to={{
-                pathname: '/messages/chat',
-                state: { convoId: chat.id },
-              }}
+              href="#"
+              onClick={this.setConversation}
             >
               {chat.display_name}
-            </Link>
+            </a>
           ))}
           <h6 className="mt-3">Direct Messages</h6>
           {userChats.length > 0 && userChats.map((chat) => {
-            const messagePartner = Object.keys(chat.members)
-              .filter(nexmoId => nexmoId !== currentUserNexmoId)[0];
-            const name = usersByNexmoId[messagePartner] ?
-              `${usersByNexmoId[messagePartner].name_first} ${usersByNexmoId[messagePartner].name_last}` :
-              'Unknown';
-            const convoId = chat.id;
+            console.log('user chat', chat);
             return (
-              <Link
-                chat={chat.id}
-                className="nav-link"
-                to={{
-                  pathname: '/messages/chat',
-                  state: { convoId },
-                }}
-              >
-                {name}
-              </Link>
+              <div key={chat.id} className="row d-flex align-items-center justify-content-between pl-2 pr-4">
+                <a
+                  id={chat.id}
+                  className="nav-link"
+                  href="#"
+                  onClick={this.setConversation}
+                >
+                  {chat.display_name}
+                </a>
+                <CloseCircleOutline id={chat.id} className="mdi-btn-alt" onClick={this.deleteConversation} height={18} width={18} fill="#FFF" />
+              </div>
             );
           })}
         </nav>
-        <Route
-          path="/messages/chat"
-          render={props => (
-            <ChatRoom {...props} {...chatProps} />
-          )}
+        <ChatRoom
+          chatClient={chatClient}
+          conversationId={conversationId}
+          chat={chat}
+          incomingMessages={incomingMessages}
+          typingStatus={typingStatus}
         />
       </div>
     );
