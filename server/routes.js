@@ -69,7 +69,7 @@ router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
 });
 
 router.get('/api/currentListing/:token/:spaceId', (req, res) => {
-  db.helpers.getSpaceById(req.params.spaceId)
+  db.helpers.getSpaceListingById(req.params.spaceId)
     .then(space => res.status(200).send(space))
     .catch(err => console.error(err));
 });
