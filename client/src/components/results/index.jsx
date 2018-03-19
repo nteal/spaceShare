@@ -18,7 +18,7 @@ class Results extends React.Component {
       heading, people, places, searches, history, profile_link, listing_link,
     } = this.props;
     return (
-      <div>
+      <div className="pl-4">
         <div className="row mb-2 mt-2">
           <div className="col-10">
             <h1>{heading}</h1>
@@ -41,8 +41,8 @@ class Results extends React.Component {
                 to={{
                   pathname: '/saved-searches',
                   state: {
-                    people: people,
-                    places: places,
+                    people: people, // eslint-disable-line
+                    places: places, // eslint-disable-line
                   },
                 }}
                 refresh="true"
@@ -112,17 +112,18 @@ class Results extends React.Component {
 }
 
 Results.propTypes = {
-  history: PropTypes.object,
+  history: PropTypes.object, // eslint-disable-line
   heading: PropTypes.string,
-  people: PropTypes.array,
-  places: PropTypes.array,
-  searches: PropTypes.array,
+  people: PropTypes.array, // eslint-disable-line
+  places: PropTypes.array, // eslint-disable-line
+  searches: PropTypes.array, // eslint-disable-line
   profile_link: PropTypes.string,
   listing_link: PropTypes.string,
 };
 Results.defaultProps = {
   history: {
     push: () => (
+      // eslint-disable-next-line
       console.log('you do not have access to props.history inside of this component')
     ),
   },

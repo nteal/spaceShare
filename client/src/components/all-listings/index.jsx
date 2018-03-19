@@ -71,7 +71,7 @@ class AllListings extends React.Component {
       <div>
         <div className="row mb-2 mt-2">
           <div className="col-10">
-            <h1>{heading}</h1>
+            <h1 className="pl-4">{heading}</h1>
           </div>
           <div className="col-2">
             <button className="btn btn-secondary" onClick={this.newSearch}>New Search</button>
