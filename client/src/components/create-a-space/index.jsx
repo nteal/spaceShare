@@ -132,6 +132,7 @@ class CreateSpace extends React.Component {
     })
       .then((response) => {
         this.props.toggleRefresh();
+        localStorage.setItem('spaceId', response.data.spaceId);
         this.props.history.push({
           pathname: '/common-area',
           state: { spaceId: response.data.spaceId },
