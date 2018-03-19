@@ -178,7 +178,9 @@ class EditProfile extends React.Component {
 
   _crop() {
     // image in dataUrl
-    console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+    const imgDataUrl = this.refs.cropper.getCroppedCanvas().toDataURL();
+    console.log(imgDataUrl);
+    return imgDataUrl;
   }
 
   render() {
@@ -229,12 +231,13 @@ class EditProfile extends React.Component {
               {/* user stats sidebar */}
               <div className="content-box">
                 {/* <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} /> */}
+                {/* TODO: FIX THISSSSSSSS */}
                 <Cropper
                   ref="cropper"
-                  src="http://akns-images.eonline.com/eol_images/Entire_Site/2014128/rs_560x415-140228123734-1024.huskie-loves-head-massager-022814.jpg?fit=inside|900:auto&output-quality=100"
+                  src="https://spaceshare-sfp.s3.amazonaws.com/users/2ea05e02-934d-4d79-b5f7-dfc1d2e5c4a3_8_image_url_0"
                   style={{ height: 400, width: '100%' }}
                   // Cropper.js options
-                  aspectRatio={16 / 9}
+                  aspectRatio={12 / 16}
                   guides={false}
                   crop={this._crop.bind(this)}
                 />
