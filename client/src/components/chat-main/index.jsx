@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
+import MessageText from 'mdi-react/MessageTextIcon.js';
 import ChatRoom from './chat-room.jsx';
 
 class ChatMain extends React.Component {
@@ -39,7 +40,7 @@ class ChatMain extends React.Component {
       .catch(error => console.error('error getting users by nexmo id', error));
   }
   render() {
-    const { allUserChats } = this.props;
+    const { allUserChats, chatClient } = this.props;
     const { userSpaceChats, currentUserNexmoId, usersByNexmoId } = this.state;
     const spaceChats = Object.keys(allUserChats)
       .filter(chatId => !!userSpaceChats[chatId])
@@ -47,11 +48,16 @@ class ChatMain extends React.Component {
     const userChats = Object.keys(allUserChats)
       .filter(chatId => !userSpaceChats[chatId])
       .map(chatId => allUserChats[chatId]);
+    const chatProps = { chatClient };
 
     return (
       <div>
         {/* side nav listing all user's chats */}
         <nav className="nav flex-column">
+          <h4 className="mb-3">
+            <MessageText className="mr-3" height={30} width={30} fill="#FFF" />
+            Chats
+          </h4>
           <h6>Space Chats</h6>
           {spaceChats.map(chat => (
             <Link
@@ -86,7 +92,7 @@ class ChatMain extends React.Component {
         <Route
           path="/messages/chat"
           render={props => (
-            <ChatRoom {...props} />
+            <ChatRoom {...props} {...chatProps} />
           )}
         />
       </div>
