@@ -296,6 +296,11 @@ mt-0 {
   overflow: hidden;
 }
 
+.search-result-img {
+  max-height: 9rem;
+  width: auto;
+}
+
 .image-selection-box {
   background: linear-gradient(45deg, rgba(69, 255, 63, 0.466), rgba(36, 3, 126, 0.582));
   border-style: none;

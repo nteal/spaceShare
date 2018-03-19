@@ -30,7 +30,7 @@ class ResultListItem extends React.Component {
     } = this.props;
     return (
       <li className="media">
-        <img className="mr-3" src={image} alt="Generic placeholder" />
+        <img className="mr-3 search-result-img" src={image} alt="Generic placeholder" />
         <div className="media-body">
           <button className="btn btn-info mt-0 mb-1" onClick={this.moreInfo}>{button_heading}</button>
           <h4 className="mt-0 mb-1">{name}</h4>
