@@ -99,6 +99,7 @@ class Search extends React.Component {
             { search: this.state },
           )
             .then((response) => {
+              localStorage.setItem('id_search', response.data);
               this.props.history.push({
                 pathname: '/search-results',
                 state: { id_search: response.data },
