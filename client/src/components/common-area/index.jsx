@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -96,15 +97,16 @@ class CommonArea extends React.Component {
         timestamp: message.timestamp,
         text: message.body.text,
       };
-      console.log('incoming', newIncomingMessage);
-      this.setState({
-        incomingMessages: incomingMessages.concat(newIncomingMessage),
-      });
+      if (newIncomingMessage.timestamp !== incomingMessages[incomingMessages.length - 1].timestamp) {
+        this.setState({
+          incomingMessages: incomingMessages.concat(newIncomingMessage),
+        });
+      }
       if (sender.name !== this.conversation.me.name) {
         message
           .seen()
-          .then(this.eventLogger('text:seen'))
-          .catch(this.errorLogger);
+          .then(() => console.log('text:seen'))
+          .catch((error) => console.error(error));
       }
     });
 
@@ -170,8 +172,9 @@ class CommonArea extends React.Component {
       .then(app => app.getConversation(conversationId))
       .then((conversation) => {
         this.setState({ chat: conversation }, () => {
-          console.log('chat', conversation);
-          conversation.join();
+          if (conversation.me.state !== 'JOINED') {
+            conversation.join();
+          }
           this.setupConversationEvents(conversation);
         });
       })
@@ -221,6 +224,7 @@ class CommonArea extends React.Component {
     });
   }
   render() {
+    const { startNewChat } = this.props;
     const {
       id,
       ownerId,
@@ -259,6 +263,7 @@ class CommonArea extends React.Component {
       addMember: this.addMember,
       deleteMember: this.deleteMember,
       isOwner,
+      startNewChat,
     };
     const rulesProps = { groundRules, submit: this.submitGroundRules, isOwner };
 
@@ -301,5 +306,15 @@ class CommonArea extends React.Component {
     );
   }
 }
+
+CommonArea.propTypes = {
+  chatClient: PropTypes.object,
+  startNewChat: PropTypes.func,
+};
+
+CommonArea.defaultProps = {
+  chatClient: null,
+  startNewChat: null,
+};
 
 export default CommonArea;
