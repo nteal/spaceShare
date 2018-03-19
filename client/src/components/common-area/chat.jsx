@@ -71,18 +71,20 @@ class Chat extends React.Component {
           </div>
         </MediaQuery>
         <div className="col">
-          <div className="row">
-            <div className="col">
-              {/* Messages go here */}
-              {incomingMessages.map(message => (
-                <ChatBubble message={message} key={message.timestamp} />
-              ))}
+          <div className="row space-messages-container">
+            <div className="col message-col">
+              <div>
+                {/* Messages go here */}
+                {incomingMessages.map(message => (
+                  <ChatBubble message={message} key={message.timestamp} />
+                ))}
+              </div>
             </div>
           </div>
-          <div className="row">
+          <div className="row status-row">
             <small>{typingStatus}</small>
           </div>
-          <div className="row align-self-end pl-1 pr-1 pb-1 pt-2">
+          <div className="row align-self-end pl-1 pr-1 pb-1">
             <div className="input-group">
               <input
                 type="text"
