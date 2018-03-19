@@ -1,6 +1,7 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
   template: path.join(__dirname, 'client/index.html'),
@@ -44,5 +45,19 @@ module.exports = {
   plugins: [
     HTMLWebpackPluginConfig,
     new OfflinePlugin(),
+    new WebpackPwaManifest({
+      name: 'SpaceShare',
+      short_name: 'SpaceShare',
+      description: 'connecting people seeking spaces',
+      icons: [
+        {
+          src: 'client/src/assets/ss-logo-transparent.png',
+          type: 'image/png',
+          sizes: '144x144',
+        },
+      ],
+      start_url: '/dashboard',
+      display: 'fullscreen',
+    }),
   ],
 };

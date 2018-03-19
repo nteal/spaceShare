@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import Sidebar from 'react-sidebar';
@@ -32,7 +33,7 @@ const styles = {
   },
 };
 
-const mql = window.matchMedia(`(min-width: 800px)`);
+const mql = window.matchMedia('(min-width: 800px)');
 
 class Nav extends React.Component {
   constructor(props) {
@@ -45,15 +46,17 @@ class Nav extends React.Component {
       transitions: true,
       touch: true,
       refresh: false,
+      allUserChats: {},
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+    this.getAllChats = this.getAllChats.bind(this);
+    this.startNewChat = this.startNewChat.bind(this);
     this.fbLogout = this.fbLogout.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
     this.toggleRefresh = this.toggleRefresh.bind(this);
   }
   componentDidMount() {
-    const { chatClient } = this.props;
     mql.addListener(this.mediaQueryChanged);
     this.setState({mql: mql, sidebarDocked: mql.matches});
 
@@ -62,34 +65,7 @@ class Nav extends React.Component {
         if (response.data === false) {
           this.setState({ isAuthenticated: false });
         } else {
-          chatClient.login(localStorage.getItem('nexmo_token'))
-            .then((app) => {
-              this.app = app;
-              console.log('*** logged into app', app);
-
-              app.on('member:invited', (member, event) => {
-                console.log('*** invitation received:', event);
-
-                // app.getConversation(event.cid || event.body.cname)
-                //   .then((conversation) => {
-                //     this.conversation = conversation;
-                //     conversation.join()
-                //       .then(() => {
-                //         const conversationDictionary = {};
-                //         conversationDictionary[this.conversation.id] = this.conversation;
-                //         this.updateConversationsList(conversationDictionary);
-                //       })
-                //       .catch(error => console.error(error));
-                //   })
-                //   .catch(error => console.error(error));
-              });
-              return app.getConversations();
-            })
-            .then((conversations) => {
-              console.log('*** Retrieved conversations', conversations);
-              this.setState({ allUserChats: conversations });
-            })
-            .catch(error => console.error('error logging into nexmo', error));
+          this.getAllChats();
         }
       })
       .catch(error => console.error('error checking authentication', error));
@@ -101,6 +77,67 @@ class Nav extends React.Component {
 
   onSetSidebarOpen(open) {
     this.setState({ sidebarOpen: open });
+  }
+
+  getAllChats(callback) {
+    const { chatClient } = this.props;
+    chatClient.login(localStorage.getItem('nexmo_token'))
+      .then((app) => {
+        this.app = app;
+        console.log('*** logged into app', app);
+        this.setState({ chatApp: app });
+        app.on('member:invited', (member, event) => {
+          console.log('*** invitation received:', event);
+
+          // app.getConversation(event.cid || event.body.cname)
+          //   .then((conversation) => {
+          //     this.conversation = conversation;
+          //     conversation.join()
+          //       .then(() => {
+          //         const conversationDictionary = {};
+          //         conversationDictionary[this.conversation.id] = this.conversation;
+          //         this.updateConversationsList(conversationDictionary);
+          //       })
+          //       .catch(error => console.error(error));
+          //   })
+          //   .catch(error => console.error(error));
+        });
+        return app.getConversations();
+      })
+      .then((conversations) => {
+        console.log('*** Retrieved conversations', conversations);
+        this.setState({ allUserChats: conversations }, callback);
+      })
+      .catch(error => console.error('error logging into nexmo', error));
+  }
+
+  startNewChat(userNexmoId, userNameFirst, userNameLast) {
+    const { chatApp } = this.state;
+    if (!chatApp) {
+      this.getAllChats(() => {
+        chatApp.newConversationAndJoin({
+          display_name: `${userNameFirst} ${userNameLast}`,
+        })
+          .then((conversation) => {
+            conversation
+              .invite({ id: userNexmoId })
+              .then(user => console.log('invited', user))
+              .catch(error => console.error('error inviting user to chat', error));
+          })
+          .catch(error => console.error('error creating new chat', error));
+      });
+    } else {
+      chatApp.newConversationAndJoin({
+        display_name: `${userNameFirst} ${userNameLast}`,
+      })
+        .then((conversation) => {
+          conversation
+            .invite({ id: userNexmoId })
+            .then(user => console.log('invited', user))
+            .catch(error => console.error('error inviting user to chat', error));
+        })
+        .catch(error => console.error('error creating new chat', error));
+    }
   }
 
   fbLogout() {
@@ -131,7 +168,7 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, allUserChats } = this.state;
+    const { isAuthenticated, allUserChats, chatApp } = this.state;
     const { chatClient } = this.props;
 
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
@@ -177,9 +214,22 @@ class Nav extends React.Component {
       onSetOpen: this.onSetSidebarOpen,
     };
 
-    const chatClientProp = { chatClient };
+    const commonAreaProps = {
+      chatClient,
+      key: this.state.refresh,
+      startNewChat: this.startNewChat,
+    };
 
-    const chatClientAndChats = { chatClient, allUserChats };
+    const profileProps = {
+      startNewChat: this.startNewChat,
+    };
+
+    const chatClientAndChats = {
+      chatClient,
+      chatApp,
+      allUserChats,
+      getAllChats: this.getAllChats,
+    };
 
     const refreshKeyProp = {
       key: this.state.refresh,
@@ -198,8 +248,8 @@ class Nav extends React.Component {
               <Switch>
                 <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...chatClientAndChats} />} />
                 <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/common-area" render={props => <CommonArea {...props} {...chatClientProp} {...refreshKeyProp} />} />
+                <Route path="/profile" render={props => <Profile {...props} {...profileProps} />} />
+                <Route path="/common-area" render={props => <CommonArea {...props} {...commonAreaProps} />} />
                 <Route path="/messages" render={props => <ChatMain {...props} {...chatClientAndChats} />} />
                 <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
                 <Route path="/listing" component={Listing} />
@@ -218,5 +268,13 @@ class Nav extends React.Component {
     return <Login />;
   }
 }
+
+Nav.propTypes = {
+  chatClient: PropTypes.object,
+};
+
+Nav.defaultProps = {
+  chatClient: new ConversationClient(),
+};
 
 export default Nav;

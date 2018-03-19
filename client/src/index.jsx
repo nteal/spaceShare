@@ -46,7 +46,7 @@ class App extends React.Component {
           .then((res) => {
             const { user_jwt } = res.data;
             const client = new ConversationClient({
-              debug: true,
+              debug: false,
               environment: 'development',
             });
             this.setState({ chatClient: client }, () => {
@@ -62,7 +62,9 @@ class App extends React.Component {
   render() {
     const { isAuthenticated, chatClient } = this.state;
 
-    return isAuthenticated ? <Nav chatClient={chatClient} /> : <Login chatClient={chatClient} />;
+    return isAuthenticated ? 
+      <Nav chatClient={chatClient} startChatClient={this.startChatClient} /> :
+      <Login chatClient={chatClient} startChatClient={this.startChatClient} />;
   }
 }
 

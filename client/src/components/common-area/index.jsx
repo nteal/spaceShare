@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -83,6 +84,7 @@ class CommonArea extends React.Component {
   }
 
   setupConversationEvents(conversation) {
+    const { membersById } = this.state;
     this.conversation = conversation;
     console.log('*** Conversation Retrieved', conversation);
     console.log('*** Conversation Member', conversation.me);
@@ -95,15 +97,16 @@ class CommonArea extends React.Component {
         timestamp: message.timestamp,
         text: message.body.text,
       };
-      console.log('incoming', newIncomingMessage);
-      this.setState({
-        incomingMessages: incomingMessages.concat(newIncomingMessage),
-      });
+      if (newIncomingMessage.timestamp !== incomingMessages[incomingMessages.length - 1].timestamp) {
+        this.setState({
+          incomingMessages: incomingMessages.concat(newIncomingMessage),
+        });
+      }
       if (sender.name !== this.conversation.me.name) {
         message
           .seen()
-          .then(this.eventLogger('text:seen'))
-          .catch(this.errorLogger);
+          .then(() => console.log('text:seen'))
+          .catch((error) => console.error(error));
       }
     });
 
@@ -112,9 +115,9 @@ class CommonArea extends React.Component {
 
     this.showConversationHistory(conversation);
 
-    conversation.on('text:seen', (data, text) => console.log(`${data.name} saw text: ${text.body.text}`));
-    conversation.on('text:typing:off', data => console.log(`${data.name} stopped typing...`));
-    conversation.on('text:typing:on', data => console.log(`${data.name} started typing...`));
+    conversation.on('text:seen', (data, text) => console.log(`${membersById[data.user.name]} saw text: ${text.body.text}`));
+    conversation.on('text:typing:off', data => this.setState({ typingStatus: '' }));
+    conversation.on('text:typing:on', data => this.setState({ typingStatus: `${membersById[data.user.name]} is typing...` }));
   }
   showConversationHistory(conversation) {
     const { membersById } = this.state;
@@ -143,7 +146,7 @@ class CommonArea extends React.Component {
             case 'member:left':
               eventsHistory.unshift({
                 notMessage: true,
-                sender: chat.user.name,
+                sender: membersById[chat.user.name],
                 timestamp: date,
                 text: 'left for now... :(',
               });
@@ -151,7 +154,7 @@ class CommonArea extends React.Component {
             default:
               eventsHistory.unshift({
                 notMessage: true,
-                sender: chat.user.name,
+                sender: membersById[chat.user.name],
                 timestamp: date,
                 text: 'did something weird...',
               });
@@ -162,14 +165,16 @@ class CommonArea extends React.Component {
     });
   }
   joinConversation(userToken) {
+    const { chatClient } = this.props;
     const { conversationId } = this.state;
-    new ConversationClient({ debug: false })
+    chatClient
       .login(userToken)
       .then(app => app.getConversation(conversationId))
       .then((conversation) => {
         this.setState({ chat: conversation }, () => {
-          console.log('chat', conversation);
-          conversation.join();
+          if (conversation.me.state !== 'JOINED') {
+            conversation.join();
+          }
           this.setupConversationEvents(conversation);
         });
       })
@@ -219,6 +224,7 @@ class CommonArea extends React.Component {
     });
   }
   render() {
+    const { startNewChat } = this.props;
     const {
       id,
       ownerId,
@@ -233,6 +239,7 @@ class CommonArea extends React.Component {
       conversationId,
       chat,
       incomingMessages,
+      typingStatus,
     } = this.state;
     const commonAreaProps = {
       id,
@@ -248,6 +255,7 @@ class CommonArea extends React.Component {
       setTodos: this.setTodos,
       submitTodos: this.submitTodos,
       incomingMessages,
+      typingStatus,
     };
     const membersProps = {
       ownerId,
@@ -255,6 +263,7 @@ class CommonArea extends React.Component {
       addMember: this.addMember,
       deleteMember: this.deleteMember,
       isOwner,
+      startNewChat,
     };
     const rulesProps = { groundRules, submit: this.submitGroundRules, isOwner };
 
@@ -297,5 +306,15 @@ class CommonArea extends React.Component {
     );
   }
 }
+
+CommonArea.propTypes = {
+  chatClient: PropTypes.object,
+  startNewChat: PropTypes.func,
+};
+
+CommonArea.defaultProps = {
+  chatClient: null,
+  startNewChat: null,
+};
 
 export default CommonArea;
