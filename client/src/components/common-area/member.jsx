@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MessageText from 'mdi-react/MessageTextIcon.js';
 
 const Member = (props) => {
-  const { canDelete, member } = props;
+  const { canDelete, member, startNewChat } = props;
   const {
     id,
     nexmo_id,
@@ -22,6 +22,9 @@ const Member = (props) => {
     props.deleteMember(id);
   };
 
+  const messageUser = () => {
+    startNewChat(nexmo_id, name_first, name_last);
+  };
   return (
     <div className="col-10 col-sm-6 col-md-4 col-lg-4 d-flex flex-column pt-4">
       <div className="content-box member-card container pb-0">
@@ -68,7 +71,7 @@ const Member = (props) => {
               )}
             </ul>
             <div className="row justify-content-end pr-2">
-              <Link to={{ pathname: '/messages/chat', state: { nexmoId: nexmo_id } }}>
+              <Link to="/messages" onClick={messageUser}>
                 <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
               </Link>
             </div>
@@ -92,6 +95,7 @@ Member.propTypes = {
   owner: PropTypes.bool,
   canDelete: PropTypes.bool,
   deleteMember: PropTypes.func,
+  startNewChat: PropTypes.func,
 };
 
 Member.defaultProps = {
@@ -107,6 +111,7 @@ Member.defaultProps = {
   owner: false,
   canDelete: false,
   deleteMember: null,
+  startNewChat: null,
 };
 
 export default Member;

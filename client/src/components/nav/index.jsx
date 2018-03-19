@@ -50,6 +50,7 @@ class Nav extends React.Component {
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.getAllChats = this.getAllChats.bind(this);
+    this.startNewChat = this.startNewChat.bind(this);
     this.fbLogout = this.fbLogout.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
@@ -84,7 +85,7 @@ class Nav extends React.Component {
       .then((app) => {
         this.app = app;
         console.log('*** logged into app', app);
-
+        this.setState({ chatApp: app });
         app.on('member:invited', (member, event) => {
           console.log('*** invitation received:', event);
 
@@ -108,6 +109,35 @@ class Nav extends React.Component {
         this.setState({ allUserChats: conversations }, callback);
       })
       .catch(error => console.error('error logging into nexmo', error));
+  }
+
+  startNewChat(userNexmoId, userNameFirst, userNameLast) {
+    const { chatApp } = this.state;
+    if (!chatApp) {
+      this.getAllChats(() => {
+        chatApp.newConversationAndJoin({
+          display_name: `${userNameFirst} ${userNameLast}`,
+        })
+          .then((conversation) => {
+            conversation
+              .invite({ id: userNexmoId })
+              .then(user => console.log('invited', user))
+              .catch(error => console.error('error inviting user to chat', error));
+          })
+          .catch(error => console.error('error creating new chat', error));
+      });
+    } else {
+      chatApp.newConversationAndJoin({
+        display_name: `${userNameFirst} ${userNameLast}`,
+      })
+        .then((conversation) => {
+          conversation
+            .invite({ id: userNexmoId })
+            .then(user => console.log('invited', user))
+            .catch(error => console.error('error inviting user to chat', error));
+        })
+        .catch(error => console.error('error creating new chat', error));
+    }
   }
 
   fbLogout() {
@@ -138,7 +168,7 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, allUserChats } = this.state;
+    const { isAuthenticated, allUserChats, chatApp } = this.state;
     const { chatClient } = this.props;
 
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
@@ -184,10 +214,19 @@ class Nav extends React.Component {
       onSetOpen: this.onSetSidebarOpen,
     };
 
-    const chatClientProp = { chatClient };
+    const commonAreaProps = {
+      chatClient,
+      key: this.state.refresh,
+      startNewChat: this.startNewChat,
+    };
+
+    const profileProps = {
+      startNewChat: this.startNewChat,
+    };
 
     const chatClientAndChats = {
       chatClient,
+      chatApp,
       allUserChats,
       getAllChats: this.getAllChats,
     };
@@ -209,8 +248,8 @@ class Nav extends React.Component {
               <Switch>
                 <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...chatClientAndChats} />} />
                 <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/common-area" render={props => <CommonArea {...props} {...chatClientProp} {...refreshKeyProp} />} />
+                <Route path="/profile" render={props => <Profile {...props} {...profileProps} />} />
+                <Route path="/common-area" render={props => <CommonArea {...props} {...commonAreaProps} />} />
                 <Route path="/messages" render={props => <ChatMain {...props} {...chatClientAndChats} />} />
                 <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
                 <Route path="/listing" component={Listing} />
