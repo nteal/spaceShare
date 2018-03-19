@@ -101,6 +101,7 @@ class ChatMain extends React.Component {
           </div>
           <h6>Space Chats</h6>
           {spaceChats.map((chat) => {
+            console.log(userSpaceChats);
             const spacePurpose = userSpaceChats[chat.id].purpose;
             const glyph = spacePurpose === 1 ? (
               <i className="material-icons md-xs mr-1">business</i>
@@ -108,11 +109,11 @@ class ChatMain extends React.Component {
               <i className="material-icons md-xs mr-1">home</i>
             );
             return (
-              <div key={chat.id} className="row d-flex align-items-center justify-content-between pl-2 pr-4">
+              <div key={chat.id} className="row d-flex align-items-center pl-3">
                 {glyph}
                 <a
                   id={chat.id}
-                  className="nav-link"
+                  className="nav-link pl-1 pt-1 pb-1"
                   href="#"
                   onClick={this.setConversation}
                 >
@@ -128,7 +129,7 @@ class ChatMain extends React.Component {
               <div key={chat.id} className="row d-flex align-items-center justify-content-between pl-2 pr-4">
                 <a
                   id={chat.id}
-                  className="nav-link"
+                  className="nav-link pt-1 pb-1"
                   href="#"
                   onClick={this.setConversation}
                 >
