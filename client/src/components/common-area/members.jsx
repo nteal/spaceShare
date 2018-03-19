@@ -53,7 +53,7 @@ class Members extends React.Component {
     this.setState({ modalVisible: false });
   }
   render() {
-    const { ownerId, members, isOwner } = this.props;
+    const { ownerId, members, isOwner, startNewChat } = this.props;
     const { modalVisible } = this.state;
     return (
       <div>
@@ -134,9 +134,9 @@ class Members extends React.Component {
             <div className="row pt-2 justify-content-around">
               {members.map(member => (
                 member.fb_id === ownerId ? (
-                  <Member member={member} key={member.id} deleteMember={this.handleAttemptDelete} canDelete={isOwner} owner />
+                  <Member member={member} key={member.id} deleteMember={this.handleAttemptDelete} canDelete={isOwner} startNewChat={startNewChat} owner />
                 ) : (
-                  <Member member={member} key={member.id} deleteMember={this.handleAttemptDelete} canDelete={isOwner} />
+                  <Member member={member} key={member.id} deleteMember={this.handleAttemptDelete} canDelete={isOwner} startNewChat={startNewChat} />
                 )
               ))}
             </div>
@@ -153,6 +153,7 @@ Members.propTypes = {
   addMember: PropTypes.func,
   deleteMember: PropTypes.func,
   isOwner: PropTypes.bool,
+  startNewChat: PropTypes.func,
 };
 
 Members.defaultProps = {
@@ -161,6 +162,7 @@ Members.defaultProps = {
   addMember: null,
   deleteMember: null,
   isOwner: false,
+  startNewChat: null,
 };
 
 export default Members;

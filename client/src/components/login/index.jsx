@@ -19,7 +19,7 @@ class Login extends React.Component {
   }
   componentDidMount() {}
   fbLogin() {
-    const { chatClient } = this.props;
+    const { startChatClient } = this.props;
     this.setState();
     FB.login((result) => {
       console.log('fb login result:');
@@ -35,6 +35,7 @@ class Login extends React.Component {
               console.log('bang');
               localStorage.removeItem('id_token');
               localStorage.setItem('id_token', response.data);
+              startChatClient();
             }
           })
           .then(() => {

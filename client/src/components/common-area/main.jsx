@@ -23,10 +23,10 @@ class CommonAreaMain extends React.Component {
       setTodos,
       submitTodos,
       purpose,
-      members,
       conversationId,
       chat,
       incomingMessages,
+      typingStatus,
     } = this.props;
     const purposeGlyph = purpose === 'Live' ? (
       <i className="material-icons md-h3 mr-1">home</i>
@@ -91,7 +91,12 @@ class CommonAreaMain extends React.Component {
             />
           </div>
           <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column">
-            <Chat chat={chat} conversationId={conversationId} members={members} incomingMessages={incomingMessages} />
+            <Chat 
+              chat={chat}
+              conversationId={conversationId}
+              incomingMessages={incomingMessages}
+              typingStatus={typingStatus}
+            />
           </div>
         </div>
 
@@ -112,6 +117,7 @@ CommonAreaMain.propTypes = {
   conversationId: PropTypes.string,
   chat: PropTypes.object,
   incomingMessages: PropTypes.array,
+  typingStatus: PropTypes.string,
 };
 
 CommonAreaMain.defaultProps = {
@@ -126,6 +132,7 @@ CommonAreaMain.defaultProps = {
   conversationId: null,
   chat: null,
   incomingMessages: [],
+  typingStatus: '',
 };
 
 export default CommonAreaMain;
