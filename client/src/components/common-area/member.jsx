@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import MessageText from 'mdi-react/MessageTextIcon.js';
 
 const Member = (props) => {
-  const { canDelete, member } = props;
+  const { canDelete, member, startNewChat } = props;
   const {
     id,
+    nexmo_id,
     image_url,
     name_first,
     name_last,
@@ -21,6 +22,9 @@ const Member = (props) => {
     props.deleteMember(id);
   };
 
+  const messageUser = () => {
+    startNewChat(nexmo_id, name_first, name_last);
+  };
   return (
     <div className="col-10 col-sm-6 col-md-4 col-lg-4 d-flex flex-column pt-4">
       <div className="content-box member-card container pb-0">
@@ -67,7 +71,7 @@ const Member = (props) => {
               )}
             </ul>
             <div className="row justify-content-end pr-2">
-              <Link to={{ pathname: '/messages', state: { userId: id } }}>
+              <Link to="/messages" onClick={messageUser}>
                 <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
               </Link>
             </div>
@@ -81,6 +85,7 @@ const Member = (props) => {
 Member.propTypes = {
   member: PropTypes.shape({
     id: PropTypes.number,
+    nexmo_id: PropTypes.string,
     image_url: PropTypes.string,
     name_first: PropTypes.string,
     name_last: PropTypes.string,
@@ -90,11 +95,13 @@ Member.propTypes = {
   owner: PropTypes.bool,
   canDelete: PropTypes.bool,
   deleteMember: PropTypes.func,
+  startNewChat: PropTypes.func,
 };
 
 Member.defaultProps = {
   member: {
     id: null,
+    nexmo_id: null,
     image_url: 'http://vectips.com/wp-content/uploads/2017/04/14-astronaut-flat.jpg',
     name_first: 'Bobo',
     name_last: 'Boberton',
@@ -104,6 +111,7 @@ Member.defaultProps = {
   owner: false,
   canDelete: false,
   deleteMember: null,
+  startNewChat: null,
 };
 
 export default Member;

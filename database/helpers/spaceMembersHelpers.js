@@ -23,6 +23,7 @@ const getSpaceMembers = spaceId => (
         image_url: user.image_url,
         fb_id: user.fb_id,
         fb_link: user.fb_link,
+        nexmo_id: user.nexmo_id,
         id: user.id,
         is_owner: await isOwner(user.fb_id, spaceId),
       }
