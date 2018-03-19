@@ -19,6 +19,7 @@ class Listing extends React.Component {
       gallery: [],
     };
     this.handleBack = this.handleBack.bind(this);
+    this.messageOwner = this.messageOwner.bind(this);
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
@@ -31,6 +32,9 @@ class Listing extends React.Component {
           purpose,
           owner_fb_id,
           owner_name,
+          owner_name_first,
+          owner_name_last,
+          owner_nexmo_id,
           cost,
           timeline,
           capacity,
@@ -51,6 +55,9 @@ class Listing extends React.Component {
           purpose,
           owner_fb_id,
           owner_name,
+          owner_name_first,
+          owner_name_last,
+          owner_nexmo_id,
           cost,
           timeline,
           capacity,
@@ -87,6 +94,13 @@ class Listing extends React.Component {
 
   handleBack() {
     this.props.history.goBack();
+  }
+
+  messageOwner() {
+    const { owner_nexmo_id, owner_name_first, owner_name_last } = this.state;
+    const { startNewChat } = this.props;
+
+    startNewChat(owner_nexmo_id, owner_name_first, owner_name_last);
   }
 
   render() {
@@ -204,7 +218,7 @@ class Listing extends React.Component {
                     {purposeGlyph}<h4 className="mb-0">{purpose}</h4>
                   </div>
                   <div className="d-flex flex-row align-items-center">
-                    <Link to={{ pathname: '/messages', state: { userId: owner_fb_id } }}>
+                    <Link to="/messages" onClick={this.messageOwner}>
                       <Email className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
                     </Link>
                     <h6>
