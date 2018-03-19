@@ -1,27 +1,29 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
 import ReactS3Uploader from 'react-s3-uploader';
 import TextInput from '../profile/textInput.jsx';
 
 class CreateSpace extends React.Component {
   constructor(props) {
     super(props);
+    /* eslint-disable */
     this.state = {
       name: 'space',
       main_image: '',
       purpose_id: 1,
       open: false,
-      cost: '0',
+      cost: 0,
       street_address: 'A street address has not been provided for this space',
       street_address2: 'Apt',
-      city: 'unknown',
-      zip: 'unknown',
-      state: 'unknown',
-      neighborhood: 'unknown',
+      city: 'New Orleans',
+      zip: '70130',
+      state: 'Louisiana',
+      neighborhood: 'Downtown New Orleans',
       description: 'A description is not available for this space.',
       timeline_id: 2,
-      capacity: '0',
+      capacity: 0,
       smoking_id: 2,
       pet_id: 3,
       amenities: [],
@@ -29,6 +31,7 @@ class CreateSpace extends React.Component {
       tempImageUrl: '',
       editing: true,
     };
+    /* eslint-enable */
     this.onDrop = this.onDrop.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
     this.doneEditing = this.doneEditing.bind(this);
@@ -45,7 +48,7 @@ class CreateSpace extends React.Component {
   onDrop(acceptedFile) {
     const { filename, publicUrl } = acceptedFile;
     this.setState({
-      main_image: `https://spaceshare-sfp.s3.amazonaws.com/${filename}`,
+      main_image: `https://spaceshare-sfp.s3.amazonaws.com/${filename}`,  // eslint-disable-line
       tempImageUrl: publicUrl,
       editing: false,
     });
@@ -58,11 +61,11 @@ class CreateSpace extends React.Component {
   }
   handleCostChange(event) {
     let decimalFound = false;
-    let cost = event.target.value.split('').reduce((number, char, i, costArray) => {
+    const cost = event.target.value.split('').reduce((number, char, i, costArray) => {
       if (((char >= '0' && char <= '9') || char === '.') && !decimalFound) {
         if (char === '.') {
           number.push(char);
-          for (let j = 1; j < 3; j++) {
+          for (let j = 1; j < 3; j += 1) {
             if (costArray[i + j] >= '0' && costArray[i + j] <= '9') {
               number.push(costArray[i + j]);
             }
@@ -75,22 +78,22 @@ class CreateSpace extends React.Component {
       return number;
     }, []);
     let price = Number.parseFloat(cost.join(''));
-    if (isNaN(price)) { price = 0; }
+    if (isNaN(price)) { price = 0; } // eslint-disable-line
     this.setState({
-      cost: price,
+      cost: price, // eslint-disable-line
     });
   }
   handleCapacityChange(event) {
-    let capacity = event.target.value.split('').reduce((number, char, i, costArray) => {
+    const capacity = event.target.value.split('').reduce((number, char) => {
       if (char >= '0' && char <= '9') {
         number.push(char);
       }
       return number;
     }, []);
-    let cap = Number.parseInt(cost.join(''));
-    if (isNaN(cap)) { cap = 0; }
+    let cap = Number.parseInt(capacity.join(''), 10);
+    if (isNaN(cap)) { cap = 0; } // eslint-disable-line
     this.setState({
-      capacity: cap,
+      capacity: cap, // eslint-disable-line
     });
   }
   handleInputChange(event) {
@@ -102,6 +105,7 @@ class CreateSpace extends React.Component {
   }
   addAmenity() {
     if (this.state.amenities.length > 7) {
+      // eslint-disable-next-line
       window.alert('you have reached the maximum limit of 8 amenities\nyou may edit any existing amenity');
     } else {
       this.setState({
@@ -127,12 +131,10 @@ class CreateSpace extends React.Component {
       space: this.state,
     })
       .then((response) => {
-        console.log('space added', response);
-        localStorage.setItem('id_space', response.data);
         this.props.toggleRefresh();
         this.props.history.push({
           pathname: '/common-area',
-          state: { spaceId: response.data },
+          state: { spaceId: response.data.spaceId },
         });
       })
       .catch((error) => {
@@ -434,7 +436,7 @@ class CreateSpace extends React.Component {
               <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
             </div>
             <div className="row">
-              <h5>Timeframe</h5>
+              <h5>Time-frame</h5>
             </div>
             <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
@@ -548,5 +550,12 @@ class CreateSpace extends React.Component {
     );
   }
 }
+
+CreateSpace.propTypes = {
+  toggleRefresh: PropTypes.func,
+};
+CreateSpace.defaultProps = {
+  toggleRefresh: () => {},
+};
 
 export default CreateSpace;
