@@ -46,6 +46,9 @@ const { removeUserFromSpace } = require('./spaceMembersHelpers');
 // matches
 const { getAllMatches } = require('./matchingHelpers');
 const { getAllListings } = require('./matchingHelpers');
+// nexmo helpers
+const { getUsersFromNexmoIds } = require('./nexmoHelpers');
+const { getSpaceConversations } = require('./nexmoHelpers');
 
 
 // user exports:
@@ -96,3 +99,6 @@ exports.removeUserFromSpace = removeUserFromSpace;
 // matches
 exports.getAllMatches = getAllMatches;
 exports.getAllListings = getAllListings;
+// nexmo exports
+exports.getUsersFromNexmoIds = getUsersFromNexmoIds;
+exports.getSpaceConversations = getSpaceConversations;
