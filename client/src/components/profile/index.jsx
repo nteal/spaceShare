@@ -44,7 +44,15 @@ class Profile extends React.Component {
   render() {
     const { user } = this.state;
     const { name_first } = user;
-
+    const heading = (/[qypg]/).test(name_first) ? (
+      <div className="heading-box descender">
+        <h1>{name_first}&apos;s Profile</h1>
+      </div>
+    ) : (
+      <div className="heading-box">
+        <h1>{name_first}&apos;s Profile</h1>
+      </div>
+    );
     return (
       <div>
         <MediaQuery minDeviceWidth={800}>
@@ -55,9 +63,7 @@ class Profile extends React.Component {
         <div className="container p-res">
           <MediaQuery minDeviceWidth={800}>
             <div className="row mt-neg-3">
-              <div className="heading-box">
-                <h1>{name_first}&apos;s Profile</h1>
-              </div>
+              {heading}
             </div>
           </MediaQuery>
           <MediaQuery maxDeviceWidth={799}>

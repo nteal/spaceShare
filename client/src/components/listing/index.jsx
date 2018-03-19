@@ -119,15 +119,30 @@ class Listing extends React.Component {
     );
 
     const pronoun = capacity > 1 ? 'people' : 'person';
+    const heading = (/[qypg]/).test(name) ? (
+      <div className="heading-box descender mt-neg">
+        <h1>
+          {name}
+          {isOwner && (
+            <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="heading-box-edit">
+              <i className="material-icons">edit</i>
+            </Link>
+          )}
+        </h1>
+      </div>
+    ) : (
+      <div className="heading-box mt-neg">
+        <h1>
+          {name}
+          {isOwner && (
+            <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="heading-box-edit">
+              <i className="material-icons">edit</i>
+            </Link>
+          )}
+        </h1>
+      </div>
 
-    // let locationDisplay;
-    // if (open) {
-    //   const { neighborhood } = this.state;
-    //   locationDisplay = <Location neighborhood={neighborhood} />;
-    // } else {
-    //   const { street_address, city, state, zip } = this.state;
-    //   locationDisplay = <Location isMember address={street_address} city={city} state={state} zip={zip} />;
-    // }
+    );
 
     return (
       <div>
@@ -154,16 +169,7 @@ class Listing extends React.Component {
           <div className="container mt-neg-3">
             <div className="row">
               <MediaQuery minDeviceWidth={601}>
-                <div className="heading-box mt-neg">
-                  <h1>
-                    {name}
-                    {isOwner && (
-                      <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="heading-box-edit">
-                        <i className="material-icons">edit</i>
-                      </Link>
-                    )}
-                  </h1>
-                </div>
+                {heading}
               </MediaQuery>
               <MediaQuery maxDeviceWidth={600}>
                 <div className="mobile-heading-box mt-neg-3">
