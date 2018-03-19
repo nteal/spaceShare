@@ -31,6 +31,7 @@ const allListings = city => (
       const spaceListing = {
         cost: space.cost,
         description: space.description,
+        name: space.name,
         neighborhood: space.neighborhood,
         main_image: space.main_image,
         pet: space.pet,
