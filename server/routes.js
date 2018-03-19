@@ -253,7 +253,7 @@ router.get('/api/spaceChats/:token', (req, res) => {
 });
 
 router.get('/api/usersByNexmoId/:token', (req, res) => {
-  db.helpers.getUsersFromNexmoIds(req.params.nexmoIds)
+  db.helpers.getUsersFromNexmoIds(req.query.nexmoIds)
     .then(users => res.send(users))
     .catch(error => res.status(500).send(error));
 });
