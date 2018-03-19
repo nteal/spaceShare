@@ -62,6 +62,9 @@ const getSpaceListingById = (spaceId) => {
       space.amenities = amenities;
       const owner = await User.findOne({ where: { fb_id: space.owner_fb_id } });
       space.owner_name = `${owner.name_first} ${owner.name_last}`;
+      space.owner_nexmo_id = owner.nexmo_id;
+      space.owner_name_first = owner.name_first;
+      space.owner_name_last = owner.name_last;
       return space;
     })
     .catch(err => console.log(err))
