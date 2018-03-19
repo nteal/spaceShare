@@ -81,7 +81,7 @@ ul {
 }
 
 .messages-container {
-  height: calc(100vh - 8.5rem);
+  height: calc(100vh - 10.85rem);
   overflow: auto;
 }
 
@@ -98,6 +98,26 @@ ul {
 
 .status-row {
   height: 1.5rem;
+}
+
+.chat-col {
+  width: 80%;
+}
+
+.sender-row {
+  width: 55rem;
+}
+
+.chat-bubble {
+  background: linear-gradient(90deg, #B2FFB0, #B0FFF7);
+  border-radius: 2px;
+  width: 55rem; 
+}
+
+.chat-bubble-me {
+  background: linear-gradient(90deg, #B0C6FF, #F4B0FF);
+  border-radius: 2px; 
+  width: 55rem; 
 }
 
 .delete-member-btn {

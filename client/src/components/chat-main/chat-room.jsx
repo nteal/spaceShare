@@ -74,7 +74,7 @@ class ChatRoom extends React.Component {
         </div>
         <div className="row messages-container">
           <div className="col message-col">
-            <div>
+            <div className="pt-2 py-2">
               {/* Messages go here */}
               {incomingMessages.map(message => (
                 <ChatBubble message={message} key={message.timestamp} />
