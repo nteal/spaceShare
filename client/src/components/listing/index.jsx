@@ -3,7 +3,7 @@ import Axios from 'axios';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
-import Email from 'mdi-react/EmailIcon.js';
+import MessageText from 'mdi-react/MessageTextIcon.js';
 import Location from './location.jsx';
 import AboutBox from './aboutBox.jsx';
 import Amenities from './amenities.jsx';
@@ -19,6 +19,7 @@ class Listing extends React.Component {
       gallery: [],
     };
     this.handleBack = this.handleBack.bind(this);
+    this.messageOwner = this.messageOwner.bind(this);
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
@@ -31,6 +32,9 @@ class Listing extends React.Component {
           purpose,
           owner_fb_id,
           owner_name,
+          owner_name_first,
+          owner_name_last,
+          owner_nexmo_id,
           cost,
           timeline,
           capacity,
@@ -44,6 +48,7 @@ class Listing extends React.Component {
           amenities,
           gallery,
         } = response.data;
+        console.log('response', response.data);
         this.setState({
           id,
           main_image,
@@ -51,6 +56,9 @@ class Listing extends React.Component {
           purpose,
           owner_fb_id,
           owner_name,
+          owner_name_first,
+          owner_name_last,
+          owner_nexmo_id,
           cost,
           timeline,
           capacity,
@@ -63,7 +71,7 @@ class Listing extends React.Component {
           smoking,
           amenities: amenities || [],
           gallery: gallery || [],
-        });
+        }, () => { console.log('listing', this.state)});
 
         Axios.get('/api/isOwner', {
           params: {
@@ -87,6 +95,14 @@ class Listing extends React.Component {
 
   handleBack() {
     this.props.history.goBack();
+  }
+
+  messageOwner() {
+    const { owner_nexmo_id, owner_name_first, owner_name_last } = this.state;
+    const { startNewChat } = this.props;
+    console.log('trying to start new chat', owner_nexmo_id, owner_name_first, owner_name_last);
+
+    startNewChat(owner_nexmo_id, owner_name_first, owner_name_last);
   }
 
   render() {
@@ -119,15 +135,30 @@ class Listing extends React.Component {
     );
 
     const pronoun = capacity > 1 ? 'people' : 'person';
+    const heading = (/[qypg]/).test(name) ? (
+      <div className="heading-box descender mt-neg">
+        <h1>
+          {name}
+          {isOwner && (
+            <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="heading-box-edit">
+              <i className="material-icons">edit</i>
+            </Link>
+          )}
+        </h1>
+      </div>
+    ) : (
+      <div className="heading-box mt-neg">
+        <h1>
+          {name}
+          {isOwner && (
+            <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="heading-box-edit">
+              <i className="material-icons">edit</i>
+            </Link>
+          )}
+        </h1>
+      </div>
 
-    // let locationDisplay;
-    // if (open) {
-    //   const { neighborhood } = this.state;
-    //   locationDisplay = <Location neighborhood={neighborhood} />;
-    // } else {
-    //   const { street_address, city, state, zip } = this.state;
-    //   locationDisplay = <Location isMember address={street_address} city={city} state={state} zip={zip} />;
-    // }
+    );
 
     return (
       <div>
@@ -154,16 +185,7 @@ class Listing extends React.Component {
           <div className="container mt-neg-3">
             <div className="row">
               <MediaQuery minDeviceWidth={601}>
-                <div className="heading-box mt-neg">
-                  <h1>
-                    {name}
-                    {isOwner && (
-                      <Link to={{ pathname: '/edit-listing', state: { spaceId: id } }} className="heading-box-edit">
-                        <i className="material-icons">edit</i>
-                      </Link>
-                    )}
-                  </h1>
-                </div>
+                {heading}
               </MediaQuery>
               <MediaQuery maxDeviceWidth={600}>
                 <div className="mobile-heading-box mt-neg-3">
@@ -185,8 +207,8 @@ class Listing extends React.Component {
                     {purposeGlyph}<h3 className="mb-0">{purpose}</h3>
                   </div>
                   <div className="d-flex flex-row align-items-center">
-                    <Link to={{ pathname: '/messages', state: { userId: owner_fb_id } }}>
-                      <Email className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
+                    <Link to="/messages" onClick={this.messageOwner}>
+                      <MessageText className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
                     </Link>
                     <h5>
                       {owner_name}
@@ -198,8 +220,8 @@ class Listing extends React.Component {
                     {purposeGlyph}<h4 className="mb-0">{purpose}</h4>
                   </div>
                   <div className="d-flex flex-row align-items-center">
-                    <Link to={{ pathname: '/messages', state: { userId: owner_fb_id } }}>
-                      <Email className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
+                    <Link to="/messages" onClick={this.messageOwner}>
+                      <MessageText className="mdi-btn ml-1 mr-2" height={20} width={20} fill="#6F5BC0" />
                     </Link>
                     <h6>
                       {owner_name}

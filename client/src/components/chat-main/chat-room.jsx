@@ -56,12 +56,25 @@ class ChatRoom extends React.Component {
   }
   render() {
     const { newMessage } = this.state;
-    const { incomingMessages, typingStatus } = this.props;
+    const { incomingMessages, typingStatus, chat } = this.props;
+
+    let displayHeading = (/[qypg]/).test(chat.display_name) ? (
+      <div className="heading-box-chat chat-descender">
+        <h4>{chat.display_name}</h4>
+      </div>
+    ) : (
+      <div className="heading-box-chat">
+        <h4>{chat.display_name}</h4>
+      </div>
+    );
     return (
       <div className="col">
+        <div className="row pt-2 pl-2">
+          {displayHeading}
+        </div>
         <div className="row messages-container">
           <div className="col message-col">
-            <div>
+            <div className="pt-2 py-2">
               {/* Messages go here */}
               {incomingMessages.map(message => (
                 <ChatBubble message={message} key={message.timestamp} />

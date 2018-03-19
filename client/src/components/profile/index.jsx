@@ -1,7 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
+import MessageText from 'mdi-react/MessageTextIcon.js';
 import FacebookBox from 'mdi-react/FacebookBoxIcon.js';
 import UserStats from './userStats.jsx';
 import AboutBox from '../listing/aboutBox.jsx';
@@ -30,6 +32,7 @@ class Profile extends React.Component {
       },
     };
     this.handleBack = this.handleBack.bind(this);
+    this.messageUser = this.messageUser.bind(this);
   }
   componentDidMount() {
     Axios.get(`/api/userPublic/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.userId : 0}`)
@@ -41,10 +44,24 @@ class Profile extends React.Component {
   handleBack() {
     this.props.history.goBack();
   }
+  messageUser() {
+    const { nexmo_id, name_first, name_last } = this.state.user;
+    const { startNewChat } = this.props;
+
+    startNewChat(nexmo_id, name_first, name_last);
+  }
   render() {
     const { user } = this.state;
-    const { name_first } = user;
-
+    const { name_first, fb_link } = user;
+    const heading = (/[qypg]/).test(name_first) ? (
+      <div className="heading-box descender">
+        <h1>{name_first}&apos;s Profile</h1>
+      </div>
+    ) : (
+      <div className="heading-box">
+        <h1>{name_first}&apos;s Profile</h1>
+      </div>
+    );
     return (
       <div>
         <MediaQuery minDeviceWidth={800}>
@@ -55,9 +72,7 @@ class Profile extends React.Component {
         <div className="container p-res">
           <MediaQuery minDeviceWidth={800}>
             <div className="row mt-neg-3">
-              <div className="heading-box">
-                <h1>{name_first}&apos;s Profile</h1>
-              </div>
+              {heading}
             </div>
           </MediaQuery>
           <MediaQuery maxDeviceWidth={799}>
@@ -76,7 +91,23 @@ class Profile extends React.Component {
             </div>
             <div className="col-12 col-sm-10 col-md-6 col-lg-8 d-flex flex-column">
               <MediaQuery maxDeviceWidth={799}>
-                <a href="#" className="btn btn-primary btn-block mb-5">
+                <Link to="/messages" className="btn btn-primary btn-block mb-1" onClick={this.messageUser}>
+                  <div className="row pl-3">
+                    <MessageText className="mdi-btn-alt sidebar-icon" height={25} width={25} fill="#FFF" />
+                    <span className="pt-1">Chat with this user</span>
+                  </div>
+                </Link>
+              </MediaQuery>
+              <MediaQuery minDeviceWidth={800}>
+                <Link to="/messages" className="btn btn-primary btn-block btn-lg mb-1" onClick={this.messageUser}>
+                  <div className="row pl-3 mb-neg">
+                    <MessageText className="mdi-btn-alt sidebar-icon" height={25} width={25} fill="#FFF" />
+                    <span className="pb-1">Chat with this user</span>
+                  </div>
+                </Link>
+              </MediaQuery>
+              <MediaQuery maxDeviceWidth={799}>
+                <a href={fb_link} className="btn btn-primary btn-block mb-5">
                   <div className="row pl-3">
                     <FacebookBox className="mdi-btn-alt sidebar-icon" height={25} width={25} fill="#FFF" />
                     <span className="pt-1">View this user&apos;s Facebook profile</span>
@@ -84,8 +115,8 @@ class Profile extends React.Component {
                 </a>
               </MediaQuery>
               <MediaQuery minDeviceWidth={800}>
-                <a href="#" className="btn btn-primary btn-block btn-lg mb-5">
-                  <div className="row pl-3">
+                <a href={fb_link} className="btn btn-primary btn-block btn-lg mb-5">
+                  <div className="row pl-3 mb-neg">
                     <FacebookBox className="mdi-btn-alt sidebar-icon" height={25} width={25} fill="#FFF" />
                     <span className="pb-1">View this user&apos;s Facebook profile</span>
                   </div>

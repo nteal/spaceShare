@@ -126,6 +126,7 @@ const getUserPublic = (id) => {
       publicData.links = user.links;
       publicData.name_first = user.name_first;
       publicData.name_last = user.name_last;
+      publicData.nexmo_id = user.nexmo_id;
       publicData.profession = user.profession;
       publicData.personality = user.personality;
       publicData.sleep = user.sleep;

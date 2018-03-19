@@ -81,7 +81,7 @@ ul {
 }
 
 .messages-container {
-  height: calc(100vh - 8.5rem);
+  height: calc(100vh - 10.85rem);
   overflow: auto;
 }
 
@@ -98,6 +98,26 @@ ul {
 
 .status-row {
   height: 1.5rem;
+}
+
+.chat-col {
+  width: 80%;
+}
+
+.sender-row {
+  width: 55rem;
+}
+
+.chat-bubble {
+  background: linear-gradient(90deg, #B2FFB0, #B0FFF7);
+  border-radius: 2px;
+  width: 55rem; 
+}
+
+.chat-bubble-me {
+  background: linear-gradient(90deg, #B0C6FF, #F4B0FF);
+  border-radius: 2px; 
+  width: 55rem; 
 }
 
 .delete-member-btn {
@@ -166,6 +186,18 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px 75px 5px 15px!important;
 }
 
+.heading-box-chat {
+  background-color: rgb(61, 61, 61);
+  border-radius: 2px;
+  color: white;
+  height: 32px;
+  padding: 10px 75px 0px 15px;
+}
+
+.chat-descender {
+  padding: 6px 75px 5px 15px!important;
+}
+
 .heading-box-edit {
   color: rgb(195, 180, 255);
   left: 4.5rem;
@@ -194,6 +226,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .mt-neg-3 {
   margin-top: -3.5rem;
+}
+
+.mb-neg {
+  margin-bottom: -.5rem;
 }
 
 .mobile-back-btn {
@@ -278,6 +314,11 @@ mt-0 {
 .space-main-img-container {
   max-height: 10rem;
   overflow: hidden;
+}
+
+.search-result-img {
+  max-height: 9rem;
+  width: auto;
 }
 
 .image-selection-box {
