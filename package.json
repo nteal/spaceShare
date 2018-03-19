@@ -59,9 +59,9 @@
     "mdi-react": "^2.1.19",
     "moment": "^2.21.0",
     "mysql2": "^1.5.2",
-    "offline-plugin": "^4.9.0",
     "nexmo": "2.1.0-beta-1",
     "nexmo-conversation": "^0.1.19",
+    "offline-plugin": "^4.9.0",
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
     "prop-types": "^15.6.1",
@@ -75,7 +75,8 @@
     "react-sortable-hoc": "^0.6.8",
     "request": "^2.83.0",
     "sequelize": "^4.35.1",
-    "style-loader": "^0.20.2"
+    "style-loader": "^0.20.2",
+    "webpack-pwa-manifest": "^3.6.2"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
