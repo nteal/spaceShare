@@ -131,7 +131,7 @@ class PastSearches extends React.Component {
               <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" data-toggle="tab" href="#searches" role="tab">Past Searches</a>
+              <a className="nav-link active" data-toggle="tab" href="#searches" role="tab">Saved Searches</a>
             </li>
           </ul>
         </div>
