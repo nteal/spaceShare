@@ -30,15 +30,34 @@ class SearchListItem extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col">
+            <div className="col-3">
               <h4 className="mt-0 mb-1">{neighborhood}</h4>
             </div>
-            <div className="col">
+            <div className="col-2">
               <button className="btn btn-warning" onClick={this.deleteSearch}>Delete this Search</button>
             </div>
           </div>
           <h4 className="mt-0 mb-1">{`\$${price_min} - \$${price_max}`}</h4>
-          <h4 className="mt-0 mb-2">{timeline}</h4>
+          <div className="row">
+            <div className="col-3">
+              <h4 className="mt-0 mb-2">{timeline}</h4>
+            </div>
+            <div className="col-2">
+              <Link
+                to={
+                  {
+                    pathname: '/search-results',
+                    state: {
+                      search_id: id,
+                    },
+                  }
+                }
+                refresh="true"
+              >
+                <button className="btn btn-info">view search results</button>
+              </Link>
+            </div>
+          </div>
           <div className="row">
             <div className="col-2">
               <h5 className="mt-0 mb-1">{smoking}</h5>
@@ -60,19 +79,6 @@ class SearchListItem extends React.Component {
             <div className="col-2">
               <h5 className="mt-0 mb-1">{`Age Range: ${age_min} - ${age_max}`}</h5>
             </div>
-            <Link
-              to={
-                {
-                  pathname: '/search-results',
-                  state: {
-                    search_id: id,
-                  },
-                }
-              }
-              refresh="true"
-            >
-              <button className="btn btn-info">view search results</button>
-            </Link>
           </div>
         </div>
       </li>
@@ -110,7 +116,7 @@ SearchListItem.defaultProps = {
   personality: 'Introvert',
   age_min: 0,
   age_max: 100,
-  timestamp: 'not available',
+  timestamp: '',
   id: 'not available',
   deleteSearch: () => console.log('deleteSearch is not available'),
 };
