@@ -74,10 +74,9 @@ const match = (searchId) => {
         currentSearch,
       ])
     ))
-    .then(([{ people, searches, places }, currentSearch]) => {
+    .then(([{ people, places }, currentSearch]) => {
       // searches are good
       const finalMatches = {};
-      finalMatches.searches = searches;
       // match places:
       // const thePlaces = matchSpaces(currentSearch, places);
       // const theNewPlaces = thePlaces.reduce((concatPlaces, space) => concatPlaces.concat(space), []);
