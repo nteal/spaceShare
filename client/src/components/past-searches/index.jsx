@@ -26,7 +26,7 @@ class PastSearches extends React.Component {
       }],
       searches: [{
         purpose: 'You do not have any past searches',
-        neighborhood: 'location',
+        location: 'location',
         price_min: 0,
         price_max: 0,
         timeline: 'long-term',
@@ -175,7 +175,7 @@ class PastSearches extends React.Component {
             {searches.map(search => (
               <SearchListItem
                 purpose={search.purpose}
-                neighborhood={search.neighborhood}
+                neighborhood={search.location}
                 price_min={search.price_min}
                 price_max={search.price_max}
                 timeline={search.timeline}
