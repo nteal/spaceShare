@@ -77,7 +77,7 @@ ul {
   color: white;
   height: calc(100vh - 4rem);
   overflow: scroll;
-  width: 15%;
+  width: 20%;
 }
 
 .messages-container {

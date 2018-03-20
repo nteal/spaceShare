@@ -140,7 +140,7 @@ class Nav extends React.Component {
 
     conversation.on('text', (sender, message) => {
       console.log('*** Message received', sender, message);
-      const { incomingMessages } = this.state;
+      const { usersByNexmoId, incomingMessages } = this.state;
       const newIncomingMessage = {
         sender: usersByNexmoId[sender.user.id].name_first,
         timestamp: message.timestamp,
