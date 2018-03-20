@@ -11,10 +11,8 @@ class ChatMain extends React.Component {
     this.state = {
       userSpaceChats: {},
       currentUserNexmoId: '',
-      category: '',
     };
     this.getAllChats = this.getAllChats.bind(this);
-    this.setCategory = this.setCategory.bind(this);
     this.deleteConversation = this.deleteConversation.bind(this);
   }
   componentDidMount() {
@@ -42,9 +40,6 @@ class ChatMain extends React.Component {
       getAllMemberNames();
     });
   }
-  setCategory(category) {
-    this.setState({ category });
-  }
   deleteConversation(id) {
     const { chatApp } = this.props;
     chatApp.getConversation(id)
@@ -68,11 +63,13 @@ class ChatMain extends React.Component {
       chat,
       incomingMessages,
       typingStatus,
+      chatLinkId,
+      category,
+      setCategory,
     } = this.props;
     const {
       userSpaceChats,
       currentUserNexmoId,
-      category,
     } = this.state;
     const spaceChats = allUserChats ?
       Object.keys(allUserChats)
@@ -105,28 +102,26 @@ class ChatMain extends React.Component {
                 category={spacePurpose}
                 setConversation={setConversation}
                 deleteConversation={this.deleteConversation}
-                setCategory={this.setCategory}
+                setCategory={setCategory}
               />
             );
           })}
           <h6 className="mt-3">Direct Messages</h6>
           {userChats.length > 0 && userChats.map((chat) => {
-            console.log('user chat', chat);
             return (
               <ChatNavLink
                 key={chat.id}
+                chat={chat}
                 category="user"
                 setConversation={setConversation}
                 deleteConversation={this.deleteConversation}
-                setCategory={this.setCategory}
+                setCategory={setCategory}
               />
             );
           })}
         </nav>
         <ChatRoom
-          currentUserNexmoId={currentUserNexmoId}
-          users={usersByNexmoId}
-          spaces={userSpaceChats}
+          chatLinkId={chatLinkId}
           chatClient={chatClient}
           conversationId={conversationId}
           chat={chat}
@@ -150,6 +145,9 @@ ChatMain.propTypes = {
   chat: PropTypes.object,
   incomingMessages: PropTypes.array,
   typingStatus: PropTypes.string,
+  chatLinkId: PropTypes.number,
+  category: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setCategory: PropTypes.func,
 };
 
 ChatMain.defaultProps = {
@@ -163,6 +161,9 @@ ChatMain.defaultProps = {
   chat: {},
   incomingMessages: [],
   typingStatus: '',
+  chatLinkId: 0,
+  category: 'user',
+  setCategory: null,
 };
 
 export default ChatMain;
