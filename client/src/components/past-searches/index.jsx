@@ -113,7 +113,7 @@ class PastSearches extends React.Component {
       heading, people, places, searches,
     } = this.state;
     return (
-      <div>
+      <div className="pl-4">
         <div className="row mb-2 mt-2">
           <div className="col-10">
             <h1>{heading}</h1>
