@@ -30,7 +30,7 @@ class ResultListItem extends React.Component {
     } = this.props;
     return (
       <li className="media mb-3">
-        <img className="mr-3 search-result-img" src={image} alt="Generic placeholder" />
+        <img className="mr-3 search-result-img" src={image} alt="" />
         <div className="media-body">
           <div className="row">
             <div className="col">
@@ -63,7 +63,7 @@ ResultListItem.propTypes = {
   key: PropTypes.number,
 };
 ResultListItem.defaultProps = {
-  image: 'not available',
+  image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
   name: 'No results at this time',
   financial: '',
   about: '',
