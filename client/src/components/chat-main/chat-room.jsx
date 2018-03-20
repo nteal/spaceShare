@@ -56,15 +56,48 @@ class ChatRoom extends React.Component {
   }
   render() {
     const { newMessage } = this.state;
-    const { incomingMessages, typingStatus, chat } = this.props;
+    const {
+      currentUserNexmoId,
+      users,
+      spaces,
+      incomingMessages,
+      typingStatus,
+      chat,
+      category,
+    } = this.props;
+    const link = category === 'user' ? '/profile' : '/listing';
+    console.log('users', users);
+    console.log('spaces', spaces);
+    let id;
+    if (category === 'user' && users && spaces && Object.keys(users).length && Object.keys(spaces).length) {
+      const notMe = chat.members && Object.keys(chat.members).filter(id => id !== currentUserNexmoId)[0];
+      id = users[notMe].id;
+    } else if (users && spaces && chat && Object.keys(chat).length && Object.keys(users).length && Object.keys(spaces).length) {
+      console.log('chat', chat);
+      id = spaces[chat.id].id;
+    }
+    let glyph;
+    if (category === 'user') {
+      glyph = <i className="material-icons mr-1">person</i>;
+    } else if (category === 1) {
+      glyph = <i className="material-icons mr-1">business</i>;
+    } else {
+      glyph = <i className="material-icons mr-1">home</i>;
+    }
 
-    let displayHeading = (/[qypg]/).test(chat.display_name) ? (
+    const displayHeading = (/[qypg]/).test(chat.display_name) ? (
       <div className="heading-box-chat chat-descender">
-        <h4>{chat.display_name}</h4>
+        <Link to={{ pathname: link, state: { spaceId: id } }} onClick={this.setId}>
+          {glyph}
+          <h4>{chat.display_name}</h4>
+        </Link>
       </div>
     ) : (
       <div className="heading-box-chat">
-        <h4>{chat.display_name}</h4>
+        <Link to={{ pathname: link, state: { userId: id } }} onClick={this.setId}>
+          {glyph}
+          <h4>{chat.display_name}</h4>
+        </Link>
       </div>
     );
     return (
@@ -110,11 +143,19 @@ class ChatRoom extends React.Component {
 }
 
 ChatRoom.propTypes = {
+  currentUserNexmoId: PropTypes.string,
+  users: PropTypes.object,
+  spaces: PropTypes.object,
+  category: PropTypes.string,
   incomingMessages: PropTypes.array,
   typingStatus: PropTypes.string,
 };
 
 ChatRoom.defaultProps = {
+  currentUserNexmoId: '',
+  users: { someGuy: { id: 'ladida' } },
+  spaces: { someSpace: { id: 'loopdeedoop' } },
+  category: '',
   incomingMessages: [],
   typingStatus: '',
 };
