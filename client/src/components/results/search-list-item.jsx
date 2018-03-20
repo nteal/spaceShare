@@ -60,15 +60,15 @@ class SearchListItem extends React.Component {
           </div>
           <div className="row">
             <div className="col-2">
-              <h5 className="mt-0 mb-1">{smoking}</h5>
+              <h5 className="mt-0 mb-1">Smoking:<br />{smoking}</h5>
             </div>
-            <div className="col-2">
-              <h5 className="mt-0 mb-1">{pet}</h5>
+            <div className="col-2 mb-1">
+              <h5 className="mt-0 mb-1">Pets:<br />{pet}</h5>
             </div>
           </div>
           <div className="row">
-            <div className="col-2">
-              <h5 className="mt-0 mb-1">{include_people}</h5>
+            <div className="col-2 mb-2">
+              <h5 className="mt-0 mb-1">Searches for people: {JSON.stringify(include_people)}</h5>
             </div>
             <div className="col-2">
               <h5 className="mt-0 mb-1">{sleep}</h5>
