@@ -28,6 +28,7 @@ const getAllListings = city => (
     .then(spaces => Promise.map(spaces, async (space) => {
       const owner = await User.findOne({ where: { fb_id: space.owner_fb_id } });
       const spaceListing = {
+        id: space.id,
         cost: space.cost,
         description: space.description,
         name: space.name,
