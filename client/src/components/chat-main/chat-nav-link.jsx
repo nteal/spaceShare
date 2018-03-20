@@ -13,6 +13,7 @@ const ChatNavLink = (props) => {
 
   const setConvo = (event) => {
     const { id } = event.target;
+
     setConversation(id);
     setCategory(category);
   };
@@ -61,7 +62,10 @@ const ChatNavLink = (props) => {
 
 ChatNavLink.propTypes = {
   chat: PropTypes.object,
-  category: PropTypes.string,
+  category: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   setConversation: PropTypes.func,
   deleteConversation: PropTypes.func,
   setCategory: PropTypes.func,
