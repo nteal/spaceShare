@@ -143,7 +143,7 @@ router.get('/api/userPublic/:token/:userId', (req, res) => {
   db.helpers.getUserPublic(req.params.userId)
     .then(publicInfo => res.status(200).send(publicInfo))
     .catch(err => console.error(err));
-})
+});
 
 // deprecated?
 router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
