@@ -114,7 +114,7 @@ SearchListItem.defaultProps = {
   include_people: false,
   sleep: 'Night Owl',
   personality: 'Introvert',
-  age_min: 0,
+  age_min: 21,
   age_max: 100,
   timestamp: '',
   id: 'not available',
