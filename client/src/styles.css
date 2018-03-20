@@ -305,6 +305,7 @@ mt-0 {
 
 .invisible-content-box {
   padding: 30px;
+  white-space: pre-wrap;
 }
 
 .space-main-img {
