@@ -17,11 +17,11 @@ class SearchListItem extends React.Component {
       smoking, pet, include_people, sleep, personality, age_min, age_max, timestamp, id,
     } = this.props;
     return (
-      <li className="media">
+      <li className="media mb-4">
         <div className="media-body">
           <div className="row">
             <div className="col justify-content-start">
-              <h3 className="mt-0 mb-1">{purpose}</h3>
+              <h4 className="mt-0 mb-1">{purpose}</h4>
             </div>
             <div className="col">
               <div className="justify-content-end">
