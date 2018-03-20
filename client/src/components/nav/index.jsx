@@ -140,6 +140,7 @@ class Nav extends React.Component {
       .catch(error => console.error('error getting users by nexmo id', error));
   }
   setupConversationEvents(conversation) {
+    const { usersByNexmoId } = this.state;
     this.conversation = conversation;
     console.log('*** Conversation Retrieved', conversation);
     console.log('*** Conversation Member', conversation.me);
