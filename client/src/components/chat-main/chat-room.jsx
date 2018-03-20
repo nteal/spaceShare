@@ -56,15 +56,47 @@ class ChatRoom extends React.Component {
   }
   render() {
     const { newMessage } = this.state;
-    const { incomingMessages, typingStatus, chat } = this.props;
+    const {
+      incomingMessages,
+      typingStatus,
+      chat,
+      category,
+      chatLinkId,
+    } = this.props;
+    const link = category === 'user' ? '/profile' : '/listing';
 
-    let displayHeading = (/[qypg]/).test(chat.display_name) ? (
+    let glyph;
+    if (category === 'user') {
+      glyph = <i className="material-icons mr-1">person</i>;
+    } else if (category === 1) {
+      glyph = <i className="material-icons mr-1">business</i>;
+    } else {
+      glyph = <i className="material-icons mr-1">home</i>;
+    }
+
+    const idProperty = category === 'user' ? 'userId' : 'spaceId';
+
+    const displayHeading = (/[qypg]/).test(chat.display_name) ? (
       <div className="heading-box-chat chat-descender">
-        <h4>{chat.display_name}</h4>
+        <div className="col">
+          <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
+            <div className="row">
+              {glyph}
+              <h4>{chat.display_name}</h4>
+            </div>
+          </Link>
+        </div>
       </div>
     ) : (
       <div className="heading-box-chat">
-        <h4>{chat.display_name}</h4>
+        <div className="col">
+          <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
+            <div className="row">
+              {glyph}
+              <h4>{chat.display_name}</h4>
+            </div>
+          </Link>
+        </div>
       </div>
     );
     return (
@@ -95,6 +127,7 @@ class ChatRoom extends React.Component {
               onKeyPress={this.sendMessageOnEnter}
               onFocus={this.handleTyping}
               onBlur={this.handleStopTyping}
+              placeholder={`Say something to ${chat.display_name}...`}
               aria-label="talk in your space chat"
             />
             <div className="input-group-append">
@@ -110,13 +143,20 @@ class ChatRoom extends React.Component {
 }
 
 ChatRoom.propTypes = {
+  category: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   incomingMessages: PropTypes.array,
   typingStatus: PropTypes.string,
+  chatLinkId: PropTypes.number,
 };
 
 ChatRoom.defaultProps = {
+  category: '',
   incomingMessages: [],
   typingStatus: '',
+  chatLinkId: 0,
 };
 
 export default ChatRoom;

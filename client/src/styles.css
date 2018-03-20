@@ -77,7 +77,7 @@ ul {
   color: white;
   height: calc(100vh - 4rem);
   overflow: scroll;
-  width: 15%;
+  width: 20%;
 }
 
 .messages-container {
@@ -305,6 +305,7 @@ mt-0 {
 
 .invisible-content-box {
   padding: 30px;
+  white-space: pre-wrap;
 }
 
 .space-main-img {
