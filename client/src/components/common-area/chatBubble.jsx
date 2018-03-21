@@ -8,26 +8,22 @@ const ChatBubble = (props) => {
   let display;
   if (notMessage) {
     display = (
-        <div className="row">
+        <div className="row ml-0">
           <small>{sender} {text} {timeDisplay}</small>
         </div>
     );
   } else if (isMe) {
     display = (
-      <div className="row pt-2 justify-content-end">
-        <div className="col pl-5">
-          <div className="row justify-content-end">
-            <div className="flex-column d-flex">
-              <div className="row justify-content-between sender-row mr-0">
-                {sender}
-                <small>
-                  {Moment(timestamp).fromNow()}
-                </small>
-              </div>
-            </div>
+      <div className="row pt-2 ml-0">
+        <div className="col pr-0">
+          <div className="row pl-3 pr-3 justify-content-between w-100 mr-0">
+            {sender}
+            <small>
+              {Moment(timestamp).fromNow()}
+            </small>
           </div>
-          <div className="row justify-content-end">
-            <div className="chat-bubble-me pt-2 pl-2 pb-2">
+          <div className="row justify-content-between pl-4">
+            <div className="chat-bubble-me pt-2 pr-2 pb-2 pl-2">
               {text}
             </div>
           </div>
@@ -37,14 +33,14 @@ const ChatBubble = (props) => {
   } else {
     display = (
       <div className="row pt-2 ml-0">
-        <div className="col pr-5">
-          <div className="row justify-content-between sender-row">
+        <div className="col">
+          <div className="row justify-content-between w-100 mr-0 pr-3">
             {sender}
             <small>
               {Moment(timestamp).fromNow()}
             </small>
           </div>
-          <div className="row">
+          <div className="row justify-content-between pr-4">
             <div className="chat-bubble pt-2 pr-2 pb-2 pl-2">
               {text}
             </div>
