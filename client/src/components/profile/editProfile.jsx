@@ -12,9 +12,6 @@ import AboutInput from './aboutInput.jsx';
 import ImageInput from './imageInput.jsx';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
-import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css';
-
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -176,13 +173,6 @@ class EditProfile extends React.Component {
       });
   }
 
-  _crop() {
-    // image in dataUrl
-    const imgDataUrl = this.refs.cropper.getCroppedCanvas().toDataURL();
-    console.log(imgDataUrl);
-    return imgDataUrl;
-  }
-
   render() {
     const { id, name_first, name_last } = this.state;
     const {
@@ -230,17 +220,7 @@ class EditProfile extends React.Component {
             <div className="col-12 col-sm-10 col-md-6 col-lg-4 d-flex flex-column align-items-start">
               {/* user stats sidebar */}
               <div className="content-box">
-                {/* <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} /> */}
-                {/* TODO: FIX THISSSSSSSS */}
-                <Cropper
-                  ref="cropper"
-                  src="https://spaceshare-sfp.s3.amazonaws.com/users/2ea05e02-934d-4d79-b5f7-dfc1d2e5c4a3_8_image_url_0"
-                  style={{ height: 400, width: '100%' }}
-                  // Cropper.js options
-                  aspectRatio={12 / 16}
-                  guides={false}
-                  crop={this._crop.bind(this)}
-                />
+                <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} />
                 <div className="mini-heading-box-side mt-0">
                   <span>
                     <h5>{name_first} {name_last}</h5>
