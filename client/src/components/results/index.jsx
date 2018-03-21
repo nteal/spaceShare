@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ResultListItem from './result-list-item.jsx';
-import SearchListItem from './search-list-item.jsx';
 
 class Results extends React.Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class Results extends React.Component {
   }
   render() {
     const {
-      heading, people, places, searches, history, profile_link, listing_link,
+      heading, people, places, search, history, profile_link, listing_link,
     } = this.props;
     return (
       <div className="pl-4">
@@ -83,28 +82,6 @@ class Results extends React.Component {
               />
             ))}
           </div>
-          <div className="tab-pane fade" id="searches" role="tabpanel">
-            {searches.map(search => (
-              <SearchListItem
-                purpose={search.purpose}
-                neighborhood={search.neighborhood}
-                price_min={search.price_min}
-                price_max={search.price_max}
-                timeline={search.timeline}
-                smoking={search.smoking}
-                pet={search.pet}
-                include_people={search.include_people}
-                sleep={search.sleep}
-                personality={search.personality}
-                age_min={search.age_min}
-                age_max={search.age_max}
-                timestamp={search.timestamp}
-                id={search.id}
-                history={history}
-                key={search.id}
-              />
-            ))}
-          </div>
         </div>
       </div>
     );
@@ -116,7 +93,7 @@ Results.propTypes = {
   heading: PropTypes.string,
   people: PropTypes.array, // eslint-disable-line
   places: PropTypes.array, // eslint-disable-line
-  searches: PropTypes.array, // eslint-disable-line
+  search: PropTypes.array, // eslint-disable-line
   profile_link: PropTypes.string,
   listing_link: PropTypes.string,
 };
@@ -130,7 +107,7 @@ Results.defaultProps = {
   heading: 'Results',
   people: [],
   places: [],
-  searches: [],
+  search: {},
   profile_link: '/profile',
   listing_link: '/listing',
 };
