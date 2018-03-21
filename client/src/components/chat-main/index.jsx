@@ -44,7 +44,12 @@ class ChatMain extends React.Component {
     });
   }
   setSpaceAndUserChats() {
-    const { allUserChats, usersByNexmoId } = this.props;
+    const {
+      allUserChats,
+      usersByNexmoId,
+      conversationId,
+      setConversation,
+    } = this.props;
     const { userSpaceChats, currentUserNexmoId } = this.state;
     const spaceChats = allUserChats ?
       Object.keys(allUserChats)
@@ -65,6 +70,11 @@ class ChatMain extends React.Component {
         }) :
       [];
     this.setState({ spaceChats, userChats });
+    if (!conversationId && spaceChats.length) {
+      setConversation(spaceChats[0].id);
+    } else if (!conversationId && userChats.length) {
+      setConversation(userChats[0].id);
+    } 
   }
   deleteConversation(id) {
     const { chatApp } = this.props;
