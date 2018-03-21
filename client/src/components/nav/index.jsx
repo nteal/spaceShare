@@ -116,14 +116,28 @@ class Nav extends React.Component {
   getNewChatEvents() {
     const { allUserChats, chatApp } = this.state;
 
-    chatApp.on('member:invited', (member, event) => {
-      const newInvite = {
-        event: 'invite',
-        user: member.invited_by,
-        conversationId: event.conversation.id,
-      };
-      this.setState({ newEvents: this.state.newEvents.concat(newInvite) });
-    });
+    if (!chatApp) {
+      this.getAllChats(() => {
+        const { chatApp } = this.state;
+        chatApp.on('member:invited', (member, event) => {
+          const newInvite = {
+            event: 'invite',
+            user: member.invited_by,
+            conversationId: event.conversation.id,
+          };
+          this.setState({ newEvents: this.state.newEvents.concat(newInvite) });
+        });
+      })
+    } else {
+      chatApp.on('member:invited', (member, event) => {
+        const newInvite = {
+          event: 'invite',
+          user: member.invited_by,
+          conversationId: event.conversation.id,
+        };
+        this.setState({ newEvents: this.state.newEvents.concat(newInvite) });
+      });
+    }
   }
 
   setConversation(id) {
@@ -418,6 +432,7 @@ class Nav extends React.Component {
       chatApp,
       allUserChats,
       newEvents,
+      setConversation: this.setConversation,
       getAllChats: this.getAllChats,
       getNewChatEvents: this.getNewChatEvents,
     };

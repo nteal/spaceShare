@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import Axios from 'axios';
 import DashProfile from './profile.jsx';
@@ -17,6 +18,7 @@ class Dashboard extends React.Component {
     };
   }
   componentDidMount() {
+    const { getNewChatEvents } = this.props;
     // get user data to populate profile content
     Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
@@ -28,10 +30,12 @@ class Dashboard extends React.Component {
       .catch((error) => {
         console.error('error retrieving user / space data', error);
       });
+    getNewChatEvents();
   }
 
   render() {
     const { currentUser, currentUserSpaces } = this.state;
+    const { newEvents, setConversation } = this.props;
     return (
       <main>
         <div className="container p-res">
@@ -71,7 +75,7 @@ class Dashboard extends React.Component {
                 </div>
               </MediaQuery>
               <MediaQuery minDeviceWidth={800}>
-                <Messages />
+                <Messages newEvents={newEvents} setConversation={setConversation} />
               </MediaQuery>
               <Spaces spaces={currentUserSpaces} />
             </div>
@@ -81,5 +85,17 @@ class Dashboard extends React.Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  newEvents: PropTypes.array,
+  getNewChatEvents: PropTypes.func,
+  setConversation: PropTypes.func,
+};
+
+Dashboard.defaultProps = {
+  newEvents: [],
+  getNewChatEvents: null,
+  setConversation: null,
+};
 
 export default Dashboard;
