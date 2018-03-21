@@ -115,19 +115,32 @@ class Nav extends React.Component {
   }
   getNewChatEvents() {
     const { allUserChats, chatApp } = this.state;
-
     if (!chatApp) {
       this.getAllChats(() => {
-        const { chatApp } = this.state;
+        const { chatApp, allUserChats } = this.state;
         chatApp.on('member:invited', (member, event) => {
           const newInvite = {
             event: 'invite',
             user: member.invited_by,
             conversationId: event.conversation.id,
           };
-          this.setState({ newEvents: this.state.newEvents.concat(newInvite) });
+          this.setState({ newEvents: this.state.newEvents.concat(newInvite) }, () => {
+            console.log('new events', this.state.newEvents);
+          });
         });
-      })
+        const otherInvites = Object.keys(allUserChats)
+          .filter(chat => allUserChats[chat].me.state === 'INVITED')
+          .map(chat => allUserChats[chat])
+          .map((chat) => {
+            const newInvite = {
+              event: 'invite',
+              user: chat.display_name,
+              conversationId: chat.id,
+            };
+            return newInvite;
+          });
+        this.setState({ newEvents: this.state.newEvents.concat(otherInvites) });
+      });
     } else {
       chatApp.on('member:invited', (member, event) => {
         const newInvite = {
@@ -135,8 +148,22 @@ class Nav extends React.Component {
           user: member.invited_by,
           conversationId: event.conversation.id,
         };
-        this.setState({ newEvents: this.state.newEvents.concat(newInvite) });
+        this.setState({ newEvents: this.state.newEvents.concat(newInvite) }, () => {
+          console.log('new events', this.state.newEvents);
+        });
       });
+      const otherInvites = Object.keys(allUserChats)
+        .filter(chat => allUserChats[chat].me.state === 'INVITED')
+        .map(chat => allUserChats[chat])
+        .map((chat) => {
+          const newInvite = {
+            event: 'invite',
+            user: chat.display_name,
+            conversationId: chat.id,
+          };
+          return newInvite;
+        });
+      this.setState({ newEvents: this.state.newEvents.concat(otherInvites) });
     }
   }
 
@@ -231,37 +258,43 @@ class Nav extends React.Component {
       this.setState({ chatLinkId: id });
     });
   }
-  startNewChat(userNexmoId, userNameFirst, userNameLast) {
-    const { chatApp } = this.state;
-    if (!chatApp) {
-      this.getAllChats(() => {
-        chatApp.newConversationAndJoin({
-          display_name: `${userNameFirst} ${userNameLast}`,
-        })
-          .then((conversation) => {
-            conversation
-              .invite({ id: userNexmoId })
-              .then((user) => {
-                console.log('invited', user);
-                this.setConversation(user.conversation.id);
+  startNewChat(userNexmoId) {
+    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+      .then((response) => {
+        const userNameFirst = response.data.name_first;
+        const userNameLast = response.data.name_last;
+        const { chatApp } = this.state;
+        if (!chatApp) {
+          this.getAllChats(() => {
+            chatApp.newConversationAndJoin({
+              display_name: `${userNameFirst} ${userNameLast}`,
+            })
+              .then((conversation) => {
+                conversation
+                  .invite({ id: userNexmoId })
+                  .then((user) => {
+                    console.log('invited', user);
+                    this.setConversation(user.conversation.id);
+                  })
+                  .catch(error => console.error('error inviting user to chat', error));
               })
-              .catch(error => console.error('error inviting user to chat', error));
+              .catch(error => console.error('error creating new chat', error));
+          });
+        } else {
+          chatApp.newConversationAndJoin({
+            display_name: `${userNameFirst} ${userNameLast}`,
           })
-          .catch(error => console.error('error creating new chat', error));
-      });
-    } else {
-      chatApp.newConversationAndJoin({
-        display_name: `${userNameFirst} ${userNameLast}`,
+            .then((conversation) => {
+              this.setConversation(conversation.id);
+              conversation
+                .invite({ id: userNexmoId })
+                .then(user => console.log('invited', user))
+                .catch(error => console.error('error inviting user to chat', error));
+            })
+            .catch(error => console.error('error creating new chat', error));
+        }
       })
-        .then((conversation) => {
-          this.setConversation(conversation.id);
-          conversation
-            .invite({ id: userNexmoId })
-            .then(user => console.log('invited', user))
-            .catch(error => console.error('error inviting user to chat', error));
-        })
-        .catch(error => console.error('error creating new chat', error));
-    }
+      .catch(error => console.error('error getting current user info', error));
   }
   showConversationHistory(conversation) {
     Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
