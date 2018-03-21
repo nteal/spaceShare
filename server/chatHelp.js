@@ -7,7 +7,7 @@ const nexmo = new Nexmo({
   privateKey: process.env.NEXMO_PRIVATE_KEY,
 });
 
-const createUser = username => (
+const createUser = (username, nameFirst, nameLast) => (
   new Promise((resolve, reject) => {
     // get all users
     nexmo.users.get({}, (error, users) => {
@@ -18,7 +18,10 @@ const createUser = username => (
         const filteredUsers = users.filter(user => user.name === username);
         // if user doesn't already exist, create them
         if (!filteredUsers.length) {
-          nexmo.users.create({ name: username }, (err, response) => {
+          nexmo.users.create({
+            name: username,
+            display_name: `${nameFirst} ${nameLast}`,
+          }, (err, response) => {
             if (err) {
               reject(err);
             } else {
