@@ -26,7 +26,7 @@ class PastSearches extends React.Component {
       }],
       searches: [{
         purpose: 'You do not have any past searches',
-        neighborhood: 'location',
+        location: 'location',
         price_min: 0,
         price_max: 0,
         timeline: 'long-term',
@@ -113,7 +113,7 @@ class PastSearches extends React.Component {
       heading, people, places, searches,
     } = this.state;
     return (
-      <div>
+      <div className="pl-4">
         <div className="row mb-2 mt-2">
           <div className="col-10">
             <h1>{heading}</h1>
@@ -131,7 +131,7 @@ class PastSearches extends React.Component {
               <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" data-toggle="tab" href="#searches" role="tab">Past Searches</a>
+              <a className="nav-link active" data-toggle="tab" href="#searches" role="tab">Saved Searches</a>
             </li>
           </ul>
         </div>
@@ -175,7 +175,7 @@ class PastSearches extends React.Component {
             {searches.map(search => (
               <SearchListItem
                 purpose={search.purpose}
-                neighborhood={search.neighborhood}
+                neighborhood={search.location}
                 price_min={search.price_min}
                 price_max={search.price_max}
                 timeline={search.timeline}

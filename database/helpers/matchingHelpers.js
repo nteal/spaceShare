@@ -12,15 +12,14 @@ const getAllMatches = (search) => {
   const getPeople = search.include_people ? getSearchesForMatching : () => ([]);
   return Promise.all([
     getSpacesForMatching(search.id),
-    getSearchesByFbId(search.fb_id),
     getPeople(search.id),
   ])
-    .then(([places, searches, people]) => ({ places, searches, people }))
+    .then(([places, people]) => ({ places, people }))
     .catch(err => console.log(err));
 };
 
 // this function will eventually gets its data from geocoding, which will take user input
-const allListings = city => (
+const getAllListings = city => (
   Space.findAll({ where: { city, open: true } })
     .then(spaces => Promise.map(spaces, (space) => {
       const spaceObj = space.dataValues;
@@ -29,8 +28,10 @@ const allListings = city => (
     .then(spaces => Promise.map(spaces, async (space) => {
       const owner = await User.findOne({ where: { fb_id: space.owner_fb_id } });
       const spaceListing = {
+        id: space.id,
         cost: space.cost,
         description: space.description,
+        name: space.name,
         neighborhood: space.neighborhood,
         main_image: space.main_image,
         pet: space.pet,
@@ -42,18 +43,10 @@ const allListings = city => (
       };
       return spaceListing;
     }))
-    .then(spaceListings => spaceListings)
+    .then(spaceListings => ({ listings: spaceListings }))
     .catch(err => console.log(err))
 );
 
-// returns obj with arr of listings and saved searches
-const getAllListings = async (city, fbId) => {
-  const listingsAndSearches = {};
-  listingsAndSearches.listings = await allListings(city);
-  listingsAndSearches.searches = await getSearchesByFbId(fbId);
-  return listingsAndSearches;
-};
 
 exports.getAllMatches = getAllMatches;
-exports.getAllListings = getAllListings;
 exports.getAllListings = getAllListings;

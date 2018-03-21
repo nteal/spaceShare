@@ -43,7 +43,7 @@ class CreateSpace extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    console.log('new space did mount');
+    console.log('new space did mount'); // eslint-disable-line
   }
   onDrop(acceptedFile) {
     const { filename, publicUrl } = acceptedFile;
@@ -117,7 +117,7 @@ class CreateSpace extends React.Component {
   updateAmenities(field, value) {
     const updatedAmenities = this.state.amenities.map((amenity, i) => {
       if (i === field) {
-        amenity.name = value;
+        amenity.name = value; // eslint-disable-line
       }
       return amenity;
     });
@@ -132,6 +132,7 @@ class CreateSpace extends React.Component {
     })
       .then((response) => {
         this.props.toggleRefresh();
+        localStorage.setItem('spaceId', response.data.spaceId);
         this.props.history.push({
           pathname: '/common-area',
           state: { spaceId: response.data.spaceId },
@@ -553,9 +554,11 @@ class CreateSpace extends React.Component {
 
 CreateSpace.propTypes = {
   toggleRefresh: PropTypes.func,
+  history: PropTypes.obj, // eslint-disable-line
 };
 CreateSpace.defaultProps = {
   toggleRefresh: () => {},
+  history: {},
 };
 
 export default CreateSpace;

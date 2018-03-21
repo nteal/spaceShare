@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
 import PeopleSearch from './peopleSearch.jsx';
 
 class Search extends React.Component {
@@ -15,9 +16,9 @@ class Search extends React.Component {
       pet_id: 2,
       include_people: true,
       peopleSearch: false,
-      personality_id: 1,
-      pet_id: 1,
-      sleep_id: 1,
+      personality_id: 1, // eslint-disable-line
+      pet_id: 1, // eslint-disable-line
+      sleep_id: 1, // eslint-disable-line
       distance: 20,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -62,8 +63,8 @@ class Search extends React.Component {
     }, []);
     let min = Number.parseFloat(nums[0].join(''));
     let max = Number.parseFloat(nums[1].join(''));
-    if (isNaN(min)) { min = 0.00; }
-    if (isNaN(max)) { max = 0.00; }
+    if (isNaN(min)) { min = 0.00; } // eslint-disable-line
+    if (isNaN(max)) { max = 0.00; } // eslint-disable-line
     if (min <= max) {
       this.setState({
         price_min: min,
@@ -99,7 +100,10 @@ class Search extends React.Component {
           )
             .then((response) => {
               localStorage.setItem('id_search', response.data);
-              this.props.history.push('/search-results');
+              this.props.history.push({
+                pathname: '/search-results',
+                state: { id_search: response.data },
+              });
             });
         });
       }
@@ -127,7 +131,7 @@ class Search extends React.Component {
       );
     }
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="pl-4">
         <div className="row">
           <h1>New Search</h1>
         </div>
@@ -290,5 +294,12 @@ class Search extends React.Component {
     );
   }
 }
+
+Search.propTypes = {
+  history: PropTypes.obj, // eslint-disable-line
+};
+Search.defaultProps = {
+  history: {},
+};
 
 export default Search;

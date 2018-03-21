@@ -47,9 +47,18 @@ class Nav extends React.Component {
       touch: true,
       refresh: false,
       allUserChats: {},
+      incomingMessages: [],
+      typingStatus: '',
+      category: '',
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.getAllChats = this.getAllChats.bind(this);
+    this.getAllMemberNames = this.getAllMemberNames.bind(this);
+    this.setCategory = this.setCategory.bind(this);
+    this.setConversation = this.setConversation.bind(this);
+    this.setupConversationEvents = this.setupConversationEvents.bind(this);
+    this.showConversationHistory = this.showConversationHistory.bind(this);
+    this.joinConversation = this.joinConversation.bind(this);
     this.startNewChat = this.startNewChat.bind(this);
     this.fbLogout = this.fbLogout.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
@@ -88,19 +97,6 @@ class Nav extends React.Component {
         this.setState({ chatApp: app });
         app.on('member:invited', (member, event) => {
           console.log('*** invitation received:', event);
-
-          // app.getConversation(event.cid || event.body.cname)
-          //   .then((conversation) => {
-          //     this.conversation = conversation;
-          //     conversation.join()
-          //       .then(() => {
-          //         const conversationDictionary = {};
-          //         conversationDictionary[this.conversation.id] = this.conversation;
-          //         this.updateConversationsList(conversationDictionary);
-          //       })
-          //       .catch(error => console.error(error));
-          //   })
-          //   .catch(error => console.error(error));
         });
         return app.getConversations();
       })
@@ -109,8 +105,102 @@ class Nav extends React.Component {
         this.setState({ allUserChats: conversations }, callback);
       })
       .catch(error => console.error('error logging into nexmo', error));
+    Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
+      .then(response => this.setState({ userSpaceChats: response.data }, () => {
+        console.log('space chats', response.data);
+      }))
+      .catch(error => console.error('error getting space chats', error));
   }
 
+  setConversation(id) {
+    this.setState({
+      conversationId: id,
+      incomingMessages: [],
+    }, () => {
+      console.log('convo set', id);
+      this.joinConversation(localStorage.getItem('nexmo_token'));
+    });
+  }
+  getAllMemberNames() {
+    const { allUserChats } = this.state;
+
+    const uniqueIds = Object.keys(allUserChats).reduce((idObj, chat) => {
+      const { members } = allUserChats[chat];
+      Object.keys(members).forEach((memberId) => {
+        const member = members[memberId];
+        idObj[member.user.id] = true;
+      });
+      return idObj;
+    }, {});
+    const nexmoIds = Object.keys(uniqueIds);
+    Axios.get(`/api/usersByNexmoId/${localStorage.getItem('id_token')}`, {
+      params: { nexmoIds },
+    })
+      .then(response => this.setState({ usersByNexmoId: response.data }))
+      .catch(error => console.error('error getting users by nexmo id', error));
+  }
+  setupConversationEvents(conversation) {
+    const { usersByNexmoId } = this.state;
+    this.conversation = conversation;
+    console.log('*** Conversation Retrieved', conversation);
+    console.log('*** Conversation Member', conversation.me);
+
+    conversation.on('text', (sender, message) => {
+      console.log('*** Message received', sender, message);
+      const { usersByNexmoId, incomingMessages } = this.state;
+      const newIncomingMessage = {
+        sender: usersByNexmoId[sender.user.id].name_first,
+        timestamp: message.timestamp,
+        text: message.body.text,
+      };
+      if (sender.name === this.conversation.me.name) {
+        newIncomingMessage.isMe = true;
+      }
+      if (newIncomingMessage.timestamp !== incomingMessages[incomingMessages.length - 1].timestamp) {
+        this.setState({
+          incomingMessages: incomingMessages.concat(newIncomingMessage),
+        });
+      }
+      if (sender.name !== this.conversation.me.name) {
+        message
+          .seen()
+          .then(this.eventLogger('text:seen'))
+          .catch(this.errorLogger);
+      }
+    });
+
+    conversation.on('member:joined', member => console.log(member, 'joined'));
+    conversation.on('member:left', member => console.log(member, 'left'));
+
+    this.showConversationHistory(conversation);
+
+    conversation.on('text:seen', (data, text) => console.log(`${usersByNexmoId[data.user.id].name_first} saw text: ${text.body.text}`));
+    conversation.on('text:typing:off', data => this.setState({ typingStatus: '' }));
+    conversation.on('text:typing:on', data => this.setState({ typingStatus: `${usersByNexmoId[data.user.id].name_first} is typing...` }));
+  }
+  setCategory(category) {
+    this.setState({ category }, () => {
+      const {
+        allUserChats,
+        conversationId,
+        currentUserNexmoId,
+        usersByNexmoId,
+        userSpaceChats,
+      } = this.state;
+
+      let id;
+      if (category === 'user') {
+        const chat = allUserChats[conversationId];
+        const notMeMemberId = chat.members && Object.keys(chat.members)
+          .filter(id => chat.members[id].user.id !== currentUserNexmoId)[0];
+        const notMe = chat.members[notMeMemberId].user.id;
+        id = usersByNexmoId[notMe].id;
+      } else {
+        id = userSpaceChats[conversationId].id;
+      }
+      this.setState({ chatLinkId: id });
+    });
+  }
   startNewChat(userNexmoId, userNameFirst, userNameLast) {
     const { chatApp } = this.state;
     if (!chatApp) {
@@ -121,7 +211,10 @@ class Nav extends React.Component {
           .then((conversation) => {
             conversation
               .invite({ id: userNexmoId })
-              .then(user => console.log('invited', user))
+              .then((user) => {
+                console.log('invited', user);
+                this.setConversation(user.conversation.id);
+              })
               .catch(error => console.error('error inviting user to chat', error));
           })
           .catch(error => console.error('error creating new chat', error));
@@ -131,6 +224,7 @@ class Nav extends React.Component {
         display_name: `${userNameFirst} ${userNameLast}`,
       })
         .then((conversation) => {
+          this.setConversation(conversation.id);
           conversation
             .invite({ id: userNexmoId })
             .then(user => console.log('invited', user))
@@ -138,6 +232,72 @@ class Nav extends React.Component {
         })
         .catch(error => console.error('error creating new chat', error));
     }
+  }
+  showConversationHistory(conversation) {
+    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+      .then((response) => {
+        const currentUserNexmoId = response.data;
+        this.setState({ currentUserNexmoId });
+        const { usersByNexmoId } = this.state;
+        conversation.getEvents().then((events) => {
+          const eventsHistory = [];
+          for (let i = Object.keys(events).length; i > 0; i--) {
+            const date = events[Object.keys(events)[i - 1]].timestamp;
+            const chat = conversation.members[events[Object.keys(events)[i - 1]].from];
+            if (chat) {
+              switch (events[Object.keys(events)[i - 1]].type) {
+                case 'text':
+                  eventsHistory.unshift({
+                    isMe: chat.user.id === currentUserNexmoId,
+                    sender: usersByNexmoId[chat.user.id].name_first,
+                    timestamp: date,
+                    text: events[Object.keys(events)[i - 1]].body.text,
+                  });
+                  break;
+                case 'member:joined':
+                  eventsHistory.unshift({
+                    notMessage: true,
+                    sender: usersByNexmoId[chat.user.id].name_first,
+                    timestamp: date,
+                    text: 'is in the space! :)',
+                  });
+                  break;
+                case 'member:left':
+                  eventsHistory.unshift({
+                    notMessage: true,
+                    sender: usersByNexmoId[chat.user.id].name_first,
+                    timestamp: date,
+                    text: 'left for now... :(',
+                  });
+                  break;
+                default:
+                  eventsHistory.unshift({
+                    notMessage: true,
+                    sender: usersByNexmoId[chat.user.id].name_first,
+                    timestamp: date,
+                    text: 'did something weird...',
+                  });
+              }
+            }
+          }
+          this.setState({ incomingMessages: this.state.incomingMessages.concat(eventsHistory) });
+        });
+      })
+      .catch(error => console.error('error getting current user nexmo id', error));
+  }
+  joinConversation(userToken) {
+    const { chatApp } = this.state;
+    const { conversationId } = this.state;
+    chatApp.getConversation(conversationId)
+      .then((conversation) => {
+        this.setState({ chat: conversation }, () => {
+          if (conversation.me.state !== 'JOINED') {
+            conversation.join();
+          }
+          this.setupConversationEvents(conversation);
+        });
+      })
+      .catch(error => console.error('error joining conversation', error));
   }
 
   fbLogout() {
@@ -168,7 +328,18 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, allUserChats, chatApp } = this.state;
+    const {
+      isAuthenticated,
+      allUserChats,
+      chatApp,
+      usersByNexmoId,
+      conversationId,
+      chat,
+      incomingMessages,
+      typingStatus,
+      chatLinkId,
+      category,
+    } = this.state;
     const { chatClient } = this.props;
 
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
@@ -230,6 +401,23 @@ class Nav extends React.Component {
       allUserChats,
       getAllChats: this.getAllChats,
     };
+    
+    const chatProps = {
+      chatClient,
+      chatApp,
+      allUserChats,
+      getAllChats: this.getAllChats,
+      getAllMemberNames: this.getAllMemberNames,
+      setConversation: this.setConversation,
+      usersByNexmoId,
+      conversationId,
+      chat,
+      incomingMessages,
+      typingStatus,
+      chatLinkId,
+      category,
+      setCategory: this.setCategory,
+    };
 
     const refreshKeyProp = {
       key: this.state.refresh,
@@ -250,9 +438,9 @@ class Nav extends React.Component {
                 <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
                 <Route path="/profile" render={props => <Profile {...props} {...profileProps} />} />
                 <Route path="/common-area" render={props => <CommonArea {...props} {...commonAreaProps} />} />
-                <Route path="/messages" render={props => <ChatMain {...props} {...chatClientAndChats} />} />
+                <Route path="/messages" render={props => <ChatMain {...props} {...chatProps} />} />
                 <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
-                <Route path="/listing" component={Listing} />
+                <Route path="/listing" render={props => <Listing {...props} {...profileProps} />} />
                 <Route path="/edit-listing" render={props => <EditListing {...props} />} />
                 <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />

@@ -62,7 +62,7 @@ const addNewUser = (newUserObj) => {
   userObj.profession = newUserObj.profession || '';
   userObj.email = newUserObj.email || '';
   userObj.fb_id = newUserObj.fb_id || '';
-  userObj.fb_link = newUserObj.fb_link || '';
+  userObj.fb_link = newUserObj.fb_link || (newUserObj.fb_id && `facebook.com/${newUserObj.fb_id}`) || '';
   userObj.fb_verified = newUserObj.fb_verified || false;
   userObj.searchable_work = newUserObj.searchable_work || false;
   userObj.searchable_live = newUserObj.searchable_live || false;
@@ -126,6 +126,7 @@ const getUserPublic = (id) => {
       publicData.links = user.links;
       publicData.name_first = user.name_first;
       publicData.name_last = user.name_last;
+      publicData.nexmo_id = user.nexmo_id;
       publicData.profession = user.profession;
       publicData.personality = user.personality;
       publicData.sleep = user.sleep;

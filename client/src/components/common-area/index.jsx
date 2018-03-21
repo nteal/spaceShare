@@ -97,6 +97,9 @@ class CommonArea extends React.Component {
         timestamp: message.timestamp,
         text: message.body.text,
       };
+      if (sender.name === this.conversation.me.name) {
+        newIncomingMessage.isMe = true;
+      }
       if (newIncomingMessage.timestamp !== incomingMessages[incomingMessages.length - 1].timestamp) {
         this.setState({
           incomingMessages: incomingMessages.concat(newIncomingMessage),
@@ -120,49 +123,55 @@ class CommonArea extends React.Component {
     conversation.on('text:typing:on', data => this.setState({ typingStatus: `${membersById[data.user.name]} is typing...` }));
   }
   showConversationHistory(conversation) {
-    const { membersById } = this.state;
-    conversation.getEvents().then((events) => {
-      const eventsHistory = [];
-      for (let i = Object.keys(events).length; i > 0; i--) {
-        const date = events[Object.keys(events)[i - 1]].timestamp;
-        const chat = conversation.members[events[Object.keys(events)[i - 1]].from];
-        if (chat) {
-          switch (events[Object.keys(events)[i - 1]].type) {
-            case 'text':
-              eventsHistory.unshift({
-                sender: membersById[chat.user.name],
-                timestamp: date,
-                text: events[Object.keys(events)[i - 1]].body.text,
-              });
-              break;
-            case 'member:joined':
-              eventsHistory.unshift({
-                notMessage: true,
-                sender: membersById[chat.user.name],
-                timestamp: date,
-                text: 'is in the space! :)',
-              });
-              break;
-            case 'member:left':
-              eventsHistory.unshift({
-                notMessage: true,
-                sender: membersById[chat.user.name],
-                timestamp: date,
-                text: 'left for now... :(',
-              });
-              break;
-            default:
-              eventsHistory.unshift({
-                notMessage: true,
-                sender: membersById[chat.user.name],
-                timestamp: date,
-                text: 'did something weird...',
-              });
+    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+      .then((response) => {
+        const currentUserNexmoId = response.data;
+        const { membersById } = this.state;
+        conversation.getEvents().then((events) => {
+          const eventsHistory = [];
+          for (let i = Object.keys(events).length; i > 0; i--) {
+            const date = events[Object.keys(events)[i - 1]].timestamp;
+            const chat = conversation.members[events[Object.keys(events)[i - 1]].from];
+            if (chat) {
+              switch (events[Object.keys(events)[i - 1]].type) {
+                case 'text':
+                  eventsHistory.unshift({
+                    isMe: chat.user.id === currentUserNexmoId,
+                    sender: membersById[chat.user.name],
+                    timestamp: date,
+                    text: events[Object.keys(events)[i - 1]].body.text,
+                  });
+                  break;
+                case 'member:joined':
+                  eventsHistory.unshift({
+                    notMessage: true,
+                    sender: membersById[chat.user.name],
+                    timestamp: date,
+                    text: 'is in the space! :)',
+                  });
+                  break;
+                case 'member:left':
+                  eventsHistory.unshift({
+                    notMessage: true,
+                    sender: membersById[chat.user.name],
+                    timestamp: date,
+                    text: 'left for now... :(',
+                  });
+                  break;
+                default:
+                  eventsHistory.unshift({
+                    notMessage: true,
+                    sender: membersById[chat.user.name],
+                    timestamp: date,
+                    text: 'did something weird...',
+                  });
+              }
+            }
           }
-        }
-      }
-      this.setState({ incomingMessages: this.state.incomingMessages.concat(eventsHistory) });
-    });
+          this.setState({ incomingMessages: this.state.incomingMessages.concat(eventsHistory) });
+        });
+      })
+      .catch(error => console.error('error getting current user nexmo id', error));
   }
   joinConversation(userToken) {
     const { chatClient } = this.props;
@@ -172,7 +181,7 @@ class CommonArea extends React.Component {
       .then(app => app.getConversation(conversationId))
       .then((conversation) => {
         this.setState({ chat: conversation }, () => {
-          if (conversation.me.state !== 'JOINED') {
+          if (conversation.me && conversation.me.state !== 'JOINED') {
             conversation.join();
           }
           this.setupConversationEvents(conversation);

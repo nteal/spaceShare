@@ -56,12 +56,57 @@ class ChatRoom extends React.Component {
   }
   render() {
     const { newMessage } = this.state;
-    const { incomingMessages, typingStatus } = this.props;
+    const {
+      incomingMessages,
+      typingStatus,
+      chat,
+      category,
+      chatLinkId,
+    } = this.props;
+    const link = category === 'user' ? '/profile' : '/listing';
+
+    let glyph;
+    if (category === 'user') {
+      glyph = <i className="material-icons mr-1">person</i>;
+    } else if (category === 1) {
+      glyph = <i className="material-icons mr-1">business</i>;
+    } else {
+      glyph = <i className="material-icons mr-1">home</i>;
+    }
+
+    const idProperty = category === 'user' ? 'userId' : 'spaceId';
+
+    const displayHeading = (/[qypg]/).test(chat.display_name) ? (
+      <div className="heading-box-chat chat-descender">
+        <div className="col">
+          <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
+            <div className="row">
+              {glyph}
+              <h4>{chat.display_name}</h4>
+            </div>
+          </Link>
+        </div>
+      </div>
+    ) : (
+      <div className="heading-box-chat">
+        <div className="col">
+          <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
+            <div className="row">
+              {glyph}
+              <h4>{chat.display_name}</h4>
+            </div>
+          </Link>
+        </div>
+      </div>
+    );
     return (
       <div className="col">
+        <div className="row pt-2 pl-2">
+          {displayHeading}
+        </div>
         <div className="row messages-container">
           <div className="col message-col">
-            <div>
+            <div className="pt-2 py-2">
               {/* Messages go here */}
               {incomingMessages.map(message => (
                 <ChatBubble message={message} key={message.timestamp} />
@@ -82,6 +127,7 @@ class ChatRoom extends React.Component {
               onKeyPress={this.sendMessageOnEnter}
               onFocus={this.handleTyping}
               onBlur={this.handleStopTyping}
+              placeholder={`Say something to ${chat.display_name}...`}
               aria-label="talk in your space chat"
             />
             <div className="input-group-append">
@@ -97,13 +143,20 @@ class ChatRoom extends React.Component {
 }
 
 ChatRoom.propTypes = {
+  category: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   incomingMessages: PropTypes.array,
   typingStatus: PropTypes.string,
+  chatLinkId: PropTypes.number,
 };
 
 ChatRoom.defaultProps = {
+  category: '',
   incomingMessages: [],
   typingStatus: '',
+  chatLinkId: 0,
 };
 
 export default ChatRoom;
