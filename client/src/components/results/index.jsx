@@ -27,6 +27,47 @@ class Results extends React.Component {
           </div>
         </div>
         <div className="row">
+          <div className="col">
+            <div className="row">
+              {search.purpose}
+              {search.distance} miles around
+            </div>
+            <div className="row">
+              {search.location}
+            </div>
+            <div className="row">
+              {search.city}
+            </div>
+          </div>
+          <div className="col">
+            <div className="row">
+              budget: {search.price_min} - {search.price_max}
+            </div>
+            <div className="row">
+              timeline: {search.timeline}
+            </div>
+          </div>
+          <div className="col">
+            <div className="row">
+              smoking: {search.smoking}
+            </div>
+            <div className="row">
+              pet: {search.pet}
+            </div>
+          </div>
+          <div className="col">
+            <div className="row">
+              {search.include_people ? 'people-search' : 'people not included'}
+            </div>
+            <div className="row">
+              {search.sleep} {search.personality}
+            </div>
+            <div className="row">
+              age range: {search.age_min} - {search.age_max}
+            </div>
+          </div>
+        </div>
+        <div className="row">
           <ul className="nav nav-tabs" role="tablist">
             <li className="nav-item">
               <a className="nav-link active" data-toggle="tab" href="#places" role="tab">Places</a>
