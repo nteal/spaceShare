@@ -147,7 +147,7 @@ class CommonArea extends React.Component {
                     notMessage: true,
                     sender: membersById[chat.user.name],
                     timestamp: date,
-                    text: 'is in the space! :)',
+                    text: 'joined the chat!',
                   });
                   break;
                 case 'member:left':
@@ -155,15 +155,15 @@ class CommonArea extends React.Component {
                     notMessage: true,
                     sender: membersById[chat.user.name],
                     timestamp: date,
-                    text: 'left for now... :(',
+                    text: 'left for now...',
                   });
                   break;
                 default:
                   eventsHistory.unshift({
                     notMessage: true,
-                    sender: membersById[chat.user.name],
-                    timestamp: date,
-                    text: 'did something weird...',
+                    sender: null,
+                    timestamp: null,
+                    text: null,
                   });
               }
             }

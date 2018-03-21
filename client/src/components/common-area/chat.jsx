@@ -94,7 +94,7 @@ class Chat extends React.Component {
                 onKeyPress={this.sendMessageOnEnter}
                 onFocus={this.handleTyping}
                 onBlur={this.handleStopTyping}
-                placeholder="Chat with your space..."
+                placeholder="Say something to your friends..."
                 aria-label="talk in your space chat"
               />
               <div className="input-group-append">

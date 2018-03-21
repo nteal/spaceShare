@@ -4,11 +4,11 @@ import Moment from 'moment';
 
 const ChatBubble = (props) => {
   const { isMe, notMessage, sender, timestamp, text } = props.message;
-  const timeDisplay = Moment(timestamp).fromNow();
+  const timeDisplay = timestamp ? Moment(timestamp).fromNow() : '';
   let display;
   if (notMessage) {
     display = (
-        <div className="row ml-0">
+        <div className="row ml-0 pt-2">
           <small>{sender} {text} {timeDisplay}</small>
         </div>
     );
@@ -16,7 +16,7 @@ const ChatBubble = (props) => {
     display = (
       <div className="row pt-2 ml-0">
         <div className="col pr-0">
-          <div className="row pl-3 pr-3 justify-content-between w-100 mr-0">
+          <div className="row pl-4 pr-3 justify-content-between w-100 mr-0">
             {sender}
             <small>
               {Moment(timestamp).fromNow()}

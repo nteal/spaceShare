@@ -106,7 +106,7 @@ class ChatRoom extends React.Component {
         <div className="row pt-2 pl-2">
           {displayHeading}
         </div>
-        <div className="row messages-container">
+        <div className="row messages-container pl-1">
           <div className="col message-col">
             <div className="pt-2 py-2">
               {/* Messages go here */}
@@ -116,7 +116,7 @@ class ChatRoom extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row status-row pb-1">
+        <div className="row status-row pb-1 pl-1">
           <small>{typingStatus}</small>
         </div>
         <div className="row align-self-end pl-1 pr-1 pb-2">

@@ -275,7 +275,7 @@ class Nav extends React.Component {
                     notMessage: true,
                     sender: usersByNexmoId[chat.user.id].name_first,
                     timestamp: date,
-                    text: 'is in the space! :)',
+                    text: 'joined the chat!',
                   });
                   break;
                 case 'member:left':
@@ -283,15 +283,15 @@ class Nav extends React.Component {
                     notMessage: true,
                     sender: usersByNexmoId[chat.user.id].name_first,
                     timestamp: date,
-                    text: 'left for now... :(',
+                    text: 'left for now...',
                   });
                   break;
                 default:
                   eventsHistory.unshift({
                     notMessage: true,
-                    sender: usersByNexmoId[chat.user.id].name_first,
-                    timestamp: date,
-                    text: 'did something weird...',
+                    sender: null,
+                    timestamp: null,
+                    text: null,
                   });
               }
             }
@@ -455,7 +455,7 @@ class Nav extends React.Component {
             <div style={styles.content}>
               <Route exact path="/" render={() => isAuthenticated && <Redirect to="/dashboard" />} />
               <Switch>
-                <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...chatClientAndChats} />} />
+                <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} />} />
                 <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
                 <Route path="/profile" render={props => <Profile {...props} {...profileProps} />} />
                 <Route path="/common-area" render={props => <CommonArea {...props} {...commonAreaProps} />} />
