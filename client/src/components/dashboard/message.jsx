@@ -11,12 +11,12 @@ const Message = (props) => {
   };
   return (
     <li className="list-group-item">
-      <div className="row">
-        You have one {event} to chat from {event.user.name}!
-        <Link to="/messages" onClick={setConvo}>
-          <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
-        </Link>
-      </div>
+      <Link to="/messages" onClick={setConvo}>
+        <div className="row d-flex align-items-center pl-3 pr-3">
+          <MessageText className="mdi-btn mr-2" height={25} width={25} fill="#6F5BC0" />
+          You have one {event.event} to chat from {event.user}!
+        </div>
+      </Link>
     </li>
   );
 };
@@ -24,7 +24,7 @@ const Message = (props) => {
 Message.propTypes = {
   event: PropTypes.shape({
     event: PropTypes.string,
-    user: PropTypes.object,
+    user: PropTypes.string,
     conversationId: PropTypes.string,
   }),
   setConversation: PropTypes.func,
