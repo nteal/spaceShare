@@ -277,7 +277,7 @@ class CommonArea extends React.Component {
     const rulesProps = { groundRules, submit: this.submitGroundRules, isOwner };
 
     return (
-      <div>
+      <div className="pl-3">
 
         <div className="row justify-content-around">
           <div className="space-main-img-container">
