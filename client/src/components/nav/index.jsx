@@ -119,12 +119,11 @@ class Nav extends React.Component {
     chatApp.on('member:invited', (member, event) => {
       const newInvite = {
         event: 'invite',
-        user: event.conversation.display_name,
+        user: member.invited_by,
         conversationId: event.conversation.id,
       };
       this.setState({ newEvents: this.state.newEvents.concat(newInvite) });
     });
-
   }
 
   setConversation(id) {
@@ -357,6 +356,7 @@ class Nav extends React.Component {
       chatLinkId,
       category,
       displayName,
+      newEvents,
     } = this.state;
     const { chatClient } = this.props;
 
@@ -413,11 +413,13 @@ class Nav extends React.Component {
       startNewChat: this.startNewChat,
     };
 
-    const chatClientAndChats = {
+    const dashboardProps = {
       chatClient,
       chatApp,
       allUserChats,
+      newEvents,
       getAllChats: this.getAllChats,
+      getNewChatEvents: this.getNewChatEvents,
     };
     
     const chatProps = {
