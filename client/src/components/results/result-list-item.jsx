@@ -29,14 +29,20 @@ class ResultListItem extends React.Component {
       image, name, financial, about, description, button_heading,
     } = this.props;
     return (
-      <li className="media">
-        <img className="mr-3 search-result-img" src={image} alt="Generic placeholder" />
+      <li className="media mb-3">
+        <img className="mr-3 search-result-img" src={image} alt="" />
         <div className="media-body">
-          <button className="btn btn-info mt-0 mb-1" onClick={this.moreInfo}>{button_heading}</button>
-          <h4 className="mt-0 mb-1">{name}</h4>
-          <h5 className="mt-0 mb-1">{financial}</h5>
-          <h5 className="mt-0 mb-2">{about}</h5>
-          <p className="mt-0 mb-1">{description}</p>
+          <div className="row">
+            <div className="col">
+              <button className="btn btn-info mt-0 mb-1" onClick={this.moreInfo}>{button_heading}</button>
+              <h4 className="mt-0 mb-1">{name}</h4>
+              <h5 className="mt-0 mb-1">{financial}</h5>
+              <h5 className="mt-0 mb-2">{about}</h5>
+            </div>
+            <div className="col">
+              <p className="mt-0 mb-1">{description}</p>
+            </div>
+          </div>
         </div>
       </li>
     );
@@ -57,7 +63,7 @@ ResultListItem.propTypes = {
   key: PropTypes.number,
 };
 ResultListItem.defaultProps = {
-  image: 'not available',
+  image: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space.jpg',
   name: 'No results at this time',
   financial: '',
   about: '',
