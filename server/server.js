@@ -1,5 +1,4 @@
 const express = require('express');
-const routes = require('./routes');
 const authRouter = require('./authRouter');
 const spaceRouter = require('./spaceRouter');
 const userRouter = require('./userRouter');
@@ -69,7 +68,6 @@ passport.use(new FacebookTokenStrategy(
   },
 ));
 
-app.use('/api', routes);
 app.use('/auth', authRouter);
 app.use('/space', spaceRouter);
 app.use('/user', userRouter);
