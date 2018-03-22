@@ -47,7 +47,7 @@ class Members extends React.Component {
   handleAdd(fbId) {
     const { addMember } = this.props;
     addMember(fbId);
-    this.setState({ 
+    this.setState({
       newMember: '',
       users: [],
     });
@@ -151,8 +151,10 @@ class Members extends React.Component {
                           <li className="media">
                             <img className="mr-3 search-result-img" src={user.image_url} alt={`${user.name_first} ${user.name_last}`} />
                             <div className="media-body">
-                              <h4 className="pr-1 mb-1">{`${user.name_first} ${user.name_last}`}</h4>
-                              <a href={user.fb_link} target="_blank"><Facebook /></a>
+                              <div className="row pt-4 pl-4">
+                                <h4 className="pr-4 mb-2">{`${user.name_first} ${user.name_last}`}</h4>
+                                <a href={user.fb_link} target="_blank"><Facebook /></a>
+                              </div>
                               <button className="btn btn-outline-secondary pb-0" type="button" onClick={() => { this.handleAdd(user.fb_id); }}>
                                 <i className="material-icons">add</i>
                               </button>
