@@ -125,15 +125,17 @@ class ImageInput extends React.Component {
 
     // else return this !!
 
-    return (<Cropper
-      ref="cropper"
-      src={state.imgFile}
-      style={{ width: '100%', height: 'auto' }}
-      aspectRatio={1 / 1}
-      guides={false}
-      crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
-      // crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
-    />);
+    return (
+      <div style={{ width: '100%', paddingTop: '100%', position: 'relative', verticalAlign: 'top' }}>
+        <Cropper
+          ref="cropper"
+          src={state.imgFile}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0 }}
+          aspectRatio={1 / 1}
+          guides={false}
+          crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
+        />
+      </div>);
   }
 
   render() {
