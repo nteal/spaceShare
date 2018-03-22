@@ -48,7 +48,7 @@ class EditProfile extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+    Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         console.log('current! user! data!', response.data);
         this.setState({
@@ -148,7 +148,7 @@ class EditProfile extends React.Component {
       token: localStorage.getItem('id_token'),
     });
 
-    Axios.post(`/api/editProfile/${localStorage.getItem('id_token')}`, {
+    Axios.post(`/user/editProfile/${localStorage.getItem('id_token')}`, {
       id,
       about,
       image_url,

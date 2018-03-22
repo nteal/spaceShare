@@ -40,7 +40,7 @@ class Login extends React.Component {
           })
           .then(() => {
             console.log('this call in particular');
-            Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
+            Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
               .then((isAuthenticated) => {
                 console.log('isAuth...');
                 console.dir(isAuthenticated);

@@ -44,20 +44,20 @@ module.exports = {
   },
   plugins: [
     HTMLWebpackPluginConfig,
-    new OfflinePlugin(),
-    new WebpackPwaManifest({
-      name: 'SpaceShare',
-      short_name: 'SpaceShare',
-      description: 'connecting people seeking spaces',
-      icons: [
-        {
-          src: 'client/src/assets/ss-logo-transparent.png',
-          type: 'image/png',
-          sizes: '144x144',
-        },
-      ],
-      start_url: '/dashboard',
-      display: 'fullscreen',
-    }),
+    // new OfflinePlugin(),
+    // new WebpackPwaManifest({
+    //   name: 'SpaceShare',
+    //   short_name: 'SpaceShare',
+    //   description: 'connecting people seeking spaces',
+    //   icons: [
+    //     {
+    //       src: 'client/src/assets/ss-logo-transparent.png',
+    //       type: 'image/png',
+    //       sizes: '144x144',
+    //     },
+    //   ],
+    //   start_url: '/dashboard',
+    //   display: 'fullscreen',
+    // }),
   ],
 };

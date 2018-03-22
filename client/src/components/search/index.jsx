@@ -95,7 +95,7 @@ class Search extends React.Component {
           include_people: false,
         }, () => {
           Axios.post(
-            `/api/new-search/${localStorage.getItem('id_token')}`,
+            `/search/new-search/${localStorage.getItem('id_token')}`,
             { search: this.state },
           )
             .then((response) => {
