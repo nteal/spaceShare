@@ -175,14 +175,14 @@ class ImageInput extends React.Component {
             <img
               src={displayImg}
               alt="your uploaded file"
-              className="img-fluid img-thumbnail"
+              className="img-fluid img-thumbnail preview-pic"
             />
           )}
           {!changed && (
             <img
               src={value}
               alt="your uploaded file"
-              className="img-fluid img-thumbnail"
+              className="img-fluid img-thumbnail preview-pic"
             />
           )}
           <button className="btn btn-primary btn-block mt-2 mb-2" onClick={this.toggleEditing}>
