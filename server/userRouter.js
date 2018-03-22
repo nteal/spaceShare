@@ -61,6 +61,40 @@ userRouter.get('/currentUserSpaces/:token/:userId', (req, res) => {
     .catch(err => console.error(err));
 });
 
+userRouter.get('/searchUsers/:token/:query', (req, res) => {
+  console.log(req.params.query);
+  res.send([
+    {
+      name_last: 'Hogan',
+      name_first: 'Hulk',
+      fb_Id: 5,
+      fb_link: 'facebook.com/jsmichot',
+      image_url: 'https://graph.facebook.com/v2.6/10215356834936229/picture?type=large',
+    },
+    {
+      name_last: 'Bobby',
+      name_first: 'Jones',
+      fb_Id: 4,
+      fb_link: 'facebook.com/jsmichot',
+      image_url: 'https://graph.facebook.com/v2.6/10215356834936229/picture?type=large',
+    },
+    {
+      name_last: 'Emily',
+      name_first: 'Yu',
+      fb_Id: 3,
+      fb_link: 'facebook.com/jsmichot',
+      image_url: 'https://graph.facebook.com/v2.6/10215356834936229/picture?type=large',
+    },
+    {
+      name_last: 'Jay',
+      name_first: 'Kindell',
+      fb_Id: 2,
+      fb_link: 'facebook.com/jsmichot',
+      image_url: 'https://graph.facebook.com/v2.6/10215356834936229/picture?type=large',
+    },
+  ]);
+});
+
 userRouter.get('/*', (req, res) => {
   console.log('from user');
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
