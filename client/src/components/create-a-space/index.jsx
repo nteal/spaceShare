@@ -31,7 +31,7 @@ class CreateSpace extends React.Component {
       pet_id: 3,
       amenities: [],
       amenity: '',
-      tempImageUrl: '',
+      tempImageUrl: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space2.jpg',
       editing: true,
       cropping: false,
       imgFile: null,
@@ -65,6 +65,7 @@ class CreateSpace extends React.Component {
     this.setState({ editing: true });
   }
   doneEditing() {
+    this.exitCrop();
     this.setState({ editing: null });
   }
   handleCostChange(event) {
