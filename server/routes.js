@@ -8,22 +8,6 @@ const chat = require('./chatHelp');
 const matchingHelp = require('./matchingHelp');
 
 
-router.post(
-  '/auth/facebook',
-  passport.authenticate('facebook-token'),
-  (req, res) => {
-    console.log('inside auth cb');
-    // console.dir(req);
-    const token = jwt.sign(
-      { id: req.user.id },
-      'secret', { expiresIn: '1h' },
-    );
-    // console.log(jwt.verify(token, 'secret'));
-    // console.log('sending token =>', token);
-    res.status(200).send(token);
-  },
-);
-
 
 router.param('token', (req, res, next, JWT) => {
   console.log('router param check', req.url);
@@ -49,24 +33,9 @@ router.param('token', (req, res, next, JWT) => {
   next();
 });
 
-router.get('/api/isAuthenticated/:token', (req, res) => {
-  console.log('isTTTTTTTAuth');
-  // console.log('req.params => ', req.params);
-  // console.log('req.query => ', req.query);
-  if (req.params && req.params.token) {
-    const id = jwt.verify(req.params.token, 'secret').id;
-    // console.log('id: ', id);
-    res.send(true);
-  } else {
-    res.send(false);
-  }
-});
 
-router.get('/api/currentSpace/:token/:spaceId', (req, res) => {
-  db.helpers.getSpaceIncludingMembers(req.params.spaceId)
-    .then(space => res.status(200).send(space))
-    .catch(err => console.error(err));
-});
+
+
 
 router.get('/api/currentListing/:token/:spaceId', (req, res) => {
   db.helpers.getSpaceListingById(req.params.spaceId)
@@ -80,26 +49,9 @@ router.get('/api/listings/:token/:location', (req, res) => {
     .catch(err => console.error(err));
 });
 
-router.post('/api/newSpace/:token', (req, res) => (
-  helpers.addLocToSpace(req.body.space)
-    .then(spaceObj => db.helpers.addNewSpace(spaceObj, req.fb_Id))
-    .then(newSpaceId => res.status(201).send(JSON.stringify(newSpaceId)))
-    .catch(err => console.error(err))
-));
 
-router.post('/api/updateSpace/:token/:spaceId', (req, res) => (
-  // console.log(req.body);
-  helpers.addLocToSpace(req.body)
-    .then(spaceObj => db.helpers.updateSpace(Object.assign({ id: req.params.spaceId }, spaceObj)))
-    .then(space => res.status(202).send(JSON.stringify(space)))
-    .catch(err => console.error(err))
-));
 
-router.post('/api/deleteSpace/:token', (req, res) => {
-  db.helpers.destroySpace(req.body)
-    .then(oldSpaceData => res.status(202).send(oldSpaceData))
-    .catch(err => console.error(err));
-});
+
 
 router.post('/api/updateGroundRules/:token', (req, res) => {
   db.helpers.updateGroundrules(req.body)
@@ -119,39 +71,7 @@ router.post('/api/deleteMember/:token', (req, res) => {
     .catch(err => console.error(err));
 });
 
-router.get('/api/isOwner/:token/:spaceId', (req, res) => {
-  db.helpers.isOwner(req.fb_Id, req.params.spaceId)
-    .then(result => res.status(200).send(result))
-    .catch(err => console.error(err));
-});
 
-router.get('/api/currentUser/:token', (req, res) => {
-  db.helpers.getUserIncludingSpaces(req.fb_Id)
-    .then(user => res.status(200).send(user))
-    .catch(err => console.error(err));
-});
-
-router.post('/api/editProfile/:token', (req, res) => {
-  db.helpers.updateUser(req.body)
-    .then(user => res.status(200).send(user))
-    .catch(err => console.error(err));
-});
-
-router.get('/api/userPublic/:token/:userId', (req, res) => {
-  // gets public information for a specified user
-  // could this be done in batches for search purposes?
-  db.helpers.getUserPublic(req.params.userId)
-    .then(publicInfo => res.status(200).send(publicInfo))
-    .catch(err => console.error(err));
-})
-
-// deprecated?
-router.get('/api/currentUserSpaces/:token/:userId', (req, res) => {
-  // console.log('currentUserSpaces endpoint');
-  db.helpers.getSpacesByFbId(req.fb_Id)
-    .then(spaces => res.status(200).send(spaces))
-    .catch(err => console.error(err));
-});
 
 router.post('/api/new-search/:token', (req, res) => (
   // console.log(req.body);

@@ -1,5 +1,7 @@
 const express = require('express');
 const routes = require('./routes');
+const authRouter = require('./authRouter');
+const spaceRouter = require('./spaceRouter');
 const path = require('path');
 const passport = require('passport');
 const FacebookTokenStrategy = require('passport-facebook-token');
@@ -64,6 +66,9 @@ passport.use(new FacebookTokenStrategy(
   },
 ));
 
-app.use('/', routes);
+app.use('/api', routes);
+app.use('/auth', authRouter);
+app.use('/space', spaceRouter);
+app.use('/user', userRouter);
 
 module.exports = app;
