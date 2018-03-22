@@ -35,6 +35,11 @@ ul {
   padding-left: 0px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: Raleway;
+  font-weight: 700;
+}
+
 .btn {
   font-family: Raleway;
   font-weight: 600;
@@ -52,6 +57,10 @@ ul {
   background-color : rgb(91, 73, 165)!important;
   border-color:#FFFCA0!important;
   color:#FFFCA0!important;
+}
+
+.btn-outline-light:hover, .btn-outline-light:focus {
+  color: #BD00FF!important;
 }
 
 .form-control:focus {
@@ -79,6 +88,12 @@ ul {
   fill: #FFFCA0;
 }
 
+.display-xl {
+  font-size: 10rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
 .mt-neg {
   margin-top: -2rem;
 }
@@ -91,8 +106,16 @@ ul {
   margin-top: -3.5rem;
 }
 
-.mt-neg-alot {
+.mt-neg-md {
+  margin-top: -22%;
+}
+
+.mt-neg-lg {
   margin-top: -25%;
+}
+
+.mt-neg-xl {
+  margin-top: -40%;
 }
 
 .mb-neg {
@@ -306,14 +329,6 @@ ul {
   color:#FFFCA0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: Raleway;
-  font-weight: 700;
-}
-.one-line {
-  white-space: nowrap;
-}
-
 .heading-box {
   background-color: rgb(61, 61, 61);
   border-radius: 2px;
@@ -438,7 +453,8 @@ mt-0 {
 
 .splash-bg {
   background: linear-gradient(45deg, rgba(36, 3, 126, 0.8), rgba(187, 0, 255, 0.65)),
-    url('https://purewows3.imgix.net/images/articles/2017_01/bespoke_coworking_spaces_san_francisco.png?auto=format,compress&cs=strip');
+    url('https://purewows3.imgix.net/images/articles/2017_01/bespoke_coworking_spaces_san_francisco.png?auto=format,compress&cs=strip')
+    no-repeat center;
   background-size: cover;
   color: white;
   height: 100vh;
