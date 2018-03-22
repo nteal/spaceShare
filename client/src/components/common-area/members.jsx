@@ -144,7 +144,7 @@ class Members extends React.Component {
                   <div className="col">
                     <div className="list-group">
                       {this.state.users.map(user => (
-                        <div className="list-group-item" data-toggle="list">
+                        <div className="list-group-item">
                           <li className="media">
                             <img className="mr-3 search-result-img" src={user.image_url} alt={`${user.name_first} ${user.name_last}`} />
                             <div className="media-body">
