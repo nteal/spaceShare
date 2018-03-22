@@ -19,7 +19,7 @@ class ChatMain extends React.Component {
     this.deleteConversation = this.deleteConversation.bind(this);
   }
   componentDidMount() {
-    Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/spaceChats/${localStorage.getItem('id_token')}`)
       .then(response => this.setState({ userSpaceChats: response.data }, () => {
         console.log('space chats', response.data);
       }))

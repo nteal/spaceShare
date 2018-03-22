@@ -40,7 +40,7 @@ class App extends React.Component {
     Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const nexmoUsername = response.data.id;
-        Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoUsername}`)
+        Axios.get(`/chat/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoUsername}`)
           .then((res) => {
             const { user_jwt } = res.data;
             const client = new ConversationClient({

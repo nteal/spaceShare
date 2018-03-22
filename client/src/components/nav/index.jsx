@@ -107,7 +107,7 @@ class Nav extends React.Component {
         this.setState({ allUserChats: conversations }, callback);
       })
       .catch(error => console.error('error logging into nexmo', error));
-    Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/spaceChats/${localStorage.getItem('id_token')}`)
       .then(response => this.setState({ userSpaceChats: response.data }, () => {
         console.log('space chats', response.data);
       }))
@@ -259,7 +259,7 @@ class Nav extends React.Component {
     });
   }
   startNewChat(userNexmoId) {
-    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+    Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const userNameFirst = response.data.name_first;
         const userNameLast = response.data.name_last;
