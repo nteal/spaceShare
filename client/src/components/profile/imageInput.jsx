@@ -19,12 +19,14 @@ class ImageInput extends React.Component {
       cropping: false,
       imgFile: null,
       preNext: null,
+      doneCropping: false,
     };
 
     this.toggleEditing = this.toggleEditing.bind(this);
     this.doneEditing = this.doneEditing.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.endCrop = this.endCrop.bind(this);
   }
 
   componentDidMount() {
@@ -66,17 +68,30 @@ class ImageInput extends React.Component {
     this.setState({ cropping: true });
   }
 
-  endCrop() {
+  exitCrop() {
     this.setState({ imgFile: null });
     this.setState({ preNext: null });
+    this.setState({ doneCropping: false });
     this.setState({ cropping: false });
+  }
+
+  endCrop() {
+    this.setState({ doneCropping: true });
   }
 
 
   _crop(imgFile, next, imageInputComp, cropperContext) {
-    const croppedDataUrl = this.refs.cropper.getCroppedCanvas();
-    croppedDataUrl.toBlob(blob => next(new File([blob], 'myFile.png')));
-    this.endCrop();
+    if (this.state.doneCropping) {
+      this.setState({ doneCropping: false });
+      const croppedDataUrl = this.refs.cropper.getCroppedCanvas();
+      croppedDataUrl.toBlob((blob) => {
+        const file = new File([blob], 'myFile.png');
+        next(file);
+      });
+      this.exitCrop();
+    } else {
+      console.log('lolllll');
+    }
   }
 
   uploadOrCrop() {
@@ -93,6 +108,7 @@ class ImageInput extends React.Component {
           let imgInputComp = this;
           fileReader.addEventListener('load', () => {
             imgInputComp.startCrop(fileReader.result, next);
+            // release dataURL?
           }, false);
           fileReader.readAsDataURL(img);
         }}
@@ -116,13 +132,14 @@ class ImageInput extends React.Component {
       aspectRatio={1 / 1}
       guides={false}
       crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
+      // crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
     />);
   }
 
   render() {
     const { placeholder, category, imageId, userId, field, value } = this.props;
 
-    const { editing, displayImg, changed } = this.state;
+    const { editing, displayImg, changed, cropping } = this.state;
     let displayed;
     if (editing) {
       displayed = (
@@ -135,6 +152,14 @@ class ImageInput extends React.Component {
                 type="button"
               >
                 <i className="material-icons md-sm">close</i>
+              </button>
+              <button
+                style={{ display: cropping ? 'inline' : 'none' }}
+                className="btn btn-outline-light btn-sm pb-0"
+                onClick={this.endCrop}
+                type="button"
+              >
+                <i className="material-icons md-sm">done</i>
               </button>
             </div>
             <h5 className="text-center mb-3">
