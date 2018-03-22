@@ -1,6 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
+import MediaQuery from 'react-responsive';
+import Rocket from 'mdi-react/RocketIcon.js';
 
 class PeopleSearch extends React.Component {
   constructor(props) {
@@ -65,7 +67,7 @@ class PeopleSearch extends React.Component {
     event.preventDefault();
     if (this.isValidAgeRange()) {
       Axios.post(
-        `/api/new-search/${localStorage.getItem('id_token')}`,
+        `/search/new-search/${localStorage.getItem('id_token')}`,
         { search: this.state },
       )
         .then((response) => {
@@ -82,61 +84,81 @@ class PeopleSearch extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="pl-4">
+      <main className="container p-res pl-4">
         <div className="row">
-          <h1>Person Search</h1>
+          <MediaQuery minDeviceWidth={800}>
+            <div className="heading-box">
+              <h1>Person Search</h1>
+            </div>
+          </MediaQuery>
+          <MediaQuery maxDeviceWidth={799}>
+            <div className="mobile-heading-box">
+              <h2>Person Search</h2>
+            </div>
+          </MediaQuery>
         </div>
-        <div className="row">
-          <h5>Would you prefer a...</h5>
+        <div className="row justify-content-center pt-5 pl4 pl-lg-5 pr-4 pr-lg-5">
+          <form onSubmit={this.handleSubmit} className="pl-4">
+            <div className="row">
+              <h5>Would you prefer a...</h5>
+            </div>
+            <div className="row pb-3">
+              <div className="col form-check" onChange={this.handleInputChange}>
+                <input className="form-check-input" type="radio" id="day" name="sleep_id" value={1} />
+                <label className="form-check-label" htmlFor="day">
+                  Early bird
+                </label>
+              </div>
+              <div className="col form-check" onChange={this.handleInputChange}>
+                <input className="form-check-input" type="radio" id="night" name="sleep_id" value={2} />
+                <label className="form-check-label" htmlFor="night">
+                  Night Owl
+                </label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-5 line mt-3" />
+              <div className="col-1 p-0">
+                <Rocket className="mt-neg-1" height={45} width={45} fill="#6F5BC0" />
+              </div>
+              <div className="col-5 line mt-3" />
+            </div>
+            <div className="row pb-3">
+              <div className="col form-check" onChange={this.handleInputChange}>
+                <input className="form-check-input" type="radio" id="introvert" name="personality_id" value={1} />
+                <label className="form-check-label" htmlFor="introvert">
+                  Introvert
+                </label>
+              </div>
+              <div className="col form-check" onChange={this.handleInputChange}>
+                <input className="form-check-input" type="radio" id="extrovert" name="personality_id" value={2} />
+                <label className="form-check-label" htmlFor="extrovert">
+                  Extrovert
+                </label>
+              </div>
+            </div>
+            <div className="row">
+              <h6>Age Range</h6>
+            </div>
+            <div className="row d-flex align-items-center pb-3">
+              <div className="col-5">
+                <input className="form-control" type="text" placeholder="0" name="age_min" onChange={this.handleInputChange} />
+              </div>
+              <div className="col-2 text-center">
+                <p>to</p>
+              </div>
+              <div className="col-5">
+                <input className="form-control" type="text" placeholder="100" name="age_max" onChange={this.handleInputChange} />
+              </div>
+            </div>
+            <div className="row pt-3">
+              <div className="col text-center">
+                <button type="submit" className="btn btn-primary">Time for liftoff!</button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div className="row">
-          <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="day" name="sleep_id" value={1} />
-            <label className="form-check-label" htmlFor="day">
-              Early bird
-            </label>
-          </div>
-          <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="night" name="sleep_id" value={2} />
-            <label className="form-check-label" htmlFor="night">
-              Night Owl
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="introvert" name="personality_id" value={1} />
-            <label className="form-check-label" htmlFor="introvert">
-              Introvert
-            </label>
-          </div>
-          <div className="col-2 form-check" onChange={this.handleInputChange}>
-            <input className="form-check-input" type="radio" id="extrovert" name="personality_id" value={2} />
-            <label className="form-check-label" htmlFor="extrovert">
-              Extrovert
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <h5>Age Range</h5>
-        </div>
-        <div className="row">
-          <div className="col-3">
-            <input className="form-control" type="text" placeholder="0" name="age_min" onChange={this.handleInputChange} />
-          </div>
-          <div className="col-1 text-center">
-            <h6>to</h6>
-          </div>
-          <div className="col-3">
-            <input className="form-control" type="text" placeholder="100" name="age_max" onChange={this.handleInputChange} />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-8 text-center">
-            <button type="submit" className="btn btn-outline-primary">Time for liftoff!</button>
-          </div>
-        </div>
-      </form>
+      </main>
     );
   }
 }

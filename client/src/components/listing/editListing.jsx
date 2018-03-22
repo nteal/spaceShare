@@ -46,7 +46,7 @@ class EditListing extends React.Component {
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
-    Axios.get(`/api/currentSpace/${localStorage.getItem('id_token')}/${spaceId}`)
+    Axios.get(`/space/currentSpace/${localStorage.getItem('id_token')}/${spaceId}`)
       .then((response) => {
         console.log('listing data', response.data);
         const {
@@ -233,7 +233,7 @@ class EditListing extends React.Component {
       'Live': 2,
     };
 
-    Axios.post(`/api/updateSpace/${localStorage.getItem('id_token')}/${this.state.id}`, {
+    Axios.post(`/space/updateSpace/${localStorage.getItem('id_token')}/${this.state.id}`, {
       open,
       main_image,
       name,

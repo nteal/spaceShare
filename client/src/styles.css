@@ -54,6 +54,16 @@ ul {
   color:#FFFCA0!important;
 }
 
+.form-control:focus {
+  border: 2px solid #80FFBA;
+  box-shadow: 0 0 0 0!important;
+}
+
+.custom-select:focus {
+  border: 2px solid #80FFBA;
+  box-shadow: 0 0 0 0!important;
+}
+
 .custom-btn {
   background-color: none;
   background: none;
@@ -318,6 +328,10 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: -2rem;
 }
 
+.mt-neg-1 {
+  margin-top: -.5rem;
+}
+
 .mt-neg-3 {
   margin-top: -3.5rem;
 }
@@ -402,6 +416,11 @@ mt-0 {
   white-space: pre-wrap;
 }
 
+.line {
+  height: .2rem;
+  background: #6F5BC0;
+
+}
 .space-main-img {
   max-width: 100%;
 }
