@@ -215,7 +215,7 @@ class CreateSpace extends React.Component {
           ref="cropper"
           src={state.imgFile}
           style={{ width: '100%', height: '100%', position: 'absolute', top: 0 }}
-          aspectRatio={5 / 1}
+          aspectRatio={ 4 / 3 }
           guides={false}
           crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
         />
@@ -249,7 +249,7 @@ class CreateSpace extends React.Component {
             </div>
             <h6 className="text-center mb-3">
               Select an image for your space.
-            </h5>
+            </h6>
             {this.uploadOrCrop()}
           </div>
         </div>
