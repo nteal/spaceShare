@@ -53,6 +53,7 @@ class ImageInput extends React.Component {
   }
 
   doneEditing() {
+    this.exitCrop();
     this.setState({ editing: null });
   }
 
@@ -92,6 +93,7 @@ class ImageInput extends React.Component {
   }
 
   uploadOrCrop() {
+    const { aspectRatio } = this.props;
     const imageInputComp = this;
     const { state } = this;
     const { userId, field, imageId, category } = this.props;
@@ -125,7 +127,7 @@ class ImageInput extends React.Component {
           ref="cropper"
           src={state.imgFile}
           style={{ width: '100%', height: '100%', position: 'absolute', top: 0 }}
-          aspectRatio={1 / 1}
+          aspectRatio={aspectRatio || 4 / 3}
           guides={false}
           crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
         />
