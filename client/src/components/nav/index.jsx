@@ -71,7 +71,7 @@ class Nav extends React.Component {
     mql.addListener(this.mediaQueryChanged);
     this.setState({mql: mql, sidebarDocked: mql.matches});
 
-    Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
+    Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
       .then((response) => {
         if (response.data === false) {
           this.setState({ isAuthenticated: false });
@@ -107,7 +107,7 @@ class Nav extends React.Component {
         this.setState({ allUserChats: conversations }, callback);
       })
       .catch(error => console.error('error logging into nexmo', error));
-    Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/spaceChats/${localStorage.getItem('id_token')}`)
       .then(response => this.setState({ userSpaceChats: response.data }, () => {
         console.log('space chats', response.data);
       }))
@@ -188,7 +188,7 @@ class Nav extends React.Component {
       return idObj;
     }, {});
     const nexmoIds = Object.keys(uniqueIds);
-    Axios.get(`/api/usersByNexmoId/${localStorage.getItem('id_token')}`, {
+    Axios.get(`/chat/usersByNexmoId/${localStorage.getItem('id_token')}`, {
       params: { nexmoIds },
     })
       .then(response => this.setState({ usersByNexmoId: response.data }, callback))
@@ -259,7 +259,7 @@ class Nav extends React.Component {
     });
   }
   startNewChat(userNexmoId) {
-    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+    Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const userNameFirst = response.data.name_first;
         const userNameLast = response.data.name_last;
@@ -297,7 +297,7 @@ class Nav extends React.Component {
       .catch(error => console.error('error getting current user info', error));
   }
   showConversationHistory(conversation) {
-    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/getNexmoId/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const currentUserNexmoId = response.data;
         this.setState({ currentUserNexmoId });

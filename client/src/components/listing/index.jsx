@@ -23,7 +23,7 @@ class Listing extends React.Component {
   }
   componentDidMount() {
     const spaceId = this.props.location.state ? this.props.location.state.spaceId : 0;
-    Axios.get(`/api/currentListing/${localStorage.getItem('id_token')}/${spaceId}`)
+    Axios.get(`/space/currentListing/${localStorage.getItem('id_token')}/${spaceId}`)
       .then((response) => {
         const {
           id,
@@ -73,7 +73,7 @@ class Listing extends React.Component {
           gallery: gallery || [],
         }, () => { console.log('listing', this.state)});
 
-        Axios.get('/api/isOwner', {
+        Axios.get('/user/isOwner', {
           params: {
             token: localStorage.getItem('id_token'),
             spaceId: id,

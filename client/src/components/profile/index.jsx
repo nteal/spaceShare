@@ -37,7 +37,7 @@ class Profile extends React.Component {
   componentDidMount() {
     const userId = this.props.location.state ? this.props.location.state.userId : 0;
 
-    Axios.get(`/api/userPublic/${localStorage.getItem('id_token')}/${userId}`)
+    Axios.get(`/user/userPublic/${localStorage.getItem('id_token')}/${userId}`)
       .then((response) => {
         this.setState({ user: response.data });
       })
