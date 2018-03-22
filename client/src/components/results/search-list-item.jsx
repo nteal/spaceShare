@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Moment from 'moment';
 import Briefcase from 'mdi-react/BriefcaseIcon.js';
 import Home from 'mdi-react/HomeIcon.js';
+import Delete from 'mdi-react/DeleteIcon.js';
+import Smoking from 'mdi-react/SmokingIcon.js';
+import Paw from 'mdi-react/PawIcon.js';
 
 class SearchListItem extends React.Component {
   constructor(props) {
@@ -18,69 +22,63 @@ class SearchListItem extends React.Component {
       purpose, neighborhood, price_min, price_max, timeline,
       smoking, pet, include_people, sleep, personality, age_min, age_max, timestamp, id, distance, city,
     } = this.props;
+    const purposeGlyph = purpose === 'Live' ? (
+      <i className="material-icons md-md mr-1">home</i>
+    ) : (
+      <i className="material-icons md-md mr-1">business</i>
+    );
     return (
-      <li className="media mb-4">
-        <div className="media-body">
-          <div className="row">
-            <div className="col justify-content-start">
-              <h4 className="mt-0 mb-1">{purpose}</h4>
-            </div>
-            <div className="col">
-              <div className="justify-content-end">
-                <h4>{timestamp}</h4>
+      <li className="list-group-item">
+        <div className="media">
+          <div className="media-body">
+            <div className="ml-0 pr-1 pl-1 row justify-content-between">
+              <div className="row">
+                {purposeGlyph}
+                <h4 className="h-result mb-0">{purpose}</h4>
               </div>
+              <p>{Moment(timestamp).fromNow()}</p>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-3">
-              <h4 className="mt-0 mb-1">{neighborhood}</h4>
+            <div className="row">
+              <i className="material-icons md-sm mr-1">location_on</i>
+              <h5 className="h-result mb-0">{neighborhood}</h5>
             </div>
-            <div className="col-2">
-              <button className="btn btn-warning" onClick={this.deleteSearch}>Delete this Search</button>
-            </div>
-          </div>
-          <h4 className="mt-0 mb-1">{`\$${price_min} - \$${price_max}`}</h4>
-          <div className="row">
-            <div className="col-3">
-              <h4 className="mt-0 mb-2">{timeline}</h4>
-            </div>
-            <div className="col-2">
-              <Link
-                to={
-                  {
-                    pathname: '/search-results',
-                    state: {
-                      search_id: id,
-                    },
-                  }
-                }
-                refresh="true"
-              >
-                <button className="btn btn-info">view search results</button>
+            <div className="row justify-content-between">
+              <h5 className="h-result mb-0">{`\$${price_min} - \$${price_max}`}</h5>
+              <Link to={{ pathname: '/search-results', state: { search_id: id } }}>
+                <button className="btn btn-info">Search again</button>
               </Link>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-2">
-              <h5 className="mt-0 mb-1">Smoking:<br />{smoking}</h5>
+            <div className="row">
+              <h5 className="h-result mb-0">{timeline}</h5>
             </div>
-            <div className="col-2 mb-1">
-              <h5 className="mt-0 mb-1">Pets:<br />{pet}</h5>
+            <div className="ml-0 pl-1 pr-1 row justify-content-between">
+              <div className="row">
+                <div className="row ml-0 mr-3">
+                  <div className="circle mr-1">
+                    <Smoking height={15} width={15} fill="#FFF" />
+                  </div> {smoking}
+                </div>
+                <div className="row ml-0 mr-2">
+                  <div className="circle mr-1">
+                    <Paw height={15} width={15} fill="#FFF" />
+                  </div> {pet}
+                </div>
+              </div>
+              {!include_people && (
+                <Delete className="mdi-btn" onClick={this.deleteSearch} height={25} width={25} fill="#6F5BC0" aria-label="delete this search" />
+              )}
             </div>
-          </div>
-          <div className="row">
-            <div className="col-2 mb-2">
-              <h5 className="mt-0 mb-1">Searches for people: {JSON.stringify(include_people)}</h5>
-            </div>
-            <div className="col-2">
-              <h5 className="mt-0 mb-1">{sleep}</h5>
-            </div>
-            <div className="col-2">
-              <h5 className="mt-0 mb-1">{personality}</h5>
-            </div>
-            <div className="col-2">
-              <h5 className="mt-0 mb-1">{`Age Range: ${age_min} - ${age_max}`}</h5>
-            </div>
+            {include_people && (
+              <div className="ml-0 pl-1 pr-1 row justify-content-between">
+                <div className="row">
+                  <small className="mt-0 mb-1 mr-2">Searches for people: {JSON.stringify(include_people)}</small>
+                  <small className="mt-0 mb-1 mr-2">{sleep}</small>
+                  <small className="mt-0 mb-1 mr-2">{personality}</small>
+                  <small className="mt-0 mb-1 mr-2">{`Age Range: ${age_min} - ${age_max}`}</small>
+                </div>
+                <Delete className="mdi-btn" onClick={this.deleteSearch} height={25} width={25} fill="#6F5BC0" aria-label="delete this search" />
+              </div>
+            )}
           </div>
         </div>
       </li>

@@ -114,13 +114,11 @@ class PastSearches extends React.Component {
     } = this.state;
     return (
       <div className="pl-4">
-        <div className="row mb-2 mt-2">
-          <div className="col-10">
+        <div className="row justify-content-between mb-5 mt-2 mr-0">
+          <div className="heading-box">
             <h1>{heading}</h1>
           </div>
-          <div className="col-2">
-            <button className="btn btn-secondary" onClick={this.newSearch}>New Search</button>
-          </div>
+          <button className="btn btn-primary" onClick={this.newSearch}>New Search</button>
         </div>
         <div className="row">
           <ul className="nav nav-tabs" role="tablist">
@@ -172,29 +170,31 @@ class PastSearches extends React.Component {
             ))}
           </div>
           <div className="tab-pane fade show active" id="searches" role="tabpanel">
-            {searches.map(search => (
-              <SearchListItem
-                purpose={search.purpose}
-                city={search.city}
-                distance={search.distance}
-                neighborhood={search.location}
-                price_min={search.price_min}
-                price_max={search.price_max}
-                timeline={search.timeline}
-                smoking={search.smoking}
-                pet={search.pet}
-                include_people={search.include_people}
-                sleep={search.sleep}
-                personality={search.personality}
-                age_min={search.age_min}
-                age_max={search.age_max}
-                timestamp={search.createdAt}
-                id={search.id}
-                history={this.props.history}
-                key={search.id}
-                deleteSearch={this.deleteSearch}
-              />
-            ))}
+            <ul className="list-group list-group-flush">
+              {searches.map(search => (
+                <SearchListItem
+                  purpose={search.purpose}
+                  city={search.city}
+                  distance={search.distance}
+                  neighborhood={search.location}
+                  price_min={search.price_min}
+                  price_max={search.price_max}
+                  timeline={search.timeline}
+                  smoking={search.smoking}
+                  pet={search.pet}
+                  include_people={search.include_people}
+                  sleep={search.sleep}
+                  personality={search.personality}
+                  age_min={search.age_min}
+                  age_max={search.age_max}
+                  timestamp={search.createdAt}
+                  id={search.id}
+                  history={this.props.history}
+                  key={search.id}
+                  deleteSearch={this.deleteSearch}
+                />
+              ))}
+            </ul>
           </div>
         </div>
       </div>

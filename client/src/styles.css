@@ -40,6 +40,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+.h-result {
+  font-weight: 400!important;
+}
+
 .btn {
   font-family: Raleway;
   font-weight: 600;
@@ -136,6 +140,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .mt-res {
   margin-top: 5%;
+}
+
+.circle {
+  background-color: black;
+  border-radius: 50%;
+  height: 1.25rem;
+  width: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding-right: .1rem;
+  padding-bottom:.1rem;
+  padding-top: .1rem;
 }
 
 .wrapper {
@@ -302,6 +319,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .md-sm {
   font-size: 1.25rem;
+}
+
+.md-md {
+  font-size: 1.5rem;
 }
 
 .md-h3 {
