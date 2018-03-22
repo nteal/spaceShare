@@ -18,7 +18,7 @@ class Dashboard extends React.Component {
   }
   componentDidMount() {
     // get user data to populate profile content
-    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+    Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         this.setState({
           currentUser: response.data,

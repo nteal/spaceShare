@@ -35,7 +35,7 @@ class Profile extends React.Component {
     this.messageUser = this.messageUser.bind(this);
   }
   componentDidMount() {
-    Axios.get(`/api/userPublic/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.userId : 0}`)
+    Axios.get(`/user/userPublic/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.userId : 0}`)
       .then((response) => {
         this.setState({ user: response.data });
       })

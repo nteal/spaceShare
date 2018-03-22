@@ -65,7 +65,7 @@ class PeopleSearch extends React.Component {
     event.preventDefault();
     if (this.isValidAgeRange()) {
       Axios.post(
-        `/api/new-search/${localStorage.getItem('id_token')}`,
+        `/search/new-search/${localStorage.getItem('id_token')}`,
         { search: this.state },
       )
         .then((response) => {

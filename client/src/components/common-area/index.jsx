@@ -45,7 +45,7 @@ class CommonArea extends React.Component {
     this.setState({ todos, complete, incomplete }, callback);
   }
   setSpaceInfo() {
-    Axios.get(`/api/currentSpace/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
+    Axios.get(`/space/currentSpace/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
       .then((space) => {
         this.setState({
           id: space.data.id,
@@ -68,13 +68,13 @@ class CommonArea extends React.Component {
             console.log('common area', this.state);
           });
           this.joinConversation(localStorage.getItem('nexmo_token'));
-          // Axios.get(`/api/getChat/${localStorage.getItem('id_token')}/${conversationId}`)
+          // Axios.get(`/chat/getChat/${localStorage.getItem('id_token')}/${conversationId}`)
           //   .then(response => this.setState({ chat: response.data }))
           //   .catch(error => console.error('error getting space chat', error));
         });
       })
       .catch((error) => { console.dir(error); });
-    Axios.get(`/api/isOwner/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
+    Axios.get(`/user/isOwner/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
       .then((response) => {
         this.setState({ isOwner: response.data }, () => {
           console.log('isOwner', this.state.isOwner);
@@ -123,7 +123,7 @@ class CommonArea extends React.Component {
     conversation.on('text:typing:on', data => this.setState({ typingStatus: `${membersById[data.user.name]} is typing...` }));
   }
   showConversationHistory(conversation) {
-    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/getNexmoId/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const currentUserNexmoId = response.data;
         const { membersById } = this.state;
@@ -191,7 +191,7 @@ class CommonArea extends React.Component {
   }
   submitTodos() {
     const { id, todos } = this.state;
-    Axios.post(`/api/updateTodos/${localStorage.getItem('id_token')}/${id}`, todos)
+    Axios.post(`/space/updateTodos/${localStorage.getItem('id_token')}/${id}`, todos)
       .then((response) => {
         console.log('todos updated', response.data);
         this.setTodos(response.data, () => {
@@ -204,7 +204,7 @@ class CommonArea extends React.Component {
     const { id } = this.state;
     const updateObj = { fbId, spaceId: id };
 
-    Axios.post(`/api/addMember/${localStorage.getItem('id_token')}`, updateObj)
+    Axios.post(`/space/addMember/${localStorage.getItem('id_token')}`, updateObj)
       .then((response) => {
         console.log('member added', response.data);
         this.setSpaceInfo();
@@ -215,7 +215,7 @@ class CommonArea extends React.Component {
     const { id } = this.state;
     const updateObj = { userId, spaceId: id };
 
-    Axios.post(`/api/deleteMember/${localStorage.getItem('id_token')}`, updateObj)
+    Axios.post(`/space/deleteMember/${localStorage.getItem('id_token')}`, updateObj)
       .then((response) => {
         console.log('member deleted', response.data);
         this.setSpaceInfo();
@@ -227,7 +227,7 @@ class CommonArea extends React.Component {
       const { id, groundRules } = this.state;
       const updateObj = { spaceId: id, ground_rules: groundRules };
 
-      Axios.post(`/api/updateGroundRules/${localStorage.getItem('id_token')}`, updateObj)
+      Axios.post(`/space/updateGroundRules/${localStorage.getItem('id_token')}`, updateObj)
         .then(response => console.log('ground rules updated!', response))
         .catch(error => console.error('error updating ground rules', error));
     });

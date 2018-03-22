@@ -5,7 +5,7 @@ const db = require('../database');
 const helpers = require('./helpers');
 
 spaceRouter.param('token', (req, res, next, JWT) => {
-  console.log('router param check', req.url);
+  console.log('spaceRouter param check', req.url);
   // check authorization
   const isAuthorized = (JWT) => {
     // decode token
@@ -26,6 +26,12 @@ spaceRouter.param('token', (req, res, next, JWT) => {
   }
   // move
   next();
+});
+
+spaceRouter.get('/currentListing/:token/:spaceId', (req, res) => {
+  db.helpers.getSpaceListingById(req.params.spaceId)
+    .then(space => res.status(200).send(space))
+    .catch(err => console.error(err));
 });
 
 spaceRouter.get('/currentSpace/:token/:spaceId', (req, res) => {
@@ -53,6 +59,31 @@ spaceRouter.post('/deleteSpace/:token', (req, res) => {
   db.helpers.destroySpace(req.body)
     .then(oldSpaceData => res.status(202).send(oldSpaceData))
     .catch(err => console.error(err));
+});
+
+spaceRouter.post('/updateGroundRules/:token', (req, res) => {
+  db.helpers.updateGroundrules(req.body)
+    .then(result => res.status(202).send(result))
+    .catch(err => console.error(err));
+});
+
+spaceRouter.post('/addMember/:token', (req, res) => {
+  db.helpers.addUsersToSpaces(req.body.fbId, req.body.spaceId)
+    .then(spaceMembers => res.status(202).send(spaceMembers))
+    .catch(err => console.error(err));
+});
+
+spaceRouter.post('/deleteMember/:token', (req, res) => {
+  db.helpers.removeUserFromSpace(req.body.userId, req.body.spaceId)
+    .then(spaceMembers => res.status(202).send(spaceMembers))
+    .catch(err => console.error(err));
+});
+
+spaceRouter.post('/updateTodos/:token/:spaceId', (req, res) => {
+  db.helpers.updateTodos(req.params.spaceId, req.body)
+    .then((todos) => {
+      res.status(201).send(todos);
+    }).catch(err => console.error(err));
 });
 
 spaceRouter.get('/*', (req, res) => {

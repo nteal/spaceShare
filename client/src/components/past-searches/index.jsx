@@ -50,7 +50,7 @@ class PastSearches extends React.Component {
   }
   componentDidMount() {
     console.log('SearchResults did mount'); // eslint-disable-line
-    Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`)
+    Axios.get(`/search/saved-searches/${localStorage.getItem('id_token')}`)
       .then((response) => {
         console.log('get saved-searches');
         console.dir(response);
@@ -80,9 +80,9 @@ class PastSearches extends React.Component {
     this.props.history.push('/search');
   }
   deleteSearch(searchId) {
-    Axios.post(`/api/delete-search/${localStorage.getItem('id_token')}/${searchId}`)
+    Axios.post(`/search/delete-search/${localStorage.getItem('id_token')}/${searchId}`)
       .then(() => {
-        Axios.get(`/api/saved-searches/${localStorage.getItem('id_token')}`)
+        Axios.get(`/search/saved-searches/${localStorage.getItem('id_token')}`)
           .then((response) => {
             if (response.data.length) {
               this.setState({

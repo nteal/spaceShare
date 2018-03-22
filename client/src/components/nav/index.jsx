@@ -67,7 +67,7 @@ class Nav extends React.Component {
     mql.addListener(this.mediaQueryChanged);
     this.setState({mql: mql, sidebarDocked: mql.matches});
 
-    Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
+    Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
       .then((response) => {
         if (response.data === false) {
           this.setState({ isAuthenticated: false });
@@ -126,7 +126,7 @@ class Nav extends React.Component {
       return idObj;
     }, {});
     const nexmoIds = Object.keys(uniqueIds);
-    Axios.get(`/api/usersByNexmoId/${localStorage.getItem('id_token')}`, {
+    Axios.get(`/chat/usersByNexmoId/${localStorage.getItem('id_token')}`, {
       params: { nexmoIds },
     })
       .then(response => this.setState({ usersByNexmoId: response.data }))
@@ -204,7 +204,7 @@ class Nav extends React.Component {
     }
   }
   showConversationHistory(conversation) {
-    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/getNexmoId/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const currentUserNexmoId = response.data;
         const { usersByNexmoId } = this.state;

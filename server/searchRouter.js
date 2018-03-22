@@ -30,6 +30,11 @@ searchRouter.param('token', (req, res, next, JWT) => {
   next();
 });
 
+searchRouter.get('/listings/:token/:location', (req, res) => {
+  db.helpers.getAllListings(req.params.location, req.fb_Id)
+    .then(resultObj => res.status(200).send(resultObj))
+    .catch(err => console.error(err));
+});
 
 searchRouter.post('/new-search/:token', (req, res) => (
   // console.log(req.body);
