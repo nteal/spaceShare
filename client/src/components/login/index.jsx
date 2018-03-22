@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import MediaQuery from 'react-responsive';
 import Nav from '../nav/index.jsx';
 import LogoGradient from '../../assets/ss-logo-gradient.png';
 
@@ -58,7 +59,7 @@ class Login extends React.Component {
     const { isAuthenticated } = this.state;
     if (!isAuthenticated) {
       return (
-        <div className="jumbotron jumbotron-fluid splash-bg">
+        <div className="jumbotron jumbotron-fluid splash-bg mb-0">
           <div className="container">
             <div className="row justify-content-center align-items-center splash-position">
               <div className="col">
@@ -66,13 +67,21 @@ class Login extends React.Component {
                   <img src={LogoGradient} className="img-fluid splash-logo" alt="SpaceShare logo" />
                 </div>
                 <div className="row justify-content-center">
-                  <h1 className="display-2 mt-neg-alot">SpaceShare</h1>
+                  <MediaQuery maxDeviceWidth={850}>
+                    <h1 className="display-4 mt-neg-md">SpaceShare</h1>
+                  </MediaQuery>
+                  <MediaQuery minDeviceWidth={851} maxDeviceWidth={1800}>
+                    <h1 className="display-2 mt-neg-lg">SpaceShare</h1>
+                  </MediaQuery>
+                  <MediaQuery minDeviceWidth={1801}>
+                    <h1 className="display-xl mt-neg-xl">SpaceShare</h1>
+                  </MediaQuery>
                 </div>
               </div>
             </div>
             <div className="row justify-content-center pt-alot">
               <button className="btn btn-outline-light" onClick={this.fbLogin}>
-                Login with Facebook
+                Log in with Facebook
               </button>
             </div>
           </div>
