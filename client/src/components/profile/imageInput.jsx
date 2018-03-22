@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactS3Uploader from 'react-s3-uploader';
 import Pencil from 'mdi-react/PencilIcon.js';
 
-
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
@@ -120,9 +119,6 @@ class ImageInput extends React.Component {
         onFinish={this.onDrop}
       />);
     }
-
-    // else return this !!
-
     return (
       <div style={{ width: '100%', paddingTop: '100%', position: 'relative', verticalAlign: 'top' }}>
         <Cropper
