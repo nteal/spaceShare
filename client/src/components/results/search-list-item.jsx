@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Briefcase from 'mdi-react/BriefcaseIcon.js';
+import Home from 'mdi-react/HomeIcon.js';
 
 class SearchListItem extends React.Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class SearchListItem extends React.Component {
   render() {
     const {
       purpose, neighborhood, price_min, price_max, timeline,
-      smoking, pet, include_people, sleep, personality, age_min, age_max, timestamp, id,
+      smoking, pet, include_people, sleep, personality, age_min, age_max, timestamp, id, distance, city,
     } = this.props;
     return (
       <li className="media mb-4">
@@ -102,10 +104,14 @@ SearchListItem.propTypes = {
   timestamp: PropTypes.string,
   id: PropTypes.string,
   deleteSearch: PropTypes.func,
+  distance: PropTypes.number,
+  city: PropTypes.string,
 };
 SearchListItem.defaultProps = {
   purpose: 'Live',
   neighborhood: 'Neighborhood not found',
+  distance: '',
+  city: '',
   price_min: 0,
   price_max: 0,
   timeline: 'Long-term',
