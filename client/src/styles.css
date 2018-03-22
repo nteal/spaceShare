@@ -79,6 +79,42 @@ ul {
   fill: #FFFCA0;
 }
 
+.mt-neg {
+  margin-top: -2rem;
+}
+
+.mt-neg-1 {
+  margin-top: -.5rem;
+}
+
+.mt-neg-3 {
+  margin-top: -3.5rem;
+}
+
+.mt-neg-alot {
+  margin-top: -25%;
+}
+
+.mb-neg {
+  margin-bottom: -.5rem;
+}
+
+.pt-alot {
+  padding-top: 10rem;
+}
+
+.p-res {
+  padding: 2%;
+}
+
+.pt-res {
+  padding-top: 5%;
+}
+
+.mt-res {
+  margin-top: 5%;
+}
+
 .wrapper {
   display: flex;
 }
@@ -324,21 +360,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 13px 50px 0px 15px;
 }
 
-.mt-neg {
-  margin-top: -2rem;
-}
-
-.mt-neg-1 {
-  margin-top: -.5rem;
-}
-
-.mt-neg-3 {
-  margin-top: -3.5rem;
-}
-
-.mb-neg {
-  margin-bottom: -.5rem;
-}
 
 .mobile-back-btn {
   position: relative;
@@ -386,17 +407,6 @@ mt-0 {
   padding: 15px 10px 0px 10px;
 }
 
-.p-res {
-  padding: 2%;
-}
-
-.pt-res {
-  padding-top: 5%;
-}
-.mt-res {
-  margin-top: 5%;
-}
-
 .content-box {
   border: 1px solid rgb(61, 61, 61);
   border-radius: 2px;
@@ -419,8 +429,26 @@ mt-0 {
 .line {
   height: .2rem;
   background: #6F5BC0;
-
 }
+
+.splash-position {
+  position: relative;
+  top: 12vh;
+}
+
+.splash-bg {
+  background: linear-gradient(45deg, rgba(36, 3, 126, 0.8), rgba(187, 0, 255, 0.65)),
+    url('https://purewows3.imgix.net/images/articles/2017_01/bespoke_coworking_spaces_san_francisco.png?auto=format,compress&cs=strip');
+  background-size: cover;
+  color: white;
+  height: 100vh;
+}
+
+.splash-logo {
+  height: 30vw;
+  width: auto;
+}
+
 .space-main-img {
   max-width: 100%;
 }

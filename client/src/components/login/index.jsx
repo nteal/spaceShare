@@ -1,6 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import Nav from '../nav/index.jsx';
+import LogoGradient from '../../assets/ss-logo-gradient.png';
 
 class Login extends React.Component {
   constructor(props) {
@@ -57,12 +58,24 @@ class Login extends React.Component {
     const { isAuthenticated } = this.state;
     if (!isAuthenticated) {
       return (
-        <div>
-          <h1>SpaceShare</h1>
-          <br />
-          <button onClick={this.fbLogin}>
-            Login with Facebook
-          </button>
+        <div className="jumbotron jumbotron-fluid splash-bg">
+          <div className="container">
+            <div className="row justify-content-center align-items-center splash-position">
+              <div className="col">
+                <div className="row justify-content-center align-items-center">
+                  <img src={LogoGradient} className="img-fluid splash-logo" alt="SpaceShare logo" />
+                </div>
+                <div className="row justify-content-center">
+                  <h1 className="display-2 mt-neg-alot">SpaceShare</h1>
+                </div>
+              </div>
+            </div>
+            <div className="row justify-content-center pt-alot">
+              <button className="btn btn-outline-light" onClick={this.fbLogin}>
+                Login with Facebook
+              </button>
+            </div>
+          </div>
         </div>
       );
     }
