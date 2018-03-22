@@ -62,6 +62,7 @@ userRouter.get('/currentUserSpaces/:token/:userId', (req, res) => {
 });
 
 userRouter.get('/*', (req, res) => {
+  console.log('from user');
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);

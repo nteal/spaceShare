@@ -60,6 +60,7 @@ authRouter.get('/isAuthenticated/:token', (req, res) => {
 });
 
 authRouter.get('/*', (req, res) => {
+  console.log('from auth');
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);

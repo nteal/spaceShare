@@ -87,6 +87,7 @@ spaceRouter.post('/updateTodos/:token/:spaceId', (req, res) => {
 });
 
 spaceRouter.get('/*', (req, res) => {
+  console.log('from spaces');
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);

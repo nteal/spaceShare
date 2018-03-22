@@ -37,6 +37,7 @@ router.param('token', (req, res, next, JWT) => {
 
 
 router.get('/*', (req, res) => {
+  console.log(req.url);
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);

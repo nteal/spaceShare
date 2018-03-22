@@ -64,9 +64,8 @@ searchRouter.get('/search-results/:token/:search_Id', (req, res) => {
     }).catch(err => console.error(err));
 });
 
-
-
 searchRouter.get('/*', (req, res) => {
+  console.log('from search');
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);

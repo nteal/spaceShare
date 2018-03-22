@@ -93,6 +93,7 @@ chatRouter.get('/usersByNexmoId/:token', (req, res) => {
 });
 
 chatRouter.get('/*', (req, res) => {
+  console.log('from chat');
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);
