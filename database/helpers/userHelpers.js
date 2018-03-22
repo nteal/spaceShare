@@ -162,6 +162,7 @@ const searchUsersByName = nameArr => (
         { name_last: { [Op.in]: nameArr } },
       ],
     },
+    attributes: ['name_first', 'name_last', 'fb_id', 'fb_link', 'image_url'],
   })
     .then(users => (
       users.map(user => user.dataValues)
