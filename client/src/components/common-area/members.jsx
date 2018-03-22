@@ -121,26 +121,25 @@ class Members extends React.Component {
                   </div>
                 </ConfirmModal>
 
-                <div className="input-group">
-                  <div className="row pt-4">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="enter name and search for a member to add"
-                      aria-label="enter name and search for a member to add"
-                      onChange={this.handleChange}
-                      value={this.state.newMember}
-                    />
-                    <div className="input-group-append">
-                      <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.handleSearch}>
-                        <AccountSearch />
-                      </button>
-                      {/* <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.handleAdd}>
-                        <i className="material-icons">add</i>
-                      </button> */}
-                    </div>
+                <div className="input-group pt-4">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="enter name and search for a member to add"
+                    aria-label="enter name and search for a member to add"
+                    onChange={this.handleChange}
+                    value={this.state.newMember}
+                  />
+                  <div className="input-group-append">
+                    <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.handleSearch}>
+                      <AccountSearch />
+                    </button>
+                    {/* <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.handleAdd}>
+                      <i className="material-icons">add</i>
+                    </button> */}
                   </div>
                 </div>
+                
                 <div className="row">
                   <div className="col">
                     <div className="list-group">
