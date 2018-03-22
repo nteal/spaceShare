@@ -68,6 +68,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-bootstrap4-modal": "^1.2.2",
+    "react-cropper": "^1.0.1",
     "react-dom": "^16.2.0",
     "react-responsive": "^4.0.4",
     "react-router-dom": "^4.2.2",

@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import ReactS3Uploader from 'react-s3-uploader';
 import Pencil from 'mdi-react/PencilIcon.js';
 
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
+
+
 class ImageInput extends React.Component {
   constructor(props) {
     super(props);
@@ -11,12 +15,17 @@ class ImageInput extends React.Component {
       newValue: '',
       displayImg: '',
       changed: false,
+      cropping: false,
+      imgFile: null,
+      preNext: null,
+      doneCropping: false,
     };
 
     this.toggleEditing = this.toggleEditing.bind(this);
     this.doneEditing = this.doneEditing.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.endCrop = this.endCrop.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +53,7 @@ class ImageInput extends React.Component {
   }
 
   doneEditing() {
+    this.exitCrop();
     this.setState({ editing: null });
   }
 
@@ -51,10 +61,83 @@ class ImageInput extends React.Component {
     this.setState({ editing: true });
   }
 
+
+  startCrop(imgFile, next) {
+    this.setState({ imgFile });
+    this.setState({ preNext: next });
+    this.setState({ cropping: true });
+  }
+
+  exitCrop() {
+    this.setState({ imgFile: null });
+    this.setState({ preNext: null });
+    this.setState({ doneCropping: false });
+    this.setState({ cropping: false });
+  }
+
+  endCrop() {
+    this.setState({ doneCropping: true }, this.refs.cropper.props.crop);
+  }
+
+
+  _crop(imgFile, next, imageInputComp, cropperContext) {
+    if (this.state.doneCropping) {
+      this.setState({ doneCropping: false });
+      const croppedDataUrl = this.refs.cropper.getCroppedCanvas();
+      croppedDataUrl.toBlob((blob) => {
+        const file = new File([blob], 'myFile.png');
+        next(file);
+      });
+      this.exitCrop();
+    }
+  }
+
+  uploadOrCrop() {
+    const { aspectRatio } = this.props;
+    const imageInputComp = this;
+    const { state } = this;
+    const { userId, field, imageId, category } = this.props;
+    const fileReader = new FileReader();
+    if (!this.state.cropping) {
+      return (<ReactS3Uploader
+        className="form-control image-select"
+        signingUrl="/s3/sign"
+        signingUrlMethod="GET"
+        preprocess={(img, next) => {
+          let imgInputComp = this;
+          fileReader.addEventListener('load', () => {
+            imgInputComp.startCrop(fileReader.result, next);
+            // release dataURL?
+          }, false);
+          fileReader.readAsDataURL(img);
+        }}
+        accept="image/*"
+        s3path={category}
+        scrubFilename={
+          filename =>
+            filename.replace(/[^]*/, `${userId}_${field}_${imageId}`)
+        }
+        multiple={false}
+        onFinish={this.onDrop}
+      />);
+    }
+    return (
+      <div style={{ width: '100%', paddingTop: '100%', position: 'relative', verticalAlign: 'top' }}>
+        <Cropper
+          ref="cropper"
+          src={state.imgFile}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0 }}
+          aspectRatio={aspectRatio || 4 / 3}
+          guides={false}
+          crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
+        />
+      </div>);
+  }
+
   render() {
     const { placeholder, category, imageId, userId, field, value } = this.props;
 
-    const { editing, displayImg, changed } = this.state;
+    const { editing, displayImg, changed, cropping } = this.state;
     let displayed;
     if (editing) {
       displayed = (
@@ -68,23 +151,20 @@ class ImageInput extends React.Component {
               >
                 <i className="material-icons md-sm">close</i>
               </button>
+              <button
+                style={{ display: cropping ? 'inline' : 'none' }}
+                className="btn btn-outline-light btn-sm pb-0"
+                onClick={this.endCrop}
+                type="button"
+              >
+                <i className="material-icons md-sm">done</i>
+              </button>
             </div>
             <h5 className="text-center mb-3">
               {placeholder}
             </h5>
-            <ReactS3Uploader
-              className="form-control image-select"
-              signingUrl="/s3/sign"
-              signingUrlMethod="GET"
-              accept="image/*"
-              s3path={category}
-              scrubFilename={
-                filename =>
-                  filename.replace(/[^]*/, `${userId}_${field}_${imageId}`)
-              }
-              multiple={false}
-              onFinish={this.onDrop}
-            />
+            {/* the following allows for conditional rendering */}
+            {this.uploadOrCrop()}
           </div>
         </div>
       );
@@ -95,14 +175,14 @@ class ImageInput extends React.Component {
             <img
               src={displayImg}
               alt="your uploaded file"
-              className="img-fluid img-thumbnail"
+              className="img-fluid img-thumbnail preview-pic"
             />
           )}
           {!changed && (
             <img
               src={value}
               alt="your uploaded file"
-              className="img-fluid img-thumbnail"
+              className="img-fluid img-thumbnail preview-pic"
             />
           )}
           <button className="btn btn-primary btn-block mt-2 mb-2" onClick={this.toggleEditing}>
