@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import Axios from 'axios';
 import DashProfile from './profile.jsx';
@@ -17,6 +18,7 @@ class Dashboard extends React.Component {
     };
   }
   componentDidMount() {
+    const { getNewChatEvents } = this.props;
     // get user data to populate profile content
     Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
@@ -28,12 +30,15 @@ class Dashboard extends React.Component {
       .catch((error) => {
         console.error('error retrieving user / space data', error);
       });
+    getNewChatEvents();
   }
 
   render() {
     const { currentUser, currentUserSpaces } = this.state;
+    const { newEvents, setConversation } = this.props;
+    const invite = newEvents.length === 1 ? 'invite' : 'invites';
     return (
-      <main>
+      <main className="pl-3">
         <div className="container p-res">
           <div className="row">
             <MediaQuery minDeviceWidth={800}>
@@ -51,7 +56,7 @@ class Dashboard extends React.Component {
             <div className="row justify-content-center pt-res">
               <div className="col">
                 <Link to="/messages" className="btn btn-primary btn-lg btn-block mt-3" role="button">
-                  You have 0 new messages!
+                  You have {newEvents.length} new {invite} to chat!
                 </Link>
               </div>
             </div>
@@ -65,13 +70,13 @@ class Dashboard extends React.Component {
                 <div className="row justify-content-center">
                   <div className="col">
                     <Link to="/messages" className="btn btn-primary btn-lg btn-block" role="button">
-                      You have 0 new messages!
+                      You have {newEvents.length} new {invite} to chat!
                     </Link>
                   </div>
                 </div>
               </MediaQuery>
               <MediaQuery minDeviceWidth={800}>
-                <Messages />
+                <Messages newEvents={newEvents} setConversation={setConversation} />
               </MediaQuery>
               <Spaces spaces={currentUserSpaces} />
             </div>
@@ -81,5 +86,17 @@ class Dashboard extends React.Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  newEvents: PropTypes.array,
+  getNewChatEvents: PropTypes.func,
+  setConversation: PropTypes.func,
+};
+
+Dashboard.defaultProps = {
+  newEvents: [],
+  getNewChatEvents: null,
+  setConversation: null,
+};
 
 export default Dashboard;

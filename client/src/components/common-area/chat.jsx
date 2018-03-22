@@ -72,7 +72,7 @@ class Chat extends React.Component {
         </MediaQuery>
         <div className="col">
           <div className="row space-messages-container">
-            <div className="col message-col">
+            <div className="col message-col pl-0">
               <div className="pl-2 pr-2">
                 {/* Messages go here */}
                 {incomingMessages.map(message => (
@@ -94,6 +94,7 @@ class Chat extends React.Component {
                 onKeyPress={this.sendMessageOnEnter}
                 onFocus={this.handleTyping}
                 onBlur={this.handleStopTyping}
+                placeholder="Say something to your friends..."
                 aria-label="talk in your space chat"
               />
               <div className="input-group-append">

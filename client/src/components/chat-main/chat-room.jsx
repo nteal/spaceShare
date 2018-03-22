@@ -56,15 +56,49 @@ class ChatRoom extends React.Component {
   }
   render() {
     const { newMessage } = this.state;
-    const { incomingMessages, typingStatus, chat } = this.props;
+    const {
+      incomingMessages,
+      typingStatus,
+      chat,
+      category,
+      chatLinkId,
+      displayName,
+    } = this.props;
+    const link = category === 'user' ? '/profile' : '/listing';
 
-    let displayHeading = (/[qypg]/).test(chat.display_name) ? (
+    let glyph;
+    if (category === 'user') {
+      glyph = <i className="material-icons mr-1">person</i>;
+    } else if (category === 1) {
+      glyph = <i className="material-icons mr-1">business</i>;
+    } else {
+      glyph = <i className="material-icons mr-1">home</i>;
+    }
+    const headingDisplayName = category === 'user' ? displayName : chat.display_name;
+
+    const idProperty = category === 'user' ? 'userId' : 'spaceId';
+
+    const displayHeading = (/[qypg]/).test(chat.display_name) ? (
       <div className="heading-box-chat chat-descender">
-        <h4>{chat.display_name}</h4>
+        <div className="col">
+          <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
+            <div className="row">
+              {glyph}
+              <h4>{headingDisplayName}</h4>
+            </div>
+          </Link>
+        </div>
       </div>
     ) : (
       <div className="heading-box-chat">
-        <h4>{chat.display_name}</h4>
+        <div className="col">
+          <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
+            <div className="row">
+              {glyph}
+              <h4>{headingDisplayName}</h4>
+            </div>
+          </Link>
+        </div>
       </div>
     );
     return (
@@ -72,7 +106,7 @@ class ChatRoom extends React.Component {
         <div className="row pt-2 pl-2">
           {displayHeading}
         </div>
-        <div className="row messages-container">
+        <div className="row messages-container pl-1">
           <div className="col message-col">
             <div className="pt-2 py-2">
               {/* Messages go here */}
@@ -82,7 +116,7 @@ class ChatRoom extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row status-row pb-1">
+        <div className="row status-row pb-1 pl-1">
           <small>{typingStatus}</small>
         </div>
         <div className="row align-self-end pl-1 pr-1 pb-2">
@@ -95,6 +129,7 @@ class ChatRoom extends React.Component {
               onKeyPress={this.sendMessageOnEnter}
               onFocus={this.handleTyping}
               onBlur={this.handleStopTyping}
+              placeholder={`Say something to ${chat.display_name}...`}
               aria-label="talk in your space chat"
             />
             <div className="input-group-append">
@@ -110,13 +145,22 @@ class ChatRoom extends React.Component {
 }
 
 ChatRoom.propTypes = {
+  category: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   incomingMessages: PropTypes.array,
   typingStatus: PropTypes.string,
+  chatLinkId: PropTypes.number,
+  displayName: PropTypes.string,
 };
 
 ChatRoom.defaultProps = {
+  category: '',
   incomingMessages: [],
   typingStatus: '',
+  chatLinkId: 0,
+  displayName: 'Bobo',
 };
 
 export default ChatRoom;

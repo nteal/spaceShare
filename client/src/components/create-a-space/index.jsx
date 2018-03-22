@@ -284,7 +284,7 @@ class CreateSpace extends React.Component {
     ];
 
     return (
-      <div className="container p-res">
+      <div className="container p-res pl-4">
         <div className="row">
           <MediaQuery minDeviceWidth={800}>
             <div className="heading-box descender">

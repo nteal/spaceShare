@@ -1,10 +1,9 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 import MessageText from 'mdi-react/MessageTextIcon.js';
-import CloseCircleOutline from 'mdi-react/CloseCircleOutlineIcon.js';
 import ChatRoom from './chat-room.jsx';
+import ChatNavLink from './chat-nav-link.jsx';
 
 class ChatMain extends React.Component {
   constructor(props) {
@@ -12,18 +11,18 @@ class ChatMain extends React.Component {
     this.state = {
       userSpaceChats: {},
       currentUserNexmoId: '',
+      spaceChats: [],
+      userChats: [],
     };
     this.getAllChats = this.getAllChats.bind(this);
-    // this.getAllMemberNames = this.getAllMemberNames.bind(this);
-    this.setConversation = this.setConversation.bind(this);
-    // this.setupConversationEvents = this.setupConversationEvents.bind(this);
-    // this.showConversationHistory = this.showConversationHistory.bind(this);
-    // this.joinConversation = this.joinConversation.bind(this);
+    this.setSpaceAndUserChats = this.setSpaceAndUserChats.bind(this);
     this.deleteConversation = this.deleteConversation.bind(this);
   }
   componentDidMount() {
-    Axios.get(`/chat/spaceChats/${localStorage.getItem('id_token')}`)
-      .then(response => this.setState({ userSpaceChats: response.data }))
+    Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
+      .then(response => this.setState({ userSpaceChats: response.data }, () => {
+        console.log('space chats', response.data);
+      }))
       .catch(error => console.error('error getting space chats', error));
 
     Axios.get(`/chat/getNexmoId/${localStorage.getItem('id_token')}`)
@@ -32,7 +31,7 @@ class ChatMain extends React.Component {
         if (!allUserChats) {
           this.getAllChats();
         } else {
-          getAllMemberNames();
+          getAllMemberNames(this.setSpaceAndUserChats);
         }
       }))
       .catch(error => console.error('error getting nexmo id', error));
@@ -41,17 +40,43 @@ class ChatMain extends React.Component {
     const { getAllChats, allUserChats, getAllMemberNames } = this.props;
     getAllChats(() => {
       console.log('all chats gotten', allUserChats);
-      getAllMemberNames();
+      getAllMemberNames(this.setSpaceAndUserChats);
     });
   }
-  setConversation(event) {
-    const { id } = event.target;
-    const { setConversation } = this.props;
-    setConversation(id);
+  setSpaceAndUserChats() {
+    const {
+      allUserChats,
+      usersByNexmoId,
+      conversationId,
+      setConversation,
+    } = this.props;
+    const { userSpaceChats, currentUserNexmoId } = this.state;
+    const spaceChats = allUserChats ?
+      Object.keys(allUserChats)
+        .filter(chatId => !!userSpaceChats[chatId])
+        .map(chatId => allUserChats[chatId]) :
+      [];
+    const userChats = allUserChats ?
+      Object.keys(allUserChats)
+        .filter(chatId => !userSpaceChats[chatId])
+        .map((chatId) => {
+          const chat = allUserChats[chatId];
+          const notMeMemberId = chat.members && Object.keys(chat.members)
+            .filter(id => chat.members[id].user.id !== currentUserNexmoId)[0];
+          const notMe = chat.members[notMeMemberId].user.id;
+          const displayName = `${usersByNexmoId[notMe].name_first} ${usersByNexmoId[notMe].name_last}`;
+          chat.display_name = displayName;
+          return chat;
+        }) :
+      [];
+    this.setState({ spaceChats, userChats });
+    if (!conversationId && spaceChats.length) {
+      setConversation(spaceChats[0].id);
+    } else if (!conversationId && userChats.length) {
+      setConversation(userChats[0].id);
+    } 
   }
-  deleteConversation(event) {
-    const { id } = event.target;
-    console.log('convo id', id);
+  deleteConversation(id) {
     const { chatApp } = this.props;
     chatApp.getConversation(id)
       .then((conversation) => {
@@ -68,26 +93,23 @@ class ChatMain extends React.Component {
     const {
       allUserChats,
       chatClient,
+      setConversation,
       usersByNexmoId,
       conversationId,
       chat,
       incomingMessages,
       typingStatus,
+      chatLinkId,
+      category,
+      setCategory,
+      displayName,
     } = this.props;
     const {
       userSpaceChats,
       currentUserNexmoId,
+      spaceChats,
+      userChats,
     } = this.state;
-    const spaceChats = allUserChats ?
-      Object.keys(allUserChats)
-        .filter(chatId => !!userSpaceChats[chatId])
-        .map(chatId => allUserChats[chatId]) :
-      [];
-    const userChats = allUserChats ?
-      Object.keys(allUserChats)
-        .filter(chatId => !userSpaceChats[chatId])
-        .map(chatId => allUserChats[chatId]) :
-      [];
 
     return (
       <div className="wrapper">
@@ -101,51 +123,41 @@ class ChatMain extends React.Component {
           </div>
           <h6>Space Chats</h6>
           {spaceChats.map((chat) => {
-            console.log(userSpaceChats);
-            const spacePurpose = userSpaceChats[chat.id].purpose;
-            const glyph = spacePurpose === 1 ? (
-              <i className="material-icons md-xs mr-1">business</i>
-            ) : (
-              <i className="material-icons md-xs mr-1">home</i>
-            );
+            const spacePurpose = userSpaceChats[chat.id].purpose_id;
             return (
-              <div key={chat.id} className="row d-flex align-items-center pl-3">
-                {glyph}
-                <a
-                  id={chat.id}
-                  className="nav-link pl-1 pt-1 pb-1"
-                  href="#"
-                  onClick={this.setConversation}
-                >
-                  {chat.display_name}
-                </a>
-              </div>
+              <ChatNavLink
+                key={chat.id}
+                chat={chat}
+                category={spacePurpose}
+                setConversation={setConversation}
+                deleteConversation={this.deleteConversation}
+                setCategory={setCategory}
+              />
             );
           })}
           <h6 className="mt-3">Direct Messages</h6>
           {userChats.length > 0 && userChats.map((chat) => {
-            console.log('user chat', chat);
             return (
-              <div key={chat.id} className="row d-flex align-items-center justify-content-between pl-2 pr-4">
-                <a
-                  id={chat.id}
-                  className="nav-link pt-1 pb-1"
-                  href="#"
-                  onClick={this.setConversation}
-                >
-                  {chat.display_name}
-                </a>
-                <CloseCircleOutline id={chat.id} className="mdi-btn-alt" onClick={this.deleteConversation} height={18} width={18} fill="#FFF" />
-              </div>
+              <ChatNavLink
+                key={chat.id}
+                chat={chat}
+                category="user"
+                setConversation={setConversation}
+                deleteConversation={this.deleteConversation}
+                setCategory={setCategory}
+              />
             );
           })}
         </nav>
         <ChatRoom
+          chatLinkId={chatLinkId}
           chatClient={chatClient}
           conversationId={conversationId}
           chat={chat}
           incomingMessages={incomingMessages}
           typingStatus={typingStatus}
+          category={category}
+          displayName={displayName}
         />
       </div>
     );
@@ -163,6 +175,11 @@ ChatMain.propTypes = {
   chat: PropTypes.object,
   incomingMessages: PropTypes.array,
   typingStatus: PropTypes.string,
+  chatLinkId: PropTypes.number,
+  category: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setCategory: PropTypes.func,
+  displayName: PropTypes.string,
+  chatApp: PropTypes.object,
 };
 
 ChatMain.defaultProps = {
@@ -176,6 +193,11 @@ ChatMain.defaultProps = {
   chat: {},
   incomingMessages: [],
   typingStatus: '',
+  chatLinkId: 0,
+  category: 'user',
+  setCategory: null,
+  displayName: 'Bobo',
+  chatApp: {},
 };
 
 export default ChatMain;

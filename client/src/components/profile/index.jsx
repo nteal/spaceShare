@@ -35,7 +35,9 @@ class Profile extends React.Component {
     this.messageUser = this.messageUser.bind(this);
   }
   componentDidMount() {
-    Axios.get(`/user/userPublic/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.userId : 0}`)
+    const userId = this.props.location.state ? this.props.location.state.userId : 0;
+
+    Axios.get(`/api/userPublic/${localStorage.getItem('id_token')}/${userId}`)
       .then((response) => {
         this.setState({ user: response.data });
       })
@@ -63,7 +65,7 @@ class Profile extends React.Component {
       </div>
     );
     return (
-      <div>
+      <div className="pl-3">
         <MediaQuery minDeviceWidth={800}>
           <button id="edit-profile-back" className="custom-btn" onClick={this.handleBack}>
             <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
