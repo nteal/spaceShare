@@ -47,7 +47,10 @@ class Members extends React.Component {
   handleAdd(fbId) {
     const { addMember } = this.props;
     addMember(fbId);
-    this.setState({ newMember: '' });
+    this.setState({ 
+      newMember: '',
+      users: [],
+    });
   }
   handleCancel() {
     this.setState({
