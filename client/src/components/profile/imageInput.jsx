@@ -76,11 +76,13 @@ class ImageInput extends React.Component {
   }
 
   endCrop() {
-    this.setState({ doneCropping: true });
+    this.setState({ doneCropping: true }, this.refs.cropper.props.crop);
+    // this.setState({ doneCropping: true }, this.refs.cropper.crop);
   }
 
 
   _crop(imgFile, next, imageInputComp, cropperContext) {
+    console.log('*************hit _crop!');
     if (this.state.doneCropping) {
       this.setState({ doneCropping: false });
       const croppedDataUrl = this.refs.cropper.getCroppedCanvas();
