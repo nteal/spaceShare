@@ -4,7 +4,7 @@ const timelineList = [
   { range: 'Daily' },
   { range: 'Weekly' },
   { range: 'Monthly' },
-  { range: 'Long-term' },
+  { range: 'Annually' },
 ];
 
 const populateTimeline = () => Timeline.bulkCreate(timelineList);

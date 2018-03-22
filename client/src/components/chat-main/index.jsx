@@ -11,8 +11,11 @@ class ChatMain extends React.Component {
     this.state = {
       userSpaceChats: {},
       currentUserNexmoId: '',
+      spaceChats: [],
+      userChats: [],
     };
     this.getAllChats = this.getAllChats.bind(this);
+    this.setSpaceAndUserChats = this.setSpaceAndUserChats.bind(this);
     this.deleteConversation = this.deleteConversation.bind(this);
   }
   componentDidMount() {
@@ -28,7 +31,7 @@ class ChatMain extends React.Component {
         if (!allUserChats) {
           this.getAllChats();
         } else {
-          getAllMemberNames();
+          getAllMemberNames(this.setSpaceAndUserChats);
         }
       }))
       .catch(error => console.error('error getting nexmo id', error));
@@ -37,8 +40,41 @@ class ChatMain extends React.Component {
     const { getAllChats, allUserChats, getAllMemberNames } = this.props;
     getAllChats(() => {
       console.log('all chats gotten', allUserChats);
-      getAllMemberNames();
+      getAllMemberNames(this.setSpaceAndUserChats);
     });
+  }
+  setSpaceAndUserChats() {
+    const {
+      allUserChats,
+      usersByNexmoId,
+      conversationId,
+      setConversation,
+    } = this.props;
+    const { userSpaceChats, currentUserNexmoId } = this.state;
+    const spaceChats = allUserChats ?
+      Object.keys(allUserChats)
+        .filter(chatId => !!userSpaceChats[chatId])
+        .map(chatId => allUserChats[chatId]) :
+      [];
+    const userChats = allUserChats ?
+      Object.keys(allUserChats)
+        .filter(chatId => !userSpaceChats[chatId])
+        .map((chatId) => {
+          const chat = allUserChats[chatId];
+          const notMeMemberId = chat.members && Object.keys(chat.members)
+            .filter(id => chat.members[id].user.id !== currentUserNexmoId)[0];
+          const notMe = chat.members[notMeMemberId].user.id;
+          const displayName = `${usersByNexmoId[notMe].name_first} ${usersByNexmoId[notMe].name_last}`;
+          chat.display_name = displayName;
+          return chat;
+        }) :
+      [];
+    this.setState({ spaceChats, userChats });
+    if (!conversationId && spaceChats.length) {
+      setConversation(spaceChats[0].id);
+    } else if (!conversationId && userChats.length) {
+      setConversation(userChats[0].id);
+    } 
   }
   deleteConversation(id) {
     const { chatApp } = this.props;
@@ -66,21 +102,14 @@ class ChatMain extends React.Component {
       chatLinkId,
       category,
       setCategory,
+      displayName,
     } = this.props;
     const {
       userSpaceChats,
       currentUserNexmoId,
+      spaceChats,
+      userChats,
     } = this.state;
-    const spaceChats = allUserChats ?
-      Object.keys(allUserChats)
-        .filter(chatId => !!userSpaceChats[chatId])
-        .map(chatId => allUserChats[chatId]) :
-      [];
-    const userChats = allUserChats ?
-      Object.keys(allUserChats)
-        .filter(chatId => !userSpaceChats[chatId])
-        .map(chatId => allUserChats[chatId]) :
-      [];
 
     return (
       <div className="wrapper">
@@ -128,6 +157,7 @@ class ChatMain extends React.Component {
           incomingMessages={incomingMessages}
           typingStatus={typingStatus}
           category={category}
+          displayName={displayName}
         />
       </div>
     );
@@ -148,6 +178,8 @@ ChatMain.propTypes = {
   chatLinkId: PropTypes.number,
   category: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   setCategory: PropTypes.func,
+  displayName: PropTypes.string,
+  chatApp: PropTypes.object,
 };
 
 ChatMain.defaultProps = {
@@ -164,6 +196,8 @@ ChatMain.defaultProps = {
   chatLinkId: 0,
   category: 'user',
   setCategory: null,
+  displayName: 'Bobo',
+  chatApp: {},
 };
 
 export default ChatMain;

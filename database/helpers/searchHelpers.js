@@ -134,3 +134,4 @@ exports.getSearchesForMatching = getSearchesForMatching;
 exports.getSearchById = getSearchById;
 // only for matching, used only twice in program at the moment
 exports.addUserDataForMatching = addUserDataForMatching;
+exports.addDataFromIds = addDataFromIds;

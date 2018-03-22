@@ -62,6 +62,7 @@ class ChatRoom extends React.Component {
       chat,
       category,
       chatLinkId,
+      displayName,
     } = this.props;
     const link = category === 'user' ? '/profile' : '/listing';
 
@@ -73,6 +74,7 @@ class ChatRoom extends React.Component {
     } else {
       glyph = <i className="material-icons mr-1">home</i>;
     }
+    const headingDisplayName = category === 'user' ? displayName : chat.display_name;
 
     const idProperty = category === 'user' ? 'userId' : 'spaceId';
 
@@ -82,7 +84,7 @@ class ChatRoom extends React.Component {
           <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
             <div className="row">
               {glyph}
-              <h4>{chat.display_name}</h4>
+              <h4>{headingDisplayName}</h4>
             </div>
           </Link>
         </div>
@@ -93,7 +95,7 @@ class ChatRoom extends React.Component {
           <Link to={{ pathname: link, state: { [idProperty]: chatLinkId } }}>
             <div className="row">
               {glyph}
-              <h4>{chat.display_name}</h4>
+              <h4>{headingDisplayName}</h4>
             </div>
           </Link>
         </div>
@@ -104,7 +106,7 @@ class ChatRoom extends React.Component {
         <div className="row pt-2 pl-2">
           {displayHeading}
         </div>
-        <div className="row messages-container">
+        <div className="row messages-container pl-1">
           <div className="col message-col">
             <div className="pt-2 py-2">
               {/* Messages go here */}
@@ -114,7 +116,7 @@ class ChatRoom extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row status-row pb-1">
+        <div className="row status-row pb-1 pl-1">
           <small>{typingStatus}</small>
         </div>
         <div className="row align-self-end pl-1 pr-1 pb-2">
@@ -150,6 +152,7 @@ ChatRoom.propTypes = {
   incomingMessages: PropTypes.array,
   typingStatus: PropTypes.string,
   chatLinkId: PropTypes.number,
+  displayName: PropTypes.string,
 };
 
 ChatRoom.defaultProps = {
@@ -157,6 +160,7 @@ ChatRoom.defaultProps = {
   incomingMessages: [],
   typingStatus: '',
   chatLinkId: 0,
+  displayName: 'Bobo',
 };
 
 export default ChatRoom;

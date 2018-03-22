@@ -147,7 +147,7 @@ class CommonArea extends React.Component {
                     notMessage: true,
                     sender: membersById[chat.user.name],
                     timestamp: date,
-                    text: 'is in the space! :)',
+                    text: 'joined the chat!',
                   });
                   break;
                 case 'member:left':
@@ -155,15 +155,15 @@ class CommonArea extends React.Component {
                     notMessage: true,
                     sender: membersById[chat.user.name],
                     timestamp: date,
-                    text: 'left for now... :(',
+                    text: 'left for now...',
                   });
                   break;
                 default:
                   eventsHistory.unshift({
                     notMessage: true,
-                    sender: membersById[chat.user.name],
-                    timestamp: date,
-                    text: 'did something weird...',
+                    sender: null,
+                    timestamp: null,
+                    text: null,
                   });
               }
             }
@@ -181,7 +181,7 @@ class CommonArea extends React.Component {
       .then(app => app.getConversation(conversationId))
       .then((conversation) => {
         this.setState({ chat: conversation }, () => {
-          if (conversation.me && conversation.me.state !== 'JOINED') {
+          if (!conversation.me || conversation.me.state !== 'JOINED') {
             conversation.join();
           }
           this.setupConversationEvents(conversation);
@@ -277,7 +277,7 @@ class CommonArea extends React.Component {
     const rulesProps = { groundRules, submit: this.submitGroundRules, isOwner };
 
     return (
-      <div>
+      <div className="pl-3">
 
         <div className="row justify-content-around">
           <div className="space-main-img-container">
