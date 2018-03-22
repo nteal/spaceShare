@@ -34,7 +34,7 @@ class Results extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col">
+          <div className="col-2">
             <div className="row">
               {((search.purpose === 'Work') ? <Briefcase /> : <Home />)}
               {search.distance} miles around
@@ -46,7 +46,7 @@ class Results extends React.Component {
               {search.city}
             </div>
           </div>
-          <div className="col">
+          <div className="col-2">
             <div className="row">
               <CurrencyUsd /> {search.price_min} - {search.price_max}
             </div>
@@ -54,7 +54,7 @@ class Results extends React.Component {
               <TimerSand /> {search.timeline}
             </div>
           </div>
-          <div className="col">
+          <div className="col-2">
             <div className="row">
               <Smoking /> {search.smoking}
             </div>
@@ -62,12 +62,12 @@ class Results extends React.Component {
               <Paw /> {search.pet}
             </div>
           </div>
-          <div className="col">
+          <div className="col-2">
             <div className="row">
-              {(search.include_people ? <AccountMultiple /> : null)}
+              {(search.include_people ? <AccountMultiple /> : null)} {search.sleep}
             </div>
             <div className="row">
-              {search.sleep} {search.personality}
+              {(search.include_people ? <AccountMultiple /> : null)} {search.personality}
             </div>
             <div className="row">
               age range: {search.age_min} - {search.age_max}
