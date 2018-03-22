@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import CurrencyUsd from 'mdi-react/CurrencyUsdIcon.js';
+import AccountMultiple from 'mdi-react/AccountMultipleIcon.js';
+import Briefcase from 'mdi-react/BriefcaseIcon.js';
+import TimerSand from 'mdi-react/TimerSandIcon.js';
+import Home from 'mdi-react/HomeIcon.js';
+import Smoking from 'mdi-react/SmokingIcon.js';
+import Paw from 'mdi-react/PawIcon.js';
 import ResultListItem from './result-list-item.jsx';
 
 class Results extends React.Component {
@@ -29,7 +36,7 @@ class Results extends React.Component {
         <div className="row">
           <div className="col">
             <div className="row">
-              {search.purpose}
+              {((search.purpose === 'Work') ? <Briefcase /> : <Home />)}
               {search.distance} miles around
             </div>
             <div className="row">
@@ -41,23 +48,23 @@ class Results extends React.Component {
           </div>
           <div className="col">
             <div className="row">
-              budget: {search.price_min} - {search.price_max}
+              <CurrencyUsd /> {search.price_min} - {search.price_max}
             </div>
             <div className="row">
-              timeline: {search.timeline}
-            </div>
-          </div>
-          <div className="col">
-            <div className="row">
-              smoking: {search.smoking}
-            </div>
-            <div className="row">
-              pet: {search.pet}
+              <TimerSand /> {search.timeline}
             </div>
           </div>
           <div className="col">
             <div className="row">
-              {search.include_people ? 'people-search' : 'people not included'}
+              <Smoking /> {search.smoking}
+            </div>
+            <div className="row">
+              <Paw /> {search.pet}
+            </div>
+          </div>
+          <div className="col">
+            <div className="row">
+              {(search.include_people ? <AccountMultiple /> : null)}
             </div>
             <div className="row">
               {search.sleep} {search.personality}
