@@ -19,13 +19,13 @@ class ChatMain extends React.Component {
     this.deleteConversation = this.deleteConversation.bind(this);
   }
   componentDidMount() {
-    Axios.get(`/api/spaceChats/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/spaceChats/${localStorage.getItem('id_token')}`)
       .then(response => this.setState({ userSpaceChats: response.data }, () => {
         console.log('space chats', response.data);
       }))
       .catch(error => console.error('error getting space chats', error));
 
-    Axios.get(`/api/getNexmoId/${localStorage.getItem('id_token')}`)
+    Axios.get(`/chat/getNexmoId/${localStorage.getItem('id_token')}`)
       .then(response => this.setState({ currentUserNexmoId: response.data }, () => {
         const { allUserChats, getAllMemberNames } = this.props;
         if (!allUserChats) {
@@ -44,7 +44,12 @@ class ChatMain extends React.Component {
     });
   }
   setSpaceAndUserChats() {
-    const { allUserChats, usersByNexmoId } = this.props;
+    const {
+      allUserChats,
+      usersByNexmoId,
+      conversationId,
+      setConversation,
+    } = this.props;
     const { userSpaceChats, currentUserNexmoId } = this.state;
     const spaceChats = allUserChats ?
       Object.keys(allUserChats)
@@ -65,6 +70,11 @@ class ChatMain extends React.Component {
         }) :
       [];
     this.setState({ spaceChats, userChats });
+    if (!conversationId && spaceChats.length) {
+      setConversation(spaceChats[0].id);
+    } else if (!conversationId && userChats.length) {
+      setConversation(userChats[0].id);
+    } 
   }
   deleteConversation(id) {
     const { chatApp } = this.props;

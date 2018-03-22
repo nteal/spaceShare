@@ -26,7 +26,7 @@ class AllListings extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line
     console.log('SearchResults did mount');
-    // Axios.get(`/api/listings/${localStorage.getItem('id_token')}`)
+    // Axios.get(`/search/listings/${localStorage.getItem('id_token')}`)
     //   .then((response) => {
     //     if (response.data.places.length) {
     //       this.setState({
@@ -48,7 +48,7 @@ class AllListings extends React.Component {
     this.props.history.push('/search');
   }
   filterByLocation() {
-    Axios.get(`/api/listings/${localStorage.getItem('id_token')}/${this.state.location}`)
+    Axios.get(`/search/listings/${localStorage.getItem('id_token')}/${this.state.location}`)
       .then((response) => {
         console.log('get listings');
         console.dir(response);

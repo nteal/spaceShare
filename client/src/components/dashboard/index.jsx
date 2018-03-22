@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
   componentDidMount() {
     const { getNewChatEvents } = this.props;
     // get user data to populate profile content
-    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+    Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         this.setState({
           currentUser: response.data,
@@ -36,8 +36,9 @@ class Dashboard extends React.Component {
   render() {
     const { currentUser, currentUserSpaces } = this.state;
     const { newEvents, setConversation } = this.props;
+    const invite = newEvents.length === 1 ? 'invite' : 'invites';
     return (
-      <main>
+      <main className="pl-3">
         <div className="container p-res">
           <div className="row">
             <MediaQuery minDeviceWidth={800}>
@@ -55,7 +56,7 @@ class Dashboard extends React.Component {
             <div className="row justify-content-center pt-res">
               <div className="col">
                 <Link to="/messages" className="btn btn-primary btn-lg btn-block mt-3" role="button">
-                  You have 0 new messages!
+                  You have {newEvents.length} new {invite} to chat!
                 </Link>
               </div>
             </div>
@@ -69,7 +70,7 @@ class Dashboard extends React.Component {
                 <div className="row justify-content-center">
                   <div className="col">
                     <Link to="/messages" className="btn btn-primary btn-lg btn-block" role="button">
-                      You have 0 new messages!
+                      You have {newEvents.length} new {invite} to chat!
                     </Link>
                   </div>
                 </div>

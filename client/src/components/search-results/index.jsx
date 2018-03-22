@@ -23,21 +23,24 @@ class SearchResults extends React.Component {
         description: '',
         id: '',
       }],
-      searches: [{
-        purpose: 'You do not have any past searches',
-        neighborhood: 'location',
+      search: {
+        purpose: '',
+        location: '',
+        city: '',
         price_min: 0,
         price_max: 0,
-        timeline: 'long-term',
-        smoking: 'outside is fine',
-        pet: 'anywhere',
+        timeline: '',
+        smoking: '',
+        pet: '',
         include_people: true,
-        sleep: 'early bird',
-        personality: 'introvert',
+        sleep: '',
+        personality: '',
         age_min: 0,
         age_max: 100,
-        timestamp: 'time-stamp',
-      }],
+        createdAt: '',
+        updatedAt: '',
+        distance: 0,
+      },
       profile_link: '/profile',
       listing_link: '/listing',
     };
@@ -48,7 +51,7 @@ class SearchResults extends React.Component {
       localStorage.getItem('id_search');
       // eslint-disable-next-line
     console.log('SearchResults did mount');
-    Axios.get(`/api/search-results/${localStorage.getItem('id_token')}/${id_search}`)
+    Axios.get(`/search/search-results/${localStorage.getItem('id_token')}/${id_search}`)
       .then((response) => {
         console.log('get search-results');
         console.dir(response);
@@ -62,9 +65,9 @@ class SearchResults extends React.Component {
             places: response.data.places,
           });
         }
-        if (response.data.searches.length) {
+        if (response.data.search) {
           this.setState({
-            searches: response.data.searches,
+            search: response.data.search,
           });
         }
       })
@@ -73,7 +76,7 @@ class SearchResults extends React.Component {
   }
   render() {
     const {
-      people, places, searches, profile_link, listing_link,
+      people, places, search, profile_link, listing_link,
     } = this.state;
     return (
       <div>
@@ -81,7 +84,7 @@ class SearchResults extends React.Component {
           heading="Search Results"
           people={people}
           places={places}
-          searches={searches}
+          search={search}
           profile_link={profile_link}
           listing_link={listing_link}
           history={this.props.history}

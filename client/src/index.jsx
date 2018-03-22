@@ -24,7 +24,7 @@ class App extends React.Component {
     FB.getLoginStatus((response) => {
       console.dir(response);
       if (response.status === 'connected') {
-        Axios.get(`/api/isAuthenticated/${localStorage.getItem('id_token')}`)
+        Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
           .then((res) => {
             if (res.data === true) {
               this.setState({ isAuthenticated: true });
@@ -37,10 +37,10 @@ class App extends React.Component {
     });
   }
   startChatClient() {
-    Axios.get(`/api/currentUser/${localStorage.getItem('id_token')}`)
+    Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const nexmoUsername = response.data.id;
-        Axios.get(`/api/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoUsername}`)
+        Axios.get(`/chat/nexmoJwt/${localStorage.getItem('id_token')}/${nexmoUsername}`)
           .then((res) => {
             const { user_jwt } = res.data;
             const client = new ConversationClient({

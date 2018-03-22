@@ -4,11 +4,11 @@ import Message from './message.jsx';
 
 const Messages = (props) => {
   const { newEvents, setConversation } = props;
-
+  const invite = newEvents.length === 1 ? 'invite' : 'invites';
   return (
     <div className="content-box">
       <div className="mini-heading-box-top">
-        <h5>You have {newEvents.length} new messages!</h5>
+        <h5>You have {newEvents.length} new {invite} to chat!</h5>
       </div>
       <ul className="list-group list-group-flush">
         {newEvents.map(event => (

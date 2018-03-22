@@ -135,7 +135,7 @@ class CreateSpace extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    Axios.post(`/api/newSpace/${localStorage.getItem('id_token')}`, {
+    Axios.post(`/space/newSpace/${localStorage.getItem('id_token')}`, {
       space: this.state,
     })
       .then((response) => {
@@ -247,7 +247,7 @@ class CreateSpace extends React.Component {
                 <i className="material-icons md-sm">done</i>
               </button>
             </div>
-            <h5 className="text-center mb-3">
+            <h6 className="text-center mb-3">
               Select an image for your space.
             </h5>
             {this.uploadOrCrop()}
@@ -359,7 +359,7 @@ class CreateSpace extends React.Component {
     ];
 
     return (
-      <div className="container p-res">
+      <div className="container p-res pl-4">
         <div className="row">
           <MediaQuery minDeviceWidth={800}>
             <div className="heading-box descender">
@@ -373,52 +373,51 @@ class CreateSpace extends React.Component {
           </MediaQuery>
         </div>
         <div className="row justify-content-center pt-5 pl-4 pl-lg-5 pr-4 pr-lg-5">
-          <form className="w-100" onSubmit={this.handleSubmit}>
+          <form className="w-100 pl-lg-5 pr-lg-5 pl-xl-5 pr-xl-5" onSubmit={this.handleSubmit}>
             <div className="col pb-3 pb-sm-0 pb-md-0 pb-lg-0 pb-xl-0">
               <div className="row">
                 <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
                   <div className="row">
-                    <h5>Name</h5>
+                    <h6>Name</h6>
                   </div>
                   <div className="row pb-3">
                     <input className="form-control" type="text" placeholder="Your space's name" name="name" onChange={this.handleInputChange} />
                   </div>
-                  <div className="row">
-                    <h5>Purpose</h5>
-                  </div>
+
                   <div className="row pb-3">
-                    <div className="col form-check" onChange={this.handleInputChange}>
-                      <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
-                      <label className="form-check-label" htmlFor="work">
-                        Work
-                      </label>
+                    <div className="col">
+                      <h6>Purpose</h6>
+                      <div className="form-check" onChange={this.handleInputChange}>
+                        <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
+                        <label className="form-check-label" htmlFor="work">
+                          Work
+                        </label>
+                      </div>
+                      <div className="form-check" onChange={this.handleInputChange}>
+                        <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
+                        <label className="form-check-label" htmlFor="live">
+                          Live
+                        </label>
+                      </div>
                     </div>
-                    <div className="col form-check" onChange={this.handleInputChange}>
-                      <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
-                      <label className="form-check-label" htmlFor="live">
-                        Live
-                      </label>
+                    <div className="col">
+                      <h6>Availability</h6>
+                      <div className="form-check" onChange={this.handleInputChange}>
+                        <input className="form-check-input" type="radio" id="open" name="open" value="true" />
+                        <label className="form-check-label" htmlFor="open">
+                          Open
+                        </label>
+                      </div>
+                      <div className="form-check" onChange={this.handleInputChange}>
+                        <input className="form-check-input" type="radio" id="closed" name="open" value="false" />
+                        <label className="form-check-label" htmlFor="closed">
+                          Closed
+                        </label>
+                      </div>
                     </div>
                   </div>
                   <div className="row">
-                    <h5>Availability</h5>
-                  </div>
-                  <div className="row pb-3">
-                    <div className="col form-check" onChange={this.handleInputChange}>
-                      <input className="form-check-input" type="radio" id="open" name="open" value="true" />
-                      <label className="form-check-label" htmlFor="open">
-                        Open
-                      </label>
-                    </div>
-                    <div className="col form-check" onChange={this.handleInputChange}>
-                      <input className="form-check-input" type="radio" id="closed" name="open" value="false" />
-                      <label className="form-check-label" htmlFor="closed">
-                        Closed
-                      </label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <h5>Cost</h5>
+                    <h6>Cost</h6>
                   </div>
                   <div className="row pb-3">
                     <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
@@ -437,7 +436,7 @@ class CreateSpace extends React.Component {
               </div>
             </div>
             <div className="row">
-              <h5>Location</h5>
+              <h6>Location</h6>
             </div>
             <div className="row">
               <div className="col">
@@ -506,13 +505,13 @@ class CreateSpace extends React.Component {
               </div>
             </div>
             <div className="row">
-              <h5>Description</h5>
+              <h6>Description</h6>
             </div>
             <div className="row pb-3">
               <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
             </div>
             <div className="row">
-              <h5>Time-frame</h5>
+              <h6>Time-frame</h6>
             </div>
             <div className="row pb-3">
               <div className="col form-check" onChange={this.handleInputChange}>
@@ -541,59 +540,59 @@ class CreateSpace extends React.Component {
               </div>
             </div>
             <div className="row">
-              <h5>Capacity</h5>
+              <h6>Capacity</h6>
             </div>
             <div className="row pb-3">
               <input className="form-control" type="text" placeholder="0 people" name="capacity" onChange={this.handleCapacityChange} />
             </div>
-            <div className="row">
-              <h5>Smoking?</h5>
-            </div>
+
             <div className="row pb-3">
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="smoking-outside" name="smoking_id" value={1} />
-                <label className="form-check-label" htmlFor="smoking-outside">
-                  Outside is fine
-                </label>
+              <div className="col">
+                <h6>Smoking?</h6>
+                <div className="form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="smoking-outside" name="smoking_id" value={1} />
+                  <label className="form-check-label" htmlFor="smoking-outside">
+                    Outside is fine
+                  </label>
+                </div>
+                <div className="form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="smoking-anywhere" name="smoking_id" value={2} />
+                  <label className="form-check-label" htmlFor="smoking-anywhere">
+                    Anywhere is fine
+                  </label>
+                </div>
+                <div className="form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
+                  <label className="form-check-label" htmlFor="no-smoking">
+                    Absolutely not
+                  </label>
+                </div>
               </div>
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="smoking-anywhere" name="smoking_id" value={2} />
-                <label className="form-check-label" htmlFor="smoking-anywhere">
-                  Anywhere is fine
-                </label>
-              </div>
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
-                <label className="form-check-label" htmlFor="no-smoking">
-                  Absolutely not
-                </label>
+              <div className="col">
+                <h6>Pet-friendly?</h6>
+                <div className="form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="pets-outside" name="pet_id" value={1} />
+                  <label className="form-check-label" htmlFor="pets-outside">
+                    Outside is fine
+                  </label>
+                </div>
+                <div className="form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="pets-anywhere" name="pet_id" value={2} />
+                  <label className="form-check-label" htmlFor="pets-anywhere">
+                    Anywhere is fine
+                  </label>
+                </div>
+                <div className="form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
+                  <label className="form-check-label" htmlFor="no-pets">
+                    Absolutely not
+                  </label>
+                </div>
               </div>
             </div>
+
             <div className="row">
-              <h5>Pet-friendly?</h5>
-            </div>
-            <div className="row pb-3">
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="pets-outside" name="pet_id" value={1} />
-                <label className="form-check-label" htmlFor="pets-outside">
-                  Outside is fine
-                </label>
-              </div>
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="pets-anywhere" name="pet_id" value={2} />
-                <label className="form-check-label" htmlFor="pets-anywhere">
-                  Anywhere is fine
-                </label>
-              </div>
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
-                <label className="form-check-label" htmlFor="no-pets">
-                  Absolutely not
-                </label>
-              </div>
-            </div>
-            <div className="row">
-              <h5>Additional Amenities</h5>
+              <h6>Additional Amenities</h6>
             </div>
             <div className="col">
               <ul list-style-type="disc">
