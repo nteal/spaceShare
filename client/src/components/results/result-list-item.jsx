@@ -29,19 +29,15 @@ class ResultListItem extends React.Component {
       image, name, financial, about, description, button_heading,
     } = this.props;
     return (
-      <li className="media mb-3">
+      <li className="media mb-4 mt-4">
         <img className="mr-3 search-result-img" src={image} alt="" />
         <div className="media-body">
-          <div className="row">
-            <div className="col">
-              <button className="btn btn-info mt-0 mb-1" onClick={this.moreInfo}>{button_heading}</button>
-              <h4 className="mt-0 mb-1">{name}</h4>
-              <h5 className="mt-0 mb-1">{financial}</h5>
-              <h5 className="mt-0 mb-2">{about}</h5>
-            </div>
-            <div className="col">
-              <p className="mt-0 mb-1">{description}</p>
-            </div>
+          <div className="col-lg-10">
+            <button className="btn btn-info mt-0 mb-1" onClick={this.moreInfo}>{button_heading}</button>
+            <h4 className="mt-0 mb-1">{name}</h4>
+            <div className="">{description}</div>
+            <h5 className="mt-0 mb-1">{financial}</h5>
+            <h5 className="mt-0 mb-2">{about}</h5>
           </div>
         </div>
       </li>
