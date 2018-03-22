@@ -175,6 +175,8 @@ class PastSearches extends React.Component {
             {searches.map(search => (
               <SearchListItem
                 purpose={search.purpose}
+                city={search.city}
+                distance={search.distance}
                 neighborhood={search.location}
                 price_min={search.price_min}
                 price_max={search.price_max}
@@ -186,7 +188,7 @@ class PastSearches extends React.Component {
                 personality={search.personality}
                 age_min={search.age_min}
                 age_max={search.age_max}
-                timestamp={search.timestamp}
+                timestamp={search.createdAt}
                 id={search.id}
                 history={this.props.history}
                 key={search.id}
