@@ -74,6 +74,9 @@ hooks:
     - location: scripts/install_dependencies.sh    
       timeout: 300
       runas: root
+    - location: scripts/create_db.sh    
+      timeout: 300
+      runas: root
     - location: scripts/build.sh
       timeout: 300
       runas: root
