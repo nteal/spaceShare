@@ -118,7 +118,7 @@ class CreateSpace extends React.Component {
       window.alert('you have reached the maximum limit of 8 amenities\nyou may edit any existing amenity');
     } else {
       this.setState({
-        amenities: this.state.amenities.concat({ name: this.state.amenity }),
+        amenities: this.state.amenities.concat({ text: this.state.amenity }),
         amenity: '',
       });
     }
@@ -126,7 +126,7 @@ class CreateSpace extends React.Component {
   updateAmenities(field, value) {
     const updatedAmenities = this.state.amenities.map((amenity, i) => {
       if (i === field) {
-        amenity.name = value; // eslint-disable-line
+        amenity.text = value; // eslint-disable-line
       }
       return amenity;
     });
@@ -600,12 +600,12 @@ class CreateSpace extends React.Component {
             <div className="col">
               <ul list-style-type="disc">
                 {this.state.amenities.map((amenity, i) => (
-                  <TextInput 
+                  <TextInput
                     type="text"
                     glyph="store"
                     field={i}
                     placeholder="add amenity here"
-                    value={amenity.name}
+                    value={amenity.text}
                     finalize={this.updateAmenities}
                   />
                 ))}
