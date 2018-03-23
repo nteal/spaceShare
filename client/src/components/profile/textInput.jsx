@@ -15,6 +15,7 @@ class TextInput extends React.Component {
     this.doneEditing = this.doneEditing.bind(this);
     this.handleEditing = this.handleEditing.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   componentDidMount() {
     this.setValue();
@@ -48,6 +49,12 @@ class TextInput extends React.Component {
     });
   }
 
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.handleSubmit();
+    }
+  }
+
   render() {
     const { editing } = this.state;
     const { type, glyph, field, placeholder, value } = this.props;
@@ -66,6 +73,7 @@ class TextInput extends React.Component {
                 placeholder={placeholder}
                 aria-label={placeholder}
                 onChange={this.handleEditing}
+                onKeyPress={this.handleKeyPress}
               />
               <div className="input-group-append">
                 <button className="btn btn-outline-secondary pb-0" onClick={this.handleSubmit} type="submit">
