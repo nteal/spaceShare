@@ -36,31 +36,27 @@ class SearchListItem extends React.Component {
                 {purposeGlyph}
                 <h4 className="h-result mb-0">{purpose}</h4>
               </div>
-              <p>{Moment(timestamp).fromNow()}</p>
+              <p className="mb-0">{Moment(timestamp).fromNow()}</p>
             </div>
-            <div className="row">
-              <i className="material-icons md-sm mr-1">location_on</i>
-              <h5 className="h-result mb-0">{neighborhood}</h5>
+            <div className="row pl-1">
+              <h5 className="h-result mb-0">{neighborhood}: {distance}-mile-radius</h5>
             </div>
-            <div className="row justify-content-between">
-              <h5 className="h-result mb-0">{`\$${price_min} - \$${price_max}`}</h5>
+            <div className="row pl-1 mt-neg-1 justify-content-between align-items-center">
+              <h5 className="h-result mb-0">{`\$${new Number(price_min).toLocaleString()} - \$${new Number(price_max).toLocaleString()}`} / {timeline}</h5>
               <Link to={{ pathname: '/search-results', state: { search_id: id } }}>
-                <button className="btn btn-info">Search again</button>
+                <button className="btn btn-primary">Search again</button>
               </Link>
             </div>
-            <div className="row">
-              <h5 className="h-result mb-0">{timeline}</h5>
-            </div>
-            <div className="ml-0 pl-1 pr-1 row justify-content-between">
+            <div className="ml-0 pl-1 pr-1 pt-3 row justify-content-between">
               <div className="row">
                 <div className="row ml-0 mr-3">
                   <div className="circle mr-1">
-                    <Smoking height={15} width={15} fill="#FFF" />
+                    <Smoking height={15} width={15} fill="#FFF" aria-label="smoking" />
                   </div> {smoking}
                 </div>
                 <div className="row ml-0 mr-2">
                   <div className="circle mr-1">
-                    <Paw height={15} width={15} fill="#FFF" />
+                    <Paw height={15} width={15} fill="#FFF" aria-label="pets" />
                   </div> {pet}
                 </div>
               </div>
@@ -71,10 +67,10 @@ class SearchListItem extends React.Component {
             {include_people && (
               <div className="ml-0 pl-1 pr-1 row justify-content-between">
                 <div className="row">
-                  <small className="mt-0 mb-1 mr-2">Searches for people: {JSON.stringify(include_people)}</small>
-                  <small className="mt-0 mb-1 mr-2">{sleep}</small>
-                  <small className="mt-0 mb-1 mr-2">{personality}</small>
-                  <small className="mt-0 mb-1 mr-2">{`Age Range: ${age_min} - ${age_max}`}</small>
+                  <p className="mr-2 mb-0 weight-md">People:</p>
+                  <span className="badge badge-primary mt-0 mb-1 mr-2">{sleep}</span>
+                  <span className="badge badge-info mt-0 mb-1 mr-2">{personality}</span>
+                  <span className="badge badge-success mt-0 mb-1 mr-2">{`Age Range: ${age_min} - ${age_max}`}</span>
                 </div>
                 <Delete className="mdi-btn" onClick={this.deleteSearch} height={25} width={25} fill="#6F5BC0" aria-label="delete this search" />
               </div>
