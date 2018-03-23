@@ -21,7 +21,7 @@ const UserStats = (props) => {
 
   return (
     <div className="content-box">
-      <img src={image_url} alt={`${name_first} ${name_last}`} className="img-fluid" />
+      <img src={image_url} alt={`${name_first} ${name_last}`} className="img-fluid public-image" />
       <div className="mini-heading-box-side">
         <span>
           <h5>{name_first} {name_last}</h5>
