@@ -208,7 +208,7 @@ class PastSearches extends React.Component {
     } else {
       searchesDisplay = (
         <ul className="list-group list-group-flush">
-          {searches.map(search => (
+          {searches.slice(0).reverse().map(search => (
             <SearchListItem
               purpose={search.purpose}
               city={search.city}
