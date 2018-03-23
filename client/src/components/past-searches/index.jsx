@@ -163,7 +163,7 @@ class PastSearches extends React.Component {
     }
 
     let placesDisplay;
-    if (places[0].name_first === 'There are no results for this search') {
+    if (places[0].name === 'There are no results for this search') {
       placesDisplay = noResultsDisplay;
     } else {
       placesDisplay = (
