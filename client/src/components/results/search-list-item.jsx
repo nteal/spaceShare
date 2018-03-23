@@ -31,30 +31,30 @@ class SearchListItem extends React.Component {
       <li className="list-group-item">
         <div className="media">
           <div className="media-body">
-            <div className="ml-0 pr-1 pl-1 row justify-content-between">
+            <div className="ml-0 pr-1 pl-1 pr-lg-4 pl-lg-4 row justify-content-between">
               <div className="row">
                 {purposeGlyph}
                 <h4 className="h-result mb-0">{purpose}</h4>
               </div>
               <p className="mb-0">{Moment(timestamp).fromNow()}</p>
             </div>
-            <div className="row pl-1">
+            <div className="row pl-1  pr-lg-4 pl-lg-4">
               <h5 className="h-result mb-0">{neighborhood}: {distance}-mile-radius</h5>
             </div>
-            <div className="row pl-1 mt-neg-1 justify-content-between align-items-center">
+            <div className="row pl-1 mt-neg-1 justify-content-between align-items-center  pr-lg-4 pl-lg-4">
               <h5 className="h-result mb-0">{`\$${new Number(price_min).toLocaleString()} - \$${new Number(price_max).toLocaleString()}`} / {timeline}</h5>
               <Link to={{ pathname: '/search-results', state: { search_id: id } }}>
                 <button className="btn btn-primary">Search again</button>
               </Link>
             </div>
-            <div className="ml-0 pl-1 pr-1 pt-3 row justify-content-between">
+            <div className="ml-0 pl-1 pr-1 pt-3 row justify-content-between  pr-lg-4 pl-lg-4">
               <div className="row">
                 <div className="row ml-0 mr-3">
                   <div className="circle mr-1">
                     <Smoking height={15} width={15} fill="#FFF" aria-label="smoking" />
                   </div> {smoking}
                 </div>
-                <div className="row ml-0 mr-2">
+                <div className="row ml-0 mr-2 pr-lg-4 pl-lg-4">
                   <div className="circle mr-1">
                     <Paw height={15} width={15} fill="#FFF" aria-label="pets" />
                   </div> {pet}
@@ -65,7 +65,7 @@ class SearchListItem extends React.Component {
               )}
             </div>
             {include_people && (
-              <div className="ml-0 pl-1 pr-1 row justify-content-between">
+              <div className="ml-0 pl-1 pr-1 row justify-content-between pr-lg-4 pl-lg-4">
                 <div className="row">
                   <p className="mr-2 mb-0 weight-md">People:</p>
                   <span className="badge badge-primary mt-0 mb-1 mr-2">{sleep}</span>

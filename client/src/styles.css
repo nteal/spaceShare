@@ -603,7 +603,45 @@ mt-0 {
   max-width: 11.5rem;
 }
 
+.nav-tabs {
+  border: none!important;
+}
+
+.nav-link {
+  border-color: none!important;
+  color: white;
+}
+.tab-spaces {
+  background-color: rgb(100, 107, 199);
+}
+.tab-people {
+  background-color: rgb(124, 109, 204);
+}
+.tab-saved {
+  background-color: rgb(154, 98, 206);
+}
+.nav-link.active {
+  background-color: #fff!important;
+  border-color: transparent!important;
+}
+.nav-link:hover {
+  background-position: right center;
+  border-color: none!important;
+} 
+
+.searches-color-text {
+  color: rgb(214, 255, 245);
+}
+
+.searches-color {
+  background-color: rgb(214, 255, 245);
+}
+
+.tab-row {
+  background-color: rgb(214, 255, 245);
+}
+
 .saved-searches-tab {
   position: absolute;
-  right: 0;
+  right: .5rem;
 }
