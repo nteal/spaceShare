@@ -47,8 +47,8 @@ class SearchResults extends React.Component {
   }
   componentDidMount() {
     const id_search = this.props.location.state ?
-      this.props.location.state.search_id :
-      localStorage.getItem('id_search');
+    this.props.location.state.id_search :
+    localStorage.getItem('id_search');
       // eslint-disable-next-line
     console.log('SearchResults did mount');
     Axios.get(`/search/search-results/${localStorage.getItem('id_token')}/${id_search}`)

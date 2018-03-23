@@ -40,6 +40,14 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+.h-result {
+  font-weight: 400!important;
+}
+
+.weight-md {
+  font-weight: 500;
+}
+
 .btn {
   font-family: Raleway;
   font-weight: 600;
@@ -61,6 +69,34 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-outline-light:hover, .btn-outline-light:focus {
   color: #BD00FF!important;
+}
+
+.btn-info {
+  background: linear-gradient(45deg, rgb(103, 185, 140), rgb(117, 159, 194), rgb(166, 118, 170));
+  background-size: 150% auto;
+  border-style: none;
+  transition: .5s;
+}
+
+.btn-info:hover {
+  background-position: right center;
+} 
+
+.badge {
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.badge-primary {
+  background-color: rgb(95, 168, 128);
+}
+
+.badge-info {
+  background-color: rgb(95, 135, 168);
+}
+
+.badge-success {
+  background-color: rgb(133, 76, 138);
 }
 
 .form-control:focus {
@@ -136,6 +172,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .mt-res {
   margin-top: 5%;
+}
+
+.circle {
+  background-color: black;
+  border-radius: 50%;
+  height: 1.25rem;
+  width: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: .1rem .1rem .1rem .05rem;
 }
 
 .wrapper {
@@ -302,6 +349,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .md-sm {
   font-size: 1.25rem;
+}
+
+.md-md {
+  font-size: 1.5rem;
 }
 
 .md-h3 {
@@ -550,4 +601,9 @@ mt-0 {
 
 .todo-input {
   max-width: 11.5rem;
+}
+
+.saved-searches-tab {
+  position: absolute;
+  right: 0;
 }

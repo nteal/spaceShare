@@ -3,9 +3,15 @@ const geoDist = require('geodist');
 
 const geocode = address => (
   new Promise((resolve, reject) => {
-    request(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => (
-      err ? reject(err) : resolve(JSON.parse(body).results[0].geometry.location)
-    ));
+    request(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GEOCODE_KEY}`, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else if (JSON.parse(body).results[0]) {
+        resolve(JSON.parse(body).results[0].geometry.location);
+      } else {
+        reject();
+      }
+    });
   })
 );
 
