@@ -63,7 +63,7 @@ const addNewUser = (newUserObj) => {
   userObj.profession = newUserObj.profession || '';
   userObj.email = newUserObj.email || '';
   userObj.fb_id = newUserObj.fb_id || '';
-  userObj.fb_link = newUserObj.fb_link || (newUserObj.fb_id && `facebook.com/${newUserObj.fb_id}`) || '';
+  userObj.fb_link = newUserObj.fb_link || (newUserObj.fb_id && `https://facebook.com/${newUserObj.fb_id}`) || '';
   userObj.fb_verified = newUserObj.fb_verified || false;
   userObj.searchable_work = newUserObj.searchable_work || false;
   userObj.searchable_live = newUserObj.searchable_live || false;
