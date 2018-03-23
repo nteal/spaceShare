@@ -193,9 +193,10 @@ const getSpacesForMatching = searchId => (
         },
       })
     ))
-    .then(compatibleSpaces => Promise.map(compatibleSpaces, space => (
-      getSpaceListingById(space.id)
-    )))
+    .then(compatibleSpaces =>  Promise.map(compatibleSpaces, space => {
+      let spaceListing = getSpaceListingById(space.id)
+      return spaceListing;
+    }))
     .catch(err => console.log(err))
 );
 
