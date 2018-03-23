@@ -248,9 +248,9 @@ class Nav extends React.Component {
         const chat = allUserChats[conversationId];
         const notMeMemberId = chat.members && Object.keys(chat.members)
           .filter(id => chat.members[id].user.id !== currentUserNexmoId)[0];
-        const notMe = chat.members[notMeMemberId].user.id;
+        const notMe = notMeMemberId ? chat.members[notMeMemberId].user.id : null;
         id = usersByNexmoId[notMe].id;
-        const displayName = `${usersByNexmoId[notMe].name_first} ${usersByNexmoId[notMe].name_last}`;
+        const displayName = notMe ? `${usersByNexmoId[notMe].name_first} ${usersByNexmoId[notMe].name_last}` : 'Your new friend';
         this.setState({ displayName });
       } else {
         id = userSpaceChats[conversationId].id;
