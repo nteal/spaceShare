@@ -127,7 +127,7 @@ class PastSearches extends React.Component {
                 </div>
               </button>
             </div>
-            <div className="row tab-row">
+            <div className="row tab-row pl-3">
               <ul className="nav nav-tabs" role="tablist">
                 <li className="nav-item mr-2">
                   <a className="nav-link tab-spaces" data-toggle="tab" href="#places" role="tab">Places</a>
@@ -142,7 +142,7 @@ class PastSearches extends React.Component {
             </div>
           </div>
         </div>
-        <div className="tab-content pl-3 pr-3" id="myTabContent">
+        <div className="tab-content pl-2 pr-2" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
             <ul className="list-group list-group-flush">
               {people.map((person, i) => (

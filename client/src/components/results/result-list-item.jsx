@@ -48,7 +48,7 @@ class ResultListItem extends React.Component {
     );
 
     return (
-      <li className="list-group-item">
+      <li className="list-group-item pl-4 pr-4">
         <div className="media">
           <h2 className="mr-2">{num + 1}.</h2>
           <img className="mr-3 search-result-img" src={image} alt="" />
