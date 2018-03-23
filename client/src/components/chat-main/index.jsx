@@ -71,8 +71,8 @@ class ChatMain extends React.Component {
           const chat = allUserChats[chatId];
           const notMeMemberId = chat.members && Object.keys(chat.members)
             .filter(id => chat.members[id].user.id !== currentUserNexmoId)[0];
-          const notMe = chat.members[notMeMemberId].user.id;
-          const displayName = `${usersByNexmoId[notMe].name_first} ${usersByNexmoId[notMe].name_last}`;
+          const notMe = notMeMemberId ? chat.members[notMeMemberId].user.id : null;
+          const displayName = notMe ? `${usersByNexmoId[notMe].name_first} ${usersByNexmoId[notMe].name_last}` : 'Your new friend';
           chat.display_name = displayName;
           return chat;
         }) :

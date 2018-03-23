@@ -57,7 +57,7 @@ class Gallery extends React.Component {
           {images.map(image => (
             <div className="col-12 col-lg-6" key={image.id}>
               <img
-                className="img-fluid img-thumbnail"
+                className="img-fluid img-thumbnail gallery-image"
                 src={image.name}
                 alt="this space"
               />

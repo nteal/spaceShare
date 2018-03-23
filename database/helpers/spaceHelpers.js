@@ -189,9 +189,6 @@ const getSpacesForMatching = searchId => (
             open: true,
             cost: {
               [Op.between]: [parseFloat(searchObj.price_min), parseFloat(searchObj.price_max)],
-              // [Op.between]: [parseFloat(searchObj.price_min), 99999],
-                    // todo: 'include' members, don't allow
-
             },
           },
         }),

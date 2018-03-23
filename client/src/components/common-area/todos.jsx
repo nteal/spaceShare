@@ -59,6 +59,7 @@ class Todos extends React.Component {
     this.onSortEnd = this.onSortEnd.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addTodo = this.addTodo.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.toggleTodoComplete = this.toggleTodoComplete.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
   }
@@ -86,6 +87,11 @@ class Todos extends React.Component {
       submitTodos();
       console.log('todos', this.state);
     });
+  }
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.addTodo();
+    }
   }
   toggleTodoComplete(todoId) {
     const { todos, setTodos, submitTodos } = this.props;
@@ -133,7 +139,7 @@ class Todos extends React.Component {
             <SortableList items={incomplete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} updateTodo={this.updateTodo} useDragHandle lockAxis="y" />
           </div>
           <div className="input-group">
-            <input type="text" className="form-control" placeholder="Add a todo" onChange={this.handleChange} value={newTodo} />
+            <input type="text" className="form-control" placeholder="Add a todo" onChange={this.handleChange} value={newTodo} onKeyPress={this.handleKeyPress} />
             <div className="input-group-append">
               <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.addTodo}>
                 <i className="material-icons">add</i>

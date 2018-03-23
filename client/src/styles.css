@@ -76,6 +76,7 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 150% auto;
   border-style: none;
   transition: .5s;
+  max-height: 3rem;
 }
 
 .btn-info:hover {
@@ -647,6 +648,11 @@ mt-0 {
 }
 
 .public-image {
+  width: 100%;
+  height: auto;
+}
+
+.gallery-image {
   width: 100%;
   height: auto;
 }
