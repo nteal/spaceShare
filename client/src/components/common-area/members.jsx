@@ -25,6 +25,7 @@ class Members extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleEnterSearch = this.handleEnterSearch.bind(this);
   }
   handleBack() {
     this.props.history.goBack();
@@ -40,10 +41,15 @@ class Members extends React.Component {
     });
   }
   handleSearch() {
-    if (this.state.newMember) {
+    if (this.state.newMember.match(/[a-z]/i)) {
       Axios.get(`/user/searchUsers/${localStorage.getItem('id_token')}/${this.state.newMember}`)
         .then(response => this.setState({ users: response.data }))
         .catch(error => console.error(error));
+    }
+  }
+  handleEnterSearch(event) {
+    if (event.key === 'Enter') {
+      this.handleSearch();
     }
   }
   handleAdd(fbId) {
@@ -134,6 +140,7 @@ class Members extends React.Component {
                     aria-label="enter name and search for a member to add"
                     onChange={this.handleChange}
                     value={this.state.newMember}
+                    onKeyDown={this.handleEnterSearch}
                   />
                   <div className="input-group-append">
                     <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.handleSearch}>
@@ -144,24 +151,35 @@ class Members extends React.Component {
                 
                 <div className="row">
                   <div className="col">
-                    <div className="list-group">
+                    <ul className="list-group">
                       {this.state.users.map(user => (
-                        <div className="list-group-item">
-                          <li className="media">
+                        <li className="list-group-item">
+                          <div className="media">
                             <img className="mr-3 search-result-img" src={user.image_url} alt={`${user.name_first} ${user.name_last}`} />
                             <div className="media-body">
                               <div className="row pt-4 pl-4">
-                                <h4 className="pr-4 mb-2">{`${user.name_first} ${user.name_last}`}</h4>
-                                <a href={user.fb_link} target="_blank"><Facebook /></a>
+                                <div className="col">
+                                  <h4 className="pr-4 mb-2">{`${user.name_first} ${user.name_last}`}</h4>
+                                  <a href={user.fb_link} target="_blank" className="btn btn-primary btn-block mb-5">
+                                    <div className="row pl-3">
+                                      <Facebook className="mdi-btn-alt sidebar-icon" height={25} width={25} fill="#FFF" />
+                                      <span className="pt-1">View this user&apos;s Facebook profile</span>
+                                    </div>
+                                  </a>
+                                </div>
+                                <div className="col">
+                                  <div className="row justify-content-end align-items-center h-100 pr-4">
+                                    <button className="btn btn-outline-secondary pb-0" type="button" onClick={() => { this.handleAdd(user.fb_id); }}>
+                                      <i className="material-icons">add</i>
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
-                              <button className="btn btn-outline-secondary pb-0" type="button" onClick={() => { this.handleAdd(user.fb_id); }}>
-                                <i className="material-icons">add</i>
-                              </button>
                             </div>
-                          </li>
-                        </div>
+                          </div>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 </div>
 

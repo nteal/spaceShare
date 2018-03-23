@@ -121,7 +121,7 @@ class Profile extends React.Component {
                 </a>
               </MediaQuery>
               <MediaQuery minDeviceWidth={800}>
-                <a href={fb_link} className="btn btn-primary btn-block btn-lg mb-5">
+                <a href={fb_link} target="_blank" className="btn btn-primary btn-block btn-lg mb-5">
                   <div className="row pl-3 mb-neg">
                     <FacebookBox className="mdi-btn-alt sidebar-icon" height={25} width={25} fill="#FFF" />
                     <span className="pb-1">View this user&apos;s Facebook profile</span>
