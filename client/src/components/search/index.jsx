@@ -9,7 +9,7 @@ class Search extends React.Component {
     super(props);
     this.state = {
       purpose_id: 2,
-      location: 'your preferred location',
+      location: 'new orleans',
       price_min: '0',
       price_max: '1000000',
       timeline_id: 4,
