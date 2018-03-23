@@ -112,6 +112,36 @@ class PastSearches extends React.Component {
     const {
       heading, people, places, searches,
     } = this.state;
+    let peopleDisplay;
+    if (people.length) {
+      peopleDisplay = (
+        <ul className="list-group list-group-flush">
+          {people.map((person, i) => (
+            <ResultListItem
+              num={i}
+              image={person.image_url}
+              name={`${person.name_first} ${person.name_last}`}
+              profession={person.profession}
+              badgeOne={person.sleep}
+              badgeTwo={person.personality}
+              link={this.state.people_link}
+              tag="userId"
+              id={person.id}
+              key={person.id}
+              history={this.props.history}
+              button_heading={this.state.people_button_heading}
+            />
+          ))}
+        </ul>
+      );
+    } else {
+      peopleDisplay = (
+        <div className="row justify-content-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Astronaut_Illustration.png" alt="A happy astronaut" />
+          <h1>Sorry, there are no results here at this time.</h1>
+        </div>
+      );
+    }
     return (
       <div>
         <div className="searches-color">
@@ -144,24 +174,7 @@ class PastSearches extends React.Component {
         </div>
         <div className="tab-content pl-2 pr-2" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
-            <ul className="list-group list-group-flush">
-              {people.map((person, i) => (
-                <ResultListItem
-                  num={i}
-                  image={person.image_url}
-                  name={`${person.name_first} ${person.name_last}`}
-                  profession={person.profession}
-                  badgeOne={person.sleep}
-                  badgeTwo={person.personality}
-                  link={this.state.people_link}
-                  tag="userId"
-                  id={person.id}
-                  key={person.id}
-                  history={this.props.history}
-                  button_heading={this.state.people_button_heading}
-                />
-              ))}
-            </ul>
+            {peopleDisplay}
           </div>
           <div className="tab-pane fade" id="places" role="tabpanel">
             <ul className="list-group list-group-flush">
