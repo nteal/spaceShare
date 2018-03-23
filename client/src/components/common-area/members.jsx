@@ -40,9 +40,11 @@ class Members extends React.Component {
     });
   }
   handleSearch() {
-    Axios.get(`/user/searchUsers/${localStorage.getItem('id_token')}/${this.state.newMember}`)
-      .then(response => this.setState({ users: response.data }))
-      .catch(error => console.error(error));
+    if (this.state.newMember) {
+      Axios.get(`/user/searchUsers/${localStorage.getItem('id_token')}/${this.state.newMember}`)
+        .then(response => this.setState({ users: response.data }))
+        .catch(error => console.error(error));
+    }
   }
   handleAdd(fbId) {
     const { addMember } = this.props;
@@ -137,9 +139,6 @@ class Members extends React.Component {
                     <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.handleSearch}>
                       <AccountSearch />
                     </button>
-                    {/* <button className="btn btn-outline-secondary pb-0" type="button" onClick={this.handleAdd}>
-                      <i className="material-icons">add</i>
-                    </button> */}
                   </div>
                 </div>
                 
