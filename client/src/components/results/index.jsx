@@ -17,6 +17,71 @@ class Results extends React.Component {
     const {
       heading, people, places, search, history, profile_link, listing_link,
     } = this.props;
+    const noResultsDisplay = (
+      <div className="row justify-content-center">
+        <div className="col">
+          <div className="row justify-content-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Astronaut_Illustration.png" alt="A happy astronaut" />
+          </div>
+          <div className="row justify-content-center">
+            <h2 className="h-result text-center">Sorry, there are no results here at this time.</h2>
+          </div>
+        </div>
+      </div>
+    );
+
+    let peopleDisplay;
+    if (people[0].name_first === 'no people were found for this search') {
+      peopleDisplay = noResultsDisplay;
+    } else {
+      peopleDisplay = (
+        <ul className="list-group list-group-flush">
+          {people.map((person, i) => (
+            <ResultListItem
+              num={i}
+              image={person.image_url}
+              id={person.id}
+              name={`${person.name_first} ${person.name_last}`}
+              profession={person.profession}
+              badgeOne={person.sleep}
+              badgeTwo={person.personality}
+              tag="userId"
+              link={profile_link}
+              history={history}
+              key={person.id}
+            />
+          ))}
+        </ul>
+      );
+    }
+
+    let placesDisplay;
+    if (places[0].name_first === 'There are no results for this search') {
+      placesDisplay = noResultsDisplay;
+    } else {
+      placesDisplay = (
+        <ul className="list-group list-group-flush">
+          {places.map((place, i) => (
+            <ResultListItem
+              num={i}
+              image={place.main_image}
+              name={place.name}
+              cost={place.cost}
+              timeline={place.timeline}
+              neighborhood={place.neighborhood}
+              city={place.city}
+              badgeOne={place.smoking}
+              badgeTwo={place.pet}
+              tag="spaceId"
+              id={place.id}
+              link={listing_link}
+              history={history}
+              key={place.id}
+            />
+          ))}
+        </ul>
+      );
+    }
     return (
       <div>
         <div className="searches-color">
@@ -75,45 +140,10 @@ class Results extends React.Component {
         </div>
         <div className="tab-content pl-2 pr-2" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
-            <ul className="list-group list-group-flush">
-              {people.map((person, i) => (
-                <ResultListItem
-                  num={i}
-                  image={person.image_url}
-                  id={person.id}
-                  name={`${person.name_first} ${person.name_last}`}
-                  profession={person.profession}
-                  badgeOne={person.sleep}
-                  badgeTwo={person.personality}
-                  tag="userId"
-                  link={profile_link}
-                  history={history}
-                  key={person.id}
-                />
-              ))}
-            </ul>
+            {peopleDisplay}
           </div>
           <div className="tab-pane fade show active" id="places" role="tabpanel">
-            <ul className="list-group list-group-flush">
-              {places.map((place, i) => (
-                <ResultListItem
-                  num={i}
-                  image={place.main_image}
-                  name={place.name}
-                  cost={place.cost}
-                  timeline={place.timeline}
-                  neighborhood={place.neighborhood}
-                  city={place.city}
-                  badgeOne={place.smoking}
-                  badgeTwo={place.pet}
-                  tag="spaceId"
-                  id={place.id}
-                  link={listing_link}
-                  history={history}
-                  key={place.id}
-                />
-              ))}
-            </ul>
+            {placesDisplay}
           </div>
         </div>
       </div>

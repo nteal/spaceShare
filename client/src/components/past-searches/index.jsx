@@ -124,8 +124,22 @@ class PastSearches extends React.Component {
     const {
       heading, people, places, searches,
     } = this.state;
+    const noResultsDisplay = (
+      <div className="row justify-content-center">
+        <div className="col">
+          <div className="row justify-content-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Astronaut_Illustration.png" alt="A happy astronaut" />
+          </div>
+          <div className="row justify-content-center">
+            <h2 className="h-result text-center">Sorry, there are no results here at this time.</h2>
+          </div>
+        </div>
+      </div>
+    );
     let peopleDisplay;
-    if (people.length) {
+    if (people[0].name_first === 'no people were found for this search') {
+      peopleDisplay = noResultsDisplay;
+    } else {
       peopleDisplay = (
         <ul className="list-group list-group-flush">
           {people.map((person, i) => (
@@ -146,12 +160,78 @@ class PastSearches extends React.Component {
           ))}
         </ul>
       );
+    }
+
+    let placesDisplay;
+    if (places[0].name_first === 'There are no results for this search') {
+      placesDisplay = noResultsDisplay;
     } else {
-      peopleDisplay = (
+      placesDisplay = (
+        <ul className="list-group list-group-flush">
+          {places.map((place, i) => (
+            <ResultListItem
+              num={i}
+              image={place.main_image}
+              name={place.name}
+              cost={place.cost}
+              neighborhood={place.neighborhood}
+              city={place.city}
+              badgeOne={place.smoking}
+              badgeTwo={place.pet}
+              tag="spaceId"
+              id={place.id}
+              key={place.id}
+              link={this.state.places_link}
+              place={place.id}
+              history={this.props.history}
+              button_heading={this.state.places_button_heading}
+            />
+          ))}
+        </ul>
+      );
+    }
+
+    let searchesDisplay;
+    if (searches[0].purpose === 'You do not have any past searches') {
+      searchesDisplay = (
         <div className="row justify-content-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Astronaut_Illustration.png" alt="A happy astronaut" />
-          <h1>Sorry, there are no results here at this time.</h1>
+          <div className="col">
+            <div className="row justify-content-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Astronaut_Illustration.png" alt="A happy astronaut" />
+            </div>
+            <div className="row justify-content-center">
+              <h2 className="h-result text-center">You do not have any searches yet!</h2>
+            </div>
+          </div>
         </div>
+      );
+    } else {
+      searchesDisplay = (
+        <ul className="list-group list-group-flush">
+          {searches.map(search => (
+            <SearchListItem
+              purpose={search.purpose}
+              city={search.city}
+              distance={search.distance}
+              neighborhood={search.location}
+              price_min={search.price_min}
+              price_max={search.price_max}
+              timeline={search.timeline}
+              smoking={search.smoking}
+              pet={search.pet}
+              include_people={search.include_people}
+              sleep={search.sleep}
+              personality={search.personality}
+              age_min={search.age_min}
+              age_max={search.age_max}
+              timestamp={search.createdAt}
+              id={search.id}
+              history={this.props.history}
+              key={search.id}
+              deleteSearch={this.deleteSearch}
+            />
+          ))}
+        </ul>
       );
     }
     return (
@@ -189,54 +269,10 @@ class PastSearches extends React.Component {
             {peopleDisplay}
           </div>
           <div className="tab-pane fade" id="places" role="tabpanel">
-            <ul className="list-group list-group-flush">
-              {places.map((place, i) => (
-                <ResultListItem
-                  num={i}
-                  image={place.main_image}
-                  name={place.name}
-                  cost={place.cost}
-                  neighborhood={place.neighborhood}
-                  city={place.city}
-                  badgeOne={place.smoking}
-                  badgeTwo={place.pet}
-                  tag="spaceId"
-                  id={place.id}
-                  key={place.id}
-                  link={this.state.places_link}
-                  place={place.id}
-                  history={this.props.history}
-                  button_heading={this.state.places_button_heading}
-                />
-              ))}
-            </ul>
+            {placesDisplay}
           </div>
           <div className="tab-pane fade show active" id="searches" role="tabpanel">
-            <ul className="list-group list-group-flush">
-              {searches.map(search => (
-                <SearchListItem
-                  purpose={search.purpose}
-                  city={search.city}
-                  distance={search.distance}
-                  neighborhood={search.location}
-                  price_min={search.price_min}
-                  price_max={search.price_max}
-                  timeline={search.timeline}
-                  smoking={search.smoking}
-                  pet={search.pet}
-                  include_people={search.include_people}
-                  sleep={search.sleep}
-                  personality={search.personality}
-                  age_min={search.age_min}
-                  age_max={search.age_max}
-                  timestamp={search.createdAt}
-                  id={search.id}
-                  history={this.props.history}
-                  key={search.id}
-                  deleteSearch={this.deleteSearch}
-                />
-              ))}
-            </ul>
+            {searchesDisplay}
           </div>
         </div>
       </div>
