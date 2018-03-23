@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import CurrencyUsd from 'mdi-react/CurrencyUsdIcon.js';
-import AccountMultiple from 'mdi-react/AccountMultipleIcon.js';
-import Briefcase from 'mdi-react/BriefcaseIcon.js';
-import TimerSand from 'mdi-react/TimerSandIcon.js';
-import Home from 'mdi-react/HomeIcon.js';
-import Smoking from 'mdi-react/SmokingIcon.js';
-import Paw from 'mdi-react/PawIcon.js';
+// import SearchParams from './search-params.jsx';
 import ResultListItem from './result-list-item.jsx';
 
 class Results extends React.Component {
@@ -31,81 +25,27 @@ class Results extends React.Component {
               <div className="heading-box searches-color-text">
                 <h1>{heading}</h1>
               </div>
+              {/* <SearchParams
+                purpose={search.purpose}
+                location={search.location}
+                radius={search.distance}
+                priceMin={search.price_min}
+                priceMax={search.price_max}
+                timeline={search.timeline}
+                smoking={search.smoking}
+                pet={search.pet}
+                includesPeople={search.include_people}
+                sleep={search.sleep}
+                personality={search.personality}
+                ageMin={search.age_min}
+                ageMax={search.age_max}
+              /> */}
               <button className="btn btn-info pr-3" onClick={this.newSearch}>
                 <div className="row ml-0 mr-0">
                   <i className="material-icons mr-2">search</i>
                   <h5 className="h-result mb-0">New Search</h5>
                 </div>
               </button>
-            </div>
-            <div className="row pb-4">
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0">
-                      {((search.purpose === 'Work') ? <Briefcase className="mr-1" fill="#FFF" /> : <Home className="mr-1" fill="#FFF" />)}
-                      {search.distance} miles around
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-secondary align-middle">
-                    {search.location}
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-secondary align-middle">
-                    {search.city}
-                  </span>
-                </div>
-              </div>
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><CurrencyUsd className="mr-1" fill="#FFF" />
-                      {search.price_min} - {search.price_max}
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><TimerSand className="mr-1" fill="#FFF" />{search.timeline}</div>
-                  </span>
-                </div>
-              </div>
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><Smoking className="mr-1" fill="#FFF" />{search.smoking}</div>
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><Paw className="mr-1" fill="#FFF" />{search.pet}</div>
-                  </span>
-                </div>
-              </div>
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0">
-                      {(search.include_people ? <AccountMultiple /> : null)} 
-                      {search.sleep}
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0">
-                      {(search.include_people ? <AccountMultiple /> : null)}
-                      {search.personality}
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-primary">age range: {search.age_min} - {search.age_max}</span>
-                </div>
-              </div>
             </div>
             <div className="row tab-row pl-3">
               <ul className="nav nav-tabs" role="tablist">
