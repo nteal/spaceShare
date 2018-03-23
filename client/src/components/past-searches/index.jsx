@@ -74,7 +74,11 @@ class PastSearches extends React.Component {
           });
         }
       })
-      .catch((error) => { console.error(error); }); // eslint-disable-line
+      .catch((error) => {
+        console.error(error);
+        localStorage.removeItem('id_token');
+        location.reload();
+      });
   }
   newSearch() {
     this.props.history.push('/search');
@@ -104,9 +108,17 @@ class PastSearches extends React.Component {
               });
             }
           })
-          .catch((error) => { console.error(error); }); // eslint-disable-line
+          .catch((error) => {
+            console.error(error);
+            localStorage.removeItem('id_token');
+            location.reload();
+          });
       })
-      .catch((error) => { console.error(error); }); // eslint-disable-line
+      .catch((error) => {
+        console.error(error);
+        localStorage.removeItem('id_token');
+        location.reload();
+      });
   }
   render() {
     const {

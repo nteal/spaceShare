@@ -73,7 +73,11 @@ class CommonArea extends React.Component {
           //   .catch(error => console.error('error getting space chat', error));
         });
       })
-      .catch((error) => { console.dir(error); });
+      .catch((error) => {
+        console.error(error);
+        localStorage.removeItem('id_token');
+        location.reload();
+      });
     Axios.get(`/user/isOwner/${localStorage.getItem('id_token')}/${this.props.location.state ? this.props.location.state.spaceId : localStorage.getItem('id_space')}`)
       .then((response) => {
         this.setState({ isOwner: response.data }, () => {
