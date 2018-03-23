@@ -114,13 +114,16 @@ class PastSearches extends React.Component {
     } = this.state;
     return (
       <div className="pl-4">
-        <div className="row mb-2 mt-2">
-          <div className="col-10">
+        <div className="row justify-content-between mb-5 mt-2 mr-0">
+          <div className="heading-box">
             <h1>{heading}</h1>
           </div>
-          <div className="col-2">
-            <button className="btn btn-secondary" onClick={this.newSearch}>New Search</button>
-          </div>
+          <button className="btn btn-info pr-3" onClick={this.newSearch}>
+            <div className="row ml-0 mr-0">
+              <i className="material-icons mr-2">search</i>
+              <h5 className="h-result mb-0">New Search</h5>
+            </div>
+          </button>
         </div>
         <div className="row">
           <ul className="nav nav-tabs" role="tablist">
@@ -130,71 +133,81 @@ class PastSearches extends React.Component {
             <li className="nav-item">
               <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
             </li>
-            <li className="nav-item">
+            <li className="nav-item saved-searches-tab">
               <a className="nav-link active" data-toggle="tab" href="#searches" role="tab">Saved Searches</a>
             </li>
           </ul>
         </div>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
-            {people.map(person => (
-              <ResultListItem
-                image={person.image_url}
-                name={`${person.name_first} ${person.name_last}`}
-                financial={person.profession}
-                about={person.sleep}
-                description={person.personality}
-                link={this.state.people_link}
-                tag="userId"
-                id={person.id}
-                key={person.id}
-                history={this.props.history}
-                button_heading={this.state.people_button_heading}
-              />
-            ))}
+            <ul className="list-group list-group-flush">
+              {people.map((person, i) => (
+                <ResultListItem
+                  num={i}
+                  image={person.image_url}
+                  name={`${person.name_first} ${person.name_last}`}
+                  profession={person.profession}
+                  badgeOne={person.sleep}
+                  badgeTwo={person.personality}
+                  link={this.state.people_link}
+                  tag="userId"
+                  id={person.id}
+                  key={person.id}
+                  history={this.props.history}
+                  button_heading={this.state.people_button_heading}
+                />
+              ))}
+            </ul>
           </div>
           <div className="tab-pane fade" id="places" role="tabpanel">
-            {places.map(place => (
-              <ResultListItem
-                image={place.main_image}
-                name={place.name}
-                financial={place.cost}
-                about={place.neighborhood}
-                description={place.description}
-                tag="spaceId"
-                id={place.id}
-                key={place.id}
-                link={this.state.places_link}
-                place={place.id}
-                history={this.props.history}
-                button_heading={this.state.places_button_heading}
-              />
-            ))}
+            <ul className="list-group list-group-flush">
+              {places.map((place, i) => (
+                <ResultListItem
+                  num={i}
+                  image={place.main_image}
+                  name={place.name}
+                  cost={place.cost}
+                  neighborhood={place.neighborhood}
+                  city={place.city}
+                  badgeOne={place.smoking}
+                  badgeTwo={place.pet}
+                  tag="spaceId"
+                  id={place.id}
+                  key={place.id}
+                  link={this.state.places_link}
+                  place={place.id}
+                  history={this.props.history}
+                  button_heading={this.state.places_button_heading}
+                />
+              ))}
+            </ul>
           </div>
           <div className="tab-pane fade show active" id="searches" role="tabpanel">
-            {searches.map(search => (
-              <SearchListItem
-                purpose={search.purpose}
-                city={search.city}
-                distance={search.distance}
-                neighborhood={search.location}
-                price_min={search.price_min}
-                price_max={search.price_max}
-                timeline={search.timeline}
-                smoking={search.smoking}
-                pet={search.pet}
-                include_people={search.include_people}
-                sleep={search.sleep}
-                personality={search.personality}
-                age_min={search.age_min}
-                age_max={search.age_max}
-                timestamp={search.createdAt}
-                id={search.id}
-                history={this.props.history}
-                key={search.id}
-                deleteSearch={this.deleteSearch}
-              />
-            ))}
+            <ul className="list-group list-group-flush">
+              {searches.map(search => (
+                <SearchListItem
+                  purpose={search.purpose}
+                  city={search.city}
+                  distance={search.distance}
+                  neighborhood={search.location}
+                  price_min={search.price_min}
+                  price_max={search.price_max}
+                  timeline={search.timeline}
+                  smoking={search.smoking}
+                  pet={search.pet}
+                  include_people={search.include_people}
+                  sleep={search.sleep}
+                  personality={search.personality}
+                  age_min={search.age_min}
+                  age_max={search.age_max}
+                  timestamp={search.createdAt}
+                  id={search.id}
+                  history={this.props.history}
+                  key={search.id}
+                  deleteSearch={this.deleteSearch}
+                />
+              ))}
+            </ul>
           </div>
         </div>
       </div>

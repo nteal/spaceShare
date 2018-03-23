@@ -91,9 +91,11 @@ class AllListings extends React.Component {
             <ResultListItem
               image={place.main_image}
               name={place.name}
-              financial={place.cost}
-              about={place.neighborhood}
-              description={place.description}
+              cost={place.cost}
+              neighborhood={place.neighborhood}
+              city={place.city}
+              badgeOne={place.smoking}
+              badgeTwo={place.pet}
               tag="spaceId"
               id={place.id}
               link={listing_link}
