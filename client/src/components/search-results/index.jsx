@@ -72,7 +72,11 @@ class SearchResults extends React.Component {
         }
       })
       // eslint-disable-next-line
-      .catch((error) => { console.error(error); });
+      .catch((error) => {
+        console.error(error);
+        localStorage.removeItem('id_token');
+        location.reload();
+      });
   }
   render() {
     const {

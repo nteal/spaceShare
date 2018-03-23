@@ -61,6 +61,8 @@ class AllListings extends React.Component {
       .catch((error) => {
         // eslint-disable-next-line
         console.error(error);
+        localStorage.removeItem('id_token');
+        location.reload();
       });
   }
   render() {

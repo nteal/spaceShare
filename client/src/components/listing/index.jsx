@@ -90,6 +90,8 @@ class Listing extends React.Component {
       })
       .catch((error) => {
         console.error('error getting listing info', error);
+        localStorage.removeItem('id_token');
+        location.reload();
       });
   }
 
