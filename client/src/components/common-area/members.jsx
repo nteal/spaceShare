@@ -40,10 +40,11 @@ class Members extends React.Component {
     });
   }
   handleSearch() {
-    debugger;
-    Axios.get(`/user/searchUsers/${localStorage.getItem('id_token')}/${this.state.newMember}`)
-      .then(response => this.setState({ users: response.data }))
-      .catch(error => console.error(error));
+    if (this.state.newMember) {
+      Axios.get(`/user/searchUsers/${localStorage.getItem('id_token')}/${this.state.newMember}`)
+        .then(response => this.setState({ users: response.data }))
+        .catch(error => console.error(error));
+    }
   }
   handleAdd(fbId) {
     const { addMember } = this.props;
