@@ -83,8 +83,9 @@ class AllListings extends React.Component {
       </div>      
     ) : (
       <ul className="list-group list-group-flush">
-        {places.map(place => (
+        {places.map((place, i) => (
           <ResultListItem
+            num={i}
             image={place.main_image}
             name={place.name}
             cost={place.cost}
