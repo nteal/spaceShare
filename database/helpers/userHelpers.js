@@ -5,6 +5,7 @@ const { getZodiac } = require('./zodiacHelpers');
 const { updateLinksForUser } = require('./userLinksHelpers');
 const createNexmo = require('../../server/chatHelp').createUser;
 const moment = require('moment');
+const { Op } = require('sequelize');
 
 
 const randPlanet = () => {
@@ -152,6 +153,23 @@ const getNexmoIdByFbId = fb_id => (
     .catch(err => console.log(err))
 );
 
+const searchUsersByName = nameArr => (
+  // TODO: search for all users where name_first or name_last are in nameArr
+  User.findAll({
+    where: {
+      $or: [
+        { name_first: { [Op.in]: nameArr } },
+        { name_last: { [Op.in]: nameArr } },
+      ],
+    },
+    attributes: ['name_first', 'name_last', 'fb_id', 'fb_link', 'image_url'],
+  })
+    .then(users => (
+      users.map(user => user.dataValues)
+    ))
+    .catch(err => console.log(err))
+);
+
 exports.addNewUser = addNewUser;
 exports.getUserById = getUserById;
 exports.getUserByFbId = getUserByFbId;
@@ -161,3 +179,4 @@ exports.getUserIdByFbId = getUserIdByFbId;
 exports.getAge = getAge;
 exports.getUserPublic = getUserPublic;
 exports.getNexmoIdByFbId = getNexmoIdByFbId;
+exports.searchUsersByName = searchUsersByName;

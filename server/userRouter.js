@@ -2,6 +2,7 @@ const userRouter = require('express').Router();
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const db = require('../database');
+const helpers = require('./helpers');
 
 userRouter.param('token', (req, res, next, JWT) => {
   console.log('router param check', req.url);
@@ -59,6 +60,13 @@ userRouter.get('/currentUserSpaces/:token/:userId', (req, res) => {
   db.helpers.getSpacesByFbId(req.fb_Id)
     .then(spaces => res.status(200).send(spaces))
     .catch(err => console.error(err));
+});
+
+userRouter.get('/searchUsers/:token/:query', (req, res) => {
+  console.log(req.params.query);
+  helpers.searchUsersByName(req.params.query)
+    .then(users => res.status(200).send(users))
+    .catch(err => console.log(err));
 });
 
 userRouter.get('/*', (req, res) => {
