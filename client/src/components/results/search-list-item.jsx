@@ -13,9 +13,17 @@ class SearchListItem extends React.Component {
     super(props);
     this.state = {};
     this.deleteSearch = this.deleteSearch.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   deleteSearch() {
     this.props.deleteSearch(this.props.id);
+  }
+  handleSearch(searchId) {
+    localStorage.setItem('id_search', searchId);
+    this.props.history.push({
+      pathname: '/search-results',
+      state: { id_search: searchId },
+    });
   }
   render() {
     const {
@@ -43,9 +51,12 @@ class SearchListItem extends React.Component {
             </div>
             <div className="row pl-1 mt-neg-1 justify-content-between align-items-center">
               <h5 className="h-result mb-0">{`\$${new Number(price_min).toLocaleString()} - \$${new Number(price_max).toLocaleString()}`} / {timeline}</h5>
-              <Link to={{ pathname: '/search-results', state: { search_id: id } }}>
-                <button className="btn btn-primary">Search again</button>
-              </Link>
+              <button
+                className="btn btn-primary"
+                onClick={() => { this.handleSearch(id); }}
+              >
+              Search again
+              </button>
             </div>
             <div className="ml-0 pl-1 pr-1 pt-3 row justify-content-between">
               <div className="row">
