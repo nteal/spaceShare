@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import ReactS3Uploader from 'react-s3-uploader';
 import TextInput from '../profile/textInput.jsx';
 
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
+
 class CreateSpace extends React.Component {
   constructor(props) {
     super(props);
@@ -28,8 +31,12 @@ class CreateSpace extends React.Component {
       pet_id: 3,
       amenities: [],
       amenity: '',
-      tempImageUrl: '',
+      tempImageUrl: 'https://s3.amazonaws.com/spaceshare-sfp/spaces/space2.jpg',
       editing: true,
+      cropping: false,
+      imgFile: null,
+      preNext: null,
+      doneCropping: false,
     };
     /* eslint-enable */
     this.onDrop = this.onDrop.bind(this);
@@ -41,6 +48,7 @@ class CreateSpace extends React.Component {
     this.addAmenity = this.addAmenity.bind(this);
     this.updateAmenities = this.updateAmenities.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.endCrop = this.endCrop.bind(this);
   }
   componentDidMount() {
     console.log('new space did mount'); // eslint-disable-line
@@ -57,6 +65,7 @@ class CreateSpace extends React.Component {
     this.setState({ editing: true });
   }
   doneEditing() {
+    this.exitCrop();
     this.setState({ editing: null });
   }
   handleCostChange(event) {
@@ -143,8 +152,79 @@ class CreateSpace extends React.Component {
       });
   }
 
+  startCrop(imgFile, next) {
+    this.setState({ imgFile });
+    this.setState({ preNext: next });
+    this.setState({ cropping: true });
+  }
+
+  exitCrop() {
+    this.setState({ imgFile: null });
+    this.setState({ preNext: null });
+    this.setState({ doneCropping: false });
+    this.setState({ cropping: false });
+  }
+
+  endCrop() {
+    this.setState({ doneCropping: true }, this.refs.cropper.props.crop);
+  }
+
+
+  _crop(imgFile, next, imageInputComp, cropperContext) {
+    if (this.state.doneCropping) {
+      this.setState({ doneCropping: false });
+      const croppedDataUrl = this.refs.cropper.getCroppedCanvas();
+      croppedDataUrl.toBlob((blob) => {
+        const file = new File([blob], 'myFile.png');
+        next(file);
+      });
+      this.exitCrop();
+    }
+  }
+
+  uploadOrCrop() {
+    const imageInputComp = this;
+    const { state } = this;
+    const { userId, field, imageId, category } = this.props;
+    const fileReader = new FileReader();
+    if (!this.state.cropping) {
+      return (<ReactS3Uploader
+        className="form-control image-select"
+        signingUrl="/s3/sign"
+        signingUrlMethod="GET"
+        preprocess={(img, next) => {
+          let imgInputComp = this;
+          fileReader.addEventListener('load', () => {
+            imgInputComp.startCrop(fileReader.result, next);
+            // release dataURL?
+          }, false);
+          fileReader.readAsDataURL(img);
+        }}
+        accept="image/*"
+        s3path={category}
+        scrubFilename={
+          filename =>
+            filename.replace(/[^]*/, `${userId}_${field}_${imageId}`)
+        }
+        multiple={false}
+        onFinish={this.onDrop}
+      />);
+    }
+    return (
+      <div style={{ width: '100%', paddingTop: '100%', position: 'relative', verticalAlign: 'top' }}>
+        <Cropper
+          ref="cropper"
+          src={state.imgFile}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0 }}
+          aspectRatio={ 4 / 3 }
+          guides={false}
+          crop={this._crop.bind(this, state.imgFile, state.preNext, imageInputComp)}
+        />
+      </div>);
+  }
+
   render() {
-    const { editing, tempImageUrl } = this.state;
+    const { editing, tempImageUrl, cropping } = this.state;
     let imageDisplay;
     let imageDisplayMobile;
     if (editing) {
@@ -159,23 +239,19 @@ class CreateSpace extends React.Component {
               >
                 <i className="material-icons md-sm">close</i>
               </button>
+              <button
+                style={{ display: cropping ? 'inline' : 'none' }}
+                className="btn btn-outline-light btn-sm pb-0"
+                onClick={this.endCrop}
+                type="button"
+              >
+                <i className="material-icons md-sm">done</i>
+              </button>
             </div>
             <h6 className="text-center mb-3">
               Select an image for your space.
             </h6>
-            <ReactS3Uploader
-              className="form-control image-select"
-              signingUrl="/s3/sign"
-              signingUrlMethod="GET"
-              accept="image/*"
-              s3path="spaces/"
-              scrubFilename={
-                filename =>
-                  filename.replace(/[^]*/, this.state.name)
-              }
-              multiple={false}
-              onFinish={this.onDrop}
-            />
+            {this.uploadOrCrop()}
           </div>
         </div>
       );

@@ -466,10 +466,12 @@ mt-0 {
 }
 
 .space-main-img {
-  max-width: 100%;
+  width: 100%;
+  height: auto;
 }
 
 .space-main-img-container {
+  width: 100%;
   max-height: 10rem;
   overflow: hidden;
 }
@@ -496,13 +498,18 @@ mt-0 {
 }
 
 .user-profile-pic {
+  width: 100%;
   height: auto;
-  max-width: 100%;
+}
+
+.preview-pic {
+  width: 100%;
+  height: auto;
 }
 
 .space-preview-pic {
+  width: 100%;
   height: auto;
-  max-width: 100%;
 }
 
 .auto-height-box {

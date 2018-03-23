@@ -2,6 +2,7 @@ const request = require('request');
 const aws4 = require('aws4');
 require('dotenv').config();
 const geoHelp = require('./geocodeHelp');
+const db = require('../database');
 
 
 const getS3image = (filename, callback) => {
@@ -38,7 +39,15 @@ const getLocForListings = userInput => (
     .catch(err => console.log(err))
 );
 
+const searchUsersByName = (name) => {
+  // lower case name, take out spaces
+  const nameArr = name.split(' ');
+
+  return db.helpers.searchUsersByName(nameArr);
+};
+
 exports.getS3image = getS3image;
 exports.addLocToSpace = addLocToSpace;
 exports.addLocToSearch = addLocToSearch;
 exports.getLocForListings = getLocForListings;
+exports.searchUsersByName = searchUsersByName;

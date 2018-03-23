@@ -33,6 +33,7 @@ class Gallery extends React.Component {
                   field={`gallery${i}`}
                   value={image.name}
                   finalize={finalize}
+                  aspectRatio={4 / 3}
                 />
               </div>
             ))}

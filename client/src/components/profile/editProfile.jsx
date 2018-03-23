@@ -220,7 +220,7 @@ class EditProfile extends React.Component {
             <div className="col-12 col-sm-10 col-md-6 col-lg-4 d-flex flex-column align-items-start">
               {/* user stats sidebar */}
               <div className="content-box">
-                <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} />
+                <ImageInput field="image_url" category="users/" imageId="0" userId={id} value={image_url} finalize={this.finalizeEdit} aspectRatio={1} />
                 <div className="mini-heading-box-side mt-0">
                   <span>
                     <h5>{name_first} {name_last}</h5>
@@ -257,7 +257,7 @@ class EditProfile extends React.Component {
                 <div className="invisible-content-box">
                   <div className="form-group row ml-1">
                     <div className="form-check">
-                      <input 
+                      <input
                         id="searchable-work-checkbox"
                         className="form-check-input"
                         type="checkbox"
@@ -272,7 +272,7 @@ class EditProfile extends React.Component {
                   </div>
                   <div className="form-group row ml-1">
                     <div className="form-check">
-                      <input 
+                      <input
                         id="searchable-live-checkbox"
                         className="form-check-input"
                         type="checkbox"
