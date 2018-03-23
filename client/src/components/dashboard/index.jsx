@@ -29,6 +29,8 @@ class Dashboard extends React.Component {
       })
       .catch((error) => {
         console.error('error retrieving user / space data', error);
+        localStorage.removeItem('id_token');
+        location.reload();
       });
     getNewChatEvents();
   }

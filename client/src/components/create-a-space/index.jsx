@@ -149,6 +149,8 @@ class CreateSpace extends React.Component {
       })
       .catch((error) => {
         console.error('error adding space', error);
+        localStorage.removeItem('id_token');
+        location.reload();
       });
   }
 

@@ -23,7 +23,11 @@ class ChatMain extends React.Component {
       .then(response => this.setState({ userSpaceChats: response.data }, () => {
         console.log('space chats', response.data);
       }))
-      .catch(error => console.error('error getting space chats', error));
+      .catch((error) => {
+        console.error('error getting space chats', error);
+        localStorage.removeItem('id_token');
+        location.reload();
+      });
 
     Axios.get(`/chat/getNexmoId/${localStorage.getItem('id_token')}`)
       .then(response => this.setState({ currentUserNexmoId: response.data }, () => {
@@ -34,7 +38,11 @@ class ChatMain extends React.Component {
           getAllMemberNames(this.setSpaceAndUserChats);
         }
       }))
-      .catch(error => console.error('error getting nexmo id', error));
+      .catch((error) => {
+        console.error('error getting nexmo id', error);
+        localStorage.removeItem('id_token');
+        location.reload();
+      });
   }
   getAllChats() {
     const { getAllChats, allUserChats, getAllMemberNames } = this.props;

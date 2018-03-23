@@ -36,8 +36,8 @@ const Header = (props) => {
                 <Link to="/dashboard" className="header-link">
                   My Dashboard
                 </Link>
-                <span className="header-link">About</span>
-                <span className="header-link">Disclaimer</span>
+                {/* <span className="header-link">About</span>
+                <span className="header-link">Disclaimer</span> */}
               </span>
             </MediaQuery>
           </div>

@@ -80,6 +80,7 @@ class Results extends React.Component {
                 <ResultListItem
                   num={i}
                   image={person.image_url}
+                  id={person.id}
                   name={`${person.name_first} ${person.name_last}`}
                   profession={person.profession}
                   badgeOne={person.sleep}

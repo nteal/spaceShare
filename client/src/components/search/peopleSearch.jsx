@@ -76,6 +76,10 @@ class PeopleSearch extends React.Component {
             pathname: '/search-results',
             state: { id_search: response.data },
           });
+        })
+        .catch(() => {
+          localStorage.removeItem('id_token');
+          location.reload();
         });
     } else {
       // eslint-disable-next-line

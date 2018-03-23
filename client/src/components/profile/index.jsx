@@ -41,7 +41,11 @@ class Profile extends React.Component {
       .then((response) => {
         this.setState({ user: response.data });
       })
-      .catch(error => console.error('error retrieving user public data', error));
+      .catch((error) => {
+        console.error('error retrieving user public data', error);
+        localStorage.removeItem('id_token');
+        location.reload();
+      });
   }
   handleBack() {
     this.props.history.goBack();
