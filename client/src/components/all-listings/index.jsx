@@ -22,6 +22,7 @@ class AllListings extends React.Component {
     this.newSearch = this.newSearch.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
     this.filterByLocation = this.filterByLocation.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   componentDidMount() {
     // eslint-disable-next-line
@@ -64,6 +65,11 @@ class AllListings extends React.Component {
         localStorage.removeItem('id_token');
         location.reload();
       });
+  }
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.filterByLocation();
+    }
   }
   render() {
     const {
@@ -118,7 +124,7 @@ class AllListings extends React.Component {
         </div>
         <div className="row mb-2 mx-auto w-50">
           <div className="input-group mb-3" onChange={this.handleLocationChange}>
-            <input type="text" className="form-control" placeholder="Filter by location" />
+            <input type="text" className="form-control" placeholder="Filter by location" onKeyPress={this.handleKeyPress} />
             <div className="input-group-append">
               <button className="btn btn-outline-secondary" type="button" onClick={this.filterByLocation}>Submit</button>
             </div>
