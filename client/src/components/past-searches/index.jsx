@@ -125,32 +125,36 @@ class PastSearches extends React.Component {
       heading, people, places, searches,
     } = this.state;
     return (
-      <div className="pl-4">
-        <div className="row justify-content-between mb-5 mt-2 mr-0">
-          <div className="heading-box">
-            <h1>{heading}</h1>
-          </div>
-          <button className="btn btn-info pr-3" onClick={this.newSearch}>
-            <div className="row ml-0 mr-0">
-              <i className="material-icons mr-2">search</i>
-              <h5 className="h-result mb-0">New Search</h5>
+      <div>
+        <div className="searches-color">
+          <div className="pt-2 pl-2 pr-2">
+            <div className="row justify-content-between mb-5 mr-0 pl-3">
+              <div className="heading-box searches-color-text">
+                <h1>{heading}</h1>
+              </div>
+              <button className="btn btn-info pr-3" onClick={this.newSearch}>
+                <div className="row ml-0 mr-0">
+                  <i className="material-icons mr-2">search</i>
+                  <h5 className="h-result mb-0">New Search</h5>
+                </div>
+              </button>
             </div>
-          </button>
+            <div className="row tab-row pl-3">
+              <ul className="nav nav-tabs" role="tablist">
+                <li className="nav-item mr-2">
+                  <a className="nav-link tab-spaces" data-toggle="tab" href="#places" role="tab">Places</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link tab-people" data-toggle="tab" href="#people" role="tab">People</a>
+                </li>
+                <li className="nav-item saved-searches-tab">
+                  <a className="nav-link tab-saved active" data-toggle="tab" href="#searches" role="tab">Saved Searches</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div className="row">
-          <ul className="nav nav-tabs" role="tablist">
-            <li className="nav-item">
-              <a className="nav-link" data-toggle="tab" href="#places" role="tab">Places</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
-            </li>
-            <li className="nav-item saved-searches-tab">
-              <a className="nav-link active" data-toggle="tab" href="#searches" role="tab">Saved Searches</a>
-            </li>
-          </ul>
-        </div>
-        <div className="tab-content" id="myTabContent">
+        <div className="tab-content pl-2 pr-2" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
             <ul className="list-group list-group-flush">
               {people.map((person, i) => (

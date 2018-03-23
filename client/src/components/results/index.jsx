@@ -24,112 +24,116 @@ class Results extends React.Component {
       heading, people, places, search, history, profile_link, listing_link,
     } = this.props;
     return (
-      <div className="pl-4">
-        <div className="row justify-content-between mb-5 mt-2 mr-0">
-          <div className="heading-box">
-            <h1>{heading}</h1>
-          </div>
-          <button className="btn btn-info pr-3" onClick={this.newSearch}>
-            <div className="row ml-0 mr-0">
-              <i className="material-icons mr-2">search</i>
-              <h5 className="h-result mb-0">New Search</h5>
+      <div>
+        <div className="searches-color">
+          <div className="pt-2 pl-2 pr-2">
+            <div className="row justify-content-between mb-5 mr-0 pl-3">
+              <div className="heading-box searches-color-text">
+                <h1>{heading}</h1>
+              </div>
+              <button className="btn btn-info pr-3" onClick={this.newSearch}>
+                <div className="row ml-0 mr-0">
+                  <i className="material-icons mr-2">search</i>
+                  <h5 className="h-result mb-0">New Search</h5>
+                </div>
+              </button>
             </div>
-          </button>
+            <div className="row pb-4">
+              <div className="col col-lg-2">
+                <div className="row justify-content-center pb-1">
+                  <span className="badge badge-pill badge-primary">
+                    <div className="row d-flex align-items-center ml-0 mr-0">
+                      {((search.purpose === 'Work') ? <Briefcase className="mr-1" fill="#FFF" /> : <Home className="mr-1" fill="#FFF" />)}
+                      {search.distance} miles around
+                    </div>
+                  </span>
+                </div>
+                <div className="row justify-content-center pb-1">
+                  <span className="badge badge-pill badge-secondary align-middle">
+                    {search.location}
+                  </span>
+                </div>
+                <div className="row justify-content-center">
+                  <span className="badge badge-pill badge-secondary align-middle">
+                    {search.city}
+                  </span>
+                </div>
+              </div>
+              <div className="col col-lg-2">
+                <div className="row justify-content-center pb-1">
+                  <span className="badge badge-pill badge-primary">
+                    <div className="row d-flex align-items-center ml-0 mr-0"><CurrencyUsd className="mr-1" fill="#FFF" />
+                      {search.price_min} - {search.price_max}
+                    </div>
+                  </span>
+                </div>
+                <div className="row justify-content-center">
+                  <span className="badge badge-pill badge-primary">
+                    <div className="row d-flex align-items-center ml-0 mr-0"><TimerSand className="mr-1" fill="#FFF" />{search.timeline}</div>
+                  </span>
+                </div>
+              </div>
+              <div className="col col-lg-2">
+                <div className="row justify-content-center pb-1">
+                  <span className="badge badge-pill badge-primary">
+                    <div className="row d-flex align-items-center ml-0 mr-0"><Smoking className="mr-1" fill="#FFF" />{search.smoking}</div>
+                  </span>
+                </div>
+                <div className="row justify-content-center">
+                  <span className="badge badge-pill badge-primary">
+                    <div className="row d-flex align-items-center ml-0 mr-0"><Paw className="mr-1" fill="#FFF" />{search.pet}</div>
+                  </span>
+                </div>
+              </div>
+              <div className="col col-lg-2">
+                <div className="row justify-content-center pb-1">
+                  <span className="badge badge-pill badge-primary">
+                    <div className="row d-flex align-items-center ml-0 mr-0">
+                      {(search.include_people ? <AccountMultiple /> : null)} 
+                      {search.sleep}
+                    </div>
+                  </span>
+                </div>
+                <div className="row justify-content-center pb-1">
+                  <span className="badge badge-pill badge-primary">
+                    <div className="row d-flex align-items-center ml-0 mr-0">
+                      {(search.include_people ? <AccountMultiple /> : null)}
+                      {search.personality}
+                    </div>
+                  </span>
+                </div>
+                <div className="row justify-content-center">
+                  <span className="badge badge-pill badge-primary">age range: {search.age_min} - {search.age_max}</span>
+                </div>
+              </div>
+            </div>
+            <div className="row tab-row pl-3">
+              <ul className="nav nav-tabs" role="tablist">
+                <li className="nav-item mr-2">
+                  <a className="nav-link tab-spaces active" data-toggle="tab" href="#places" role="tab">Places</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link tab-people" data-toggle="tab" href="#people" role="tab">People</a>
+                </li>
+                <li className="nav-item saved-searches-tab">
+                  <Link
+                    className="nav-link tab-saved"
+                    to={{
+                      pathname: '/saved-searches',
+                      state: {
+                        people: people, // eslint-disable-line
+                        places: places, // eslint-disable-line
+                      },
+                    }}
+                    refresh="true"
+                  >Saved Searches
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div className="row pb-4">
-          <div className="col col-lg-2">
-            <div className="row justify-content-center pb-1">
-              <span className="badge badge-pill badge-primary">
-                <div className="row d-flex align-items-center ml-0 mr-0">
-                  {((search.purpose === 'Work') ? <Briefcase className="mr-1" fill="#FFF" /> : <Home className="mr-1" fill="#FFF" />)}
-                  {search.distance} miles around
-                </div>
-              </span>
-            </div>
-            <div className="row justify-content-center pb-1">
-              <span className="badge badge-pill badge-secondary align-middle">
-                {search.location}
-              </span>
-            </div>
-            <div className="row justify-content-center">
-              <span className="badge badge-pill badge-secondary align-middle">
-                {search.city}
-              </span>
-            </div>
-          </div>
-          <div className="col col-lg-2">
-            <div className="row justify-content-center pb-1">
-              <span className="badge badge-pill badge-primary">
-                <div className="row d-flex align-items-center ml-0 mr-0"><CurrencyUsd className="mr-1" fill="#FFF" />
-                  {search.price_min} - {search.price_max}
-                </div>
-              </span>
-            </div>
-            <div className="row justify-content-center">
-              <span className="badge badge-pill badge-primary">
-                <div className="row d-flex align-items-center ml-0 mr-0"><TimerSand className="mr-1" fill="#FFF" />{search.timeline}</div>
-              </span>
-            </div>
-          </div>
-          <div className="col col-lg-2">
-            <div className="row justify-content-center pb-1">
-              <span className="badge badge-pill badge-primary">
-                <div className="row d-flex align-items-center ml-0 mr-0"><Smoking className="mr-1" fill="#FFF" />{search.smoking}</div>
-              </span>
-            </div>
-            <div className="row justify-content-center">
-              <span className="badge badge-pill badge-primary">
-                <div className="row d-flex align-items-center ml-0 mr-0"><Paw className="mr-1" fill="#FFF" />{search.pet}</div>
-              </span>
-            </div>
-          </div>
-          <div className="col col-lg-2">
-            <div className="row justify-content-center pb-1">
-              <span className="badge badge-pill badge-primary">
-                <div className="row d-flex align-items-center ml-0 mr-0">
-                  {(search.include_people ? <AccountMultiple /> : null)} 
-                  {search.sleep}
-                </div>
-              </span>
-            </div>
-            <div className="row justify-content-center pb-1">
-              <span className="badge badge-pill badge-primary">
-                <div className="row d-flex align-items-center ml-0 mr-0">
-                  {(search.include_people ? <AccountMultiple /> : null)}
-                  {search.personality}
-                </div>
-              </span>
-            </div>
-            <div className="row justify-content-center">
-              <span className="badge badge-pill badge-primary">age range: {search.age_min} - {search.age_max}</span>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <ul className="nav nav-tabs" role="tablist">
-            <li className="nav-item">
-              <a className="nav-link active" data-toggle="tab" href="#places" role="tab">Places</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" data-toggle="tab" href="#people" role="tab">People</a>
-            </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link saved-searches-tab"
-                to={{
-                  pathname: '/saved-searches',
-                  state: {
-                    people: people, // eslint-disable-line
-                    places: places, // eslint-disable-line
-                  },
-                }}
-                refresh="true"
-              >Saved Searches
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div className="tab-content" id="myTabContent">
+        <div className="tab-content pl-2 pr-2" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
             <ul className="list-group list-group-flush">
               {people.map((person, i) => (
