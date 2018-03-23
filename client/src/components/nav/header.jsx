@@ -50,7 +50,7 @@ const Header = (props) => {
           </div>
         </MediaQuery>
         <div className="col-5 col-lg-6">
-          <div className="row justify-content-end">
+          <div className="row justify-content-end pr-2 pr-md-3 pr-lg-4 pr-xl-5">
             <MediaQuery minDeviceWidth={800}>
               <Link to="/" type="button" className="btn btn-outline-light" onClick={logout}>
                 Logout

@@ -69,43 +69,61 @@ class AllListings extends React.Component {
     const {
       heading, places, listing_link,
     } = this.state;
-    return (
-      <div>
-        <div className="row mb-2 mt-2">
-          <div className="col-10">
-            <h1 className="pl-4">{heading}</h1>
+
+    let resultsDisplay = places[0].name === 'Filter by location to find available spaces.' ? (
+      <div className="row justify-content-center">
+        <div className="col">
+          <div className="row justify-content-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Astronaut_Illustration.png" alt="A happy astronaut" />
           </div>
-          <div className="col-2">
-            <button className="btn btn-secondary" onClick={this.newSearch}>New Search</button>
+          <div className="row justify-content-center">
+            <h2 className="h-result text-center">Enter a location to find all listings there.</h2>
           </div>
         </div>
-        
+      </div>      
+    ) : (
+      <ul className="list-group list-group-flush">
+        {places.map(place => (
+          <ResultListItem
+            image={place.main_image}
+            name={place.name}
+            cost={place.cost}
+            neighborhood={place.neighborhood}
+            city={place.city}
+            badgeOne={place.smoking}
+            badgeTwo={place.pet}
+            tag="spaceId"
+            id={place.id}
+            link={listing_link}
+            history={this.props.history}
+            key={place.id}
+          />
+          ))}
+      </ul>
+    );
+
+    return (
+      <div className="pt-2 pl-2 pr-2">
+        <div className="row justify-content-between ml-0 mr-0 mb-5">
+          <div className="heading-box descender">
+            <h1 className="pl-4">{heading}</h1>
+          </div>
+          <button className="btn btn-info pr-3" onClick={this.newSearch}>
+            <div className="row ml-0 mr-0">
+              <i className="material-icons mr-2">search</i>
+              New Search
+            </div>
+          </button>
+        </div>
         <div className="row mb-2 mx-auto w-50">
           <div className="input-group mb-3" onChange={this.handleLocationChange}>
             <input type="text" className="form-control" placeholder="Filter by location" />
             <div className="input-group-append">
-              <button className="btn btn-outline-primary"type="button" onClick={this.filterByLocation}>Submit</button>
+              <button className="btn btn-outline-secondary" type="button" onClick={this.filterByLocation}>Submit</button>
             </div>
           </div>
         </div>
-        {places.map(place => (
-          <div className="row mx-auto w-75">
-            <ResultListItem
-              image={place.main_image}
-              name={place.name}
-              cost={place.cost}
-              neighborhood={place.neighborhood}
-              city={place.city}
-              badgeOne={place.smoking}
-              badgeTwo={place.pet}
-              tag="spaceId"
-              id={place.id}
-              link={listing_link}
-              history={this.props.history}
-              key={place.id}
-            />
-          </div>
-          ))}
+        {resultsDisplay}
       </div>
     );
   }

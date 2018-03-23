@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import CurrencyUsd from 'mdi-react/CurrencyUsdIcon.js';
-import AccountMultiple from 'mdi-react/AccountMultipleIcon.js';
-import Briefcase from 'mdi-react/BriefcaseIcon.js';
-import TimerSand from 'mdi-react/TimerSandIcon.js';
-import Home from 'mdi-react/HomeIcon.js';
-import Smoking from 'mdi-react/SmokingIcon.js';
-import Paw from 'mdi-react/PawIcon.js';
+// import SearchParams from './search-params.jsx';
 import ResultListItem from './result-list-item.jsx';
 
 class Results extends React.Component {
@@ -23,6 +17,71 @@ class Results extends React.Component {
     const {
       heading, people, places, search, history, profile_link, listing_link,
     } = this.props;
+    const noResultsDisplay = (
+      <div className="row justify-content-center">
+        <div className="col">
+          <div className="row justify-content-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Astronaut_Illustration.png" alt="A happy astronaut" />
+          </div>
+          <div className="row justify-content-center">
+            <h2 className="h-result text-center">Sorry, there are no results here at this time.</h2>
+          </div>
+        </div>
+      </div>
+    );
+
+    let peopleDisplay;
+    if (people[0].name_first === 'no people were found for this search') {
+      peopleDisplay = noResultsDisplay;
+    } else {
+      peopleDisplay = (
+        <ul className="list-group list-group-flush">
+          {people.map((person, i) => (
+            <ResultListItem
+              num={i}
+              image={person.image_url}
+              id={person.id}
+              name={`${person.name_first} ${person.name_last}`}
+              profession={person.profession}
+              badgeOne={person.sleep}
+              badgeTwo={person.personality}
+              tag="userId"
+              link={profile_link}
+              history={history}
+              key={person.id}
+            />
+          ))}
+        </ul>
+      );
+    }
+
+    let placesDisplay;
+    if (places[0].name_first === 'There are no results for this search') {
+      placesDisplay = noResultsDisplay;
+    } else {
+      placesDisplay = (
+        <ul className="list-group list-group-flush">
+          {places.map((place, i) => (
+            <ResultListItem
+              num={i}
+              image={place.main_image}
+              name={place.name}
+              cost={place.cost}
+              timeline={place.timeline}
+              neighborhood={place.neighborhood}
+              city={place.city}
+              badgeOne={place.smoking}
+              badgeTwo={place.pet}
+              tag="spaceId"
+              id={place.id}
+              link={listing_link}
+              history={history}
+              key={place.id}
+            />
+          ))}
+        </ul>
+      );
+    }
     return (
       <div>
         <div className="searches-color">
@@ -31,81 +90,27 @@ class Results extends React.Component {
               <div className="heading-box searches-color-text">
                 <h1>{heading}</h1>
               </div>
+              {/* <SearchParams
+                purpose={search.purpose}
+                location={search.location}
+                radius={search.distance}
+                priceMin={search.price_min}
+                priceMax={search.price_max}
+                timeline={search.timeline}
+                smoking={search.smoking}
+                pet={search.pet}
+                includesPeople={search.include_people}
+                sleep={search.sleep}
+                personality={search.personality}
+                ageMin={search.age_min}
+                ageMax={search.age_max}
+              /> */}
               <button className="btn btn-info pr-3" onClick={this.newSearch}>
                 <div className="row ml-0 mr-0">
                   <i className="material-icons mr-2">search</i>
                   <h5 className="h-result mb-0">New Search</h5>
                 </div>
               </button>
-            </div>
-            <div className="row pb-4">
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0">
-                      {((search.purpose === 'Work') ? <Briefcase className="mr-1" fill="#FFF" /> : <Home className="mr-1" fill="#FFF" />)}
-                      {search.distance} miles around
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-secondary align-middle">
-                    {search.location}
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-secondary align-middle">
-                    {search.city}
-                  </span>
-                </div>
-              </div>
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><CurrencyUsd className="mr-1" fill="#FFF" />
-                      {search.price_min} - {search.price_max}
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><TimerSand className="mr-1" fill="#FFF" />{search.timeline}</div>
-                  </span>
-                </div>
-              </div>
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><Smoking className="mr-1" fill="#FFF" />{search.smoking}</div>
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0"><Paw className="mr-1" fill="#FFF" />{search.pet}</div>
-                  </span>
-                </div>
-              </div>
-              <div className="col col-lg-2">
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0">
-                      {(search.include_people ? <AccountMultiple /> : null)} 
-                      {search.sleep}
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center pb-1">
-                  <span className="badge badge-pill badge-primary">
-                    <div className="row d-flex align-items-center ml-0 mr-0">
-                      {(search.include_people ? <AccountMultiple /> : null)}
-                      {search.personality}
-                    </div>
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <span className="badge badge-pill badge-primary">age range: {search.age_min} - {search.age_max}</span>
-                </div>
-              </div>
             </div>
             <div className="row tab-row pl-3">
               <ul className="nav nav-tabs" role="tablist">
@@ -135,45 +140,10 @@ class Results extends React.Component {
         </div>
         <div className="tab-content pl-2 pr-2" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
-            <ul className="list-group list-group-flush">
-              {people.map((person, i) => (
-                <ResultListItem
-                  num={i}
-                  image={person.image_url}
-                  id={person.id}
-                  name={`${person.name_first} ${person.name_last}`}
-                  profession={person.profession}
-                  badgeOne={person.sleep}
-                  badgeTwo={person.personality}
-                  tag="userId"
-                  link={profile_link}
-                  history={history}
-                  key={person.id}
-                />
-              ))}
-            </ul>
+            {peopleDisplay}
           </div>
           <div className="tab-pane fade show active" id="places" role="tabpanel">
-            <ul className="list-group list-group-flush">
-              {places.map((place, i) => (
-                <ResultListItem
-                  num={i}
-                  image={place.main_image}
-                  name={place.name}
-                  cost={place.cost}
-                  timeline={place.timeline}
-                  neighborhood={place.neighborhood}
-                  city={place.city}
-                  badgeOne={place.smoking}
-                  badgeTwo={place.pet}
-                  tag="spaceId"
-                  id={place.id}
-                  link={listing_link}
-                  history={history}
-                  key={place.id}
-                />
-              ))}
-            </ul>
+            {placesDisplay}
           </div>
         </div>
       </div>

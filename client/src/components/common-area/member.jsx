@@ -70,11 +70,20 @@ const Member = (props) => {
                 </li>
               )}
             </ul>
-            <div className="row justify-content-end pr-2">
-              <Link to="/messages" onClick={messageUser}>
-                <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
-              </Link>
-            </div>
+            {isOwner && (
+              <div className="row justify-content-end pr-2">
+                <Link to="/messages" onClick={messageUser}>
+                  <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
+                </Link>
+              </div>
+            )}
+            {!isOwner && (
+              <div className="row justify-content-end pr-2 mt-5">
+                <Link to="/messages" onClick={messageUser}>
+                  <MessageText className="mdi-btn" height={30} width={30} fill="#6F5BC0" />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
