@@ -18,7 +18,6 @@ const getAllMatches = (search) => {
     .catch(err => console.log(err));
 };
 
-// this function will eventually gets its data from geocoding, which will take user input
 const getAllListings = city => (
   Space.findAll({ where: { city, open: true } })
     .then(spaces => Promise.map(spaces, (space) => {
