@@ -25,7 +25,7 @@ const Header = (props) => {
   } = props;
 
   return (
-    <div className="container-fluid pl-0" style={rootStyle}>
+    <div className="container-fluid pl-0 pr-0" style={rootStyle}>
       <div className="row" style={headerStyle}>
         <div className="col-5 col-lg-6">
           <div className="d-flex align-items-center">
