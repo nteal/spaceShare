@@ -14,7 +14,7 @@ authRouter.post(
     // console.dir(req);
     const token = jwt.sign(
       { id: req.user.id },
-      'secret', { expiresIn: '1h' },
+      'secret', { expiresIn: '50hr' },
     );
     // console.log(jwt.verify(token, 'secret'));
     // console.log('sending token =>', token);
