@@ -25,13 +25,16 @@ class Results extends React.Component {
     } = this.props;
     return (
       <div className="pl-4">
-        <div className="row mb-2 mt-2">
-          <div className="col-lg-10">
+        <div className="row justify-content-between mb-5 mt-2 mr-0">
+          <div className="heading-box">
             <h1>{heading}</h1>
           </div>
-          <div className="col-lg-2">
-            <button className="btn btn-secondary" onClick={this.newSearch}>New Search</button>
-          </div>
+          <button className="btn btn-info pr-3" onClick={this.newSearch}>
+            <div className="row ml-0 mr-0">
+              <i className="material-icons mr-2">search</i>
+              <h5 className="h-result mb-0">New Search</h5>
+            </div>
+          </button>
         </div>
         <div className="row pb-4">
           <div className="col col-lg-2">
@@ -112,7 +115,7 @@ class Results extends React.Component {
             </li>
             <li className="nav-item">
               <Link
-                className="nav-link"
+                className="nav-link saved-searches-tab"
                 to={{
                   pathname: '/saved-searches',
                   state: {
@@ -128,35 +131,44 @@ class Results extends React.Component {
         </div>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade" id="people" role="tabpanel">
-            {people.map(person => (
-              <ResultListItem
-                image={person.image_url}
-                name={`${person.name_first} ${person.name_last}`}
-                financial={person.profession}
-                about={person.sleep}
-                description={person.personality}
-                tag="userId"
-                link={profile_link}
-                history={history}
-                key={person.id}
-              />
-            ))}
+            <ul className="list-group list-group-flush">
+              {people.map((person, i) => (
+                <ResultListItem
+                  num={i}
+                  image={person.image_url}
+                  name={`${person.name_first} ${person.name_last}`}
+                  profession={person.profession}
+                  badgeOne={person.sleep}
+                  badgeTwo={person.personality}
+                  tag="userId"
+                  link={profile_link}
+                  history={history}
+                  key={person.id}
+                />
+              ))}
+            </ul>
           </div>
           <div className="tab-pane fade show active" id="places" role="tabpanel">
-            {places.map(place => (
-              <ResultListItem
-                image={place.main_image}
-                name={place.name}
-                financial={place.cost}
-                about={place.neighborhood}
-                description={place.description}
-                tag="spaceId"
-                id={place.id}
-                link={listing_link}
-                history={history}
-                key={place.id}
-              />
-            ))}
+            <ul className="list-group list-group-flush">
+              {places.map((place, i) => (
+                <ResultListItem
+                  num={i}
+                  image={place.main_image}
+                  name={place.name}
+                  cost={place.cost}
+                  timeline={place.timeline}
+                  neighborhood={place.neighborhood}
+                  city={place.city}
+                  badgeOne={place.smoking}
+                  badgeTwo={place.pet}
+                  tag="spaceId"
+                  id={place.id}
+                  link={listing_link}
+                  history={history}
+                  key={place.id}
+                />
+              ))}
+            </ul>
           </div>
         </div>
       </div>
