@@ -15,6 +15,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isAuthenticated: false,
+      docked: false,
     };
     this.startChatClient = this.startChatClient.bind(this);
   }
@@ -35,6 +36,11 @@ class App extends React.Component {
           });
       }
     });
+    if (window.matchMedia('(min-width: 800px)').matches) {
+      this.setState({ docked: true });
+    } else {
+      this.setState({ docked: false });
+    }
   }
   startChatClient() {
     Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
@@ -58,10 +64,10 @@ class App extends React.Component {
       .catch(error => console.error('error getting nexmo id', error));
   }
   render() {
-    const { isAuthenticated, chatClient } = this.state;
+    const { isAuthenticated, chatClient, docked } = this.state;
 
     return isAuthenticated ? 
-      <Nav chatClient={chatClient} startChatClient={this.startChatClient} /> :
+      <Nav chatClient={chatClient} startChatClient={this.startChatClient} docked={docked} /> :
       <Login chatClient={chatClient} startChatClient={this.startChatClient} />;
   }
 }

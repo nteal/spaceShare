@@ -42,7 +42,7 @@ class Nav extends React.Component {
       isAuthenticated: true,
       mql: mql,
       docked: props.docked,
-      open: props.open,
+      open: false,
       transitions: true,
       touch: true,
       refresh: false,
@@ -67,10 +67,12 @@ class Nav extends React.Component {
     this.toggleOpen = this.toggleOpen.bind(this);
     this.toggleRefresh = this.toggleRefresh.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     mql.addListener(this.mediaQueryChanged);
-    this.setState({mql: mql, sidebarDocked: mql.matches});
+    this.setState({ mql: mql, sidebarDocked: mql.matches });
+  }
 
+  componentDidMount() {
     Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
       .then((response) => {
         if (response.data === false) {
@@ -258,6 +260,16 @@ class Nav extends React.Component {
       this.setState({ chatLinkId: id });
     });
   }
+
+  mediaQueryChanged() {
+    this.setState({
+      mql: mql,
+      docked: this.state.mql.matches,
+    }, () => {
+      console.log('media query changed', this.state);
+    });
+  }
+
   startNewChat(userNexmoId) {
     Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
@@ -374,12 +386,7 @@ class Nav extends React.Component {
     });
   }
 
-  mediaQueryChanged() {
-    this.setState({ sidebarDocked: this.state.mql.matches });
-  }
-
   toggleOpen(event) {
-    console.log('toggled');
     this.setState({ open: !this.state.open });
     if (event) {
       event.preventDefault();
@@ -412,12 +419,12 @@ class Nav extends React.Component {
     const contentHeader = (
       <span className="pr-2">
         <MediaQuery minDeviceWidth={800}>
-          <Link to="/">
-            <span>SpaceShare</span>
+          <Link to="/" className="navbar-brand">
+            SpaceShare
           </Link>
         </MediaQuery>
         <MediaQuery maxDeviceWidth={799}>
-          <Link to="/">
+          <Link to="/" className="navbar-brand">
             <img src={Logo} className="mobile-logo" alt="SpaceShare logo" />
           </Link>
         </MediaQuery>
@@ -425,7 +432,7 @@ class Nav extends React.Component {
     );
 
     const hamburger = (
-      <span className="pl-0 pr-2">
+      <span className="pl-0">
         {!this.state.docked &&
         <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
           <i className="material-icons">menu</i>
@@ -442,7 +449,7 @@ class Nav extends React.Component {
     );
 
     const sidebarProps = {
-      sidebar: sidebar,
+      sidebar,
       docked: this.state.docked,
       open: this.state.open,
       touch: this.state.touch,
@@ -528,10 +535,12 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   chatClient: PropTypes.object,
+  docked: PropTypes.bool,
 };
 
 Nav.defaultProps = {
   chatClient: new ConversationClient(),
+  docked: false,
 };
 
 export default Nav;
