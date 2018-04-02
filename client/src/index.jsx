@@ -21,13 +21,15 @@ class App extends React.Component {
   }
   componentDidMount() {
     Axios.get('/');
-    this.startChatClient();
     FB.getLoginStatus((response) => {
       console.dir(response);
       if (response.status === 'connected') {
         Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
-          .then((res) => {
-            if (res.data === true) {
+        .then((res) => {
+          if (res.data === true) {
+              this.startChatClient((user_jwt) => {
+                localStorage.setItem('nexmo_token', user_jwt);
+              });
               this.setState({ isAuthenticated: true });
             }
           })
@@ -42,7 +44,7 @@ class App extends React.Component {
       this.setState({ docked: false });
     }
   }
-  startChatClient() {
+  startChatClient(cb) {
     Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const nexmoUsername = response.data.id;
@@ -56,8 +58,8 @@ class App extends React.Component {
             this.setState({ chatClient: client }, () => {
               console.log('chat client started');
             });
-            localStorage.removeItem('nexmo_token');
-            localStorage.setItem('nexmo_token', user_jwt);
+
+            cb(user_jwt)
           })
           .catch(error => console.error('error getting nexmo token', error));
       })
