@@ -3,16 +3,18 @@ import MediaQuery from 'react-responsive';
 
 const PrivacyPolicy = props => (
   <div className="container p-res">
-    <MediaQuery minDeviceWidth={800}>
-      <div className="heading-box descender">
-        <h1>Privacy Policy</h1>
-      </div>
-    </MediaQuery>
-    <MediaQuery maxDeviceWidth={799}>
-      <div className="mobile-heading-box descender">
-        <h2>Privacy Policy</h2>
-      </div>
-    </MediaQuery>
+    <div className="row">
+      <MediaQuery minDeviceWidth={800}>
+        <div className="heading-box descender">
+          <h1>Privacy Policy</h1>
+        </div>
+      </MediaQuery>
+      <MediaQuery maxDeviceWidth={799}>
+        <div className="mobile-heading-box descender">
+          <h2>Privacy Policy</h2>
+        </div>
+      </MediaQuery>
+    </div>
     <div className="content-box mt-5">
       <div className="invisible-content-box">
         <div>
