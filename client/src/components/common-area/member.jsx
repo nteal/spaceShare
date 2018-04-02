@@ -48,7 +48,7 @@ const Member = (props) => {
             </h5>
           </div>
           <div className="col pt-2 pb-0">
-            <ul>
+            <ul className="no-bullets">
               <li>
                 <div className="row d-flex align-items-center pl-2">
                   <i className="material-icons md-sm mr-2">phone</i>
