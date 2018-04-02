@@ -29,7 +29,7 @@ a:hover {
   text-decoration: none;
 }
 
-ul {
+.no-bullets {
   list-style: none;
   margin-left: 0px;
   padding-left: 0px;
@@ -164,7 +164,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pt-alot {
+  padding-top: 15%;
+}
+
+.pt-10rem {
   padding-top: 10rem;
+}
+
+.pt-10 {
+  padding-top: 10%;
 }
 
 .p-res {
@@ -503,7 +511,7 @@ mt-0 {
 
 .splash-position {
   position: relative;
-  top: 12vh;
+  top: 10vh;
 }
 
 .splash-bg {
