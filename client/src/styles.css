@@ -25,8 +25,18 @@ a {
 }
 
 a:hover {
-  color: #FFFCA0;
+  color: #6F5BC0;
   text-decoration: none;
+  transition: all ease-in-out .3s;
+}
+
+.main-nav-link:hover, .main-nav-link:focus {
+  color: #FFFCA0;
+  transition: all ease-in-out .3s;
+}
+
+.main-nav-link:active {
+  color: #FFFCA0;
 }
 
 .no-bullets {
