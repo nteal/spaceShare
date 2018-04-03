@@ -25,8 +25,8 @@ class App extends React.Component {
       console.dir(response);
       if (response.status === 'connected') {
         Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
-        .then((res) => {
-          if (res.data === true) {
+          .then((res) => {
+            if (res.data === true) {
               this.startChatClient((user_jwt) => {
                 localStorage.setItem('nexmo_token', user_jwt);
               });
