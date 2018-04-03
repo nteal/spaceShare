@@ -97,9 +97,27 @@ class SideNavItems extends React.Component {
         <MediaQuery minDeviceWidth={800}>
           {expanded && expandedNav}
           {!expanded && (
-            <nav style={styles.sidebarMini} onMouseOver={this.toggleExpand} onFocus={this.toggleExpand}>
+            <nav style={styles.sidebarMini} className="nav flex-column align-items-center" onMouseOver={this.toggleExpand} onFocus={this.toggleExpand}>
               <Link to="/" style={styles.sidebarLink}>
                 <img src={Logo} className="mobile-logo m-2" alt="SpaceShare logo" />
+              </Link>
+              <Link to="/" style={styles.sidebarLink} className="nav-item nav-link main-nav-link">
+                <i className="material-icons md-h3 m-2">home</i>
+              </Link>
+              <Link to="/messages" style={styles.sidebarLink} className="nav-item nav-link main-nav-link">
+                <i className="material-icons md-h3 m-2">chat</i>
+              </Link>
+              <Link to="/new-space" style={styles.sidebarLink} className="nav-item nav-link main-nav-link">
+                <i className="material-icons md-h3 m-2">add_location</i>
+              </Link>
+              <Link to="/search" style={styles.sidebarLink} className="nav-item nav-link main-nav-link">
+                <i className="material-icons md-h3 m-2">search</i>
+              </Link>
+              <Link to="/saved-searches" style={styles.sidebarLink} className="nav-item nav-link main-nav-link">
+                <i className="material-icons md-h3 m-2">book</i>
+              </Link>
+              <Link to="/listings" style={styles.sidebarLink} className="nav-item nav-link main-nav-link">
+                <i className="material-icons md-h3 m-2">list</i>
               </Link>
             </nav>
           )}
