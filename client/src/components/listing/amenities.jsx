@@ -75,7 +75,7 @@ const Amenities = (props) => {
   } else {
     display = (
       <div className="invisible-content-box">
-        <ul>
+        <ul className="no-bullets">
           <li className="pb-1">
             <div className="row">
               <i className="material-icons md-sm sidebar-icon">pets</i>

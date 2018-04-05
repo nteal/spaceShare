@@ -25,11 +25,21 @@ a {
 }
 
 a:hover {
-  color: #FFFCA0;
+  color: #6F5BC0;
   text-decoration: none;
+  transition: all ease-in-out .3s;
 }
 
-ul {
+.main-nav-link:hover, .main-nav-link:focus {
+  color: #FFFCA0;
+  transition: all ease-in-out .3s;
+}
+
+.main-nav-link:active {
+  color: #FFFCA0;
+}
+
+.no-bullets {
   list-style: none;
   margin-left: 0px;
   padding-left: 0px;
@@ -116,6 +126,10 @@ h1, h2, h3, h4, h5, h6 {
   border-style: none;
 }
 
+.navbar-brand {
+  font-size: 1.5rem;
+}
+
 .mdi-btn:hover {
   cursor: pointer;
   fill: rgb(49, 23, 155);
@@ -160,7 +174,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pt-alot {
+  padding-top: 15%;
+}
+
+.pt-10rem {
   padding-top: 10rem;
+}
+
+.pt-10 {
+  padding-top: 10%;
 }
 
 .p-res {
@@ -371,7 +393,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header-link {
-  color: white;
   font-family: Raleway;
   font-size: 16px;
   padding: 15px;
@@ -500,7 +521,7 @@ mt-0 {
 
 .splash-position {
   position: relative;
-  top: 12vh;
+  top: 10vh;
 }
 
 .splash-bg {

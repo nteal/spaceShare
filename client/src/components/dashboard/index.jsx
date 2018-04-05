@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
                 <h1>Your Dashboard</h1>
               </div>
             </MediaQuery>
-            <MediaQuery maxDeviceWidth={600}>
+            <MediaQuery maxDeviceWidth={799}>
               <div className="mobile-heading-box">
                 <h2>Your Dashboard</h2>
               </div>

@@ -21,6 +21,8 @@ import Logo from '../../assets/ss-logo-transparent.png';
 import AllListings from '../all-listings/index.jsx';
 import SearchResults from '../search-results/index.jsx';
 import PastSearches from '../past-searches/index.jsx';
+import Terms from '../login/terms.jsx';
+import PrivacyPolicy from '../login/privacy.jsx';
 
 const styles = {
   contentHeaderMenuLink: {
@@ -42,7 +44,7 @@ class Nav extends React.Component {
       isAuthenticated: true,
       mql: mql,
       docked: props.docked,
-      open: props.open,
+      open: false,
       transitions: true,
       touch: true,
       refresh: false,
@@ -53,6 +55,7 @@ class Nav extends React.Component {
       newEvents: [],
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+    this.getAllChatsHelper = this.getAllChatsHelper.bind(this);
     this.getAllChats = this.getAllChats.bind(this);
     this.getNewChatEvents = this.getNewChatEvents.bind(this);
     this.getAllMemberNames = this.getAllMemberNames.bind(this);
@@ -67,10 +70,12 @@ class Nav extends React.Component {
     this.toggleOpen = this.toggleOpen.bind(this);
     this.toggleRefresh = this.toggleRefresh.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     mql.addListener(this.mediaQueryChanged);
-    this.setState({mql: mql, sidebarDocked: mql.matches});
+    this.setState({ mql: mql, sidebarDocked: mql.matches });
+  }
 
+  componentDidMount() {
     Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
       .then((response) => {
         if (response.data === false) {
@@ -89,8 +94,7 @@ class Nav extends React.Component {
   onSetSidebarOpen(open) {
     this.setState({ sidebarOpen: open });
   }
-
-  getAllChats(callback) {
+  getAllChatsHelper(callback) {
     const { chatClient } = this.props;
     chatClient.login(localStorage.getItem('nexmo_token'))
       .then((app) => {
@@ -108,10 +112,26 @@ class Nav extends React.Component {
       })
       .catch(error => console.error('error logging into nexmo', error));
     Axios.get(`/chat/spaceChats/${localStorage.getItem('id_token')}`)
-      .then(response => this.setState({ userSpaceChats: response.data }, () => {
-        console.log('space chats', response.data);
-      }))
+      .then((response) => {
+        if(this.state.isMounted) {
+          this.setState({ userSpaceChats: response.data }, () => {
+            console.log('space chats', response.data);
+          })
+        }
+      })
       .catch(error => console.error('error getting space chats', error));
+  }
+  getAllChats(callback) {
+    const { startChatClient } = this.props;
+    console.log('nexmo token', localStorage.getItem('nexmo_token'));
+    if (!localStorage.getItem('nexmo_token')) {
+      startChatClient((user_jwt) => {
+        localStorage.setItem('nexmo_token', user_jwt);
+        this.getAllChatsHelper(callback);
+      })
+    } else {
+      this.getAllChatsHelper(callback);
+    }
   }
   getNewChatEvents() {
     const { allUserChats, chatApp } = this.state;
@@ -258,6 +278,16 @@ class Nav extends React.Component {
       this.setState({ chatLinkId: id });
     });
   }
+
+  mediaQueryChanged() {
+    this.setState({
+      mql: mql,
+      docked: this.state.mql.matches,
+    }, () => {
+      console.log('media query changed', this.state);
+    });
+  }
+
   startNewChat(userNexmoId) {
     Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
@@ -374,12 +404,7 @@ class Nav extends React.Component {
     });
   }
 
-  mediaQueryChanged() {
-    this.setState({ sidebarDocked: this.state.mql.matches });
-  }
-
   toggleOpen(event) {
-    console.log('toggled');
     this.setState({ open: !this.state.open });
     if (event) {
       event.preventDefault();
@@ -412,12 +437,12 @@ class Nav extends React.Component {
     const contentHeader = (
       <span className="pr-2">
         <MediaQuery minDeviceWidth={800}>
-          <Link to="/">
-            <span>SpaceShare</span>
+          <Link to="/" className="navbar-brand">
+            SpaceShare
           </Link>
         </MediaQuery>
         <MediaQuery maxDeviceWidth={799}>
-          <Link to="/">
+          <Link to="/" className="navbar-brand">
             <img src={Logo} className="mobile-logo" alt="SpaceShare logo" />
           </Link>
         </MediaQuery>
@@ -425,7 +450,7 @@ class Nav extends React.Component {
     );
 
     const hamburger = (
-      <span className="pl-0 pr-2">
+      <span className="pl-0">
         {!this.state.docked &&
         <a onClick={this.toggleOpen} href="#" style={styles.contentHeaderMenuLink}>
           <i className="material-icons">menu</i>
@@ -442,7 +467,7 @@ class Nav extends React.Component {
     );
 
     const sidebarProps = {
-      sidebar: sidebar,
+      sidebar,
       docked: this.state.docked,
       open: this.state.open,
       touch: this.state.touch,
@@ -516,7 +541,20 @@ class Nav extends React.Component {
                 <Route path="/search-results" component={SearchResults} />
                 <Route path="/listings" component={AllListings} />
                 <Route path="/saved-searches" component={PastSearches} />
+                <Route path="/terms" component={Terms} />
+                <Route path="/privacy-policy" component={PrivacyPolicy} />
               </Switch>
+              <div className="row justify-content-center pt-5 pb-5">
+                <small>
+                  <Link to="/terms">
+                   Terms of use
+                  </Link>
+                  &nbsp;|&nbsp;
+                  <Link to="/privacy-policy">
+                    Privacy policy
+                  </Link>
+                </small>
+              </div>
             </div>
           </Header>
         </Sidebar>
@@ -528,10 +566,12 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   chatClient: PropTypes.object,
+  docked: PropTypes.bool,
 };
 
 Nav.defaultProps = {
   chatClient: new ConversationClient(),
+  docked: false,
 };
 
 export default Nav;

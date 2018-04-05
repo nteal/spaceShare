@@ -15,18 +15,21 @@ class App extends React.Component {
     super(props);
     this.state = {
       isAuthenticated: false,
+      docked: false,
     };
     this.startChatClient = this.startChatClient.bind(this);
   }
   componentDidMount() {
     Axios.get('/');
-    this.startChatClient();
     FB.getLoginStatus((response) => {
       console.dir(response);
       if (response.status === 'connected') {
         Axios.get(`/auth/isAuthenticated/${localStorage.getItem('id_token')}`)
           .then((res) => {
             if (res.data === true) {
+              this.startChatClient((user_jwt) => {
+                localStorage.setItem('nexmo_token', user_jwt);
+              });
               this.setState({ isAuthenticated: true });
             }
           })
@@ -35,8 +38,13 @@ class App extends React.Component {
           });
       }
     });
+    if (window.matchMedia('(min-width: 800px)').matches) {
+      this.setState({ docked: true });
+    } else {
+      this.setState({ docked: false });
+    }
   }
-  startChatClient() {
+  startChatClient(cb) {
     Axios.get(`/user/currentUser/${localStorage.getItem('id_token')}`)
       .then((response) => {
         const nexmoUsername = response.data.id;
@@ -50,18 +58,18 @@ class App extends React.Component {
             this.setState({ chatClient: client }, () => {
               console.log('chat client started');
             });
-            localStorage.removeItem('nexmo_token');
-            localStorage.setItem('nexmo_token', user_jwt);
+
+            cb(user_jwt)
           })
           .catch(error => console.error('error getting nexmo token', error));
       })
       .catch(error => console.error('error getting nexmo id', error));
   }
   render() {
-    const { isAuthenticated, chatClient } = this.state;
+    const { isAuthenticated, chatClient, docked } = this.state;
 
     return isAuthenticated ? 
-      <Nav chatClient={chatClient} startChatClient={this.startChatClient} /> :
+      <Nav chatClient={chatClient} startChatClient={this.startChatClient} docked={docked} /> :
       <Login chatClient={chatClient} startChatClient={this.startChatClient} />;
   }
 }
