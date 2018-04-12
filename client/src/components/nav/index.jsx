@@ -113,11 +113,9 @@ class Nav extends React.Component {
       .catch(error => console.error('error logging into nexmo', error));
     Axios.get(`/chat/spaceChats/${localStorage.getItem('id_token')}`)
       .then((response) => {
-        if(this.state.isMounted) {
-          this.setState({ userSpaceChats: response.data }, () => {
-            console.log('space chats', response.data);
-          })
-        }
+        this.setState({ userSpaceChats: response.data }, () => {
+          console.log('space chats 118', response.data);
+        });
       })
       .catch(error => console.error('error getting space chats', error));
   }
@@ -430,7 +428,7 @@ class Nav extends React.Component {
       displayName,
       newEvents,
     } = this.state;
-    const { chatClient } = this.props;
+    const { chatClient, startChatClient } = this.props;
 
     const sidebar = <SideNavItems toggleOpen={this.toggleOpen} />;
 
@@ -466,6 +464,8 @@ class Nav extends React.Component {
       </span>
     );
 
+    const loginProps = { chatClient, startChatClient };
+
     const sidebarProps = {
       sidebar,
       docked: this.state.docked,
@@ -494,7 +494,7 @@ class Nav extends React.Component {
       getAllChats: this.getAllChats,
       getNewChatEvents: this.getNewChatEvents,
     };
-    
+
     const chatProps = {
       chatClient,
       chatApp,
@@ -520,15 +520,14 @@ class Nav extends React.Component {
     const toggleRefreshProp = {
       toggleRefresh: this.toggleRefresh,
     };
-
     if (isAuthenticated) {
       return (
         <Sidebar {...sidebarProps}>
           <Header hamburger={hamburger} title={contentHeader} mobileTitle={contentHeaderMobile} logout={this.fbLogout}>
             <div style={styles.content}>
-              <Route exact path="/" render={() => isAuthenticated && <Redirect to="/dashboard" />} />
               <Switch>
-                <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} />} />
+                <Route exact path="/" render={props => isAuthenticated ? <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} /> : <Login {...props} {...loginProps} />} />
+                {/* <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} />} /> */}
                 <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
                 <Route path="/profile" render={props => <Profile {...props} {...profileProps} />} />
                 <Route path="/common-area" render={props => <CommonArea {...props} {...commonAreaProps} />} />
@@ -547,7 +546,7 @@ class Nav extends React.Component {
               <div className="row justify-content-center pt-5 pb-5">
                 <small>
                   <Link to="/terms">
-                   Terms of use
+                    Terms of use
                   </Link>
                   &nbsp;|&nbsp;
                   <Link to="/privacy-policy">
