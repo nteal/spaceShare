@@ -61,6 +61,18 @@ const matchPeople = (currentSearch, allMatches) => {
   }, [[], [], [], [], [], [], []]);
 };
 
+const keepTopMatch = (matches) => {
+  const foundUsers = {};
+  const trimmedMatches = [];
+  for (let i = 0; i < matches.length; i += 1) {
+    if (!foundUsers[matches[i].fb_id]) {
+      foundUsers[matches[i].fb_id] = true;
+      trimmedMatches.push(matches[i]);
+    }
+  }
+  return trimmedMatches;
+};
+
 // make func to take current search, find all searches, then compare
 const match = searchId => (
   db.helpers.getSearchById(searchId)
@@ -92,7 +104,7 @@ const match = searchId => (
       // match places
       finalMatches.places = matchSpaces(currentSearchWUser, places).reduce((concatPlaces, space) => concatPlaces.concat(space), []);
       // match people:
-      finalMatches.people = matchPeople(currentSearchWUser, people).reduce((concatPeople, person) => concatPeople.concat(person), []);
+      finalMatches.people = keepTopMatch(matchPeople(currentSearchWUser, people).reduce((concatPeople, person) => concatPeople.concat(person), []));
       return finalMatches;
     })
     .catch(err => console.log(err))

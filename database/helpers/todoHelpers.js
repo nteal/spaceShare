@@ -1,7 +1,10 @@
 const { Todo } = require('../models/todoModel');
 
 const getTodosBySpaceId = spaceId => (
-  Todo.findAll({ where: { space_id: spaceId } })
+  Todo.findAll({
+    order: ['order'],
+    where: { space_id: spaceId },
+  })
     .then(todos => todos.map(todo => todo.dataValues))
     .catch(err => console.log(err))
 );

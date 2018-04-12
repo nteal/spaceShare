@@ -180,23 +180,32 @@ const getDashboardInfoById = spaceId => {
 // get users associated with space (members)
 const getSpacesForMatching = searchId => (
   Search.findById(searchId)
-    .then(searchObj => (
+    .then( async searchObj => (
       // get all spaces with matching city and purpose to search obj
-      Space.findAll({
-        where: {
-          purpose_id: searchObj.purpose_id,
-          open: true,
-          cost: {
-            [Op.between]: [parseFloat(searchObj.price_min), parseFloat(searchObj.price_max)],
-            // [Op.between]: [parseFloat(searchObj.price_min), 99999],
+      {
+        compatibleSpaces: await Space.findAll({
+          where: {
+            purpose_id: searchObj.purpose_id,
+            open: true,
+            cost: {
+              [Op.between]: [parseFloat(searchObj.price_min), parseFloat(searchObj.price_max)],
+            },
           },
-        },
-      })
+        }),
+        searchFbId: searchObj.fb_id,
+      }
     ))
-    .then(compatibleSpaces =>  Promise.map(compatibleSpaces, space => {
-      let spaceListing = getSpaceListingById(space.id)
-      return spaceListing;
-    }))
+    .then(({ compatibleSpaces, searchFbId }) => (
+      Promise.map(compatibleSpaces, async space => ({ memberFbIds: (await space.getUsers()).map(user => user.fb_id), space, searchFbId }))
+    ))
+    .then((compatibleSpaces) => {
+      const possibleSpaces = compatibleSpaces.reduce((possibleSpaceArr, possibleSpace) => (
+        !possibleSpace.memberFbIds.includes(possibleSpace.searchFbId) ? possibleSpaceArr.concat(possibleSpace.space) : possibleSpaceArr
+      ), []);
+      return Promise.map(possibleSpaces, space => (
+        getSpaceListingById(space.id)
+      ));
+    })
     .catch(err => console.log(err))
 );
 
