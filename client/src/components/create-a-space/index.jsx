@@ -13,7 +13,7 @@ class CreateSpace extends React.Component {
     super(props);
     /* eslint-disable */
     this.state = {
-      name: 'space',
+      name: 'Your Space',
       main_image: '',
       purpose_id: 1,
       open: false,
