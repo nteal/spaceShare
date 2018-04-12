@@ -68,7 +68,7 @@ class App extends React.Component {
   render() {
     const { isAuthenticated, chatClient, docked } = this.state;
 
-    return isAuthenticated ? 
+    return isAuthenticated ?
       <Nav chatClient={chatClient} startChatClient={this.startChatClient} docked={docked} /> :
       <Login chatClient={chatClient} startChatClient={this.startChatClient} />;
   }
