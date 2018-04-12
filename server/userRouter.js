@@ -29,8 +29,8 @@ userRouter.param('token', (req, res, next, JWT) => {
 });
 
 userRouter.get('/isOwner/:token/:spaceId', (req, res) => {
-db.helpers.isOwner(req.fb_Id, req.params.spaceId)
-.then(result => res.status(200).send(result))
+  db.helpers.isOwner(req.fb_Id, req.params.spaceId)
+    .then(result => res.status(200).send(result))
     .catch(err => console.error(err));
 });
 
@@ -52,7 +52,7 @@ userRouter.get('/userPublic/:token/:userId', (req, res) => {
   db.helpers.getUserPublic(req.params.userId)
     .then(publicInfo => res.status(200).send(publicInfo))
     .catch(err => console.error(err));
-})
+});
 
 // deprecated?
 userRouter.get('/currentUserSpaces/:token/:userId', (req, res) => {

@@ -32,7 +32,7 @@ const Header = (props) => {
           <div className="row align-items-baseline ml-0">
             {title}
             <span className="nav-item">
-              <Link to="/dashboard" className="header-link nav-link">
+              <Link to="/" className="header-link nav-link">
                 My Dashboard
               </Link>
             </span>

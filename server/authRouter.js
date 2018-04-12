@@ -10,14 +10,10 @@ authRouter.post(
   '/facebook',
   passport.authenticate('facebook-token'),
   (req, res) => {
-    console.log('inside auth cb');
-    // console.dir(req);
     const token = jwt.sign(
       { id: req.user.id },
       'secret', { expiresIn: '50hr' },
     );
-    // console.log(jwt.verify(token, 'secret'));
-    // console.log('sending token =>', token);
     res.status(200).send(token);
   },
 );
@@ -29,14 +25,15 @@ authRouter.param('token', (req, res, next, JWT) => {
     // decode token
     const jwtObject = jwt.verify(JWT, 'secret');
     const fbId = jwtObject.id;
-    // console.log(fbId);
     // verify user exists
     return db.helpers.userInDb(fbId);
   };
-  if (isAuthorized(JWT)) {
+  if (JWT !== 'null' && isAuthorized(JWT)) {
     // add ID to req
     req.fb_Id = jwt.verify(JWT, 'secret').id;
     console.log('fb_Id attached', req.fb_Id);
+  } else if (req.url.includes('/isAuthenticated')) {
+    next();
   } else {
     // or tell them no
     console.error('unauthorized: forbidden');
@@ -47,12 +44,8 @@ authRouter.param('token', (req, res, next, JWT) => {
 });
 
 authRouter.get('/isAuthenticated/:token', (req, res) => {
-  console.log('isTTTTTTTAuth');
-  // console.log('req.params => ', req.params);
-  // console.log('req.query => ', req.query);
-  if (req.params && req.params.token) {
+  if (req.params && req.params.token && req.params.token !== 'null') {
     const id = jwt.verify(req.params.token, 'secret').id;
-    // console.log('id: ', id);
     res.send(true);
   } else {
     res.send(false);
@@ -60,7 +53,6 @@ authRouter.get('/isAuthenticated/:token', (req, res) => {
 });
 
 authRouter.get('/*', (req, res) => {
-  console.log('from auth');
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);
