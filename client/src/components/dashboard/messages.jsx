@@ -10,11 +10,13 @@ const Messages = (props) => {
       <div className="mini-heading-box-top">
         <h5>You have {newEvents.length} new {invite} to chat!</h5>
       </div>
-      <ul className="list-group list-group-flush">
-        {newEvents.map(event => (
-          <Message event={event} setConversation={setConversation} key={event.conversationId} />
-        ))}
-      </ul>
+      <div className="space-messages-container">
+        <ul className="list-group list-group-flush">
+          {newEvents.map(event => (
+            <Message event={event} setConversation={setConversation} key={event.conversationId} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
