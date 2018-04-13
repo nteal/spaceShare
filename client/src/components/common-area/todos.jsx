@@ -134,8 +134,8 @@ class Todos extends React.Component {
             <h5>Todos</h5>
           </div>
         </MediaQuery>
-        <div className="pl-1 pr-1 pb-1 pt-2">
-          <div>
+        <div className="pl-1 pr-1 pb-1 pt-2 todos-container">
+          <div className="space-messages-container">
             <SortableList items={incomplete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} updateTodo={this.updateTodo} useDragHandle lockAxis="y" />
           </div>
           <div className="input-group">
@@ -146,7 +146,7 @@ class Todos extends React.Component {
               </button>
             </div>
           </div>
-          <div>
+          <div className="space-messages-container">
             <SortableList items={complete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} updateTodo={this.updateTodo} useDragHandle lockAxis="y" complete />
           </div>
         </div>
