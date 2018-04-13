@@ -64,10 +64,14 @@ class Todos extends React.Component {
     this.updateTodo = this.updateTodo.bind(this);
   }
   onSortEnd({ oldIndex, newIndex }) {
-    const { todos, setTodos } = this.props;
+    const { todos, setTodos, submitTodos } = this.props;
     const updatedOrder = arrayMove(todos, oldIndex, newIndex);
-    setTodos(updatedOrder, () => {
-      console.log(this.state);
+    const todosForSubmit = updatedOrder.map((todo, i) => {
+      todo.order = i;
+      return todo;
+    });
+    setTodos(todosForSubmit, () => {
+      submitTodos(todosForSubmit);
     });
   }
   handleChange(event) {
@@ -80,6 +84,7 @@ class Todos extends React.Component {
     const newTodoObj = {
       content: newTodo,
       completed: false,
+      order: todos.length,
     };
     const newTodos = todos.concat(newTodoObj);
     this.setState({ newTodo: '' });
