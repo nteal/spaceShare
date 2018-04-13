@@ -71,14 +71,9 @@ class Listing extends React.Component {
           smoking,
           amenities: amenities || [],
           gallery: gallery || [],
-        }, () => { console.log('listing', this.state)});
+        });
 
-        Axios.get('/user/isOwner', {
-          params: {
-            token: localStorage.getItem('id_token'),
-            spaceId: id,
-          },
-        })
+        Axios.get(`/user/isOwner/${localStorage.getItem('id_token')}/${id}`)
           .then((response) => {
             if (response.data) {
               this.setState({ isOwner: true });
