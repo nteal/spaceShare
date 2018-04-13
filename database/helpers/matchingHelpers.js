@@ -38,6 +38,7 @@ const getAllListings = city => (
         purpose: space.purpose,
         owner_fb_id: space.owner_fb_id,
         timeline: space.timeline,
+        city: space.city,
         owner_name: `${owner.name_first} ${owner.name_last}`,
       };
       return spaceListing;
