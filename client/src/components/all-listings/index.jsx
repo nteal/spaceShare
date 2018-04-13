@@ -95,6 +95,7 @@ class AllListings extends React.Component {
             image={place.main_image}
             name={place.name}
             cost={place.cost}
+            timeline={place.timeline}
             neighborhood={place.neighborhood}
             city={place.city}
             badgeOne={place.smoking}
