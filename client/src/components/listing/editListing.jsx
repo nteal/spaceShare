@@ -12,6 +12,7 @@ import Location from './location.jsx';
 import AboutInput from '../profile/aboutInput.jsx';
 import Amenities from './amenities.jsx';
 import Gallery from './gallery.jsx';
+import Footer from '../nav/footer.jsx';
 
 class EditListing extends React.Component {
   constructor(props) {
@@ -311,170 +312,173 @@ class EditListing extends React.Component {
     );
 
     return (
-      <div className="pb-5">
-        <div className="row justify-content-around">
-          <div className="space-main-img-container">
-            <img
-              className="img-fluid space-main-img"
-              src={main_image}
-              alt="Your lovely space"
-            />
-          </div>
-        </div>
-        <main>
-          <MediaQuery maxDeviceWidth={799}>
-            <button className="custom-btn mobile-back-btn" onClick={this.handleBack}>
-              <ArrowLeftBoldCircle className="mdi-btn" height={75} width={75} fill="#6F5BC0" />
-            </button>
-          </MediaQuery>
-          <MediaQuery minDeviceWidth={800}>
-            <button className="custom-btn" onClick={this.handleBack}>
-              <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
-            </button>
-          </MediaQuery>
-          <div className="container mt-neg-3">
-            <div className="row">
-              <MediaQuery minDeviceWidth={800}>
-                <div className="heading-box mt-neg">
-                  <h1>{name}</h1>
-                </div>
-              </MediaQuery>
-              <MediaQuery maxDeviceWidth={600}>
-                <div className="mobile-heading-box mt-neg-3">
-                  <h2>{name}</h2>
-                </div>
-              </MediaQuery>
+      <div>
+        <div className="pb-5">
+          <div className="row justify-content-around">
+            <div className="space-main-img-container">
+              <img
+                className="img-fluid space-main-img"
+                src={main_image}
+                alt="Your lovely space"
+              />
             </div>
-            <div className="row pt-1">
-              <div className="col">
+          </div>
+          <main>
+            <MediaQuery maxDeviceWidth={799}>
+              <button className="custom-btn mobile-back-btn" onClick={this.handleBack}>
+                <ArrowLeftBoldCircle className="mdi-btn" height={75} width={75} fill="#6F5BC0" />
+              </button>
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={800}>
+              <button className="custom-btn" onClick={this.handleBack}>
+                <ArrowLeftBoldCircle className="mdi-btn" height={50} width={50} fill="#6F5BC0" />
+              </button>
+            </MediaQuery>
+            <div className="container mt-neg-3">
+              <div className="row">
                 <MediaQuery minDeviceWidth={800}>
-                  <ListingDropDown
-                    displayGlyph
-                    field="purpose"
-                    placeholder="The purpose of your space"
-                    value={purpose}
-                    options={['Work', 'Live']}
-                    headingSize="3"
-                    finalize={this.finalizeEdit}
-                  />
-                  <ListingDropDown
-                    displayGlyph
-                    field="owner_fb_id"
-                    placeholder="The owner of your space"
-                    value={owner_name}
-                    options={memberNames}
-                    headingSize="5"
-                    finalize={this.finalizeEditOwner}
-                    additionalData={members}
-                  />
-                  <ListingOpen
-                    field="open"
-                    value={open}
-                    headingSize="5"
-                    editView
-                    finalize={this.finalizeEdit}
-                  />
+                  <div className="heading-box mt-neg">
+                    <h1>{name}</h1>
+                  </div>
                 </MediaQuery>
                 <MediaQuery maxDeviceWidth={600}>
-                  <ListingDropDown
-                    displayGlyph
-                    field="purpose"
-                    placeholder="The purpose of your space"
-                    value={purpose}
-                    options={['Work', 'Live']}
-                    headingSize="4"
-                    finalize={this.finalizeEdit}
-                  />
-                  <ListingDropDown
-                    displayGlyph
-                    field="owner_fb_id"
-                    placeholder="The owner of your space"
-                    value={owner_name}
-                    options={memberNames}
-                    headingSize="6"
-                    finalize={this.finalizeEditOwner}
-                    additionalData={members}
-                  />
+                  <div className="mobile-heading-box mt-neg-3">
+                    <h2>{name}</h2>
+                  </div>
                 </MediaQuery>
               </div>
-              <div className="col">
-                <MediaQuery minDeviceWidth={800}>
-                  <div className="row justify-content-end d-flex">
-                    <h4 className="mb-0">
-                      <ListingTextInput
-                        field="cost"
-                        type="number"
-                        placeholder="How much you are charging"
-                        value={cost}
-                        headingSize="0"
-                        finalize={this.finalizeEdit}
-                      />
-                    </h4>
-                  </div>
-                  <div className="row justify-content-end d-flex">
+              <div className="row pt-1">
+                <div className="col">
+                  <MediaQuery minDeviceWidth={800}>
                     <ListingDropDown
-                      field="timeline"
-                      placeholder="The time for which your space will be available"
-                      value={timeline}
-                      options={['Daily', 'Weekly', 'Monthly', 'Long-term']}
+                      displayGlyph
+                      field="purpose"
+                      placeholder="The purpose of your space"
+                      value={purpose}
+                      options={['Work', 'Live']}
+                      headingSize="3"
+                      finalize={this.finalizeEdit}
+                    />
+                    <ListingDropDown
+                      displayGlyph
+                      field="owner_fb_id"
+                      placeholder="The owner of your space"
+                      value={owner_name}
+                      options={memberNames}
+                      headingSize="5"
+                      finalize={this.finalizeEditOwner}
+                      additionalData={members}
+                    />
+                    <ListingOpen
+                      field="open"
+                      value={open}
+                      headingSize="5"
+                      editView
+                      finalize={this.finalizeEdit}
+                    />
+                  </MediaQuery>
+                  <MediaQuery maxDeviceWidth={600}>
+                    <ListingDropDown
+                      displayGlyph
+                      field="purpose"
+                      placeholder="The purpose of your space"
+                      value={purpose}
+                      options={['Work', 'Live']}
                       headingSize="4"
                       finalize={this.finalizeEdit}
+                    />
+                    <ListingDropDown
+                      displayGlyph
+                      field="owner_fb_id"
+                      placeholder="The owner of your space"
+                      value={owner_name}
+                      options={memberNames}
+                      headingSize="6"
+                      finalize={this.finalizeEditOwner}
+                      additionalData={members}
+                    />
+                  </MediaQuery>
+                </div>
+                <div className="col">
+                  <MediaQuery minDeviceWidth={800}>
+                    <div className="row justify-content-end d-flex">
+                      <h4 className="mb-0">
+                        <ListingTextInput
+                          field="cost"
+                          type="number"
+                          placeholder="How much you are charging"
+                          value={cost}
+                          headingSize="0"
+                          finalize={this.finalizeEdit}
+                        />
+                      </h4>
+                    </div>
+                    <div className="row justify-content-end d-flex">
+                      <ListingDropDown
+                        field="timeline"
+                        placeholder="The time for which your space will be available"
+                        value={timeline}
+                        options={['Daily', 'Weekly', 'Monthly', 'Long-term']}
+                        headingSize="4"
+                        finalize={this.finalizeEdit}
+                        />
+                    </div>
+                    <div className="row justify-content-end">
+                      {/* <h5>Space available for {capacity} {pronoun}</h5> */}
+                      <ListingTextInput
+                        field="capacity"
+                        type="number"
+                        placeholder="How many people would you like"
+                        value={capacity}
+                        finalize={this.finalizeEdit}
                       />
-                  </div>
-                  <div className="row justify-content-end">
-                    {/* <h5>Space available for {capacity} {pronoun}</h5> */}
-                    <ListingTextInput
-                      field="capacity"
-                      type="number"
-                      placeholder="How many people would you like"
-                      value={capacity}
-                      finalize={this.finalizeEdit}
-                    />
-                  </div>
-                </MediaQuery>
-                <MediaQuery maxDeviceWidth={600}>
-                  <div className="row justify-content-end">
-                    <h5 className="mb-0">${cost} / {timeline}</h5>
-                  </div>
-                  <div className="row justify-content-end">
-                    <ListingTextInput
-                      field="capacity"
-                      type="number"
-                      placeholder="How many people would you like"
-                      value={capacity}
-                      finalize={this.finalizeEdit}
-                    />
-                  </div>
-                </MediaQuery>
+                    </div>
+                  </MediaQuery>
+                  <MediaQuery maxDeviceWidth={600}>
+                    <div className="row justify-content-end">
+                      <h5 className="mb-0">${cost} / {timeline}</h5>
+                    </div>
+                    <div className="row justify-content-end">
+                      <ListingTextInput
+                        field="capacity"
+                        type="number"
+                        placeholder="How many people would you like"
+                        value={capacity}
+                        finalize={this.finalizeEdit}
+                      />
+                    </div>
+                  </MediaQuery>
+                </div>
+              </div>
+              <div className="row pt-res">
+                <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column pl-0 pr-0 pr-sm-0 pr-md-2 pr-lg-2 pr-xl-2">
+                  <AboutInput field="description" header="About your space" placeholder="A description of your space" value={description} finalize={this.finalizeEdit} />
+                  <Location editView address={street_address} address2={street_address2} neighborhood={neighborhood} city={city} state={state} zip={zip} finalize={this.finalizeEditLocation} />
+                </div>
+                <div className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex flex-column pr-0 pl-0 pl-sm-0 pl-md-2 pl-lg-2 pl-xl-2">
+                  <Amenities
+                    pet={pet}
+                    smoking={smoking}
+                    amenities={amenities}
+                    editView
+                    finalize={this.finalizeEdit}
+                    finalizeExisting={this.finalizeExistingAmenity}
+                    finalizeNew={this.finalizeNewAmenity}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <Gallery editView images={gallery} spaceId={id} finalize={this.finalizeEditImage} />
+              </div>
+              <div className="row justify-content-center">
+                <Link to={{ pathname: '/common-area', state: { spaceId: id } }} className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
+                  Submit changes
+                </Link>
               </div>
             </div>
-            <div className="row pt-res">
-              <div className="col-12 col-sm-12 col-md-8 col-lg-8 d-flex flex-column pl-0 pr-0 pr-sm-0 pr-md-2 pr-lg-2 pr-xl-2">
-                <AboutInput field="description" header="About your space" placeholder="A description of your space" value={description} finalize={this.finalizeEdit} />
-                <Location editView address={street_address} address2={street_address2} neighborhood={neighborhood} city={city} state={state} zip={zip} finalize={this.finalizeEditLocation} />
-              </div>
-              <div className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex flex-column pr-0 pl-0 pl-sm-0 pl-md-2 pl-lg-2 pl-xl-2">
-                <Amenities
-                  pet={pet}
-                  smoking={smoking}
-                  amenities={amenities}
-                  editView
-                  finalize={this.finalizeEdit}
-                  finalizeExisting={this.finalizeExistingAmenity}
-                  finalizeNew={this.finalizeNewAmenity}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <Gallery editView images={gallery} spaceId={id} finalize={this.finalizeEditImage} />
-            </div>
-            <div className="row justify-content-center">
-              <Link to={{ pathname: '/common-area', state: { spaceId: id } }} className="btn btn-primary btn-lg align-self-end" onClick={this.handleSubmit}>
-                Submit changes
-              </Link>
-            </div>
-          </div>
-        </main>
+          </main>
+        </div>
+        <Footer />
       </div>
     );
   }

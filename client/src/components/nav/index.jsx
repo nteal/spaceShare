@@ -522,6 +522,7 @@ class Nav extends React.Component {
     const toggleRefreshProp = {
       toggleRefresh: this.toggleRefresh,
     };
+
     if (isAuthenticated) {
       return (
         <Sidebar {...sidebarProps}>
@@ -537,7 +538,6 @@ class Nav extends React.Component {
                 <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
                 <Route path="/listing" render={props => <Listing {...props} {...profileProps} />} />
                 <Route path="/edit-listing" render={props => <EditListing {...props} />} />
-                <Route path="/edit-space" component={CreateSpace} />
                 <Route path="/search" component={Search} />
                 <Route path="/search-results" component={SearchResults} />
                 <Route path="/listings" component={AllListings} />
@@ -545,17 +545,6 @@ class Nav extends React.Component {
                 <Route path="/terms" component={Terms} />
                 <Route path="/privacy-policy" component={PrivacyPolicy} />
               </Switch>
-              <div className="row justify-content-center pt-5 pb-5">
-                <small>
-                  <Link to="/terms">
-                    Terms of use
-                  </Link>
-                  &nbsp;|&nbsp;
-                  <Link to="/privacy-policy">
-                    Privacy policy
-                  </Link>
-                </small>
-              </div>
             </div>
           </Header>
         </Sidebar>

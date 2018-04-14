@@ -64,10 +64,14 @@ class Todos extends React.Component {
     this.updateTodo = this.updateTodo.bind(this);
   }
   onSortEnd({ oldIndex, newIndex }) {
-    const { todos, setTodos } = this.props;
+    const { todos, setTodos, submitTodos } = this.props;
     const updatedOrder = arrayMove(todos, oldIndex, newIndex);
-    setTodos(updatedOrder, () => {
-      console.log(this.state);
+    const todosForSubmit = updatedOrder.map((todo, i) => {
+      todo.order = i;
+      return todo;
+    });
+    setTodos(todosForSubmit, () => {
+      submitTodos(todosForSubmit);
     });
   }
   handleChange(event) {
@@ -80,6 +84,7 @@ class Todos extends React.Component {
     const newTodoObj = {
       content: newTodo,
       completed: false,
+      order: todos.length,
     };
     const newTodos = todos.concat(newTodoObj);
     this.setState({ newTodo: '' });
@@ -134,8 +139,8 @@ class Todos extends React.Component {
             <h5>Todos</h5>
           </div>
         </MediaQuery>
-        <div className="pl-1 pr-1 pb-1 pt-2">
-          <div>
+        <div className="pl-1 pr-1 pb-1 pt-2 todos-container">
+          <div className="space-messages-container">
             <SortableList items={incomplete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} updateTodo={this.updateTodo} useDragHandle lockAxis="y" />
           </div>
           <div className="input-group">
@@ -146,7 +151,7 @@ class Todos extends React.Component {
               </button>
             </div>
           </div>
-          <div>
+          <div className="space-messages-container">
             <SortableList items={complete} onSortEnd={this.onSortEnd} toggleComplete={this.toggleTodoComplete} updateTodo={this.updateTodo} useDragHandle lockAxis="y" complete />
           </div>
         </div>

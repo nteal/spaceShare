@@ -7,6 +7,7 @@ import MessageText from 'mdi-react/MessageTextIcon.js';
 import FacebookBox from 'mdi-react/FacebookBoxIcon.js';
 import UserStats from './userStats.jsx';
 import AboutBox from '../listing/aboutBox.jsx';
+import Footer from '../nav/footer.jsx';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -132,6 +133,7 @@ class Profile extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

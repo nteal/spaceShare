@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 // import SearchParams from './search-params.jsx';
 import ResultListItem from './result-list-item.jsx';
+import Footer from '../nav/footer.jsx';
 
 class Results extends React.Component {
   constructor(props) {
@@ -146,6 +147,7 @@ class Results extends React.Component {
             {placesDisplay}
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
