@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
 import ResultListItem from '../results/result-list-item.jsx';
+import Footer from '../nav/footer.jsx';
 
 class AllListings extends React.Component {
   constructor(props) {
@@ -132,6 +133,7 @@ class AllListings extends React.Component {
           </div>
         </div>
         {resultsDisplay}
+        <Footer />
       </div>
     );
   }

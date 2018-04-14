@@ -6,6 +6,7 @@ import Axios from 'axios';
 import CommonAreaMain from './main.jsx';
 import Members from './members.jsx';
 import GroundRules from './ground-rules.jsx';
+import Footer from '../nav/footer.jsx';
 
 class CommonArea extends React.Component {
   constructor(props) {
@@ -316,6 +317,7 @@ class CommonArea extends React.Component {
           />
         </Switch>
 
+        <Footer />
       </div>
     );
   }

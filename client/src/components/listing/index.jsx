@@ -8,6 +8,7 @@ import Location from './location.jsx';
 import AboutBox from './aboutBox.jsx';
 import Amenities from './amenities.jsx';
 import Gallery from './gallery.jsx';
+import Footer from '../nav/footer.jsx';
 
 class Listing extends React.Component {
   constructor(props) {
@@ -259,6 +260,7 @@ class Listing extends React.Component {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }

@@ -10,6 +10,7 @@ import DropDown from './dropDown.jsx';
 import LinkInput from './linkInput.jsx';
 import AboutInput from './aboutInput.jsx';
 import ImageInput from './imageInput.jsx';
+import Footer from '../nav/footer.jsx';
 import ArrowLeftBoldCircle from 'mdi-react/ArrowLeftBoldCircleIcon.js';
 
 class EditProfile extends React.Component {
@@ -293,6 +294,7 @@ class EditProfile extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
