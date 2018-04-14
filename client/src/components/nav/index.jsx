@@ -403,7 +403,9 @@ class Nav extends React.Component {
   }
 
   toggleOpen(event) {
-    this.setState({ open: !this.state.open });
+    if (!mql.matches) {
+      this.setState({ open: !this.state.open });
+    }
     if (event) {
       event.preventDefault();
     }
