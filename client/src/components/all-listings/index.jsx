@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
 import ResultListItem from '../results/result-list-item.jsx';
+import Footer from '../nav/footer.jsx';
 
 class AllListings extends React.Component {
   constructor(props) {
@@ -95,6 +96,7 @@ class AllListings extends React.Component {
             image={place.main_image}
             name={place.name}
             cost={place.cost}
+            timeline={place.timeline}
             neighborhood={place.neighborhood}
             city={place.city}
             badgeOne={place.smoking}
@@ -131,6 +133,7 @@ class AllListings extends React.Component {
           </div>
         </div>
         {resultsDisplay}
+        <Footer />
       </div>
     );
   }

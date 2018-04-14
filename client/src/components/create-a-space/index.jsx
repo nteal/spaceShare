@@ -4,6 +4,7 @@ import Axios from 'axios';
 import PropTypes from 'prop-types';
 import ReactS3Uploader from 'react-s3-uploader';
 import TextInput from '../profile/textInput.jsx';
+import Footer from '../nav/footer.jsx';
 
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
@@ -362,268 +363,271 @@ class CreateSpace extends React.Component {
     ];
 
     return (
-      <div className="container p-res pl-4">
-        <div className="row">
-          <MediaQuery minDeviceWidth={800}>
-            <div className="heading-box descender">
-              <h1>New Space</h1>
-            </div>
-          </MediaQuery>
-          <MediaQuery maxDeviceWidth={600}>
-            <div className="mobile-heading-box">
-              <h2>New Space</h2>
-            </div>
-          </MediaQuery>
-        </div>
-        <div className="row justify-content-center pt-5 pl-4 pl-lg-5 pr-4 pr-lg-5">
-          <form className="w-100 pl-lg-5 pr-lg-5 pl-xl-5 pr-xl-5" onSubmit={this.handleSubmit}>
-            <div className="col pb-3 pb-sm-0 pb-md-0 pb-lg-0 pb-xl-0">
+      <div>
+        <div className="container p-res pl-4">
+          <div className="row">
+            <MediaQuery minDeviceWidth={800}>
+              <div className="heading-box descender">
+                <h1>New Space</h1>
+              </div>
+            </MediaQuery>
+            <MediaQuery maxDeviceWidth={600}>
+              <div className="mobile-heading-box">
+                <h2>New Space</h2>
+              </div>
+            </MediaQuery>
+          </div>
+          <div className="row justify-content-center pt-5 pl-4 pl-lg-5 pr-4 pr-lg-5">
+            <form className="w-100 pl-lg-5 pr-lg-5 pl-xl-5 pr-xl-5" onSubmit={this.handleSubmit}>
+              <div className="col pb-3 pb-sm-0 pb-md-0 pb-lg-0 pb-xl-0">
+                <div className="row">
+                  <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+                    <div className="row">
+                      <h6>Name</h6>
+                    </div>
+                    <div className="row pb-3">
+                      <input className="form-control" type="text" placeholder="Your space's name" name="name" onChange={this.handleInputChange} />
+                    </div>
+
+                    <div className="row pb-3">
+                      <div className="col">
+                        <h6>Purpose</h6>
+                        <div className="form-check" onChange={this.handleInputChange}>
+                          <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
+                          <label className="form-check-label" htmlFor="work">
+                            Work
+                          </label>
+                        </div>
+                        <div className="form-check" onChange={this.handleInputChange}>
+                          <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
+                          <label className="form-check-label" htmlFor="live">
+                            Live
+                          </label>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <h6>Availability</h6>
+                        <div className="form-check" onChange={this.handleInputChange}>
+                          <input className="form-check-input" type="radio" id="open" name="open" value="true" />
+                          <label className="form-check-label" htmlFor="open">
+                            Open
+                          </label>
+                        </div>
+                        <div className="form-check" onChange={this.handleInputChange}>
+                          <input className="form-check-input" type="radio" id="closed" name="open" value="false" />
+                          <label className="form-check-label" htmlFor="closed">
+                            Closed
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <h6>Cost</h6>
+                    </div>
+                    <div className="row pb-3">
+                      <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
+                    </div>
+                  </div>
+                  <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
+                    <MediaQuery minDeviceWidth={601}>
+                      <div className="row justify-content-end">
+                        {imageDisplay}
+                      </div>
+                    </MediaQuery>
+                    <MediaQuery maxDeviceWidth={600}>
+                      {imageDisplayMobile}
+                    </MediaQuery>
+                  </div>
+                </div>
+              </div>
               <div className="row">
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
-                  <div className="row">
-                    <h6>Name</h6>
-                  </div>
-                  <div className="row pb-3">
-                    <input className="form-control" type="text" placeholder="Your space's name" name="name" onChange={this.handleInputChange} />
-                  </div>
-
-                  <div className="row pb-3">
-                    <div className="col">
-                      <h6>Purpose</h6>
-                      <div className="form-check" onChange={this.handleInputChange}>
-                        <input className="form-check-input" type="radio" id="work" name="purpose_id" value={1} />
-                        <label className="form-check-label" htmlFor="work">
-                          Work
-                        </label>
-                      </div>
-                      <div className="form-check" onChange={this.handleInputChange}>
-                        <input className="form-check-input" type="radio" id="live" name="purpose_id" value={2} />
-                        <label className="form-check-label" htmlFor="live">
-                          Live
-                        </label>
-                      </div>
-                    </div>
-                    <div className="col">
-                      <h6>Availability</h6>
-                      <div className="form-check" onChange={this.handleInputChange}>
-                        <input className="form-check-input" type="radio" id="open" name="open" value="true" />
-                        <label className="form-check-label" htmlFor="open">
-                          Open
-                        </label>
-                      </div>
-                      <div className="form-check" onChange={this.handleInputChange}>
-                        <input className="form-check-input" type="radio" id="closed" name="open" value="false" />
-                        <label className="form-check-label" htmlFor="closed">
-                          Closed
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <h6>Cost</h6>
-                  </div>
-                  <div className="row pb-3">
-                    <input className="form-control" type="text" placeholder="$000.00" name="cost" onChange={this.handleCostChange} />
-                  </div>
-                </div>
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6 pl-0 pr-0">
-                  <MediaQuery minDeviceWidth={601}>
-                    <div className="row justify-content-end">
-                      {imageDisplay}
-                    </div>
-                  </MediaQuery>
-                  <MediaQuery maxDeviceWidth={600}>
-                    {imageDisplayMobile}
-                  </MediaQuery>
-                </div>
+                <h6>Location</h6>
               </div>
-            </div>
-            <div className="row">
-              <h6>Location</h6>
-            </div>
-            <div className="row">
-              <div className="col">
-                <p>
-                  <i>Only your neighborhood, city, and state will be displayed publicly.</i>
-                </p>
-                <div className="form-group mb-2">
-                  <label className="mb-0" htmlFor="inputAddress">Address</label>
-                  <input
-                    type="text"
-                    name="street_address"
-                    className="form-control"
-                    id="inputAddress"
-                    placeholder="1234 Main St"
-                    onChange={this.handleInputChange}
-                  />
-                </div>
-                <div className="form-group mb-2">
-                  <label className="mb-0" htmlFor="inputAddress2">Address 2</label>
-                  <input
-                    type="text"
-                    name="street_address2"
-                    className="form-control"
-                    id="inputAddress2"
-                    placeholder="Apartment, studio, or floor"
-                    onChange={this.handleInputChange}
-                  />
-                </div>
-                <div className="form-row mb-2">
-                  <div className="form-group col-md-6">
-                    <label className="mb-0" htmlFor="inputCity">City</label>
+              <div className="row">
+                <div className="col">
+                  <p>
+                    <i>Only your neighborhood, city, and state will be displayed publicly.</i>
+                  </p>
+                  <div className="form-group mb-2">
+                    <label className="mb-0" htmlFor="inputAddress">Address</label>
                     <input
                       type="text"
-                      name="city"
+                      name="street_address"
                       className="form-control"
-                      id="inputCity"
+                      id="inputAddress"
+                      placeholder="1234 Main St"
                       onChange={this.handleInputChange}
                     />
                   </div>
-                  <div className="form-group col-md-4 mb-2">
-                    <label className="mb-0" htmlFor="inputState">State</label>
-                    <select
-                      id="inputState"
-                      name="state"
-                      className="form-control"
-                      onChange={this.handleInputChange}
-                    >
-                      <option>Choose...</option>
-                      {states.map(state => (
-                        <option key={state}>{state}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-md-2 mb-2">
-                    <label className="mb-0" htmlFor="inputZip">Zip</label>
+                  <div className="form-group mb-2">
+                    <label className="mb-0" htmlFor="inputAddress2">Address 2</label>
                     <input
                       type="text"
-                      name="zip"
+                      name="street_address2"
                       className="form-control"
-                      id="inputZip"
-                      placeholder="00000"
+                      id="inputAddress2"
+                      placeholder="Apartment, studio, or floor"
                       onChange={this.handleInputChange}
                     />
                   </div>
+                  <div className="form-row mb-2">
+                    <div className="form-group col-md-6">
+                      <label className="mb-0" htmlFor="inputCity">City</label>
+                      <input
+                        type="text"
+                        name="city"
+                        className="form-control"
+                        id="inputCity"
+                        onChange={this.handleInputChange}
+                      />
+                    </div>
+                    <div className="form-group col-md-4 mb-2">
+                      <label className="mb-0" htmlFor="inputState">State</label>
+                      <select
+                        id="inputState"
+                        name="state"
+                        className="form-control"
+                        onChange={this.handleInputChange}
+                      >
+                        <option>Choose...</option>
+                        {states.map(state => (
+                          <option key={state}>{state}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group col-md-2 mb-2">
+                      <label className="mb-0" htmlFor="inputZip">Zip</label>
+                      <input
+                        type="text"
+                        name="zip"
+                        className="form-control"
+                        id="inputZip"
+                        placeholder="00000"
+                        onChange={this.handleInputChange}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <h6>Description</h6>
-            </div>
-            <div className="row pb-3">
-              <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
-            </div>
-            <div className="row">
-              <h6>Time-frame</h6>
-            </div>
-            <div className="row pb-3">
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
-                <label className="form-check-label" htmlFor="daily">
-                  Daily
-                </label>
+              <div className="row">
+                <h6>Description</h6>
               </div>
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="weekly" name="timeline_id" value={2} />
-                <label className="form-check-label" htmlFor="weekly">
-                  Weekly
-                </label>
+              <div className="row pb-3">
+                <textarea className="form-control" type="text-area" placeholder="Information you want space members and (if open) space seekers to know about your space" name="description" rows="6" onChange={this.handleInputChange} />
               </div>
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="monthly" name="timeline_id" value={3} />
-                <label className="form-check-label" htmlFor="monthly">
-                  Monthly
-                </label>
+              <div className="row">
+                <h6>Time-frame</h6>
               </div>
-              <div className="col form-check" onChange={this.handleInputChange}>
-                <input className="form-check-input" type="radio" id="long-term" name="timeline_id" value={4} />
-                <label className="form-check-label" htmlFor="long-term">
-                  Long-term
-                </label>
+              <div className="row pb-3">
+                <div className="col form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="daily" name="timeline_id" value={1} />
+                  <label className="form-check-label" htmlFor="daily">
+                    Daily
+                  </label>
+                </div>
+                <div className="col form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="weekly" name="timeline_id" value={2} />
+                  <label className="form-check-label" htmlFor="weekly">
+                    Weekly
+                  </label>
+                </div>
+                <div className="col form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="monthly" name="timeline_id" value={3} />
+                  <label className="form-check-label" htmlFor="monthly">
+                    Monthly
+                  </label>
+                </div>
+                <div className="col form-check" onChange={this.handleInputChange}>
+                  <input className="form-check-input" type="radio" id="long-term" name="timeline_id" value={4} />
+                  <label className="form-check-label" htmlFor="long-term">
+                    Long-term
+                  </label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <h6>Capacity</h6>
-            </div>
-            <div className="row pb-3">
-              <input className="form-control" type="text" placeholder="0 people" name="capacity" onChange={this.handleCapacityChange} />
-            </div>
+              <div className="row">
+                <h6>Capacity</h6>
+              </div>
+              <div className="row pb-3">
+                <input className="form-control" type="text" placeholder="0 people" name="capacity" onChange={this.handleCapacityChange} />
+              </div>
 
-            <div className="row pb-3">
-              <div className="col">
-                <h6>Smoking?</h6>
-                <div className="form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="smoking-outside" name="smoking_id" value={1} />
-                  <label className="form-check-label" htmlFor="smoking-outside">
-                    Outside is fine
-                  </label>
+              <div className="row pb-3">
+                <div className="col">
+                  <h6>Smoking?</h6>
+                  <div className="form-check" onChange={this.handleInputChange}>
+                    <input className="form-check-input" type="radio" id="smoking-outside" name="smoking_id" value={1} />
+                    <label className="form-check-label" htmlFor="smoking-outside">
+                      Outside is fine
+                    </label>
+                  </div>
+                  <div className="form-check" onChange={this.handleInputChange}>
+                    <input className="form-check-input" type="radio" id="smoking-anywhere" name="smoking_id" value={2} />
+                    <label className="form-check-label" htmlFor="smoking-anywhere">
+                      Anywhere is fine
+                    </label>
+                  </div>
+                  <div className="form-check" onChange={this.handleInputChange}>
+                    <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
+                    <label className="form-check-label" htmlFor="no-smoking">
+                      Absolutely not
+                    </label>
+                  </div>
                 </div>
-                <div className="form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="smoking-anywhere" name="smoking_id" value={2} />
-                  <label className="form-check-label" htmlFor="smoking-anywhere">
-                    Anywhere is fine
-                  </label>
-                </div>
-                <div className="form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="no-smoking" name="smoking_id" value={3} />
-                  <label className="form-check-label" htmlFor="no-smoking">
-                    Absolutely not
-                  </label>
+                <div className="col">
+                  <h6>Pet-friendly?</h6>
+                  <div className="form-check" onChange={this.handleInputChange}>
+                    <input className="form-check-input" type="radio" id="pets-outside" name="pet_id" value={1} />
+                    <label className="form-check-label" htmlFor="pets-outside">
+                      Outside is fine
+                    </label>
+                  </div>
+                  <div className="form-check" onChange={this.handleInputChange}>
+                    <input className="form-check-input" type="radio" id="pets-anywhere" name="pet_id" value={2} />
+                    <label className="form-check-label" htmlFor="pets-anywhere">
+                      Anywhere is fine
+                    </label>
+                  </div>
+                  <div className="form-check" onChange={this.handleInputChange}>
+                    <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
+                    <label className="form-check-label" htmlFor="no-pets">
+                      Absolutely not
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div className="col">
-                <h6>Pet-friendly?</h6>
-                <div className="form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="pets-outside" name="pet_id" value={1} />
-                  <label className="form-check-label" htmlFor="pets-outside">
-                    Outside is fine
-                  </label>
-                </div>
-                <div className="form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="pets-anywhere" name="pet_id" value={2} />
-                  <label className="form-check-label" htmlFor="pets-anywhere">
-                    Anywhere is fine
-                  </label>
-                </div>
-                <div className="form-check" onChange={this.handleInputChange}>
-                  <input className="form-check-input" type="radio" id="no-pets" name="pet_id" value={3} />
-                  <label className="form-check-label" htmlFor="no-pets">
-                    Absolutely not
-                  </label>
-                </div>
-              </div>
-            </div>
 
-            <div className="row">
-              <h6>Additional Amenities</h6>
-            </div>
-            <div className="col">
-              <ul list-style-type="disc">
-                {this.state.amenities.map((amenity, i) => (
-                  <TextInput
-                    type="text"
-                    glyph="store"
-                    field={i}
-                    placeholder="add amenity here"
-                    value={amenity.text}
-                    finalize={this.updateAmenities}
-                  />
-                ))}
-              </ul>
-            </div>
-            <div className="row pr-0 input-group" onChange={this.handleInputChange}>
-              <input type="text" className="form-control" placeholder="Add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
-              <div className="input-group-append">
-                <button className="btn btn-outline-secondary" type="button" onClick={this.addAmenity}>Add</button>
+              <div className="row">
+                <h6>Additional Amenities</h6>
               </div>
-            </div>
-            <div className="row pt-5">
-              <div className="col text-center">
-                <button type="submit" className="btn btn-primary">Create New Space</button>
+              <div className="col">
+                <ul list-style-type="disc">
+                  {this.state.amenities.map((amenity, i) => (
+                    <TextInput
+                      type="text"
+                      glyph="store"
+                      field={i}
+                      placeholder="add amenity here"
+                      value={amenity.text}
+                      finalize={this.updateAmenities}
+                    />
+                  ))}
+                </ul>
               </div>
-            </div>
-          </form>
+              <div className="row pr-0 input-group" onChange={this.handleInputChange}>
+                <input type="text" className="form-control" placeholder="Add up to 8 additional amenities" name="amenity" value={this.state.amenity} />
+                <div className="input-group-append">
+                  <button className="btn btn-outline-secondary" type="button" onClick={this.addAmenity}>Add</button>
+                </div>
+              </div>
+              <div className="row pt-5">
+                <div className="col text-center">
+                  <button type="submit" className="btn btn-primary">Create New Space</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }

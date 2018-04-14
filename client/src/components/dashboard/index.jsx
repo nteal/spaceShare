@@ -6,6 +6,7 @@ import Axios from 'axios';
 import DashProfile from './profile.jsx';
 import Messages from './messages.jsx';
 import Spaces from './spaces.jsx';
+import Footer from '../nav/footer.jsx';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -84,6 +85,7 @@ class Dashboard extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </main>
     );
   }

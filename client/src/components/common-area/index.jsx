@@ -6,6 +6,7 @@ import Axios from 'axios';
 import CommonAreaMain from './main.jsx';
 import Members from './members.jsx';
 import GroundRules from './ground-rules.jsx';
+import Footer from '../nav/footer.jsx';
 
 class CommonArea extends React.Component {
   constructor(props) {
@@ -195,7 +196,8 @@ class CommonArea extends React.Component {
   }
   submitTodos() {
     const { id, todos } = this.state;
-    Axios.post(`/space/updateTodos/${localStorage.getItem('id_token')}/${id}`, todos)
+    const sorted = todos.sort((a, b) => a.order > b.order);
+    Axios.post(`/space/updateTodos/${localStorage.getItem('id_token')}/${id}`, sorted)
       .then((response) => {
         console.log('todos updated', response.data);
         this.setTodos(response.data, () => {
@@ -315,6 +317,7 @@ class CommonArea extends React.Component {
           />
         </Switch>
 
+        <Footer />
       </div>
     );
   }

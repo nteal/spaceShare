@@ -8,6 +8,7 @@ import Location from './location.jsx';
 import AboutBox from './aboutBox.jsx';
 import Amenities from './amenities.jsx';
 import Gallery from './gallery.jsx';
+import Footer from '../nav/footer.jsx';
 
 class Listing extends React.Component {
   constructor(props) {
@@ -71,14 +72,9 @@ class Listing extends React.Component {
           smoking,
           amenities: amenities || [],
           gallery: gallery || [],
-        }, () => { console.log('listing', this.state)});
+        });
 
-        Axios.get('/user/isOwner', {
-          params: {
-            token: localStorage.getItem('id_token'),
-            spaceId: id,
-          },
-        })
+        Axios.get(`/user/isOwner/${localStorage.getItem('id_token')}/${id}`)
           .then((response) => {
             if (response.data) {
               this.setState({ isOwner: true });
@@ -264,6 +260,7 @@ class Listing extends React.Component {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }

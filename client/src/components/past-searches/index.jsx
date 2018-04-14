@@ -3,6 +3,7 @@ import Axios from 'axios';
 import PropTypes from 'prop-types';
 import ResultListItem from '../results/result-list-item.jsx';
 import SearchListItem from '../results/search-list-item.jsx';
+import Footer from '../nav/footer.jsx';
 
 class PastSearches extends React.Component {
   constructor(props) {
@@ -275,6 +276,7 @@ class PastSearches extends React.Component {
             {searchesDisplay}
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
