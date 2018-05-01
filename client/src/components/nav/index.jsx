@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import { Link, Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 import MediaQuery from 'react-responsive';
@@ -72,7 +72,7 @@ class Nav extends React.Component {
   }
   componentWillMount() {
     mql.addListener(this.mediaQueryChanged);
-    this.setState({ mql: mql, sidebarDocked: mql.matches });
+    this.setState({ mql: mql, docked: mql.matches });
   }
 
   componentDidMount() {
@@ -525,29 +525,31 @@ class Nav extends React.Component {
 
     if (isAuthenticated) {
       return (
-        <Sidebar {...sidebarProps}>
-          <Header hamburger={hamburger} title={contentHeader} mobileTitle={contentHeaderMobile} logout={this.fbLogout}>
-            <div style={styles.content}>
-              <Switch>
-                <Route exact path="/" render={props => isAuthenticated ? <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} /> : <Login {...props} {...loginProps} />} />
-                {/* <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} />} /> */}
-                <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
-                <Route path="/profile" render={props => <Profile {...props} {...profileProps} />} />
-                <Route path="/common-area" render={props => <CommonArea {...props} {...commonAreaProps} />} />
-                <Route path="/messages" render={props => <ChatMain {...props} {...chatProps} />} />
-                <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
-                <Route path="/listing" render={props => <Listing {...props} {...profileProps} />} />
-                <Route path="/edit-listing" render={props => <EditListing {...props} />} />
-                <Route path="/search" component={Search} />
-                <Route path="/search-results" component={SearchResults} />
-                <Route path="/listings" component={AllListings} />
-                <Route path="/saved-searches" component={PastSearches} />
-                <Route path="/terms" component={Terms} />
-                <Route path="/privacy-policy" component={PrivacyPolicy} />
-              </Switch>
-            </div>
-          </Header>
-        </Sidebar>
+        <Router>
+          <Sidebar {...sidebarProps}>
+            <Header hamburger={hamburger} title={contentHeader} mobileTitle={contentHeaderMobile} logout={this.fbLogout}>
+              <div style={styles.content}>
+                <Switch>
+                  <Route exact path="/" render={props => isAuthenticated ? <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} /> : <Login {...props} {...loginProps} />} />
+                  {/* <Route path="/dashboard" render={props => <Dashboard {...props} {...refreshKeyProp} {...dashboardProps} />} /> */}
+                  <Route path="/edit-profile" render={props => <EditProfile {...props} {...toggleRefreshProp} />} />
+                  <Route path="/profile" render={props => <Profile {...props} {...profileProps} />} />
+                  <Route path="/common-area" render={props => <CommonArea {...props} {...commonAreaProps} />} />
+                  <Route path="/messages" render={props => <ChatMain {...props} {...chatProps} />} />
+                  <Route path="/new-space" render={props => <CreateSpace {...props} {...toggleRefreshProp} />} />
+                  <Route path="/listing" render={props => <Listing {...props} {...profileProps} />} />
+                  <Route path="/edit-listing" render={props => <EditListing {...props} />} />
+                  <Route path="/search" component={Search} />
+                  <Route path="/search-results" component={SearchResults} />
+                  <Route path="/listings" component={AllListings} />
+                  <Route path="/saved-searches" component={PastSearches} />
+                  <Route path="/terms" component={Terms} />
+                  <Route path="/privacy-policy" component={PrivacyPolicy} />
+                </Switch>
+              </div>
+            </Header>
+          </Sidebar>
+        </Router>
       );
     }
     return <Login />;
