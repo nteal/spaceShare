@@ -72,7 +72,7 @@ class Nav extends React.Component {
   }
   componentWillMount() {
     mql.addListener(this.mediaQueryChanged);
-    this.setState({ mql: mql, sidebarDocked: mql.matches });
+    this.setState({ mql: mql, docked: mql.matches });
   }
 
   componentDidMount() {
